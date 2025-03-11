@@ -1,0 +1,45 @@
+@model IEnumerable<StudentManagement.Models.Student>
+
+<h2>Danh sách Sinh viên</h2>
+<a class="btn btn-primary" asp-action="Create">Thêm Sinh Viên</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>MSSV</th>
+            <th>Họ tên</th>
+            <th>Ngày sinh</th>
+            <th>Giới tính</th>
+            <th>Khoa</th>
+            <th>Khóa</th>
+            <th>Chương trình</th>
+            <th>Địa chỉ</th>
+            <th>Email</th>
+            <th>Số điện thoại</th>
+            <th>Tình trạng</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MSSV</td>
+                <td>@item.HoTen</td>
+                <td>@item.NgaySinh.ToString("dd/MM/yyyy")</td>
+                <td>@item.GioiTinh</td>
+                <td>@item.Department?.Name</td>
+                <td>@item.KhoaHoc</td>
+                <td>@item.ChuongTrinh</td>
+                <td>@item.DiaChi</td>
+                <td>@item.Email</td>
+                <td>@item.SoDienThoai</td>
+                <td>@item.Status?.Name</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MSSV" class="btn btn-warning btn-sm">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.MSSV" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
