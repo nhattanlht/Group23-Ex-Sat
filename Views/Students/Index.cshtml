@@ -1,45 +1,332 @@
 @model IEnumerable<StudentManagement.Models.Student>
 
-<h2>Danh sách Sinh viên</h2>
-<a class="btn btn-primary" asp-action="Create">Thêm Sinh Viên</a>
+@{
+    ViewData["Title"] = "Danh sách sinh viên";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<button class="btn btn-success" id="addStudentButton">Thêm Sinh Viên</button>
 
 <table class="table">
     <thead>
         <tr>
             <th>MSSV</th>
-            <th>Họ tên</th>
-            <th>Ngày sinh</th>
-            <th>Giới tính</th>
+            <th>Họ Tên</th>
+            <th>Ngày Sinh</th>
+            <th>Giới Tính</th>
             <th>Khoa</th>
-            <th>Khóa</th>
-            <th>Chương trình</th>
-            <th>Địa chỉ</th>
+            <th>Trạng Thái</th>
+            <th>Khóa Học</th>
+            <th>Chương Trình</th>
+            <th>Địa Chỉ</th>
             <th>Email</th>
-            <th>Số điện thoại</th>
-            <th>Tình trạng</th>
-            <th>Hành động</th>
+            <th>Số Điện Thoại</th>
+            <th>Hành Động</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model)
+    <tbody id="studentTable">
+        @foreach (var student in Model)
         {
             <tr>
-                <td>@item.MSSV</td>
-                <td>@item.HoTen</td>
-                <td>@item.NgaySinh.ToString("dd/MM/yyyy")</td>
-                <td>@item.GioiTinh</td>
-                <td>@item.Department?.Name</td>
-                <td>@item.KhoaHoc</td>
-                <td>@item.ChuongTrinh</td>
-                <td>@item.DiaChi</td>
-                <td>@item.Email</td>
-                <td>@item.SoDienThoai</td>
-                <td>@item.Status?.Name</td>
+                <td>@student.MSSV</td>
+                <td>@student.HoTen</td>
+                <td>@student.NgaySinh.ToString("dd/MM/yyyy")</td>
+                <td>@student.GioiTinh</td>
+                <td>@student.Department?.Name</td>
+                <td>@student.Status?.Name</td>
+                <td>@student.KhoaHoc</td>
+                <td>@student.ChuongTrinh</td>
+                <td>@student.DiaChi</td>
+                <td>@student.Email</td>
+                <td>@student.SoDienThoai</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.MSSV" class="btn btn-warning btn-sm">Sửa</a>
-                    <a asp-action="Delete" asp-route-id="@item.MSSV" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+                    <button class="btn btn-primary edit-student" data-id="@student.MSSV">Sửa</button>
+                    <button class="btn btn-danger delete-student" data-id="@student.MSSV">Xóa</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!-- Modal for Add -->
+<div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStudentModalLabel">Thêm Sinh Viên</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addStudentForm">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label for="addMSSV">MSSV</label>
+                        <input type="text" class="form-control" id="addMSSV" name="MSSV" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="addHoTen">Họ Tên</label>
+                        <input type="text" class="form-control" id="addHoTen" name="HoTen" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="addNgaySinh">Ngày Sinh</label>
+                        <input type="date" class="form-control" id="addNgaySinh" name="NgaySinh" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="addGioiTinh">Giới Tính</label>
+                        <select class="form-control" id="addGioiTinh" name="GioiTinh" required>
+                            @foreach (var gender in ViewBag.Genders)
+                            {
+                                <option value="@gender">@gender</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDepartmentId">Khoa</label>
+                        <select class="form-control" id="addDepartmentId" name="DepartmentId" required>
+                            @foreach (var department in ViewBag.Departments)
+                            {
+                                <option value="@department.Id">@department.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="addStatusId">Trạng Thái</label>
+                        <select class="form-control" id="addStatusId" name="StatusId" required>
+                            @foreach (var status in ViewBag.Statuses)
+                            {
+                                <option value="@status.Id">@status.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="addKhoaHoc">Khóa Học</label>
+                        <input type="text" class="form-control" id="addKhoaHoc" name="KhoaHoc" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="addChuongTrinh">Chương Trình</label>
+                        <input type="text" class="form-control" id="addChuongTrinh" name="ChuongTrinh" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="addDiaChi">Địa Chỉ</label>
+                        <input type="text" class="form-control" id="addDiaChi" name="DiaChi" />
+                    </div>
+                    <div class="form-group">
+                        <label for="addEmail">Email</label>
+                        <input type="email" class="form-control" id="addEmail" name="Email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="addSoDienThoai">Số Điện Thoại</label>
+                        <input type="text" class="form-control" id="addSoDienThoai" name="SoDienThoai" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="saveAddStudent">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Edit -->
+<div class="modal fade" id="editStudentModal" tabindex="-1" role="dialog" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStudentModalLabel">Sửa Thông Tin Sinh Viên</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editStudentForm">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="editMSSV" name="MSSV" />
+                    <div class="form-group">
+                        <label for="editHoTen">Họ Tên</label>
+                        <input type="text" class="form-control" id="editHoTen" name="HoTen" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editNgaySinh">Ngày Sinh</label>
+                        <input type="date" class="form-control" id="editNgaySinh" name="NgaySinh" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editGioiTinh">Giới Tính</label>
+                        <select class="form-control" id="editGioiTinh" name="GioiTinh" required>
+                            @foreach (var gender in ViewBag.Genders)
+                            {
+                                <option value="@gender">@gender</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDepartmentId">Khoa</label>
+                        <select class="form-control" id="editDepartmentId" name="DepartmentId" required>
+                            @foreach (var department in ViewBag.Departments)
+                            {
+                                <option value="@department.Id">@department.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editStatusId">Trạng Thái</label>
+                        <select class="form-control" id="editStatusId" name="StatusId" required>
+                            @foreach (var status in ViewBag.Statuses)
+                            {
+                                <option value="@status.Id">@status.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editKhoaHoc">Khóa Học</label>
+                        <input type="text" class="form-control" id="editKhoaHoc" name="KhoaHoc" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editChuongTrinh">Chương Trình</label>
+                        <input type="text" class="form-control" id="editChuongTrinh" name="ChuongTrinh" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editDiaChi">Địa Chỉ</label>
+                        <input type="text" class="form-control" id="editDiaChi" name="DiaChi" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email</label>
+                        <input type="email" class="form-control" id="editEmail" name="Email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editSoDienThoai">Số Điện Thoại</label>
+                        <input type="text" class="form-control" id="editSoDienThoai" name="SoDienThoai" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="saveEditStudent">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Add student
+            $('#addStudentButton').on('click', function () {
+                $('#addStudentModal').modal('show');
+            });
+
+            $('#saveAddStudent').on('click', function () {
+                var student = {
+                    MSSV: $('#addMSSV').val(),
+                    HoTen: $('#addHoTen').val(),
+                    NgaySinh: $('#addNgaySinh').val(),
+                    GioiTinh: $('#addGioiTinh').val(),
+                    DepartmentId: $('#addDepartmentId').val(),
+                    StatusId: $('#addStatusId').val(),
+                    KhoaHoc: $('#addKhoaHoc').val(),
+                    ChuongTrinh: $('#addChuongTrinh').val(),
+                    DiaChi: $('#addDiaChi').val(),
+                    Email: $('#addEmail').val(),
+                    SoDienThoai: $('#addSoDienThoai').val()
+                };
+
+                $.ajax({
+                    url: '@Url.Action("Create", "Students")',
+                    type: 'POST',
+                    data: student,
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function () {
+                        $('#addStudentModal').modal('hide');
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Lỗi khi lưu dữ liệu!');
+                    }
+                });
+            });
+
+            // Edit student
+            $('.edit-student').on('click', function () {
+                var studentId = $(this).data('id');
+                $.ajax({
+                    url: '@Url.Action("Edit", "Students")/' + studentId,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#editMSSV').val(data.mssv);
+                        $('#editHoTen').val(data.hoTen);
+                        $('#editNgaySinh').val(data.ngaySinh);
+                        $('#editGioiTinh').val(data.gioiTinh);
+                        $('#editDepartmentId').val(data.departmentId);
+                        $('#editStatusId').val(data.statusId);
+                        $('#editKhoaHoc').val(data.khoaHoc);
+                        $('#editChuongTrinh').val(data.chuongTrinh);
+                        $('#editDiaChi').val(data.diaChi);
+                        $('#editEmail').val(data.email);
+                        $('#editSoDienThoai').val(data.soDienThoai);
+                        $('#editStudentModal').modal('show');
+                    },
+                    error: function () {
+                        alert('Lỗi khi tải dữ liệu sinh viên!');
+                    }
+                });
+            });
+
+            // Save edit student
+            $('#saveEditStudent').on('click', function () {
+                var student = {
+                    MSSV: $('#editMSSV').val(),
+                    HoTen: $('#editHoTen').val(),
+                    NgaySinh: $('#editNgaySinh').val(),
+                    GioiTinh: $('#editGioiTinh').val(),
+                    DepartmentId: $('#editDepartmentId').val(),
+                    StatusId: $('#editStatusId').val(),
+                    KhoaHoc: $('#editKhoaHoc').val(),
+                    ChuongTrinh: $('#editChuongTrinh').val(),
+                    DiaChi: $('#editDiaChi').val(),
+                    Email: $('#editEmail').val(),
+                    SoDienThoai: $('#editSoDienThoai').val()
+                };
+
+                $.ajax({
+                    url: '@Url.Action("Edit", "Students")',
+                    type: 'POST',
+                    data: student,
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function () {
+                        $('#editStudentModal').modal('hide');
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Lỗi khi lưu dữ liệu!');
+                    }
+                });
+            });
+
+            // Delete student
+            $('.delete-student').on('click', function () {
+                if (confirm('Bạn có chắc chắn muốn xóa sinh viên này không?')) {
+                    var studentId = $(this).data('id');
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Students")/' + studentId,
+                        type: 'POST',
+                        headers: {
+                            'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        success: function () {
+                            location.reload();
+                        },
+                        error: function () {
+                            alert('Lỗi khi xóa dữ liệu!');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
