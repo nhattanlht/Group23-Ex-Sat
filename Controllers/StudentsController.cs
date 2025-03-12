@@ -8,21 +8,33 @@ namespace StudentManagement.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        const int nStudents = 10;
         public StudentsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // Hiển thị danh sách sinh viên
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
+            var totalStudents = await _context.Students.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalStudents / pageSize);
+
             var students = await _context.Students
+                                         .OrderBy(s => s.MSSV)
+                                         .Skip((page - 1) * pageSize)
+                                         .Take(pageSize)
                                          .Include(s => s.Department)
                                          .Include(s => s.Status)
                                          .ToListAsync();
+
             ViewBag.Departments = await _context.Departments.ToListAsync();
             ViewBag.Statuses = await _context.StudentStatuses.ToListAsync();
-            ViewBag.Genders = new List<string> { "Nam", "Nữ", "Khác" }; // Example genders
+            ViewBag.Genders = new List<string> { "Nam", "Nữ", "Khác" };
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.PageSize = pageSize;
+
             return View(students);
         }
 
@@ -132,5 +144,59 @@ namespace StudentManagement.Controllers
                 return BadRequest($"Lỗi khi xóa dữ liệu: {ex.Message}");
             }
         }
+
+        // Tìm kiếm sinh viên
+        [HttpGet]
+        public async Task<IActionResult> Search(string keyword)
+        {
+            var students = await _context.Students
+                .Where(s => s.HoTen.Contains(keyword) || s.MSSV.Contains(keyword))
+                .OrderBy(s => s.MSSV)
+                .Take(nStudents)
+                .Select(s => new
+                {
+                    s.MSSV,
+                    s.HoTen,
+                    s.NgaySinh,
+                    s.GioiTinh,
+                    DepartmentName = s.Department.Name,
+                    StatusName = s.Status.Name,
+                    s.KhoaHoc,
+                    s.ChuongTrinh,
+                    s.DiaChi,
+                    s.Email,
+                    s.SoDienThoai
+                })
+                .ToListAsync();
+
+            return Json(students);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetStudents(int page = 1, int pageSize = 10)
+        {
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = nStudents; // Default to 10 students per page
+
+            var totalStudents = await _context.Students.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalStudents / pageSize);
+
+            var students = await _context.Students
+                .OrderBy(s => s.MSSV) // Sorting by student ID (change if needed)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return Ok(new
+            {
+                students,
+                totalStudents,
+                totalPages,
+                currentPage = page,
+                pageSize
+            });
+        }
+
     }
 }

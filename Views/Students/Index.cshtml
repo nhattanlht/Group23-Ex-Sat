@@ -7,6 +7,7 @@
 <h2>@ViewData["Title"]</h2>
 
 <button class="btn btn-success" id="addStudentButton">Thêm Sinh Viên</button>
+<input type="text" id="searchInput" class="form-control mb-3" placeholder="Tìm kiếm sinh viên...">
 
 <table class="table">
     <thead>
@@ -28,7 +29,7 @@
     <tbody id="studentTable">
         @foreach (var student in Model)
         {
-            <tr>
+            <tr class="student-row">
                 <td>@student.MSSV</td>
                 <td>@student.HoTen</td>
                 <td>@student.NgaySinh.ToString("dd/MM/yyyy")</td>
@@ -48,6 +49,43 @@
         }
     </tbody>
 </table>
+
+<nav>
+    <ul class="pagination justify-content-center">
+        <!-- First & Previous buttons -->
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-page="1" asp-route-pageSize="@ViewBag.PageSize">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)"
+                    asp-route-pageSize="@ViewBag.PageSize">Previous</a>
+            </li>
+        }
+
+        <!-- Page numbers -->
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-pageSize="@ViewBag.PageSize">@i</a>
+            </li>
+        }
+
+        <!-- Next & Last buttons -->
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)"
+                    asp-route-pageSize="@ViewBag.PageSize">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-page="@ViewBag.TotalPages"
+                    asp-route-pageSize="@ViewBag.PageSize">Last</a>
+            </li>
+        }
+    </ul>
+</nav>
 
 <!-- Modal for Add -->
 <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel" aria-hidden="true">
@@ -327,6 +365,118 @@
                     });
                 }
             });
+
+            // Search student
+            $('#searchInput').on('input', function () {
+                let query = $(this).val();
+                if (query.length < 1) {
+                    location.reload();
+                    return;
+                }
+                $.ajax({
+                    url: '@Url.Action("Search", "Students")',
+                    type: 'GET',
+                    data: { keyword: query },
+                    success: function (students) {
+                        let tableBody = $('#studentTable');
+                        tableBody.empty();
+
+                        students.forEach(student => {
+                            tableBody.append(`
+                                                <tr>
+                                                    <td>${student.mssv}</td>
+                                                    <td>${student.hoTen}</td>
+                                                    <td>${new Date(student.ngaySinh)
+                                                    .toLocaleDateString(
+                                                    'vi-VN', 
+                                                    { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                                                    </td>
+                                                    <td>${student.gioiTinh}</td>
+                                                    <td>${student.departmentName || ''}</td>
+                                                    <td>${student.statusName || ''}</td>
+                                                    <td>${student.khoaHoc}</td>
+                                                    <td>${student.chuongTrinh}</td>
+                                                    <td>${student.diaChi || ''}</td>
+                                                    <td>${student.email}</td>
+                                                    <td>${student.soDienThoai}</td>
+                                                    <td>
+                                                        <button class="btn btn-primary edit-student" data-id="${student.mssv}">Sửa</button>
+                                                        <button class="btn btn-danger delete-student" data-id="${student.mssv}">Xóa</button>
+                                                    </td>
+                                                </tr>
+                                            `);
+                        });
+                    },
+                    error: function () {
+                        alert('Lỗi khi tìm kiếm!');
+                    }
+                });
+            });
         });
+
+        function loadStudents(page = 1) {
+            $.ajax({
+                url: '@Url.Action("GetStudents", "Students")',
+                type: 'GET',
+                data: { page: page, pageSize: 10 },  // Adjust page size if needed
+                success: function (response) {
+                    var studentList = $('#studentTable tbody');
+                    studentList.empty();
+
+                    response.students.forEach(function (student) {
+                        studentList.append(`
+                            <tr>
+                                <td>${student.MSSV}</td>
+                                <td>${student.HoTen}</td>
+                                <td>${student.NgaySinh}</td>
+                                <td>${student.GioiTinh}</td>
+                                <td>${student.KhoaHoc}</td>
+                                <td>${student.Email}</td>
+                                <td>${student.SoDienThoai}</td>
+                            </tr>
+                        `);
+                    });
+
+                    updatePagination(response.currentPage, response.totalPages);
+                },
+                error: function () {
+                    alert('Lỗi khi tải danh sách sinh viên!');
+                }
+            });
+        }
+
+        function updatePagination(currentPage, totalPages) {
+            var paginationDiv = $('#pagination');
+            paginationDiv.empty();
+
+            if (totalPages > 1) {
+                var paginationHtml = '<nav><ul class="pagination justify-content-center">';
+
+                // Previous button
+                if (currentPage > 1) {
+                    paginationHtml += `<li class="page-item">
+                            <a class="page-link" href="#" onclick="loadStudents(${currentPage - 1})">Previous</a>
+                        </li>`;
+                }
+
+                // Page numbers
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationHtml += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+                            <a class="page-link" href="#" onclick="loadStudents(${i})">${i}</a>
+                        </li>`;
+                }
+
+                // Next button
+                if (currentPage < totalPages) {
+                    paginationHtml += `<li class="page-item">
+                            <a class="page-link" href="#" onclick="loadStudents(${currentPage + 1})">Next</a>
+                        </li>`;
+                }
+
+                paginationHtml += '</ul></nav>';
+                paginationDiv.html(paginationHtml);
+            }
+        }
+
     </script>
 }

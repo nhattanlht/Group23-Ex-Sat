@@ -25,6 +25,14 @@ namespace StudentManagement.Models
                 new StudentStatus { Id = 3, Name = "Đã thôi học" },
                 new StudentStatus { Id = 4, Name = "Tạm dừng học" }
             );
+
+            modelBuilder.Entity<Student>()
+                .HasIndex(s => s.Email)
+                .IsUnique();
+
+            modelBuilder.Entity<Student>()
+                .HasIndex(s => s.SoDienThoai)
+                .IsUnique();
         }
     }
 }
