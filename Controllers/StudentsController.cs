@@ -25,10 +25,14 @@ namespace StudentManagement.Controllers
                                          .Skip((page - 1) * pageSize)
                                          .Take(pageSize)
                                          .Include(s => s.Department)
+                                         .Include(s => s.Khoa)
+                                         .Include(s => s.Program)
                                          .Include(s => s.Status)
                                          .ToListAsync();
 
             ViewBag.Departments = await _context.Departments.ToListAsync();
+            ViewBag.CacKhoa = await _context.CacKhoa.ToListAsync();
+            ViewBag.Programs = await _context.Programs.ToListAsync();
             ViewBag.Statuses = await _context.StudentStatuses.ToListAsync();
             ViewBag.Genders = new List<string> { "Nam", "Nữ", "Khác" };
             ViewBag.CurrentPage = page;
@@ -66,6 +70,8 @@ namespace StudentManagement.Controllers
 
             var student = await _context.Students
                                         .Include(s => s.Department)
+                                        .Include(s => s.Khoa)
+                                        .Include(s => s.Program)
                                         .Include(s => s.Status)
                                         .FirstOrDefaultAsync(s => s.MSSV == id);
 
@@ -82,8 +88,8 @@ namespace StudentManagement.Controllers
                 gioiTinh = student.GioiTinh,
                 departmentId = student.DepartmentId,
                 statusId = student.StatusId,
-                khoaHoc = student.KhoaHoc,
-                chuongTrinh = student.ChuongTrinh,
+                khoaId = student.KhoaId,
+                programId = student.ProgramId,
                 diaChi = student.DiaChi,
                 email = student.Email,
                 soDienThoai = student.SoDienThoai
@@ -108,8 +114,8 @@ namespace StudentManagement.Controllers
                 existingStudent.GioiTinh = student.GioiTinh;
                 existingStudent.DepartmentId = student.DepartmentId;
                 existingStudent.StatusId = student.StatusId;
-                existingStudent.KhoaHoc = student.KhoaHoc;
-                existingStudent.ChuongTrinh = student.ChuongTrinh;
+                existingStudent.KhoaId = student.KhoaId;
+                existingStudent.ProgramId = student.ProgramId;
                 existingStudent.DiaChi = student.DiaChi;
                 existingStudent.Email = student.Email;
                 existingStudent.SoDienThoai = student.SoDienThoai;
@@ -147,11 +153,12 @@ namespace StudentManagement.Controllers
 
         // Tìm kiếm sinh viên
         [HttpGet]
-        public async Task<IActionResult> Search(string keyword)
+        public async Task<IActionResult> Search(string keyword, int page, int pageSize)
         {
             var students = await _context.Students
                 .Where(s => s.HoTen.Contains(keyword) || s.MSSV.Contains(keyword))
                 .OrderBy(s => s.MSSV)
+                .Skip((page - 1) * pageSize)
                 .Take(nStudents)
                 .Select(s => new
                 {
@@ -161,8 +168,8 @@ namespace StudentManagement.Controllers
                     s.GioiTinh,
                     DepartmentName = s.Department.Name,
                     StatusName = s.Status.Name,
-                    s.KhoaHoc,
-                    s.ChuongTrinh,
+                    Khoa = s.Khoa.Name,
+                    ProgramName = s.Program.Name,
                     s.DiaChi,
                     s.Email,
                     s.SoDienThoai

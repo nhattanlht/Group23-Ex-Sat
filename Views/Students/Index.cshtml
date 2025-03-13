@@ -36,8 +36,8 @@
                 <td>@student.GioiTinh</td>
                 <td>@student.Department?.Name</td>
                 <td>@student.Status?.Name</td>
-                <td>@student.KhoaHoc</td>
-                <td>@student.ChuongTrinh</td>
+                <td>@student.Khoa?.Name</td>
+                <td>@student.Program?.Name</td>
                 <td>@student.DiaChi</td>
                 <td>@student.Email</td>
                 <td>@student.SoDienThoai</td>
@@ -139,11 +139,21 @@
                     </div>
                     <div class="form-group">
                         <label for="addKhoaHoc">Khóa Học</label>
-                        <input type="text" class="form-control" id="addKhoaHoc" name="KhoaHoc" required />
+                        <select class="form-control" id="addKhoaId" name="KhoaId" required>
+                            @foreach (var khoa in ViewBag.CacKhoa)
+                            {
+                                <option value="@khoa.Id">@khoa.Name</option>
+                            }
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="addChuongTrinh">Chương Trình</label>
-                        <input type="text" class="form-control" id="addChuongTrinh" name="ChuongTrinh" required />
+                        <select class="form-control" id="addProgramId" name="ProgramId" required>
+                            @foreach (var program in ViewBag.Programs)
+                            {
+                                <option value="@program.Id">@program.Name</option>
+                            }
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="addDiaChi">Địa Chỉ</label>
@@ -216,11 +226,21 @@
                     </div>
                     <div class="form-group">
                         <label for="editKhoaHoc">Khóa Học</label>
-                        <input type="text" class="form-control" id="editKhoaHoc" name="KhoaHoc" required />
+                        <select class="form-control" id="editKhoaId" name="KhoaId" required>
+                            @foreach (var khoa in ViewBag.CacKhoa)
+                            {
+                                <option value="@khoa.Id">@khoa.Name</option>
+                            }
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="editChuongTrinh">Chương Trình</label>
-                        <input type="text" class="form-control" id="editChuongTrinh" name="ChuongTrinh" required />
+                        <select class="form-control" id="editProgramId" name="ProgramId" required>
+                            @foreach (var program in ViewBag.Programs)
+                            {
+                                <option value="@program.Id">@program.Name</option>
+                            }
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="editDiaChi">Địa Chỉ</label>
@@ -263,8 +283,8 @@
                     GioiTinh: $('#addGioiTinh').val(),
                     DepartmentId: $('#addDepartmentId').val(),
                     StatusId: $('#addStatusId').val(),
-                    KhoaHoc: $('#addKhoaHoc').val(),
-                    ChuongTrinh: $('#addChuongTrinh').val(),
+                    KhoaId: $('#addKhoaId').val(),
+                    ProgramId: $('#addProgramId').val(),
                     DiaChi: $('#addDiaChi').val(),
                     Email: $('#addEmail').val(),
                     SoDienThoai: $('#addSoDienThoai').val()
@@ -300,8 +320,8 @@
                         $('#editGioiTinh').val(data.gioiTinh);
                         $('#editDepartmentId').val(data.departmentId);
                         $('#editStatusId').val(data.statusId);
-                        $('#editKhoaHoc').val(data.khoaHoc);
-                        $('#editChuongTrinh').val(data.chuongTrinh);
+                        $('#editKhoaId').val(data.khoaId);
+                        $('#editProgramId').val(data.programId);
                         $('#editDiaChi').val(data.diaChi);
                         $('#editEmail').val(data.email);
                         $('#editSoDienThoai').val(data.soDienThoai);
@@ -322,8 +342,8 @@
                     GioiTinh: $('#editGioiTinh').val(),
                     DepartmentId: $('#editDepartmentId').val(),
                     StatusId: $('#editStatusId').val(),
-                    KhoaHoc: $('#editKhoaHoc').val(),
-                    ChuongTrinh: $('#editChuongTrinh').val(),
+                    KhoaId: $('#editKhoaId').val(),
+                    ProgramId: $('#editProgramId').val(),
                     DiaChi: $('#editDiaChi').val(),
                     Email: $('#editEmail').val(),
                     SoDienThoai: $('#editSoDienThoai').val()
@@ -367,7 +387,7 @@
             });
 
             // Search student
-            $('#searchInput').on('input', function () {
+            $('#searchInput').on('submit', function () {
                 let query = $(this).val();
                 if (query.length < 1) {
                     location.reload();
