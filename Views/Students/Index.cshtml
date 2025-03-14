@@ -387,7 +387,7 @@
             });
 
             // Search student
-            $('#searchInput').on('submit', function () {
+            $('#searchInput').on('input', function () {
                 let query = $(this).val();
                 if (query.length < 1) {
                     location.reload();
@@ -414,8 +414,8 @@
                                                     <td>${student.gioiTinh}</td>
                                                     <td>${student.departmentName || ''}</td>
                                                     <td>${student.statusName || ''}</td>
-                                                    <td>${student.khoaHoc}</td>
-                                                    <td>${student.chuongTrinh}</td>
+                                                    <td>${student.khoa}</td>
+                                                    <td>${student.programName}</td>
                                                     <td>${student.diaChi || ''}</td>
                                                     <td>${student.email}</td>
                                                     <td>${student.soDienThoai}</td>
