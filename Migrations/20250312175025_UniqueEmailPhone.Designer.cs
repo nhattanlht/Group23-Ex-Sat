@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagement.Models;
 
@@ -11,9 +12,11 @@ using StudentManagement.Models;
 namespace StudentManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250312175025_UniqueEmailPhone")]
+    partial class UniqueEmailPhone
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,104 +65,14 @@ namespace StudentManagement.Migrations
                         });
                 });
 
-            modelBuilder.Entity("StudentManagement.Models.Khoa", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CacKhoa");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "18"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "19"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "20"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "21"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "22"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "23"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "24"
-                        });
-                });
-
-            modelBuilder.Entity("StudentManagement.Models.Program", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Programs");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Chính quy"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Chất lượng cao"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Việt Pháp"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Tiên tiến"
-                        });
-                });
-
             modelBuilder.Entity("StudentManagement.Models.Student", b =>
                 {
                     b.Property<string>("MSSV")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ChuongTrinh")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
@@ -181,14 +94,12 @@ namespace StudentManagement.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("KhoaId")
-                        .HasColumnType("int");
+                    b.Property<string>("KhoaHoc")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("NgaySinh")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("ProgramId")
-                        .HasColumnType("int");
 
                     b.Property<string>("SoDienThoai")
                         .IsRequired()
@@ -203,10 +114,6 @@ namespace StudentManagement.Migrations
 
                     b.HasIndex("Email")
                         .IsUnique();
-
-                    b.HasIndex("KhoaId");
-
-                    b.HasIndex("ProgramId");
 
                     b.HasIndex("SoDienThoai")
                         .IsUnique();
@@ -264,18 +171,6 @@ namespace StudentManagement.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("StudentManagement.Models.Khoa", "Khoa")
-                        .WithMany("Students")
-                        .HasForeignKey("KhoaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StudentManagement.Models.Program", "Program")
-                        .WithMany("Students")
-                        .HasForeignKey("ProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("StudentManagement.Models.StudentStatus", "Status")
                         .WithMany("Students")
                         .HasForeignKey("StatusId")
@@ -284,24 +179,10 @@ namespace StudentManagement.Migrations
 
                     b.Navigation("Department");
 
-                    b.Navigation("Khoa");
-
-                    b.Navigation("Program");
-
                     b.Navigation("Status");
                 });
 
             modelBuilder.Entity("StudentManagement.Models.Department", b =>
-                {
-                    b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("StudentManagement.Models.Khoa", b =>
-                {
-                    b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("StudentManagement.Models.Program", b =>
                 {
                     b.Navigation("Students");
                 });

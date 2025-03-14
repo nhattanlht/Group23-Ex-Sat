@@ -24,10 +24,14 @@ namespace StudentManagement.Models
         public Department Department { get; set; }
 
         [Required]
-        public string KhoaHoc { get; set; }
+        public int KhoaId { get; set; }
+        [ForeignKey("KhoaId")]
+        public Khoa Khoa { get; set; }
 
         [Required]
-        public string ChuongTrinh { get; set; }
+        public int ProgramId { get; set; }
+        [ForeignKey("ProgramId")]
+        public Program Program { get; set; }
 
         public string DiaChi { get; set; }
 
