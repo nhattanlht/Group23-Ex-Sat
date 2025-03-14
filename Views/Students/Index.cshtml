@@ -88,7 +88,8 @@
 </nav>
 
 <!-- Modal for Add -->
-<div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+<div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -178,7 +179,8 @@
 </div>
 
 <!-- Modal for Edit -->
-<div class="modal fade" id="editStudentModal" tabindex="-1" role="dialog" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+<div class="modal fade" id="editStudentModal" tabindex="-1" role="dialog" aria-labelledby="editStudentModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -403,28 +405,28 @@
 
                         students.forEach(student => {
                             tableBody.append(`
-                                                <tr>
-                                                    <td>${student.mssv}</td>
-                                                    <td>${student.hoTen}</td>
-                                                    <td>${new Date(student.ngaySinh)
-                                                    .toLocaleDateString(
-                                                    'vi-VN', 
-                                                    { day: '2-digit', month: '2-digit', year: 'numeric' })}
-                                                    </td>
-                                                    <td>${student.gioiTinh}</td>
-                                                    <td>${student.departmentName || ''}</td>
-                                                    <td>${student.statusName || ''}</td>
-                                                    <td>${student.khoa}</td>
-                                                    <td>${student.programName}</td>
-                                                    <td>${student.diaChi || ''}</td>
-                                                    <td>${student.email}</td>
-                                                    <td>${student.soDienThoai}</td>
-                                                    <td>
-                                                        <button class="btn btn-primary edit-student" data-id="${student.mssv}">Sửa</button>
-                                                        <button class="btn btn-danger delete-student" data-id="${student.mssv}">Xóa</button>
-                                                    </td>
-                                                </tr>
-                                            `);
+                                                            <tr>
+                                                                <td>${student.mssv}</td>
+                                                                <td>${student.hoTen}</td>
+                                                                <td>${new Date(student.ngaySinh)
+                                    .toLocaleDateString(
+                                        'vi-VN',
+                                        { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                                                                </td>
+                                                                <td>${student.gioiTinh}</td>
+                                                                <td>${student.departmentName || ''}</td>
+                                                                <td>${student.statusName || ''}</td>
+                                                                <td>${student.khoa}</td>
+                                                                <td>${student.programName}</td>
+                                                                <td>${student.diaChi || ''}</td>
+                                                                <td>${student.email}</td>
+                                                                <td>${student.soDienThoai}</td>
+                                                                <td>
+                                                                    <button class="btn btn-primary edit-student" data-id="${student.mssv}">Sửa</button>
+                                                                    <button class="btn btn-danger delete-student" data-id="${student.mssv}">Xóa</button>
+                                                                </td>
+                                                            </tr>
+                                                        `);
                         });
                     },
                     error: function () {
@@ -432,6 +434,50 @@
                     }
                 });
             });
+        });
+
+        $(document).on("click", ".edit-student", function () {
+            var studentId = $(this).data('id');
+            $.ajax({
+                url: '@Url.Action("Edit", "Students")/' + studentId,
+                type: 'GET',
+                success: function (data) {
+                    $('#editMSSV').val(data.mssv);
+                    $('#editHoTen').val(data.hoTen);
+                    $('#editNgaySinh').val(data.ngaySinh);
+                    $('#editGioiTinh').val(data.gioiTinh);
+                    $('#editDepartmentId').val(data.departmentId);
+                    $('#editStatusId').val(data.statusId);
+                    $('#editKhoaId').val(data.khoaId);
+                    $('#editProgramId').val(data.programId);
+                    $('#editDiaChi').val(data.diaChi);
+                    $('#editEmail').val(data.email);
+                    $('#editSoDienThoai').val(data.soDienThoai);
+                    $('#editStudentModal').modal('show');
+                },
+                error: function () {
+                    alert('Lỗi khi tải dữ liệu sinh viên!');
+                }
+            });
+        });
+
+        $(document).on("click", ".delete-student", function () {
+            if (confirm('Bạn có chắc chắn muốn xóa sinh viên này không?')) {
+                var studentId = $(this).data('id');
+                $.ajax({
+                    url: '@Url.Action("Delete", "Students")/' + studentId,
+                    type: 'POST',
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Lỗi khi xóa dữ liệu!');
+                    }
+                });
+            }
         });
 
         function loadStudents(page = 1) {
@@ -445,16 +491,16 @@
 
                     response.students.forEach(function (student) {
                         studentList.append(`
-                            <tr>
-                                <td>${student.MSSV}</td>
-                                <td>${student.HoTen}</td>
-                                <td>${student.NgaySinh}</td>
-                                <td>${student.GioiTinh}</td>
-                                <td>${student.KhoaHoc}</td>
-                                <td>${student.Email}</td>
-                                <td>${student.SoDienThoai}</td>
-                            </tr>
-                        `);
+                                        <tr>
+                                            <td>${student.MSSV}</td>
+                                            <td>${student.HoTen}</td>
+                                            <td>${student.NgaySinh}</td>
+                                            <td>${student.GioiTinh}</td>
+                                            <td>${student.KhoaHoc}</td>
+                                            <td>${student.Email}</td>
+                                            <td>${student.SoDienThoai}</td>
+                                        </tr>
+                                    `);
                     });
 
                     updatePagination(response.currentPage, response.totalPages);
@@ -475,22 +521,22 @@
                 // Previous button
                 if (currentPage > 1) {
                     paginationHtml += `<li class="page-item">
-                            <a class="page-link" href="#" onclick="loadStudents(${currentPage - 1})">Previous</a>
-                        </li>`;
+                                        <a class="page-link" href="#" onclick="loadStudents(${currentPage - 1})">Previous</a>
+                                    </li>`;
                 }
 
                 // Page numbers
                 for (let i = 1; i <= totalPages; i++) {
                     paginationHtml += `<li class="page-item ${i === currentPage ? 'active' : ''}">
-                            <a class="page-link" href="#" onclick="loadStudents(${i})">${i}</a>
-                        </li>`;
+                                        <a class="page-link" href="#" onclick="loadStudents(${i})">${i}</a>
+                                    </li>`;
                 }
 
                 // Next button
                 if (currentPage < totalPages) {
                     paginationHtml += `<li class="page-item">
-                            <a class="page-link" href="#" onclick="loadStudents(${currentPage + 1})">Next</a>
-                        </li>`;
+                                        <a class="page-link" href="#" onclick="loadStudents(${currentPage + 1})">Next</a>
+                                    </li>`;
                 }
 
                 paginationHtml += '</ul></nav>';
