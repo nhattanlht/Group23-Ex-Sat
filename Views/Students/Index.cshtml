@@ -301,8 +301,8 @@
                         $('#addStudentModal').modal('hide');
                         location.reload();
                     },
-                    error: function () {
-                        alert('Lỗi khi lưu dữ liệu!');
+                    error: function (xhr) {
+                        alert('Lỗi: ' + xhr.responseText);
                     }
                 });
             });
@@ -360,8 +360,8 @@
                         $('#editStudentModal').modal('hide');
                         location.reload();
                     },
-                    error: function () {
-                        alert('Lỗi khi lưu dữ liệu!');
+                    error: function (xhr) {
+                        alert('Lỗi: ' + xhr.responseText);
                     }
                 });
             });
