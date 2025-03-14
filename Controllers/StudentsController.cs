@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Models;
+using System.Text.RegularExpressions;
+
 
 namespace StudentManagement.Controllers
 {
@@ -47,6 +49,50 @@ namespace StudentManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Student student)
         {
+            //  Kiểm tra số điện thoại bị trống
+            if (string.IsNullOrWhiteSpace(student.SoDienThoai))
+            {
+                Console.WriteLine("Số điện thoại bị trống.");
+                return BadRequest("Số điện thoại không được để trống.");
+            }
+
+            //  Kiểm tra định dạng số điện thoại
+            if (!Regex.IsMatch(student.SoDienThoai, @"^(0[2-9]|84[2-9])\d{8,9}$"))
+            {
+                Console.WriteLine("Số điện thoại không hợp lệ.");
+                return BadRequest("Số điện thoại không hợp lệ.");
+            }
+
+            //  Kiểm tra trùng số điện thoại
+            var existingPhone = await _context.Students.AnyAsync(s => s.SoDienThoai == student.SoDienThoai);
+            if (existingPhone)
+            {
+                Console.WriteLine("Số điện thoại đã tồn tại.");
+                return BadRequest("Số điện thoại đã tồn tại.");
+            }
+
+            //  Kiểm tra email bị trống
+            if (string.IsNullOrWhiteSpace(student.Email))
+            {
+                Console.WriteLine("Email bị trống.");
+                return BadRequest("Email không được để trống.");
+            }
+
+            //  Kiểm tra định dạng email
+            if (!Regex.IsMatch(student.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                Console.WriteLine("Email không hợp lệ.");
+                return BadRequest("Email không hợp lệ.");
+            }
+
+            //  Kiểm tra trùng email
+            var existingEmail = await _context.Students.AnyAsync(s => s.Email == student.Email);
+            if (existingEmail)
+            {
+                Console.WriteLine("Email đã tồn tại.");
+                return BadRequest("Email đã tồn tại.");
+            }
+
             try
             {
                 _context.Add(student);
@@ -105,6 +151,52 @@ namespace StudentManagement.Controllers
             if (existingStudent == null)
             {
                 return NotFound("Student not found.");
+            }
+
+            //  Kiểm tra số điện thoại bị trống
+            if (string.IsNullOrWhiteSpace(student.SoDienThoai))
+            {
+                Console.WriteLine("Số điện thoại bị trống.");
+                return BadRequest("Số điện thoại không được để trống.");
+            }
+
+            //  Kiểm tra định dạng số điện thoại
+            if (!Regex.IsMatch(student.SoDienThoai, @"^(0[2-9]|84[2-9])\d{8,9}$"))
+            {
+                Console.WriteLine("Số điện thoại không hợp lệ.");
+                return BadRequest("Số điện thoại không hợp lệ.");
+            }
+
+            //  Kiểm tra số điện thoại có bị trùng với sinh viên khác không
+            var phoneExists = await _context.Students
+                .AnyAsync(s => s.SoDienThoai == student.SoDienThoai && s.MSSV != student.MSSV);
+            if (phoneExists)
+            {
+                Console.WriteLine("Số điện thoại đã được sử dụng bởi sinh viên khác.");
+                return BadRequest("Số điện thoại đã được sử dụng bởi sinh viên khác.");
+            }
+
+            //  Kiểm tra email bị trống
+            if (string.IsNullOrWhiteSpace(student.Email))
+            {
+                Console.WriteLine("Email bị trống.");
+                return BadRequest("Email không được để trống.");
+            }
+
+            //  Kiểm tra định dạng email
+            if (!Regex.IsMatch(student.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                Console.WriteLine("Email không hợp lệ.");
+                return BadRequest("Email không hợp lệ.");
+            }
+
+            //  Kiểm tra email có bị trùng với sinh viên khác không
+            var emailExists = await _context.Students
+                .AnyAsync(s => s.Email == student.Email && s.MSSV != student.MSSV);
+            if (emailExists)
+            {
+                Console.WriteLine("Email đã được sử dụng bởi sinh viên khác.");
+                return BadRequest("Email đã được sử dụng bởi sinh viên khác.");
             }
 
             try
