@@ -3,6 +3,7 @@ import axios from 'axios';
 import StudentModal from './StudentModal';
 import Pagination from './Pagination';
 import config from '../config';
+import DataTable from './DataTable';
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);
@@ -14,6 +15,20 @@ const StudentList = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const fields = [
+    { display: 'MSSV', accessor: 'mssv' },
+    { display: 'Họ Tên', accessor: 'hoTen' },
+    { display: 'Ngày Sinh', accessor: 'ngaySinh' },
+    { display: 'Giới Tính', accessor: 'gioiTinh' },
+    { display: 'Khoa', accessor: 'departmentId' },
+    { display: 'Trạng Thái', accessor: 'statusId' },
+    { display: 'Khóa Học', accessor: 'schoolYearId' },
+    { display: 'Chương Trình', accessor: 'studyProgramId' },
+    { display: 'Địa Chỉ', accessor: 'diaChi' },
+    { display: 'Email', accessor: 'email' },
+    { display: 'Số Điện Thoại', accessor: 'soDienThoai' },
+  ];
 
   useEffect(() => {
     loadStudents(currentPage, searchTerm);
@@ -31,6 +46,7 @@ const StudentList = () => {
       setStudents(response.data.students || []);
       setCurrentPage(response.data.currentPage || 1);
       setTotalPages(response.data.totalPages || 1);
+      console.log("search",response.data.students);
     } catch (error) {
       console.error("Lỗi khi tải danh sách sinh viên:", error);
       alert('Lỗi khi tải danh sách sinh viên!');
@@ -42,9 +58,10 @@ const StudentList = () => {
     try {
       const [depRes, statusRes, programRes] = await Promise.all([
         axios.get(`${config.backendUrl}/api/departments`),
-        axios.get(`${config.backendUrl}/api/statuses`),
-        axios.get(`${config.backendUrl}/api/study-programs`),
+        axios.get(`${config.backendUrl}/api/student-statuses`),
+        axios.get(`${config.backendUrl}/api/programs`),
       ]);
+      console.log(depRes.data, statusRes.data, programRes.data);
       setDepartments(depRes.data || []);
       setStatuses(statusRes.data || []);
       setStudyPrograms(programRes.data || []);
@@ -105,55 +122,7 @@ const StudentList = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>MSSV</th>
-            <th>Họ Tên</th>
-            <th>Ngày Sinh</th>
-            <th>Giới Tính</th>
-            <th>Khoa</th>
-            <th>Trạng Thái</th>
-            <th>Khóa Học</th>
-            <th>Chương Trình</th>
-            <th>Địa Chỉ</th>
-            <th>Email</th>
-            <th>Số Điện Thoại</th>
-            <th>Hành Động</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students.length > 0 ? (
-            students.map((student) => (
-              <tr key={student.mssv}>
-                <td>{student.mssv}</td>
-                <td>{student.hoTen}</td>
-                <td>{new Date(student.ngaySinh).toLocaleDateString('vi-VN')}</td>
-                <td>{student.gioiTinh}</td>
-                <td>{getNameById(student.khoaId, departments)}</td>
-                <td>{getNameById(student.status, statuses)}</td>
-                <td>{student.khoaId ? student.khoaId : 'Chưa có'}</td>
-                <td>{getNameById(student.studyProgram, studyPrograms)}</td>
-                <td>{student.diaChi}</td>
-                <td>{student.email}</td>
-                <td>{student.soDienThoai}</td>
-                <td>
-                  <button className="btn btn-primary me-2" onClick={() => { setModalData(student); setShowModal(true); }}>
-                    Sửa
-                  </button>
-                  <button className="btn btn-danger" onClick={() => handleDeleteStudent(student.mssv)}>
-                    Xóa
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="12" className="text-center">Không có sinh viên nào</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <DataTable fields={fields} dataSet={students} handleEdit={(student) => {setModalData(student); setShowModal(true);}} handleDelete={(student)=>{handleDeleteStudent(student.mssv)}}></DataTable>
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
       {showModal && <StudentModal data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} />}
     </div>

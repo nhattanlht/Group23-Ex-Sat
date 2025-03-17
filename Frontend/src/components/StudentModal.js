@@ -9,9 +9,9 @@ const StudentModal = ({ data, onSave, onClose }) => {
     ngaySinh: '',
     gioiTinh: 'Nam',
     departmentId: '',
+    schoolYearId: '',
     statusId: '',
-    khoaId: '',
-    programId: '',
+    studyProgramId: '',
     diaChi: '',
     email: '',
     soDienThoai: ''
@@ -19,7 +19,7 @@ const StudentModal = ({ data, onSave, onClose }) => {
 
   const [departments, setDepartments] = useState([]);
   const [statuses, setStatuses] = useState([]);
-  const [khoas, setKhoas] = useState([]);
+  const [schoolYears, setSchoolYears] = useState([]);
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -36,9 +36,9 @@ const StudentModal = ({ data, onSave, onClose }) => {
         ngaySinh: '',
         gioiTinh: 'Nam',
         departmentId: '',
+        schoolYearId: '',
         statusId: '',
-        khoaId: '',
-        programId: '',
+        studyProgramId: '',
         diaChi: '',
         email: '',
         soDienThoai: ''
@@ -61,25 +61,28 @@ const StudentModal = ({ data, onSave, onClose }) => {
       ]);
       setDepartments(departmentsRes.data);
       setStatuses(statusesRes.data);
-      setKhoas(khoasRes.data);
+      setSchoolYears(khoasRes.data);
       setPrograms(programsRes.data);
     } catch (error) {
       console.error("Error loading dropdown data:", error);
       setError("Lỗi khi tải dữ liệu! Vui lòng thử lại.");
     } finally {
       setLoading(false);
+      setError(false);
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setStudent((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(student);
     if (!student.mssv || !student.hoTen || !student.ngaySinh || !student.departmentId) {
-      setError("Vui lòng nhập đầy đủ thông tin!");
+      console.error("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
     onSave(student);
@@ -131,14 +134,14 @@ const StudentModal = ({ data, onSave, onClose }) => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="khoaId">Khóa Học</label>
-                  <select className="form-control" id="khoaId" name="khoaId" value={student.khoaId} onChange={handleChange} required>
-                    {khoas.map(khoa => <option key={khoa.id} value={khoa.id}>{khoa.name}</option>)}
+                  <label htmlFor="schoolYearId">Khóa Học</label>
+                  <select className="form-control" id="schoolYearId" name="schoolYearId" value={student.schoolYearId} onChange={handleChange} required>
+                    {schoolYears.map(schoolYear => <option key={schoolYear.id} value={schoolYear.id}>{schoolYear.name}</option>)}
                   </select>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="programId">Chương Trình</label>
-                  <select className="form-control" id="programId" name="programId" value={student.programId} onChange={handleChange} required>
+                  <label htmlFor="studyProgramId">Chương Trình</label>
+                  <select className="form-control" id="programId" name="studyProgramId" value={student.programId} onChange={handleChange} required>
                     {programs.map(program => <option key={program.id} value={program.id}>{program.name}</option>)}
                   </select>
                 </div>
