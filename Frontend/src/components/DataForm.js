@@ -59,7 +59,9 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
                                                 id={field.accessor}
                                                 name={field.accessor}
                                                 type={field.type || "text"} // Default to "text"
-                                                value={formData[field.accessor] || ""}
+                                                value={field.type === "date" ?
+                                                    (formData[field.accessor]?.split("T")[0]) :
+                                                    (formData[field.accessor] || '')}
                                                 onChange={handleChange}
                                                 className="w-full border p-2"
                                                 required={field.required}
