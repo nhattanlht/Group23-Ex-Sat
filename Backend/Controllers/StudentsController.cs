@@ -41,35 +41,26 @@ namespace StudentManagement.Controllers
 
         // Thêm sinh viên mới
         [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] Student student)
         {
             try
             {
                 if (student == null)
-                {
-                    Console.WriteLine("Student data is null.");
-                    return BadRequest(new { message = "Student data is required." });
-                }
+                    return BadRequest(new { message = "Dữ liệu sinh viên không hợp lệ." });
 
-                // Log chi tiết dữ liệu nhận được
-                Console.WriteLine("Received Student Data: " + Newtonsoft.Json.JsonConvert.SerializeObject(student));
+                var (success, message) = await _studentService.CreateStudent(student);
+                if (success)
+                    return Ok(new { message });
 
-                var result = await _studentService.CreateStudent(student);
-                if (result)
-                {
-                    Console.WriteLine("Student created successfully.");
-                    return Ok(new { message = "Student created successfully." });
-                }
-
-                Console.WriteLine("Failed to create student.");
-                return BadRequest(new { message = "Failed to create student." });
+                return BadRequest(new { message });
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(500, new { message = "Lỗi máy chủ nội bộ", error = ex.Message });
             }
         }
+
 
         // Lấy thông tin 1 sinh viên theo MSSV
         [HttpGet("{id}")]
@@ -96,22 +87,23 @@ namespace StudentManagement.Controllers
             try
             {
                 if (student == null)
-                    return BadRequest(new { message = "Student data is required." });
+                    return BadRequest(new { message = "Dữ liệu sinh viên không hợp lệ." });
 
                 if (id != student.MSSV)
-                    return BadRequest(new { message = "Student ID mismatch." });
+                    return BadRequest(new { message = "Mã số sinh viên không khớp." });
 
-                var result = await _studentService.UpdateStudent(student);
-                if (result)
-                    return Ok(new { message = "Student updated successfully." });
+                var (success, message) = await _studentService.UpdateStudent(student);
+                if (success)
+                    return Ok(new { message });
 
-                return BadRequest(new { message = "Failed to update student." });
+                return BadRequest(new { message });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(500, new { message = "Lỗi máy chủ nội bộ", error = ex.Message });
             }
         }
+
 
         // Xóa sinh viên theo MSSV
         [HttpDelete("{id}")]
