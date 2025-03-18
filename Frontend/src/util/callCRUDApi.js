@@ -33,6 +33,7 @@ export const handleEditRow = async (dataName, id, data) => {
         alert(response.data.message);
         return response.data;
     } catch (error) {
+        alert(error.response?.data?.message || 'Lỗi không xác định');
         console.error("Lỗi khi cập nhật dữ liệu:", error);
         return null;
     }
@@ -45,6 +46,7 @@ export const handleDeleteRow = async (dataName, id) => {
         alert(response.data.message);
         return response.data;
     } catch (error) {
+        alert(error.response?.data?.message || 'Lỗi không xác định');
         console.error("Lỗi khi xóa dữ liệu:", error);
         return null;
     }

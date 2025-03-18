@@ -21,7 +21,7 @@ const StudentList = () => {
     { display: 'MSSV', accessor: 'mssv', type: "text", required: true },
     { display: 'Họ Tên', accessor: 'hoTen', type: "text", required: true },
     { display: 'Ngày Sinh', accessor: 'ngaySinh', type: "date", required: true },
-    { display: 'Giới Tính', accessor: 'gioiTinh', type: "select", options: [{id:"Nam"}, {id:"Nữ"}, {id:"Khác"}], required: true },
+    { display: 'Giới Tính', accessor: 'gioiTinh', type: "select", options: [{id:"Nam", name:"Nam"}, {id:"Nữ", name: "Nữ"}, {id:"Khác", name:"Khác"}], required: true },
     { display: 'Khoa', accessor: 'departmentId', type: "select", options: departments, required: true },
     { display: 'Trạng Thái', accessor: 'statusId', type: "select", options: statuses, required: true },
     { display: 'Khóa Học', accessor: 'schoolYearId', type: "select", options: schoolYears, required: true },
@@ -67,12 +67,6 @@ const StudentList = () => {
     } catch (error) {
       console.error('Lỗi khi tải dữ liệu phụ trợ:', error);
     }
-  };
-
-  // Tìm tên theo ID từ danh sách
-  const getNameById = (id, list) => {
-    const item = list.find((item) => item.id === id);
-    return item ? item.name : 'Chưa có';
   };
 
   const handleAddStudent = async (student) => {

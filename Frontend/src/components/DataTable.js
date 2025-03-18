@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 // import readXlsxFile from "read-excel-file";
 // import { Button } from "@/components/ui/button";
 
@@ -21,8 +21,12 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
   //     });
   //   }
   // };
+  // Tìm tên theo ID từ danh sách
+  const getNameById = (id, list) => {
+    const item = list.find((item) => item.id === id);
+    return item ? item.name : 'Chưa có';
+  };
 
-  
   return (
     <div className="py-4">
       <table className="table-auto w-full">
@@ -37,9 +41,16 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
         <tbody>
           {dataSet.map((row, rowIndex) => (
             <tr key={rowIndex}>
-              {fields.map((field) => (
-                <td key={field.accessor} className="p-2">{row[field.accessor]}</td>
-              ))}
+              {fields.map((field) => {
+                switch (field.type) {
+                  case 'select':
+                    return <td key={field.accessor} className="p-2">{getNameById(row[field.accessor], field.options)}</td>
+                  case 'date':
+                    return <td key={field.accessor} className="p-2">{new Date(row[field.accessor]).toLocaleDateString()}</td>
+                  default:
+                    return <td key={field.accessor} className="p-2">{row[field.accessor]}</td>
+                }
+              })}
               <td>
                 <button className="btn btn-primary me-2" onClick={() => { handleEdit(row); }}>
                   Sửa

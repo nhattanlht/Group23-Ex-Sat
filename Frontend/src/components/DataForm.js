@@ -51,7 +51,7 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
                                             >
                                                 <option value="">Select an option</option>
                                                 {field.options.map((option) => (
-                                                    <option key={option.id} value={option.id}>{option.name || option.id}</option>
+                                                    <option key={option.id} value={option.id}>{option.name}</option>
                                                 ))}
                                             </select>
                                         ) : (
