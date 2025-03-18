@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import StudentModal from './StudentModal';
 import Pagination from './Pagination';
 import config from '../config';
 import DataTable from './DataTable';
-
+import { loadData, handleAddRow, handleEditRow, handleDeleteRow } from '../util/callCRUDApi';
+import DataForm from './DataForm';
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -21,7 +21,7 @@ const StudentList = () => {
     { display: 'MSSV', accessor: 'mssv', type: "text", required: true },
     { display: 'Họ Tên', accessor: 'hoTen', type: "text", required: true },
     { display: 'Ngày Sinh', accessor: 'ngaySinh', type: "date", required: true },
-    { display: 'Giới Tính', accessor: 'gioiTinh', type: "select", options: [{id:"Nam"}, {id:"Nữ"}], required: true },
+    { display: 'Giới Tính', accessor: 'gioiTinh', type: "select", options: [{id:"Nam"}, {id:"Nữ"}, {id:"Khác"}], required: true },
     { display: 'Khoa', accessor: 'departmentId', type: "select", options: departments, required: true },
     { display: 'Trạng Thái', accessor: 'statusId', type: "select", options: statuses, required: true },
     { display: 'Khóa Học', accessor: 'schoolYearId', type: "select", options: schoolYears, required: true },
@@ -39,15 +39,11 @@ const StudentList = () => {
   // Gọi API lấy danh sách sinh viên
   const loadStudents = async (page, keyword = '') => {
     try {
-      const url = keyword
-        ? `${config.backendUrl}/api/students/search?keyword=${keyword}&page=${page}&pageSize=10`
-        : `${config.backendUrl}/api/students?page=${page}&pageSize=10`;
-
-      const response = await axios.get(url);
-      setStudents(response.data.students || []);
-      setCurrentPage(response.data.currentPage || 1);
-      setTotalPages(response.data.totalPages || 1);
-      console.log("search",response.data.students);
+      const data = await loadData('students', page, keyword);
+      setStudents(data.students || []);
+      setCurrentPage(data.currentPage || 1);
+      setTotalPages(data.totalPages || 1);
+      console.log("search",data.students);
     } catch (error) {
       console.error("Lỗi khi tải danh sách sinh viên:", error);
       alert('Lỗi khi tải danh sách sinh viên!');
@@ -81,18 +77,17 @@ const StudentList = () => {
 
   const handleAddStudent = async (student) => {
     try {
-      const response = await axios.post(`${config.backendUrl}/api/students`, student);
-      alert(response.data.message);
+      await handleAddRow('students', student);
       setShowModal(false);
       loadStudents(currentPage, searchTerm);
     } catch (error) {
-      alert(error.response?.data?.message || 'Lỗi không xác định');
+      alert('Lỗi khi thêm sinh viên!');
     }
   };
 
   const handleEditStudent = async (student) => {
     try {
-      await axios.put(`${config.backendUrl}/api/students/${student.mssv}`, student);
+      await handleEditRow('students', student.mssv, student);
       setShowModal(false);
       loadStudents(currentPage, searchTerm);
     } catch (error) {
@@ -101,9 +96,8 @@ const StudentList = () => {
   };
 
   const handleDeleteStudent = async (mssv) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa sinh viên này không?')) return;
     try {
-      await axios.delete(`${config.backendUrl}/api/students/${mssv}`);
+      await handleDeleteRow('students', mssv);
       loadStudents(currentPage, searchTerm);
     } catch (error) {
       alert('Lỗi khi xóa sinh viên!');
@@ -127,7 +121,7 @@ const StudentList = () => {
       </div>
       <DataTable fields={fields} dataSet={students} handleEdit={(student) => {setModalData(student); setShowModal(true);}} handleDelete={(student)=>{handleDeleteStudent(student.mssv)}}></DataTable>
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-      {showModal && <StudentModal fields={fields} data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} />}
+      {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} />}
     </div>
   );
 };

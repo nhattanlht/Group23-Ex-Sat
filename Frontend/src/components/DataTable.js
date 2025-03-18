@@ -22,6 +22,7 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
   //   }
   // };
 
+  
   return (
     <div className="py-4">
       <table className="table-auto w-full">
