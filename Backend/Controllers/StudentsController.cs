@@ -26,7 +26,7 @@ namespace StudentManagement.Controllers
                 var (students, totalStudents, totalPages) = await _studentService.GetStudents(page, pageSize);
                 return Ok(new
                 {
-                    students,
+                    data = students,
                     totalStudents,
                     totalPages,
                     currentPage = page,

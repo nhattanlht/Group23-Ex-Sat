@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import StudentList from './components/StudentList'; // Import the StudentList component
+import StudentPage from './pages/StudentPage'; // Import the StudentPage component
 import './styles.css'; // Import the CSS file
 
 function App() {
@@ -8,8 +8,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
       <Routes>
-          <Route path="/" element={<StudentList />} />
-          <Route path="/department" element={<StudentList />} />
+          <Route path="/" element={<StudentPage />} />
+          <Route path="/department" element={<StudentPage />} />
       </Routes>
     </BrowserRouter>
     </div>
