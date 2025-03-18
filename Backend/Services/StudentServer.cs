@@ -108,9 +108,11 @@ namespace StudentManagement.Services
                 existingStudent.StatusId = student.StatusId;
                 existingStudent.SchoolYearId = student.SchoolYearId;
                 existingStudent.StudyProgramId = student.StudyProgramId;
-                existingStudent.DiaChi = student.DiaChi;
                 existingStudent.Email = student.Email;
                 existingStudent.SoDienThoai = student.SoDienThoai;
+                existingStudent.DiaChiThuongTru = student.DiaChiThuongTru;
+                existingStudent.DiaChiTamTru = student.DiaChiTamTru;
+                existingStudent.DiaChiNhanThu = student.DiaChiNhanThu;
 
                 _context.Update(existingStudent);
                 await _context.SaveChangesAsync();

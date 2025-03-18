@@ -26,9 +26,49 @@ const StudentList = () => {
     { display: 'Trạng Thái', accessor: 'statusId', type: "select", options: statuses, required: true },
     { display: 'Khóa Học', accessor: 'schoolYearId', type: "select", options: schoolYears, required: true },
     { display: 'Chương Trình', accessor: 'studyProgramId', type: "select", options: studyPrograms, required: true },
-    { display: 'Địa Chỉ', accessor: 'diaChi', type: "text", required: true },
     { display: 'Email', accessor: 'email', type: "email", required: true },
     { display: 'Số Điện Thoại', accessor: 'soDienThoai', type: "text", required: true },
+    { display: 'Quốc Tịch', accessor: 'quocTich', type: "text", required: true },
+    {
+      display: 'Địa Chỉ Nhận Thư',
+      accessor: 'diaChiNhanThu',
+      type: "group",
+      fields: [
+        { display: 'Số Nhà', accessor: 'diaChiNhanThu.houseNumber', type: "text", required: true },
+        { display: 'Tên Đường', accessor: 'diaChiNhanThu.streetName', type: "text", required: true },
+        { display: 'Phường/Xã', accessor: 'diaChiNhanThu.ward', type: "text", required: true },
+        { display: 'Quận/Huyện', accessor: 'diaChiNhanThu.district', type: "text", required: true },
+        { display: 'Tỉnh/Thành Phố', accessor: 'diaChiNhanThu.province', type: "text", required: true },
+        { display: 'Quốc Gia', accessor: 'diaChiNhanThu.country', type: "text", required: true },
+      ],
+      required: true,
+    },
+    {
+      display: 'Địa Chỉ Thường Trú',
+      accessor: 'diaChiThuongTru',
+      type: "group",
+      fields: [
+        { display: 'Số Nhà', accessor: 'diaChiThuongTru.houseNumber', type: "text" },
+        { display: 'Tên Đường', accessor: 'diaChiThuongTru.streetName', type: "text" },
+        { display: 'Phường/Xã', accessor: 'diaChiThuongTru.ward', type: "text" },
+        { display: 'Quận/Huyện', accessor: 'diaChiThuongTru.district', type: "text" },
+        { display: 'Tỉnh/Thành Phố', accessor: 'diaChiThuongTru.province', type: "text" },
+        { display: 'Quốc Gia', accessor: 'diaChiThuongTru.country', type: "text" },
+      ],
+    },
+    {
+      display: 'Địa Chỉ Tạm Trú',
+      accessor: 'diaChiTamTru',
+      type: "group",
+      fields: [
+        { display: 'Số Nhà', accessor: 'diaChiTamTru.houseNumber', type: "text" },
+        { display: 'Tên Đường', accessor: 'diaChiTamTru.streetName', type: "text" },
+        { display: 'Phường/Xã', accessor: 'diaChiTamTru.ward', type: "text" },
+        { display: 'Quận/Huyện', accessor: 'diaChiTamTru.district', type: "text" },
+        { display: 'Tỉnh/Thành Phố', accessor: 'diaChiTamTru.province', type: "text" },
+        { display: 'Quốc Gia', accessor: 'diaChiTamTru.country', type: "text" },
+      ],
+    },
   ];
 
   useEffect(() => {
@@ -69,8 +109,53 @@ const StudentList = () => {
     }
   };
 
+  const transformToNestedObject = (flatObject) => {
+    const nestedObject = {};
+
+    Object.keys(flatObject).forEach((key) => {
+        const keys = key.split('.'); // Split the key by dots
+        let current = nestedObject;
+
+        keys.forEach((subKey, index) => {
+            if (index === keys.length - 1) {
+                // If it's the last key, assign the value
+                current[subKey] = flatObject[key];
+            } else {
+                // Otherwise, create an object if it doesn't exist
+                current[subKey] = current[subKey] || {};
+                current = current[subKey];
+            }
+        });
+    });
+
+    return nestedObject;
+  };
+
   const handleAddStudent = async (student) => {
     try {
+      const newStudent1 = transformToNestedObject(student.diaChiNhanThu);
+
+      const diaChiNhanThu = await axios.post(`${config.backendUrl}/api/address`, newStudent1.diaChiNhanThu);
+      student.diaChiNhanThuId = diaChiNhanThu.data.id;
+
+      delete student.diaChiNhanThu;
+
+      if (student.diaChiThuongTru) {
+          const newStudent2 = transformToNestedObject(student.diaChiThuongTru);
+          const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2.diaChiThuongTru);
+          student.diaChiThuongTruId = diaChiThuongTru.data.id;
+      }
+
+      delete student.diaChiThuongTru;
+
+      if (student.diaChiTamTru) {
+          const newStudent3 = transformToNestedObject(student.diaChiTamTru);
+          const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3.diaChiTamTru);
+          student.diaChiTamTruId = diaChiTamTru.data.id;
+      }
+
+      delete student.diaChiTamTru;
+
       await handleAddRow('students', student);
       setShowModal(false);
       loadStudents(currentPage, searchTerm);

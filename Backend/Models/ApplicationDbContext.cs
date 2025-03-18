@@ -11,6 +11,7 @@ namespace StudentManagement.Models
         public DbSet<SchoolYear> SchoolYears { get; set; }
         public DbSet<StudyProgram> StudyPrograms { get; set; }
         public DbSet<StudentStatus> StudentStatuses { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

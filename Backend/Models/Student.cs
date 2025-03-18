@@ -40,8 +40,20 @@ namespace StudentManagement.Models
         [EmailAddress]
         public string? Email { get; set; }
 
+        [Required]
+        public string QuocTich { get; set; }
+
         [Phone]
         public string? SoDienThoai { get; set; }
+
+        [ForeignKey("DiaChiNhanThuId")]
+        public virtual Address? DiaChiNhanThu { get; set; }
+
+        [ForeignKey("DiaChiThuongTruId")]
+        public virtual Address? DiaChiThuongTru { get; set; }
+
+        [ForeignKey("DiaChiTamTruId")]
+        public virtual Address? DiaChiTamTru { get; set; }
 
         [Required]
         public int StatusId { get; set; }

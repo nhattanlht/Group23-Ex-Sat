@@ -17,6 +17,16 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
         });
     };
 
+    const handleGroupChange = (groupAccessor, subFieldAccessor, value) => {
+        setFormData((prev) => ({
+            ...prev,
+            [groupAccessor]: {
+                ...prev[groupAccessor],
+                [subFieldAccessor]: value, // Use subFieldAccessor directly
+            },
+        }));
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         onSave(formData);
@@ -54,6 +64,25 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
                                                     <option key={option.id} value={option.id}>{option.name}</option>
                                                 ))}
                                             </select>
+                                        ) : field.type === "group" ? (
+                                            <div className="ms-3">
+                                                {field.fields.map((subField) => (
+                                                    <div key={subField.accessor} className="mb-2">
+                                                        <label htmlFor={`${field.accessor}.${subField.accessor}`}>{subField.display}</label>
+                                                        <input
+                                                            id={`${field.accessor}.${subField.accessor}`}
+                                                            name={`${field.accessor}.${subField.accessor}`}
+                                                            type={subField.type || "text"} // Default to "text"
+                                                            value={formData[field.accessor]?.[subField.accessor] || ""}
+                                                            onChange={(e) =>
+                                                                handleGroupChange(field.accessor, subField.accessor, e.target.value)
+                                                            }
+                                                            className="w-full border p-2"
+                                                            required={subField.required}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
                                         ) : (
                                             <input
                                                 id={field.accessor}
