@@ -11,6 +11,7 @@ namespace StudentManagement.Models
         public DbSet<SchoolYear> SchoolYears { get; set; }
         public DbSet<StudyProgram> StudyPrograms { get; set; }
         public DbSet<StudentStatus> StudentStatuses { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -52,6 +53,24 @@ namespace StudentManagement.Models
             modelBuilder.Entity<Student>()
                 .HasIndex(s => s.SoDienThoai)
                 .IsUnique();
+
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.DiaChiNhanThu)
+                .WithMany()
+                .HasForeignKey(s => s.DiaChiNhanThuId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.DiaChiThuongTru)
+                .WithMany()
+                .HasForeignKey(s => s.DiaChiThuongTruId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.DiaChiTamTru)
+                .WithMany()
+                .HasForeignKey(s => s.DiaChiTamTruId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

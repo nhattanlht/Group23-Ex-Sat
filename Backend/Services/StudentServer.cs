@@ -25,6 +25,23 @@ namespace StudentManagement.Services
             var totalPages = (int)Math.Ceiling((double)totalStudents / pageSize);
 
             var students = await _context.Students
+                .Select(s => new Student
+                {
+                    MSSV = s.MSSV,
+                    HoTen = s.HoTen,
+                    NgaySinh = s.NgaySinh,
+                    GioiTinh = s.GioiTinh,
+                    DepartmentId = s.DepartmentId,
+                    StatusId = s.StatusId,
+                    SchoolYearId = s.SchoolYearId,
+                    StudyProgramId = s.StudyProgramId,
+                    Email = s.Email,
+                    SoDienThoai = s.SoDienThoai,
+                    QuocTich = s.QuocTich,
+                    DiaChiNhanThuId = s.DiaChiNhanThuId,
+                    DiaChiThuongTruId = s.DiaChiThuongTruId,
+                    DiaChiTamTruId = s.DiaChiTamTruId
+                })
                 .OrderBy(s => s.MSSV) // Sorting by student ID (change if needed)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -40,55 +57,67 @@ namespace StudentManagement.Services
                                  .Include(s => s.SchoolYear)
                                  .Include(s => s.StudyProgram)
                                  .Include(s => s.StudentStatus)
+                                 .Include(s => s.DiaChiNhanThu) 
+                                 .Include(s => s.DiaChiThuongTru)
+                                 .Include(s => s.DiaChiTamTru)
                                  .FirstOrDefaultAsync(s => s.MSSV == id);
         }
 
-        public async Task<bool> CreateStudent(Student student)
+        public async Task<(bool Success, string Message)> CreateStudent(Student student)
         {
-            if (string.IsNullOrWhiteSpace(student.SoDienThoai) ||
-                !Regex.IsMatch(student.SoDienThoai, @"^(0[2-9]|84[2-9])\d{8,9}$") ||
-                await _context.Students.AnyAsync(s => s.SoDienThoai == student.SoDienThoai))
-            {
-                return false;
-            }
+            if (string.IsNullOrWhiteSpace(student.SoDienThoai))
+                return (false, "Số điện thoại không được để trống.");
 
-            if (string.IsNullOrWhiteSpace(student.Email) ||
-                !Regex.IsMatch(student.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$") ||
-                await _context.Students.AnyAsync(s => s.Email == student.Email))
-            {
-                return false;
-            }
+            if (!Regex.IsMatch(student.SoDienThoai, @"^(0[2-9]|84[2-9])\d{8,9}$"))
+                return (false, "Số điện thoại không hợp lệ.");
+
+            if (await _context.Students.AnyAsync(s => s.SoDienThoai == student.SoDienThoai))
+                return (false, "Số điện thoại đã tồn tại trong hệ thống.");
+
+            if (string.IsNullOrWhiteSpace(student.Email))
+                return (false, "Email không được để trống.");
+
+            if (!Regex.IsMatch(student.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                return (false, "Email không hợp lệ.");
+
+            if (await _context.Students.AnyAsync(s => s.Email == student.Email))
+                return (false, "Email đã tồn tại trong hệ thống.");
 
             try
             {
                 _context.Add(student);
                 await _context.SaveChangesAsync();
-                return true;
+                return (true, "Sinh viên được tạo thành công.");
             }
             catch
             {
-                return false;
+                return (false, "Đã xảy ra lỗi khi tạo sinh viên.");
             }
         }
 
-        public async Task<bool> UpdateStudent(Student student)
+
+        public async Task<(bool Success, string Message)> UpdateStudent(Student student)
         {
             var existingStudent = await _context.Students.FindAsync(student.MSSV);
-            if (existingStudent == null) return false;
+            if (existingStudent == null) return (false, "Sinh viên không tồn tại.");
 
-            if (string.IsNullOrWhiteSpace(student.SoDienThoai) ||
-                !Regex.IsMatch(student.SoDienThoai, @"^(0[2-9]|84[2-9])\d{8,9}$") ||
-                await _context.Students.AnyAsync(s => s.SoDienThoai == student.SoDienThoai && s.MSSV != student.MSSV))
-            {
-                return false;
-            }
+            if (string.IsNullOrWhiteSpace(student.SoDienThoai))
+                return (false, "Số điện thoại không được để trống.");
 
-            if (string.IsNullOrWhiteSpace(student.Email) ||
-                !Regex.IsMatch(student.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$") ||
-                await _context.Students.AnyAsync(s => s.Email == student.Email && s.MSSV != student.MSSV))
-            {
-                return false;
-            }
+            if (!Regex.IsMatch(student.SoDienThoai, @"^(0[2-9]|84[2-9])\d{8,9}$"))
+                return (false, "Số điện thoại không hợp lệ.");
+
+            if (await _context.Students.AnyAsync(s => s.SoDienThoai == student.SoDienThoai && s.MSSV != student.MSSV))
+                return (false, "Số điện thoại đã tồn tại trong hệ thống.");
+
+            if (string.IsNullOrWhiteSpace(student.Email))
+                return (false, "Email không được để trống.");
+
+            if (!Regex.IsMatch(student.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                return (false, "Email không hợp lệ.");
+
+            if (await _context.Students.AnyAsync(s => s.Email == student.Email && s.MSSV != student.MSSV))
+                return (false, "Email đã tồn tại trong hệ thống.");
 
             try
             {
@@ -99,19 +128,22 @@ namespace StudentManagement.Services
                 existingStudent.StatusId = student.StatusId;
                 existingStudent.SchoolYearId = student.SchoolYearId;
                 existingStudent.StudyProgramId = student.StudyProgramId;
-                existingStudent.DiaChi = student.DiaChi;
                 existingStudent.Email = student.Email;
                 existingStudent.SoDienThoai = student.SoDienThoai;
+                existingStudent.DiaChiThuongTruId = student.DiaChiThuongTruId;
+                existingStudent.DiaChiTamTruId = student.DiaChiTamTruId;
+                existingStudent.DiaChiNhanThuId = student.DiaChiNhanThuId;
 
                 _context.Update(existingStudent);
                 await _context.SaveChangesAsync();
-                return true;
+                return (true, "Cập nhật thông tin sinh viên thành công.");
             }
             catch
             {
-                return false;
+                return (false, "Đã xảy ra lỗi khi cập nhật sinh viên.");
             }
         }
+
 
         public async Task<bool> DeleteStudent(string id)
         {

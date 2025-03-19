@@ -8,8 +8,8 @@ namespace StudentManagement.Services
     {
         Task<(IEnumerable<Student>, int, int)> GetStudents(int page, int pageSize);
         Task<Student> GetStudentById(string id);
-        Task<bool> CreateStudent(Student student);
-        Task<bool> UpdateStudent(Student student);
+        Task<(bool Success, string Message)> CreateStudent(Student student);
+        Task<(bool Success, string Message)> UpdateStudent(Student student);
         Task<bool> DeleteStudent(string id);
         Task<IEnumerable<Student>> SearchStudents(string keyword, int page, int pageSize);
     }
