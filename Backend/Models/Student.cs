@@ -46,6 +46,13 @@ namespace StudentManagement.Models
         [Phone]
         public string? SoDienThoai { get; set; }
 
+        [Required]
+        public int DiaChiNhanThuId { get; set; }
+
+        public int? DiaChiThuongTruId { get; set; }
+        
+        public int? DiaChiTamTruId { get; set; }
+
         [ForeignKey("DiaChiNhanThuId")]
         public virtual Address? DiaChiNhanThu { get; set; }
 

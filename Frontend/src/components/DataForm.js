@@ -44,60 +44,62 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
                     <div className="modal-body">
                         <div className="p-4 border rounded-lg bg-white shadow-md">
                             <form onSubmit={handleSubmit}>
-                                {fields.map((field) => (
-                                    <div key={field.accessor} className="mb-3">
-                                        <label htmlFor={field.accessor}>{field.display}</label>
+                                {fields
+                                    .filter((field) => !field.hidden)
+                                    .map((field) => (
+                                        <div key={field.accessor} className="mb-3">
+                                            <label htmlFor={field.accessor}>{field.display}</label>
 
-                                        {/* Detect input type */}
-                                        {field.type === "select" ? (
-                                            <select
-                                                id={field.accessor}
-                                                name={field.accessor}
-                                                value={formData[field.accessor] || ""}
-                                                onChange={handleChange}
-                                                required={field.required}
-                                                className="w-full border p-2"
+                                            {/* Detect input type */}
+                                            {field.type === "select" ? (
+                                                <select
+                                                    id={field.accessor}
+                                                    name={field.accessor}
+                                                    value={formData[field.accessor] || ""}
+                                                    onChange={handleChange}
+                                                    required={field.required}
+                                                    className="w-full border p-2"
 
-                                            >
-                                                <option value="">Select an option</option>
-                                                {field.options.map((option) => (
-                                                    <option key={option.id} value={option.id}>{option.name}</option>
-                                                ))}
-                                            </select>
-                                        ) : field.type === "group" ? (
-                                            <div className="ms-3">
-                                                {field.fields.map((subField) => (
-                                                    <div key={subField.accessor} className="mb-2">
-                                                        <label htmlFor={`${field.accessor}.${subField.accessor}`}>{subField.display}</label>
-                                                        <input
-                                                            id={`${field.accessor}.${subField.accessor}`}
-                                                            name={`${field.accessor}.${subField.accessor}`}
-                                                            type={subField.type || "text"} // Default to "text"
-                                                            value={formData[field.accessor]?.[subField.accessor] || ""}
-                                                            onChange={(e) =>
-                                                                handleGroupChange(field.accessor, subField.accessor, e.target.value)
-                                                            }
-                                                            className="w-full border p-2"
-                                                            required={subField.required}
-                                                        />
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        ) : (
-                                            <input
-                                                id={field.accessor}
-                                                name={field.accessor}
-                                                type={field.type || "text"} // Default to "text"
-                                                value={field.type === "date" ?
-                                                    (formData[field.accessor]?.split("T")[0]) :
-                                                    (formData[field.accessor] || '')}
-                                                onChange={handleChange}
-                                                className="w-full border p-2"
-                                                required={field.required}
-                                            />
-                                        )}
-                                    </div>
-                                ))}
+                                                >
+                                                    <option value="">Select an option</option>
+                                                    {field.options.map((option) => (
+                                                        <option key={option.id} value={option.id}>{option.name}</option>
+                                                    ))}
+                                                </select>
+                                            ) : field.type === "group" ? (
+                                                <div className="ms-3">
+                                                    {field.fields.map((subField) => (
+                                                        <div key={subField.accessor} className="mb-2">
+                                                            <label htmlFor={`${field.accessor}.${subField.accessor}`}>{subField.display}</label>
+                                                            <input
+                                                                id={`${field.accessor}.${subField.accessor}`}
+                                                                name={`${field.accessor}.${subField.accessor}`}
+                                                                type={subField.type || "text"} // Default to "text"
+                                                                value={formData[field.accessor]?.[subField.accessor] || ""}
+                                                                onChange={(e) =>
+                                                                    handleGroupChange(field.accessor, subField.accessor, e.target.value)
+                                                                }
+                                                                className="w-full border p-2"
+                                                                required={subField.required}
+                                                            />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <input
+                                                    id={field.accessor}
+                                                    name={field.accessor}
+                                                    type={field.type || "text"} // Default to "text"
+                                                    value={field.type === "date" ?
+                                                        (formData[field.accessor]?.split("T")[0]) :
+                                                        (formData[field.accessor] || '')}
+                                                    onChange={handleChange}
+                                                    className="w-full border p-2"
+                                                    required={field.required}
+                                                />
+                                            )}
+                                        </div>
+                                    ))}
 
                                 <div className="flex justify-end gap-2">
                                     <button type="button" className="btn btn-secondary" onClick={onClose}>Hủy</button>

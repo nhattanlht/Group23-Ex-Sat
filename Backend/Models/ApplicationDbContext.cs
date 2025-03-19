@@ -53,6 +53,24 @@ namespace StudentManagement.Models
             modelBuilder.Entity<Student>()
                 .HasIndex(s => s.SoDienThoai)
                 .IsUnique();
+
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.DiaChiNhanThu)
+                .WithMany()
+                .HasForeignKey(s => s.DiaChiNhanThuId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.DiaChiThuongTru)
+                .WithMany()
+                .HasForeignKey(s => s.DiaChiThuongTruId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.DiaChiTamTru)
+                .WithMany()
+                .HasForeignKey(s => s.DiaChiTamTruId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

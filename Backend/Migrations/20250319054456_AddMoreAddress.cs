@@ -14,7 +14,8 @@ namespace StudentManagement.Migrations
                 name: "DiaChiNhanThuId",
                 table: "Students",
                 type: "int",
-                nullable: true);
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "DiaChiTamTruId",
@@ -73,21 +74,24 @@ namespace StudentManagement.Migrations
                 table: "Students",
                 column: "DiaChiNhanThuId",
                 principalTable: "Addresses",
-                principalColumn: "Id");
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Students_Addresses_DiaChiTamTruId",
                 table: "Students",
                 column: "DiaChiTamTruId",
                 principalTable: "Addresses",
-                principalColumn: "Id");
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Students_Addresses_DiaChiThuongTruId",
                 table: "Students",
                 column: "DiaChiThuongTruId",
                 principalTable: "Addresses",
-                principalColumn: "Id");
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />

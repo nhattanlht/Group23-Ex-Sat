@@ -12,7 +12,7 @@ using StudentManagement.Models;
 namespace StudentManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250318174108_AddMoreAddress")]
+    [Migration("20250319054456_AddMoreAddress")]
     partial class AddMoreAddress
     {
         /// <inheritdoc />
@@ -167,7 +167,7 @@ namespace StudentManagement.Migrations
                     b.Property<string>("DiaChi")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DiaChiNhanThuId")
+                    b.Property<int>("DiaChiNhanThuId")
                         .HasColumnType("int");
 
                     b.Property<int?>("DiaChiTamTruId")
@@ -324,15 +324,19 @@ namespace StudentManagement.Migrations
 
                     b.HasOne("Address", "DiaChiNhanThu")
                         .WithMany()
-                        .HasForeignKey("DiaChiNhanThuId");
+                        .HasForeignKey("DiaChiNhanThuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Address", "DiaChiTamTru")
                         .WithMany()
-                        .HasForeignKey("DiaChiTamTruId");
+                        .HasForeignKey("DiaChiTamTruId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Address", "DiaChiThuongTru")
                         .WithMany()
-                        .HasForeignKey("DiaChiThuongTruId");
+                        .HasForeignKey("DiaChiThuongTruId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("StudentManagement.Models.SchoolYear", "SchoolYear")
                         .WithMany("Students")

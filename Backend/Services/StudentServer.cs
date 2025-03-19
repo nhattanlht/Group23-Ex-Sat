@@ -25,6 +25,23 @@ namespace StudentManagement.Services
             var totalPages = (int)Math.Ceiling((double)totalStudents / pageSize);
 
             var students = await _context.Students
+                .Select(s => new Student
+                {
+                    MSSV = s.MSSV,
+                    HoTen = s.HoTen,
+                    NgaySinh = s.NgaySinh,
+                    GioiTinh = s.GioiTinh,
+                    DepartmentId = s.DepartmentId,
+                    StatusId = s.StatusId,
+                    SchoolYearId = s.SchoolYearId,
+                    StudyProgramId = s.StudyProgramId,
+                    Email = s.Email,
+                    SoDienThoai = s.SoDienThoai,
+                    QuocTich = s.QuocTich,
+                    DiaChiNhanThuId = s.DiaChiNhanThuId,
+                    DiaChiThuongTruId = s.DiaChiThuongTruId,
+                    DiaChiTamTruId = s.DiaChiTamTruId
+                })
                 .OrderBy(s => s.MSSV) // Sorting by student ID (change if needed)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -40,6 +57,9 @@ namespace StudentManagement.Services
                                  .Include(s => s.SchoolYear)
                                  .Include(s => s.StudyProgram)
                                  .Include(s => s.StudentStatus)
+                                 .Include(s => s.DiaChiNhanThu) 
+                                 .Include(s => s.DiaChiThuongTru)
+                                 .Include(s => s.DiaChiTamTru)
                                  .FirstOrDefaultAsync(s => s.MSSV == id);
         }
 
@@ -110,9 +130,9 @@ namespace StudentManagement.Services
                 existingStudent.StudyProgramId = student.StudyProgramId;
                 existingStudent.Email = student.Email;
                 existingStudent.SoDienThoai = student.SoDienThoai;
-                existingStudent.DiaChiThuongTru = student.DiaChiThuongTru;
-                existingStudent.DiaChiTamTru = student.DiaChiTamTru;
-                existingStudent.DiaChiNhanThu = student.DiaChiNhanThu;
+                existingStudent.DiaChiThuongTruId = student.DiaChiThuongTruId;
+                existingStudent.DiaChiTamTruId = student.DiaChiTamTruId;
+                existingStudent.DiaChiNhanThuId = student.DiaChiNhanThuId;
 
                 _context.Update(existingStudent);
                 await _context.SaveChangesAsync();

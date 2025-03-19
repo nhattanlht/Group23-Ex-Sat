@@ -43,6 +43,7 @@ const StudentList = () => {
       ],
       required: true,
     },
+    { display: 'Địa Chỉ Nhận Thư Id', accessor: 'diaChiNhanThuId', type: "text", required: true, hidden: true },
     {
       display: 'Địa Chỉ Thường Trú',
       accessor: 'diaChiThuongTru',
@@ -56,6 +57,7 @@ const StudentList = () => {
         { display: 'Quốc Gia', accessor: 'diaChiThuongTru.country', type: "text" },
       ],
     },
+    { display: 'Địa Chỉ Thường Trú Id', accessor: 'diaChiThuongTruId', type: "text", hidden: true },
     {
       display: 'Địa Chỉ Tạm Trú',
       accessor: 'diaChiTamTru',
@@ -69,6 +71,7 @@ const StudentList = () => {
         { display: 'Quốc Gia', accessor: 'diaChiTamTru.country', type: "text" },
       ],
     },
+    { display: 'Địa Chỉ Tạm Trú Id', accessor: 'diaChiTamTruId', type: "text", hidden: true },
   ];
 
   useEffect(() => {
@@ -145,6 +148,9 @@ const StudentList = () => {
           const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2.diaChiThuongTru);
           student.diaChiThuongTruId = diaChiThuongTru.data.id;
       }
+      else {
+        student.diaChiThuongTruId = null;
+      }
 
       delete student.diaChiThuongTru;
 
@@ -153,8 +159,13 @@ const StudentList = () => {
           const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3.diaChiTamTru);
           student.diaChiTamTruId = diaChiTamTru.data.id;
       }
+      else {
+        student.diaChiTamTruId = null;
+      }
 
       delete student.diaChiTamTru;
+
+      console.log(student);
 
       await handleAddRow('students', student);
       setShowModal(false);
@@ -166,6 +177,37 @@ const StudentList = () => {
 
   const handleEditStudent = async (student) => {
     try {
+      // Handle diaChiNhanThu
+      const newStudent1 = transformToNestedObject(student.diaChiNhanThu);
+      const diaChiNhanThu = await axios.post(`${config.backendUrl}/api/address`, newStudent1.diaChiNhanThu);
+      student.diaChiNhanThuId = diaChiNhanThu.data.id;
+
+      delete student.diaChiNhanThu;
+
+      // Handle diaChiThuongTru
+      if (student.diaChiThuongTru) {
+          const newStudent2 = transformToNestedObject(student.diaChiThuongTru);
+          const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2.diaChiThuongTru);
+          student.diaChiThuongTruId = diaChiThuongTru.data.id;
+      }
+      else {
+        student.diaChiThuongTruId = null;
+      }
+      delete student.diaChiThuongTru;
+
+      // Handle diaChiTamTru
+      if (student.diaChiTamTru) {
+          const newStudent3 = transformToNestedObject(student.diaChiTamTru);
+          const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3.diaChiTamTru);
+          student.diaChiTamTruId = diaChiTamTru.data.id;
+      }
+      else {
+        student.diaChiTamTruId = null;
+      }
+      delete student.diaChiTamTru;
+
+      console.log(student);
+
       await handleEditRow('students', student.mssv, student);
       setShowModal(false);
       loadStudents(currentPage, searchTerm);

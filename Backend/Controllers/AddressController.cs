@@ -26,4 +26,12 @@ public class AddressController : ControllerBase
 
         return Ok(address);
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Address>> GetAddressById(int id)
+    {
+        var address = await _context.Addresses.FindAsync(id);
+        if (address == null) return NotFound();
+        return Ok(address);
+    }
 }
