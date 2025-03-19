@@ -56,20 +56,28 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
 
   return (
     <div className="py-4">
-      <table className="table-auto w-full">
+      <table className="table-auto w-full whitespace-nowrap">
         <thead>
           <tr>
+            <th>Hành động</th>
             {fields
               .filter((field) => !field.hidden)
               .map((field) => (
-              <th key={field.display} className="p-2">{field.display}</th>
+              <th key={field.display} className="p-2  max-w-xs">{field.display}</th>
             ))}
-            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
           {dataSet.map((row, rowIndex) => (
             <tr key={rowIndex}>
+              <td>
+                <button className="btn btn-primary me-2" onClick={() => { handleEdit(row); }}>
+                  Sửa
+                </button>
+                <button className="btn btn-danger" onClick={() => { handleDelete(row); }}>
+                  Xóa
+                </button>
+              </td>
               {fields
               .filter((field) => !field.hidden)
               .map((field) => {
@@ -80,7 +88,7 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
                     return <td key={field.accessor} className="p-2">{new Date(row[field.accessor]).toLocaleDateString()}</td>
                   case 'group':
                     return row[`${field.accessor}Id`] ? (
-                        <td key={field.accessor} className="p-2">
+                        <td key={field.accessor} className="p-2 max-w-3xs truncate">
                             {addresses[row[`${field.accessor}Id`]] || "Loading..."}
                         </td>
                     ) : (
@@ -90,14 +98,6 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
                     return <td key={field.accessor} className="p-2">{row[field.accessor]}</td>
                 }
               })}
-              <td>
-                <button className="btn btn-primary me-2" onClick={() => { handleEdit(row); }}>
-                  Sửa
-                </button>
-                <button className="btn btn-danger" onClick={() => { handleDelete(row); }}>
-                  Xóa
-                </button>
-              </td>
             </tr>
           ))}
         </tbody>

@@ -43,11 +43,11 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
                     </div>
                     <div className="modal-body">
                         <div className="p-4 border rounded-lg bg-white shadow-md">
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-2">
                                 {fields
                                     .filter((field) => !field.hidden)
                                     .map((field) => (
-                                        <div key={field.accessor} className="mb-3">
+                                        <div key={field.accessor} className={field.type === "group" ? "col-span-3" : ""}>
                                             <label htmlFor={field.accessor}>{field.display}</label>
 
                                             {/* Detect input type */}
@@ -67,7 +67,7 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
                                                     ))}
                                                 </select>
                                             ) : field.type === "group" ? (
-                                                <div className="ms-3">
+                                                <div className="mb-3 border border-gray-300 p-2 rounded-md grid grid-cols-3 gap-2">
                                                     {field.fields.map((subField) => (
                                                         <div key={subField.accessor} className="mb-2">
                                                             <label htmlFor={`${field.accessor}.${subField.accessor}`}>{subField.display}</label>
@@ -101,7 +101,7 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
                                         </div>
                                     ))}
 
-                                <div className="flex justify-end gap-2">
+                                <div className="flex justify-end gap-2 col-span-3">
                                     <button type="button" className="btn btn-secondary" onClick={onClose}>Hủy</button>
                                     <button type="submit" className="btn btn-primary ">{data ? "Cập nhật" : "Thêm"}</button>
                                 </div>

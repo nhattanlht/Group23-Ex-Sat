@@ -55,6 +55,15 @@ button.btn-primary:hover {
     background-color: #0056b3;
 }
 
+button.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+button.btn-secondary:hover {
+    background-color: #545b62;
+}
+
 button.btn-danger {
     background-color: #dc3545;
     color: #fff;
@@ -161,7 +170,7 @@ tr:hover {
     padding: 1em;
     border: 1px solid #888;
     width: 80%;
-    max-width: 600px;
+    max-width: 800px;
     background-color: #fff;
     border-radius: 4px;
 }
