@@ -486,3 +486,155 @@ Error Number:2627,State:1,Class:14
    at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
    at DataController.ImportJson(IFormFile file) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/DataController.cs:line 140
 2025-03-20 11:30:25.455 +07:00 [ERR] HTTP POST /api/data/import/json responded 500 in 63.7783 ms
+2025-03-20 23:06:14.569 +07:00 [ERR] Error importing JSON.
+Newtonsoft.Json.JsonSerializationException: Error converting value "Khoa Luật" to type 'StudentManagement.Models.Department'. Path '[0].Department', line 7, position 29.
+ ---> System.ArgumentException: Could not cast or convert from System.String to StudentManagement.Models.Department.
+   at Newtonsoft.Json.Utilities.ConvertUtils.EnsureTypeAssignable(Object value, Type initialType, Type targetType)
+   at Newtonsoft.Json.Utilities.ConvertUtils.ConvertOrCast(Object initialValue, CultureInfo culture, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   --- End of inner exception stack trace ---
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.SetPropertyValue(JsonProperty property, JsonConverter propertyConverter, JsonContainerContract containerContract, JsonProperty containerProperty, JsonReader reader, Object target)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateList(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at DataController.ImportJson(IFormFile file) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/DataController.cs:line 204
+2025-03-20 23:06:14.597 +07:00 [ERR] HTTP POST /api/data/import/json responded 500 in 107.6189 ms
+2025-03-20 23:07:12.389 +07:00 [ERR] Error importing CSV.
+CsvHelper.HeaderValidationException: Header with name 'DepartmentId'[0] was not found.
+Header with name 'SchoolYearId'[0] was not found.
+Header with name 'StudyProgramId'[0] was not found.
+Header with name 'DiaChi'[0] was not found.
+Header with name 'DiaChiNhanThuId'[0] was not found.
+Header with name 'DiaChiThuongTruId'[0] was not found.
+Header with name 'DiaChiTamTruId'[0] was not found.
+Header with name 'StatusId'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Headers: 'MSSV', 'HoTen', 'NgaySinh', 'GioiTinh', 'Department', 'SchoolYear', 'StudyProgram', 'AddressNhanThu', 'AddressThuongTru', 'AddressTamTru', 'Email', 'SoDienThoai', 'QuocTich', 'Status'
+If you are expecting some headers to be missing and want to ignore this validation, set the configuration HeaderValidated to null. You can also change the functionality to do something else, like logging the issue.
+
+IReader state:
+   ColumnCount: 14
+   CurrentIndex: -1
+   HeaderRecord:
+["MSSV","HoTen","NgaySinh","GioiTinh","Department","SchoolYear","StudyProgram","AddressNhanThu","AddressThuongTru","AddressTamTru","Email","SoDienThoai","QuocTich","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 145
+   Row: 1
+   RawRow: 1
+   Count: 14
+   RawRecord:
+MSSV,HoTen,NgaySinh,GioiTinh,Department,SchoolYear,StudyProgram,AddressNhanThu,AddressThuongTru,AddressTamTru,Email,SoDienThoai,QuocTich,Status
+
+
+   at CsvHelper.Configuration.ConfigurationFunctions.HeaderValidated(HeaderValidatedArgs args)
+   at CsvHelper.CsvReader.ValidateHeader(Type type)
+   at CsvHelper.CsvReader.ValidateHeader[T]()
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/DataController.cs:line 148
+2025-03-20 23:07:12.396 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 48.4618 ms
+2025-03-20 23:18:06.548 +07:00 [ERR] Error importing CSV.
+CsvHelper.HeaderValidationException: Header with name 'DepartmentId'[0] was not found.
+Header with name 'SchoolYearId'[0] was not found.
+Header with name 'StudyProgramId'[0] was not found.
+Header with name 'DiaChi'[0] was not found.
+Header with name 'DiaChiNhanThuId'[0] was not found.
+Header with name 'DiaChiThuongTruId'[0] was not found.
+Header with name 'DiaChiTamTruId'[0] was not found.
+Header with name 'StatusId'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Headers: 'MSSV', 'HoTen', 'NgaySinh', 'GioiTinh', 'Department', 'SchoolYear', 'StudyProgram', 'AddressNhanThu', 'AddressThuongTru', 'AddressTamTru', 'Email', 'SoDienThoai', 'QuocTich', 'Status'
+If you are expecting some headers to be missing and want to ignore this validation, set the configuration HeaderValidated to null. You can also change the functionality to do something else, like logging the issue.
+
+IReader state:
+   ColumnCount: 14
+   CurrentIndex: -1
+   HeaderRecord:
+["MSSV","HoTen","NgaySinh","GioiTinh","Department","SchoolYear","StudyProgram","AddressNhanThu","AddressThuongTru","AddressTamTru","Email","SoDienThoai","QuocTich","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 145
+   Row: 1
+   RawRow: 1
+   Count: 14
+   RawRecord:
+MSSV,HoTen,NgaySinh,GioiTinh,Department,SchoolYear,StudyProgram,AddressNhanThu,AddressThuongTru,AddressTamTru,Email,SoDienThoai,QuocTich,Status
+
+
+   at CsvHelper.Configuration.ConfigurationFunctions.HeaderValidated(HeaderValidatedArgs args)
+   at CsvHelper.CsvReader.ValidateHeader(Type type)
+   at CsvHelper.CsvReader.ValidateHeader[T]()
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/DataController.cs:line 148
+2025-03-20 23:18:06.576 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 119.6806 ms

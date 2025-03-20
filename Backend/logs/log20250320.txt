@@ -2172,3 +2172,932 @@ FROM [Students] AS [s]
 2025-03-20 11:38:48.644 +07:00 [INF] HTTP GET /api/data/export/json responded 200 in 9.5564 ms
 2025-03-20 11:38:48.644 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/data/export/json - 200 596 application/json 10.3995ms
 2025-03-20 14:43:36.044 +07:00 [INF] Application is shutting down...
+2025-03-20 22:22:17.143 +07:00 [INF] Now listening on: http://localhost:5136
+2025-03-20 22:22:17.168 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-20 22:22:17.168 +07:00 [INF] Hosting environment: Production
+2025-03-20 22:22:17.168 +07:00 [INF] Content root path: /Users/tantrannhat/Desktop/StudentManagement/Backend
+2025-03-20 22:22:25.018 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/schoolyears - null null
+2025-03-20 22:22:25.018 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/programs - null null
+2025-03-20 22:22:25.018 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - null null
+2025-03-20 22:22:25.018 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/departments - null null
+2025-03-20 22:22:25.018 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/student-statuses - null null
+2025-03-20 22:22:25.029 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-03-20 22:22:25.044 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.044 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.044 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.044 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.044 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.047 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 22:22:25.047 +07:00 [INF] Executing endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 22:22:25.047 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 22:22:25.047 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 22:22:25.047 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 22:22:25.063 +07:00 [INF] Route matched with {action = "GetSchoolYears", controller = "SchoolYear"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.SchoolYear]]] GetSchoolYears() on controller StudentManagement.Controllers.SchoolYearController (StudentManagement).
+2025-03-20 22:22:25.063 +07:00 [INF] Route matched with {action = "GetDepartments", controller = "Departments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.Department]]] GetDepartments() on controller DepartmentsController (StudentManagement).
+2025-03-20 22:22:25.063 +07:00 [INF] Route matched with {action = "GetStudentStatuses", controller = "StudentStatus"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudentStatus]]] GetStudentStatuses() on controller StudentManagement.Controllers.StudentStatusController (StudentManagement).
+2025-03-20 22:22:25.063 +07:00 [INF] Route matched with {action = "GetPrograms", controller = "Program"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudyProgram]]] GetPrograms() on controller StudentManagement.Controllers.ProgramController (StudentManagement).
+2025-03-20 22:22:25.064 +07:00 [INF] Route matched with {action = "GetStudents", controller = "Students"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudents(Int32, Int32) on controller StudentManagement.Controllers.StudentsController (StudentManagement).
+2025-03-20 22:22:25.132 +07:00 [INF] Fetching all school years.
+2025-03-20 22:22:25.132 +07:00 [INF] Fetching all study programs.
+2025-03-20 22:22:25.132 +07:00 [INF] Fetching all departments.
+2025-03-20 22:22:25.132 +07:00 [INF] Fetching all student statuses.
+2025-03-20 22:22:25.138 +07:00 [INF] Fetching students (Page: 1, PageSize: 10)
+2025-03-20 22:22:25.741 +07:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[Id], [d].[Name]
+FROM [Departments] AS [d]
+2025-03-20 22:22:25.741 +07:00 [INF] Executed DbCommand (24ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Students] AS [s]
+2025-03-20 22:22:25.773 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudentStatuses] AS [s]
+2025-03-20 22:22:25.774 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [SchoolYears] AS [s]
+2025-03-20 22:22:25.810 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.Department, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 22:22:25.811 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudentStatus, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 22:22:25.810 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.SchoolYear, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 22:22:25.828 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudyPrograms] AS [s]
+2025-03-20 22:22:25.836 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudyProgram, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 22:22:25.842 +07:00 [INF] Executed DbCommand (18ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [s].[DepartmentId], [s].[StatusId], [s].[SchoolYearId], [s].[StudyProgramId], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s].[DiaChiNhanThuId], [s].[DiaChiThuongTruId], [s].[DiaChiTamTruId]
+FROM [Students] AS [s]
+ORDER BY [s].[MSSV]
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-03-20 22:22:25.847 +07:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType4`5[[System.Collections.Generic.IEnumerable`1[[StudentManagement.Models.Student, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-20 22:22:25.852 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/schoolyears - null null
+2025-03-20 22:22:25.853 +07:00 [INF] Executed action StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement) in 787.3285ms
+2025-03-20 22:22:25.852 +07:00 [INF] Executed action StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement) in 787.4217ms
+2025-03-20 22:22:25.856 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.856 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 22:22:25.856 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 22:22:25.856 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 22:22:25.856 +07:00 [INF] Executed action DepartmentsController.GetDepartments (StudentManagement) in 787.6255ms
+2025-03-20 22:22:25.855 +07:00 [INF] Executed action StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement) in 787.4317ms
+2025-03-20 22:22:25.857 +07:00 [INF] Route matched with {action = "GetSchoolYears", controller = "SchoolYear"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.SchoolYear]]] GetSchoolYears() on controller StudentManagement.Controllers.SchoolYearController (StudentManagement).
+2025-03-20 22:22:25.857 +07:00 [INF] Executed endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 22:22:25.857 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 22:22:25.858 +07:00 [INF] HTTP GET /api/programs responded 200 in 810.7560 ms
+2025-03-20 22:22:25.858 +07:00 [INF] HTTP GET /api/student-statuses responded 200 in 811.5280 ms
+2025-03-20 22:22:25.861 +07:00 [INF] HTTP GET /api/departments responded 200 in 811.3816 ms
+2025-03-20 22:22:25.858 +07:00 [INF] HTTP GET /api/schoolyears responded 200 in 810.9178 ms
+2025-03-20 22:22:25.863 +07:00 [INF] Fetching all school years.
+2025-03-20 22:22:25.864 +07:00 [INF] Executed action StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement) in 799.3614ms
+2025-03-20 22:22:25.866 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 22:22:25.867 +07:00 [INF] HTTP GET /api/students responded 200 in 821.0065 ms
+2025-03-20 22:22:25.871 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - 200 null application/json; charset=utf-8 853.5368ms
+2025-03-20 22:22:25.871 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/student-statuses - 200 null application/json; charset=utf-8 853.394ms
+2025-03-20 22:22:25.871 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - null null
+2025-03-20 22:22:25.871 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/departments - 200 null application/json; charset=utf-8 854.2162ms
+2025-03-20 22:22:25.873 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.871 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/schoolyears - 200 null application/json; charset=utf-8 854.3497ms
+2025-03-20 22:22:25.873 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/student-statuses - null null
+2025-03-20 22:22:25.873 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.873 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 22:22:25.873 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/departments - null null
+2025-03-20 22:22:25.874 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.875 +07:00 [INF] Executing endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 22:22:25.875 +07:00 [INF] Route matched with {action = "GetDepartments", controller = "Departments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.Department]]] GetDepartments() on controller DepartmentsController (StudentManagement).
+2025-03-20 22:22:25.871 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/programs - 200 null application/json; charset=utf-8 854.3526ms
+2025-03-20 22:22:25.874 +07:00 [INF] Route matched with {action = "GetStudentStatuses", controller = "StudentStatus"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudentStatus]]] GetStudentStatuses() on controller StudentManagement.Controllers.StudentStatusController (StudentManagement).
+2025-03-20 22:22:25.877 +07:00 [INF] Fetching all student statuses.
+2025-03-20 22:22:25.875 +07:00 [INF] Fetching all departments.
+2025-03-20 22:22:25.875 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/programs - null null
+2025-03-20 22:22:25.882 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.873 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 22:22:25.882 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 22:22:25.882 +07:00 [INF] Route matched with {action = "GetStudents", controller = "Students"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudents(Int32, Int32) on controller StudentManagement.Controllers.StudentsController (StudentManagement).
+2025-03-20 22:22:25.882 +07:00 [INF] Route matched with {action = "GetPrograms", controller = "Program"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudyProgram]]] GetPrograms() on controller StudentManagement.Controllers.ProgramController (StudentManagement).
+2025-03-20 22:22:25.883 +07:00 [INF] Fetching all study programs.
+2025-03-20 22:22:25.884 +07:00 [INF] Fetching students (Page: 1, PageSize: 10)
+2025-03-20 22:22:25.907 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/1 - null null
+2025-03-20 22:22:25.907 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.907 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:25.911 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 22:22:25.914 +07:00 [INF] Fetching address with ID 1.
+2025-03-20 22:22:25.942 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudentStatuses] AS [s]
+2025-03-20 22:22:25.942 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[Id], [d].[Name]
+FROM [Departments] AS [d]
+2025-03-20 22:22:25.942 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudyPrograms] AS [s]
+2025-03-20 22:22:25.943 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.Department, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 22:22:25.943 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudentStatus, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 22:22:25.943 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudyProgram, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 22:22:25.944 +07:00 [INF] Executed action StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement) in 61.8555ms
+2025-03-20 22:22:25.943 +07:00 [INF] Executed action DepartmentsController.GetDepartments (StudentManagement) in 68.5109ms
+2025-03-20 22:22:25.943 +07:00 [INF] Executed action StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement) in 67.9954ms
+2025-03-20 22:22:25.944 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [SchoolYears] AS [s]
+2025-03-20 22:22:25.944 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 22:22:25.945 +07:00 [INF] HTTP GET /api/programs responded 200 in 62.8028 ms
+2025-03-20 22:22:25.945 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/programs - 200 null application/json; charset=utf-8 70.1243ms
+2025-03-20 22:22:25.945 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 22:22:25.945 +07:00 [INF] HTTP GET /api/student-statuses responded 200 in 72.0321 ms
+2025-03-20 22:22:25.946 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/student-statuses - 200 null application/json; charset=utf-8 73.4265ms
+2025-03-20 22:22:25.947 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/2 - null null
+2025-03-20 22:22:25.945 +07:00 [INF] Executed endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 22:22:25.946 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.SchoolYear, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 22:22:25.947 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.947 +07:00 [INF] HTTP GET /api/departments responded 200 in 72.2454 ms
+2025-03-20 22:22:25.947 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/3 - null null
+2025-03-20 22:22:25.947 +07:00 [INF] Executed action StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement) in 90.1546ms
+2025-03-20 22:22:25.947 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:25.947 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.947 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 22:22:25.948 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:25.948 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 22:22:25.947 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 22:22:25.948 +07:00 [INF] HTTP GET /api/schoolyears responded 200 in 91.6138 ms
+2025-03-20 22:22:25.947 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/departments - 200 null application/json; charset=utf-8 74.1464ms
+2025-03-20 22:22:25.949 +07:00 [INF] Fetching address with ID 3.
+2025-03-20 22:22:25.949 +07:00 [INF] Fetching address with ID 2.
+2025-03-20 22:22:25.949 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/schoolyears - 200 null application/json; charset=utf-8 96.3545ms
+2025-03-20 22:22:25.965 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Students] AS [s]
+2025-03-20 22:22:25.970 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [s].[DepartmentId], [s].[StatusId], [s].[SchoolYearId], [s].[StudyProgramId], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s].[DiaChiNhanThuId], [s].[DiaChiThuongTruId], [s].[DiaChiTamTruId]
+FROM [Students] AS [s]
+ORDER BY [s].[MSSV]
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-03-20 22:22:25.970 +07:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType4`5[[System.Collections.Generic.IEnumerable`1[[StudentManagement.Models.Student, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-20 22:22:25.970 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 22:22:25.970 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 22:22:25.971 +07:00 [INF] Executed action StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement) in 88.2607ms
+2025-03-20 22:22:25.971 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 22:22:25.971 +07:00 [INF] HTTP GET /api/students responded 200 in 98.1516 ms
+2025-03-20 22:22:25.971 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 22:22:25.972 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - 200 null application/json; charset=utf-8 100.4802ms
+2025-03-20 22:22:25.983 +07:00 [INF] Address with ID 3 retrieved successfully.
+2025-03-20 22:22:25.983 +07:00 [INF] Address with ID 2 retrieved successfully.
+2025-03-20 22:22:25.983 +07:00 [INF] Address with ID 1 retrieved successfully.
+2025-03-20 22:22:25.983 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 22:22:25.983 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 22:22:25.983 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 22:22:25.984 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 36.4728ms
+2025-03-20 22:22:25.984 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 72.4773ms
+2025-03-20 22:22:25.984 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 36.3782ms
+2025-03-20 22:22:25.984 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:25.984 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:25.984 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:25.984 +07:00 [INF] HTTP GET /api/address/1 responded 200 in 77.2680 ms
+2025-03-20 22:22:25.984 +07:00 [INF] HTTP GET /api/address/2 responded 200 in 37.5248 ms
+2025-03-20 22:22:25.985 +07:00 [INF] HTTP GET /api/address/3 responded 200 in 37.0789 ms
+2025-03-20 22:22:25.985 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/2 - 200 null application/json; charset=utf-8 38.9463ms
+2025-03-20 22:22:25.985 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/2 - null null
+2025-03-20 22:22:25.987 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.985 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/1 - 200 null application/json; charset=utf-8 78.718ms
+2025-03-20 22:22:25.986 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/3 - 200 null application/json; charset=utf-8 38.7175ms
+2025-03-20 22:22:25.986 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/3 - null null
+2025-03-20 22:22:25.987 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:25.987 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.987 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/1 - null null
+2025-03-20 22:22:25.987 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:25.987 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 22:22:25.987 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.987 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 22:22:25.987 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:25.988 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 22:22:25.988 +07:00 [INF] Fetching address with ID 2.
+2025-03-20 22:22:25.988 +07:00 [INF] Fetching address with ID 3.
+2025-03-20 22:22:25.989 +07:00 [INF] Fetching address with ID 1.
+2025-03-20 22:22:25.994 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 22:22:25.995 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 22:22:25.996 +07:00 [INF] Address with ID 2 retrieved successfully.
+2025-03-20 22:22:25.996 +07:00 [INF] Address with ID 3 retrieved successfully.
+2025-03-20 22:22:25.996 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 22:22:25.996 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 22:22:25.996 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 8.8352ms
+2025-03-20 22:22:25.996 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 8.6007ms
+2025-03-20 22:22:25.996 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 22:22:25.996 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:25.997 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:25.997 +07:00 [INF] HTTP GET /api/address/2 responded 200 in 10.7361 ms
+2025-03-20 22:22:25.998 +07:00 [INF] HTTP GET /api/address/3 responded 200 in 10.7942 ms
+2025-03-20 22:22:25.998 +07:00 [INF] Address with ID 1 retrieved successfully.
+2025-03-20 22:22:25.998 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/3 - 200 null application/json; charset=utf-8 12.084ms
+2025-03-20 22:22:25.998 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/2 - null null
+2025-03-20 22:22:25.998 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/2 - 200 null application/json; charset=utf-8 12.289ms
+2025-03-20 22:22:25.998 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/3 - null null
+2025-03-20 22:22:25.998 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 22:22:25.999 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.999 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:25.999 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 11.0732ms
+2025-03-20 22:22:25.999 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:25.999 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:26.000 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:26.000 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 22:22:26.000 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 22:22:26.000 +07:00 [INF] HTTP GET /api/address/1 responded 200 in 12.5398 ms
+2025-03-20 22:22:26.000 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/1 - null null
+2025-03-20 22:22:26.000 +07:00 [INF] Fetching address with ID 3.
+2025-03-20 22:22:26.002 +07:00 [INF] CORS policy execution successful.
+2025-03-20 22:22:26.000 +07:00 [INF] Fetching address with ID 2.
+2025-03-20 22:22:26.001 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/1 - 200 null application/json; charset=utf-8 13.869ms
+2025-03-20 22:22:26.002 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:26.002 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 22:22:26.003 +07:00 [INF] Fetching address with ID 1.
+2025-03-20 22:22:26.008 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 22:22:26.008 +07:00 [INF] Address with ID 2 retrieved successfully.
+2025-03-20 22:22:26.009 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 22:22:26.009 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 22:22:26.009 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 22:22:26.010 +07:00 [INF] Address with ID 1 retrieved successfully.
+2025-03-20 22:22:26.011 +07:00 [INF] Address with ID 3 retrieved successfully.
+2025-03-20 22:22:26.009 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 9.0944ms
+2025-03-20 22:22:26.011 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 22:22:26.011 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 22:22:26.011 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 11.0252ms
+2025-03-20 22:22:26.011 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:26.011 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:26.011 +07:00 [INF] HTTP GET /api/address/3 responded 200 in 12.0021 ms
+2025-03-20 22:22:26.011 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 8.5855ms
+2025-03-20 22:22:26.012 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/3 - 200 null application/json; charset=utf-8 14.0275ms
+2025-03-20 22:22:26.012 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 22:22:26.011 +07:00 [INF] HTTP GET /api/address/2 responded 200 in 12.1454 ms
+2025-03-20 22:22:26.013 +07:00 [INF] HTTP GET /api/address/1 responded 200 in 10.7967 ms
+2025-03-20 22:22:26.013 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/1 - 200 null application/json; charset=utf-8 12.8528ms
+2025-03-20 22:22:26.015 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/2 - 200 null application/json; charset=utf-8 15.4581ms
+2025-03-20 22:23:40.471 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/data/export/json - null null
+2025-03-20 22:23:40.474 +07:00 [INF] Executing endpoint 'DataController.ExportJson (StudentManagement)'
+2025-03-20 22:23:40.481 +07:00 [INF] Route matched with {action = "ExportJson", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult ExportJson() on controller DataController (StudentManagement).
+2025-03-20 22:23:40.492 +07:00 [INF] Exporting students data to JSON.
+2025-03-20 22:23:40.596 +07:00 [INF] Executed DbCommand (52ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[DepartmentId], [d].[Name] AS [Department]
+FROM [Students] AS [s]
+INNER JOIN [Departments] AS [d] ON [s].[DepartmentId] = [d].[Id]
+2025-03-20 22:23:40.643 +07:00 [INF] JSON file generated successfully.
+2025-03-20 22:23:40.644 +07:00 [INF] Executing FileStreamResult, sending file with download name 'students.json' ...
+2025-03-20 22:23:40.648 +07:00 [INF] Executed action DataController.ExportJson (StudentManagement) in 166.7748ms
+2025-03-20 22:23:40.648 +07:00 [INF] Executed endpoint 'DataController.ExportJson (StudentManagement)'
+2025-03-20 22:23:40.648 +07:00 [INF] HTTP GET /api/data/export/json responded 200 in 174.2226 ms
+2025-03-20 22:23:40.649 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/data/export/json - 200 248 application/json 178.7946ms
+2025-03-20 22:27:57.100 +07:00 [INF] Application is shutting down...
+2025-03-20 22:28:02.756 +07:00 [INF] Now listening on: http://localhost:5136
+2025-03-20 22:28:02.780 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-20 22:28:02.780 +07:00 [INF] Hosting environment: Production
+2025-03-20 22:28:02.780 +07:00 [INF] Content root path: /Users/tantrannhat/Desktop/StudentManagement/Backend
+2025-03-20 22:28:06.438 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/data/export/json - null null
+2025-03-20 22:28:06.445 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-03-20 22:28:06.461 +07:00 [INF] Executing endpoint 'DataController.ExportJson (StudentManagement)'
+2025-03-20 22:28:06.474 +07:00 [INF] Route matched with {action = "ExportJson", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult ExportJson() on controller DataController (StudentManagement).
+2025-03-20 22:28:06.537 +07:00 [INF] Exporting students data to JSON.
+2025-03-20 22:28:07.035 +07:00 [INF] Executed DbCommand (47ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [d].[Name] AS [Department], [s0].[Name] AS [SchoolYear], [s1].[Name] AS [StudyProgram], [a].[Country] AS [AddressNhanThu], [a0].[Country] AS [AddressThuongTru], [a1].[Country] AS [AddressTamTru], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s2].[Name] AS [Status]
+FROM [Students] AS [s]
+INNER JOIN [Departments] AS [d] ON [s].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s0] ON [s].[SchoolYearId] = [s0].[Id]
+INNER JOIN [StudyPrograms] AS [s1] ON [s].[StudyProgramId] = [s1].[Id]
+INNER JOIN [Addresses] AS [a] ON [s].[DiaChiNhanThuId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s].[DiaChiThuongTruId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s].[DiaChiTamTruId] = [a1].[Id]
+INNER JOIN [StudentStatuses] AS [s2] ON [s].[StatusId] = [s2].[Id]
+2025-03-20 22:28:07.075 +07:00 [INF] JSON file generated successfully.
+2025-03-20 22:28:07.077 +07:00 [INF] Executing FileStreamResult, sending file with download name 'students.json' ...
+2025-03-20 22:28:07.081 +07:00 [INF] Executed action DataController.ExportJson (StudentManagement) in 605.6705ms
+2025-03-20 22:28:07.084 +07:00 [INF] Executed endpoint 'DataController.ExportJson (StudentManagement)'
+2025-03-20 22:28:07.084 +07:00 [INF] HTTP GET /api/data/export/json responded 200 in 623.7850 ms
+2025-03-20 22:28:07.088 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/data/export/json - 200 911 application/json 652.8554ms
+2025-03-20 22:54:01.466 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/data/export/csv - null null
+2025-03-20 22:54:01.491 +07:00 [INF] Executing endpoint 'DataController.ExportCsv (StudentManagement)'
+2025-03-20 22:54:01.509 +07:00 [INF] Route matched with {action = "ExportCsv", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult ExportCsv() on controller DataController (StudentManagement).
+2025-03-20 22:54:01.520 +07:00 [INF] Exporting students data to CSV.
+2025-03-20 22:54:01.651 +07:00 [INF] Executed DbCommand (62ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[DepartmentId], [s].[DiaChi], [s].[DiaChiNhanThuId], [s].[DiaChiTamTruId], [s].[DiaChiThuongTruId], [s].[Email], [s].[GioiTinh], [s].[HoTen], [s].[NgaySinh], [s].[QuocTich], [s].[SchoolYearId], [s].[SoDienThoai], [s].[StatusId], [s].[StudyProgramId]
+FROM [Students] AS [s]
+2025-03-20 22:54:01.689 +07:00 [INF] CSV file generated successfully.
+2025-03-20 22:54:01.690 +07:00 [INF] Executing FileStreamResult, sending file with download name 'students.csv' ...
+2025-03-20 22:54:01.692 +07:00 [INF] Executed action DataController.ExportCsv (StudentManagement) in 182.5212ms
+2025-03-20 22:54:01.692 +07:00 [INF] Executed endpoint 'DataController.ExportCsv (StudentManagement)'
+2025-03-20 22:54:01.692 +07:00 [INF] HTTP GET /api/data/export/csv responded 200 in 202.0756 ms
+2025-03-20 22:54:01.693 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/data/export/csv - 200 650 text/csv 231.0442ms
+2025-03-20 23:01:44.044 +07:00 [INF] Application is shutting down...
+2025-03-20 23:01:54.939 +07:00 [INF] Now listening on: http://localhost:5136
+2025-03-20 23:01:54.957 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-20 23:01:54.957 +07:00 [INF] Hosting environment: Production
+2025-03-20 23:01:54.957 +07:00 [INF] Content root path: /Users/tantrannhat/Desktop/StudentManagement/Backend
+2025-03-20 23:01:59.978 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/data/export/json - null null
+2025-03-20 23:01:59.985 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-03-20 23:02:00.000 +07:00 [INF] Executing endpoint 'DataController.ExportJson (StudentManagement)'
+2025-03-20 23:02:00.011 +07:00 [INF] Route matched with {action = "ExportJson", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult ExportJson() on controller DataController (StudentManagement).
+2025-03-20 23:02:00.078 +07:00 [INF] Exporting students data to JSON.
+2025-03-20 23:02:00.602 +07:00 [INF] Executed DbCommand (69ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [d].[Name] AS [Department], [s0].[Name] AS [SchoolYear], [s1].[Name] AS [StudyProgram], [a].[HouseNumber] + [a].[StreetName] + [a].[Ward] + [a].[District] + [a].[Country] AS [AddressNhanThu], CASE
+    WHEN [a0].[Id] IS NOT NULL THEN COALESCE([a0].[HouseNumber], N'') + COALESCE([a0].[StreetName], N'') + COALESCE([a0].[Ward], N'') + COALESCE([a0].[District], N'') + COALESCE([a0].[Country], N'')
+END AS [AddressThuongTru], CASE
+    WHEN [a1].[Id] IS NOT NULL THEN COALESCE([a1].[HouseNumber], N'') + COALESCE([a1].[StreetName], N'') + COALESCE([a1].[Ward], N'') + COALESCE([a1].[District], N'') + COALESCE([a1].[Country], N'')
+END AS [AddressTamTru], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s2].[Name] AS [Status]
+FROM [Students] AS [s]
+INNER JOIN [Departments] AS [d] ON [s].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s0] ON [s].[SchoolYearId] = [s0].[Id]
+INNER JOIN [StudyPrograms] AS [s1] ON [s].[StudyProgramId] = [s1].[Id]
+INNER JOIN [Addresses] AS [a] ON [s].[DiaChiNhanThuId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s].[DiaChiThuongTruId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s].[DiaChiTamTruId] = [a1].[Id]
+INNER JOIN [StudentStatuses] AS [s2] ON [s].[StatusId] = [s2].[Id]
+2025-03-20 23:02:00.645 +07:00 [INF] JSON file generated successfully.
+2025-03-20 23:02:00.646 +07:00 [INF] Executing FileStreamResult, sending file with download name 'students.json' ...
+2025-03-20 23:02:00.651 +07:00 [INF] Executed action DataController.ExportJson (StudentManagement) in 638.2732ms
+2025-03-20 23:02:00.653 +07:00 [INF] Executed endpoint 'DataController.ExportJson (StudentManagement)'
+2025-03-20 23:02:00.654 +07:00 [INF] HTTP GET /api/data/export/json responded 200 in 654.0486 ms
+2025-03-20 23:02:00.657 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/data/export/json - 200 1075 application/json 681.1073ms
+2025-03-20 23:02:16.343 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/data/export/csv - null null
+2025-03-20 23:02:16.350 +07:00 [INF] Executing endpoint 'DataController.ExportCsv (StudentManagement)'
+2025-03-20 23:02:16.356 +07:00 [INF] Route matched with {action = "ExportCsv", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult ExportCsv() on controller DataController (StudentManagement).
+2025-03-20 23:02:16.370 +07:00 [INF] Exporting students data to CSV.
+2025-03-20 23:02:16.460 +07:00 [INF] Executed DbCommand (64ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [d].[Name] AS [Department], [s0].[Name] AS [SchoolYear], [s1].[Name] AS [StudyProgram], [a].[HouseNumber] + N' ' + [a].[StreetName] + N' ' + [a].[Ward] + N' ' + [a].[District] + N' ' + [a].[Country] AS [AddressNhanThu], CASE
+    WHEN [a0].[Id] IS NOT NULL THEN COALESCE([a0].[HouseNumber], N'') + N' ' + COALESCE([a0].[StreetName], N'') + N' ' + COALESCE([a0].[Ward], N'') + N' ' + COALESCE([a0].[District], N'') + N' ' + COALESCE([a0].[Country], N'')
+END AS [AddressThuongTru], CASE
+    WHEN [a1].[Id] IS NOT NULL THEN COALESCE([a1].[HouseNumber], N'') + N' ' + COALESCE([a1].[StreetName], N'') + N' ' + COALESCE([a1].[Ward], N'') + N' ' + COALESCE([a1].[District], N'') + N' ' + COALESCE([a1].[Country], N'')
+END AS [AddressTamTru], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s2].[Name] AS [Status]
+FROM [Students] AS [s]
+INNER JOIN [Departments] AS [d] ON [s].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s0] ON [s].[SchoolYearId] = [s0].[Id]
+INNER JOIN [StudyPrograms] AS [s1] ON [s].[StudyProgramId] = [s1].[Id]
+INNER JOIN [Addresses] AS [a] ON [s].[DiaChiNhanThuId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s].[DiaChiThuongTruId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s].[DiaChiTamTruId] = [a1].[Id]
+INNER JOIN [StudentStatuses] AS [s2] ON [s].[StatusId] = [s2].[Id]
+2025-03-20 23:02:16.493 +07:00 [INF] CSV file generated successfully.
+2025-03-20 23:02:16.494 +07:00 [INF] Executing FileStreamResult, sending file with download name 'students.csv' ...
+2025-03-20 23:02:16.494 +07:00 [INF] Executed action DataController.ExportCsv (StudentManagement) in 137.5347ms
+2025-03-20 23:02:16.494 +07:00 [INF] Executed endpoint 'DataController.ExportCsv (StudentManagement)'
+2025-03-20 23:02:16.494 +07:00 [INF] HTTP GET /api/data/export/csv responded 200 in 144.3616 ms
+2025-03-20 23:02:16.495 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/data/export/csv - 200 663 text/csv 152.0714ms
+2025-03-20 23:04:07.032 +07:00 [INF] Application is shutting down...
+2025-03-20 23:04:15.106 +07:00 [INF] Now listening on: http://localhost:5136
+2025-03-20 23:04:15.125 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-20 23:04:15.125 +07:00 [INF] Hosting environment: Production
+2025-03-20 23:04:15.125 +07:00 [INF] Content root path: /Users/tantrannhat/Desktop/StudentManagement/Backend
+2025-03-20 23:04:25.068 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/data/export/csv - null null
+2025-03-20 23:04:25.084 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-03-20 23:04:25.101 +07:00 [INF] Executing endpoint 'DataController.ExportCsv (StudentManagement)'
+2025-03-20 23:04:25.114 +07:00 [INF] Route matched with {action = "ExportCsv", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult ExportCsv() on controller DataController (StudentManagement).
+2025-03-20 23:04:25.178 +07:00 [INF] Exporting students data to CSV.
+2025-03-20 23:04:25.663 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [d].[Name] AS [Department], [s0].[Name] AS [SchoolYear], [s1].[Name] AS [StudyProgram], [a].[HouseNumber] + N' ' + [a].[StreetName] + N' ' + [a].[Ward] + N' ' + [a].[District] + N' ' + [a].[Country] AS [AddressNhanThu], CASE
+    WHEN [a0].[Id] IS NOT NULL THEN COALESCE([a0].[HouseNumber], N'') + N' ' + COALESCE([a0].[StreetName], N'') + N' ' + COALESCE([a0].[Ward], N'') + N' ' + COALESCE([a0].[District], N'') + N' ' + COALESCE([a0].[Country], N'')
+END AS [AddressThuongTru], CASE
+    WHEN [a1].[Id] IS NOT NULL THEN COALESCE([a1].[HouseNumber], N'') + N' ' + COALESCE([a1].[StreetName], N'') + N' ' + COALESCE([a1].[Ward], N'') + N' ' + COALESCE([a1].[District], N'') + N' ' + COALESCE([a1].[Country], N'')
+END AS [AddressTamTru], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s2].[Name] AS [Status]
+FROM [Students] AS [s]
+INNER JOIN [Departments] AS [d] ON [s].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s0] ON [s].[SchoolYearId] = [s0].[Id]
+INNER JOIN [StudyPrograms] AS [s1] ON [s].[StudyProgramId] = [s1].[Id]
+INNER JOIN [Addresses] AS [a] ON [s].[DiaChiNhanThuId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s].[DiaChiThuongTruId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s].[DiaChiTamTruId] = [a1].[Id]
+INNER JOIN [StudentStatuses] AS [s2] ON [s].[StatusId] = [s2].[Id]
+2025-03-20 23:04:25.690 +07:00 [INF] CSV file generated successfully.
+2025-03-20 23:04:25.692 +07:00 [INF] Executing FileStreamResult, sending file with download name 'students.csv' ...
+2025-03-20 23:04:25.696 +07:00 [INF] Executed action DataController.ExportCsv (StudentManagement) in 580.7443ms
+2025-03-20 23:04:25.699 +07:00 [INF] Executed endpoint 'DataController.ExportCsv (StudentManagement)'
+2025-03-20 23:04:25.699 +07:00 [INF] HTTP GET /api/data/export/csv responded 200 in 598.8248 ms
+2025-03-20 23:04:25.703 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/data/export/csv - 200 663 text/csv 636.4537ms
+2025-03-20 23:04:56.278 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/data/export/json - null null
+2025-03-20 23:04:56.283 +07:00 [INF] Executing endpoint 'DataController.ExportJson (StudentManagement)'
+2025-03-20 23:04:56.289 +07:00 [INF] Route matched with {action = "ExportJson", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult ExportJson() on controller DataController (StudentManagement).
+2025-03-20 23:04:56.296 +07:00 [INF] Exporting students data to JSON.
+2025-03-20 23:04:56.366 +07:00 [INF] Executed DbCommand (51ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [d].[Name] AS [Department], [s0].[Name] AS [SchoolYear], [s1].[Name] AS [StudyProgram], [a].[HouseNumber] + N',' + [a].[StreetName] + N',' + [a].[Ward] + N',' + [a].[District] + N',' + [a].[Country] AS [AddressNhanThu], CASE
+    WHEN [a0].[Id] IS NOT NULL THEN COALESCE([a0].[HouseNumber], N'') + N',' + COALESCE([a0].[StreetName], N'') + N',' + COALESCE([a0].[Ward], N'') + N',' + COALESCE([a0].[District], N'') + N',' + COALESCE([a0].[Country], N'')
+END AS [AddressThuongTru], CASE
+    WHEN [a1].[Id] IS NOT NULL THEN COALESCE([a1].[HouseNumber], N'') + N',' + COALESCE([a1].[StreetName], N'') + N',' + COALESCE([a1].[Ward], N'') + N',' + COALESCE([a1].[District], N'') + N',' + COALESCE([a1].[Country], N'')
+END AS [AddressTamTru], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s2].[Name] AS [Status]
+FROM [Students] AS [s]
+INNER JOIN [Departments] AS [d] ON [s].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s0] ON [s].[SchoolYearId] = [s0].[Id]
+INNER JOIN [StudyPrograms] AS [s1] ON [s].[StudyProgramId] = [s1].[Id]
+INNER JOIN [Addresses] AS [a] ON [s].[DiaChiNhanThuId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s].[DiaChiThuongTruId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s].[DiaChiTamTruId] = [a1].[Id]
+INNER JOIN [StudentStatuses] AS [s2] ON [s].[StatusId] = [s2].[Id]
+2025-03-20 23:04:56.412 +07:00 [INF] JSON file generated successfully.
+2025-03-20 23:04:56.412 +07:00 [INF] Executing FileStreamResult, sending file with download name 'students.json' ...
+2025-03-20 23:04:56.413 +07:00 [INF] Executed action DataController.ExportJson (StudentManagement) in 123.1907ms
+2025-03-20 23:04:56.413 +07:00 [INF] Executed endpoint 'DataController.ExportJson (StudentManagement)'
+2025-03-20 23:04:56.413 +07:00 [INF] HTTP GET /api/data/export/json responded 200 in 129.4635 ms
+2025-03-20 23:04:56.413 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/data/export/json - 200 1099 application/json 135.6285ms
+2025-03-20 23:06:14.472 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5136/api/data/import/json - multipart/form-data; boundary=----WebKitFormBoundaryL4gpyiKW8d6OqHt2 1294
+2025-03-20 23:06:14.485 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:06:14.489 +07:00 [INF] Executing endpoint 'DataController.ImportJson (StudentManagement)'
+2025-03-20 23:06:14.514 +07:00 [INF] Route matched with {action = "ImportJson", controller = "Data"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportJson(Microsoft.AspNetCore.Http.IFormFile) on controller DataController (StudentManagement).
+2025-03-20 23:06:14.549 +07:00 [INF] Importing JSON file.
+2025-03-20 23:06:14.569 +07:00 [ERR] Error importing JSON.
+Newtonsoft.Json.JsonSerializationException: Error converting value "Khoa Luật" to type 'StudentManagement.Models.Department'. Path '[0].Department', line 7, position 29.
+ ---> System.ArgumentException: Could not cast or convert from System.String to StudentManagement.Models.Department.
+   at Newtonsoft.Json.Utilities.ConvertUtils.EnsureTypeAssignable(Object value, Type initialType, Type targetType)
+   at Newtonsoft.Json.Utilities.ConvertUtils.ConvertOrCast(Object initialValue, CultureInfo culture, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   --- End of inner exception stack trace ---
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.SetPropertyValue(JsonProperty property, JsonConverter propertyConverter, JsonContainerContract containerContract, JsonProperty containerProperty, JsonReader reader, Object target)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateList(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at DataController.ImportJson(IFormFile file) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/DataController.cs:line 204
+2025-03-20 23:06:14.584 +07:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-20 23:06:14.597 +07:00 [INF] Executed action DataController.ImportJson (StudentManagement) in 82.9497ms
+2025-03-20 23:06:14.597 +07:00 [INF] Executed endpoint 'DataController.ImportJson (StudentManagement)'
+2025-03-20 23:06:14.597 +07:00 [ERR] HTTP POST /api/data/import/json responded 500 in 107.6189 ms
+2025-03-20 23:06:14.597 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5136/api/data/import/json - 500 null application/json; charset=utf-8 129.08ms
+2025-03-20 23:07:04.900 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/data/export/csv - null null
+2025-03-20 23:07:04.902 +07:00 [INF] Executing endpoint 'DataController.ExportCsv (StudentManagement)'
+2025-03-20 23:07:04.902 +07:00 [INF] Route matched with {action = "ExportCsv", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult ExportCsv() on controller DataController (StudentManagement).
+2025-03-20 23:07:04.903 +07:00 [INF] Exporting students data to CSV.
+2025-03-20 23:07:04.977 +07:00 [INF] Executed DbCommand (17ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [d].[Name] AS [Department], [s0].[Name] AS [SchoolYear], [s1].[Name] AS [StudyProgram], [a].[HouseNumber] + N' ' + [a].[StreetName] + N' ' + [a].[Ward] + N' ' + [a].[District] + N' ' + [a].[Country] AS [AddressNhanThu], CASE
+    WHEN [a0].[Id] IS NOT NULL THEN COALESCE([a0].[HouseNumber], N'') + N' ' + COALESCE([a0].[StreetName], N'') + N' ' + COALESCE([a0].[Ward], N'') + N' ' + COALESCE([a0].[District], N'') + N' ' + COALESCE([a0].[Country], N'')
+END AS [AddressThuongTru], CASE
+    WHEN [a1].[Id] IS NOT NULL THEN COALESCE([a1].[HouseNumber], N'') + N' ' + COALESCE([a1].[StreetName], N'') + N' ' + COALESCE([a1].[Ward], N'') + N' ' + COALESCE([a1].[District], N'') + N' ' + COALESCE([a1].[Country], N'')
+END AS [AddressTamTru], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s2].[Name] AS [Status]
+FROM [Students] AS [s]
+INNER JOIN [Departments] AS [d] ON [s].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s0] ON [s].[SchoolYearId] = [s0].[Id]
+INNER JOIN [StudyPrograms] AS [s1] ON [s].[StudyProgramId] = [s1].[Id]
+INNER JOIN [Addresses] AS [a] ON [s].[DiaChiNhanThuId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s].[DiaChiThuongTruId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s].[DiaChiTamTruId] = [a1].[Id]
+INNER JOIN [StudentStatuses] AS [s2] ON [s].[StatusId] = [s2].[Id]
+2025-03-20 23:07:04.983 +07:00 [INF] CSV file generated successfully.
+2025-03-20 23:07:04.983 +07:00 [INF] Executing FileStreamResult, sending file with download name 'students.csv' ...
+2025-03-20 23:07:04.984 +07:00 [INF] Executed action DataController.ExportCsv (StudentManagement) in 81.2877ms
+2025-03-20 23:07:04.984 +07:00 [INF] Executed endpoint 'DataController.ExportCsv (StudentManagement)'
+2025-03-20 23:07:04.984 +07:00 [INF] HTTP GET /api/data/export/csv responded 200 in 82.2230 ms
+2025-03-20 23:07:04.984 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/data/export/csv - 200 663 text/csv 84.3156ms
+2025-03-20 23:07:12.343 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5136/api/data/import/csv - multipart/form-data; boundary=----WebKitFormBoundaryjA5zi3mc9lU4DT40 847
+2025-03-20 23:07:12.346 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:07:12.348 +07:00 [INF] Executing endpoint 'DataController.ImportCsv (StudentManagement)'
+2025-03-20 23:07:12.358 +07:00 [INF] Route matched with {action = "ImportCsv", controller = "Data"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportCsv(Microsoft.AspNetCore.Http.IFormFile) on controller DataController (StudentManagement).
+2025-03-20 23:07:12.366 +07:00 [INF] Importing CSV file.
+2025-03-20 23:07:12.389 +07:00 [ERR] Error importing CSV.
+CsvHelper.HeaderValidationException: Header with name 'DepartmentId'[0] was not found.
+Header with name 'SchoolYearId'[0] was not found.
+Header with name 'StudyProgramId'[0] was not found.
+Header with name 'DiaChi'[0] was not found.
+Header with name 'DiaChiNhanThuId'[0] was not found.
+Header with name 'DiaChiThuongTruId'[0] was not found.
+Header with name 'DiaChiTamTruId'[0] was not found.
+Header with name 'StatusId'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Headers: 'MSSV', 'HoTen', 'NgaySinh', 'GioiTinh', 'Department', 'SchoolYear', 'StudyProgram', 'AddressNhanThu', 'AddressThuongTru', 'AddressTamTru', 'Email', 'SoDienThoai', 'QuocTich', 'Status'
+If you are expecting some headers to be missing and want to ignore this validation, set the configuration HeaderValidated to null. You can also change the functionality to do something else, like logging the issue.
+
+IReader state:
+   ColumnCount: 14
+   CurrentIndex: -1
+   HeaderRecord:
+["MSSV","HoTen","NgaySinh","GioiTinh","Department","SchoolYear","StudyProgram","AddressNhanThu","AddressThuongTru","AddressTamTru","Email","SoDienThoai","QuocTich","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 145
+   Row: 1
+   RawRow: 1
+   Count: 14
+   RawRecord:
+MSSV,HoTen,NgaySinh,GioiTinh,Department,SchoolYear,StudyProgram,AddressNhanThu,AddressThuongTru,AddressTamTru,Email,SoDienThoai,QuocTich,Status
+
+
+   at CsvHelper.Configuration.ConfigurationFunctions.HeaderValidated(HeaderValidatedArgs args)
+   at CsvHelper.CsvReader.ValidateHeader(Type type)
+   at CsvHelper.CsvReader.ValidateHeader[T]()
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/DataController.cs:line 148
+2025-03-20 23:07:12.392 +07:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-20 23:07:12.396 +07:00 [INF] Executed action DataController.ImportCsv (StudentManagement) in 37.3382ms
+2025-03-20 23:07:12.396 +07:00 [INF] Executed endpoint 'DataController.ImportCsv (StudentManagement)'
+2025-03-20 23:07:12.396 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 48.4618 ms
+2025-03-20 23:07:12.396 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5136/api/data/import/csv - 500 null application/json; charset=utf-8 53.4409ms
+2025-03-20 23:13:25.181 +07:00 [INF] Application is shutting down...
+2025-03-20 23:17:14.791 +07:00 [INF] Now listening on: http://localhost:5136
+2025-03-20 23:17:14.811 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-20 23:17:14.811 +07:00 [INF] Hosting environment: Production
+2025-03-20 23:17:14.811 +07:00 [INF] Content root path: /Users/tantrannhat/Desktop/StudentManagement/Backend
+2025-03-20 23:17:24.834 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/student-statuses - null null
+2025-03-20 23:17:24.834 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/departments - null null
+2025-03-20 23:17:24.834 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/schoolyears - null null
+2025-03-20 23:17:24.834 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - null null
+2025-03-20 23:17:24.834 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/programs - null null
+2025-03-20 23:17:24.849 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-03-20 23:17:24.863 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:24.863 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:24.864 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:24.863 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:24.863 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:24.867 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 23:17:24.867 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 23:17:24.867 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 23:17:24.867 +07:00 [INF] Executing endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 23:17:24.867 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 23:17:24.883 +07:00 [INF] Route matched with {action = "GetPrograms", controller = "Program"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudyProgram]]] GetPrograms() on controller StudentManagement.Controllers.ProgramController (StudentManagement).
+2025-03-20 23:17:24.883 +07:00 [INF] Route matched with {action = "GetStudentStatuses", controller = "StudentStatus"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudentStatus]]] GetStudentStatuses() on controller StudentManagement.Controllers.StudentStatusController (StudentManagement).
+2025-03-20 23:17:24.883 +07:00 [INF] Route matched with {action = "GetDepartments", controller = "Departments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.Department]]] GetDepartments() on controller DepartmentsController (StudentManagement).
+2025-03-20 23:17:24.883 +07:00 [INF] Route matched with {action = "GetSchoolYears", controller = "SchoolYear"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.SchoolYear]]] GetSchoolYears() on controller StudentManagement.Controllers.SchoolYearController (StudentManagement).
+2025-03-20 23:17:24.885 +07:00 [INF] Route matched with {action = "GetStudents", controller = "Students"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudents(Int32, Int32) on controller StudentManagement.Controllers.StudentsController (StudentManagement).
+2025-03-20 23:17:24.958 +07:00 [INF] Fetching all school years.
+2025-03-20 23:17:24.958 +07:00 [INF] Fetching all departments.
+2025-03-20 23:17:24.958 +07:00 [INF] Fetching all student statuses.
+2025-03-20 23:17:24.959 +07:00 [INF] Fetching all study programs.
+2025-03-20 23:17:24.967 +07:00 [INF] Fetching students (Page: 1, PageSize: 10)
+2025-03-20 23:17:25.405 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudyPrograms] AS [s]
+2025-03-20 23:17:25.405 +07:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudentStatuses] AS [s]
+2025-03-20 23:17:25.415 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [SchoolYears] AS [s]
+2025-03-20 23:17:25.431 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[Id], [d].[Name]
+FROM [Departments] AS [d]
+2025-03-20 23:17:25.433 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudyProgram, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:17:25.433 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudentStatus, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:17:25.433 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.SchoolYear, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:17:25.434 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.Department, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:17:25.446 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Students] AS [s]
+2025-03-20 23:17:25.454 +07:00 [INF] Executed action StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement) in 568.9862ms
+2025-03-20 23:17:25.454 +07:00 [INF] Executed action StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement) in 569.1259ms
+2025-03-20 23:17:25.454 +07:00 [INF] Executed action StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement) in 569.4759ms
+2025-03-20 23:17:25.454 +07:00 [INF] Executed action DepartmentsController.GetDepartments (StudentManagement) in 569.037ms
+2025-03-20 23:17:25.455 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/departments - null null
+2025-03-20 23:17:25.456 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 23:17:25.456 +07:00 [INF] Executed endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 23:17:25.456 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 23:17:25.456 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 23:17:25.457 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:25.457 +07:00 [INF] Executing endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 23:17:25.458 +07:00 [INF] Route matched with {action = "GetDepartments", controller = "Departments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.Department]]] GetDepartments() on controller DepartmentsController (StudentManagement).
+2025-03-20 23:17:25.457 +07:00 [INF] HTTP GET /api/programs responded 200 in 590.9227 ms
+2025-03-20 23:17:25.457 +07:00 [INF] HTTP GET /api/departments responded 200 in 590.9150 ms
+2025-03-20 23:17:25.457 +07:00 [INF] HTTP GET /api/schoolyears responded 200 in 590.9168 ms
+2025-03-20 23:17:25.457 +07:00 [INF] HTTP GET /api/student-statuses responded 200 in 590.9157 ms
+2025-03-20 23:17:25.459 +07:00 [INF] Fetching all departments.
+2025-03-20 23:17:25.462 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/programs - 200 null application/json; charset=utf-8 629.3296ms
+2025-03-20 23:17:25.462 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/student-statuses - 200 null application/json; charset=utf-8 629.4055ms
+2025-03-20 23:17:25.462 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/schoolyears - 200 null application/json; charset=utf-8 629.3947ms
+2025-03-20 23:17:25.463 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/student-statuses - null null
+2025-03-20 23:17:25.463 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/schoolyears - null null
+2025-03-20 23:17:25.462 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/departments - 200 null application/json; charset=utf-8 629.3545ms
+2025-03-20 23:17:25.463 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/programs - null null
+2025-03-20 23:17:25.463 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:25.463 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:25.463 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:25.463 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 23:17:25.463 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 23:17:25.463 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 23:17:25.463 +07:00 [INF] Route matched with {action = "GetPrograms", controller = "Program"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudyProgram]]] GetPrograms() on controller StudentManagement.Controllers.ProgramController (StudentManagement).
+2025-03-20 23:17:25.463 +07:00 [INF] Route matched with {action = "GetSchoolYears", controller = "SchoolYear"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.SchoolYear]]] GetSchoolYears() on controller StudentManagement.Controllers.SchoolYearController (StudentManagement).
+2025-03-20 23:17:25.464 +07:00 [INF] Route matched with {action = "GetStudentStatuses", controller = "StudentStatus"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudentStatus]]] GetStudentStatuses() on controller StudentManagement.Controllers.StudentStatusController (StudentManagement).
+2025-03-20 23:17:25.464 +07:00 [INF] Fetching all school years.
+2025-03-20 23:17:25.464 +07:00 [INF] Fetching all student statuses.
+2025-03-20 23:17:25.464 +07:00 [INF] Fetching all study programs.
+2025-03-20 23:17:25.477 +07:00 [INF] Executed DbCommand (11ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [s].[DepartmentId], [s].[StatusId], [s].[SchoolYearId], [s].[StudyProgramId], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s].[DiaChiNhanThuId], [s].[DiaChiThuongTruId], [s].[DiaChiTamTruId]
+FROM [Students] AS [s]
+ORDER BY [s].[MSSV]
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-03-20 23:17:25.479 +07:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType4`5[[System.Collections.Generic.IEnumerable`1[[StudentManagement.Models.Student, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-20 23:17:25.485 +07:00 [INF] Executed action StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement) in 600.1483ms
+2025-03-20 23:17:25.485 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 23:17:25.485 +07:00 [INF] HTTP GET /api/students responded 200 in 619.4337 ms
+2025-03-20 23:17:25.485 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - 200 null application/json; charset=utf-8 653.1736ms
+2025-03-20 23:17:25.487 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - null null
+2025-03-20 23:17:25.487 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:25.487 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 23:17:25.488 +07:00 [INF] Route matched with {action = "GetStudents", controller = "Students"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudents(Int32, Int32) on controller StudentManagement.Controllers.StudentsController (StudentManagement).
+2025-03-20 23:17:25.489 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudentStatuses] AS [s]
+2025-03-20 23:17:25.490 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudentStatus, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:17:25.490 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [SchoolYears] AS [s]
+2025-03-20 23:17:25.490 +07:00 [INF] Executed action StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement) in 26.2532ms
+2025-03-20 23:17:25.490 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 23:17:25.490 +07:00 [INF] HTTP GET /api/student-statuses responded 200 in 27.0564 ms
+2025-03-20 23:17:25.490 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.SchoolYear, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:17:25.491 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/student-statuses - 200 null application/json; charset=utf-8 27.9694ms
+2025-03-20 23:17:25.491 +07:00 [INF] Executed action StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement) in 26.8696ms
+2025-03-20 23:17:25.491 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 23:17:25.491 +07:00 [INF] HTTP GET /api/schoolyears responded 200 in 27.7368 ms
+2025-03-20 23:17:25.491 +07:00 [INF] Fetching students (Page: 1, PageSize: 10)
+2025-03-20 23:17:25.491 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/schoolyears - 200 null application/json; charset=utf-8 28.5788ms
+2025-03-20 23:17:25.493 +07:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudyPrograms] AS [s]
+2025-03-20 23:17:25.494 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudyProgram, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:17:25.494 +07:00 [INF] Executed action StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement) in 30.6832ms
+2025-03-20 23:17:25.494 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Students] AS [s]
+2025-03-20 23:17:25.494 +07:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[Id], [d].[Name]
+FROM [Departments] AS [d]
+2025-03-20 23:17:25.495 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 23:17:25.495 +07:00 [INF] HTTP GET /api/programs responded 200 in 31.4789 ms
+2025-03-20 23:17:25.495 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/programs - 200 null application/json; charset=utf-8 32.0936ms
+2025-03-20 23:17:25.496 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.Department, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:17:25.497 +07:00 [INF] Executed action DepartmentsController.GetDepartments (StudentManagement) in 39.0677ms
+2025-03-20 23:17:25.497 +07:00 [INF] Executed endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 23:17:25.497 +07:00 [INF] HTTP GET /api/departments responded 200 in 39.8074 ms
+2025-03-20 23:17:25.498 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/departments - 200 null application/json; charset=utf-8 42.6307ms
+2025-03-20 23:17:25.503 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [s].[DepartmentId], [s].[StatusId], [s].[SchoolYearId], [s].[StudyProgramId], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s].[DiaChiNhanThuId], [s].[DiaChiThuongTruId], [s].[DiaChiTamTruId]
+FROM [Students] AS [s]
+ORDER BY [s].[MSSV]
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-03-20 23:17:25.503 +07:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType4`5[[System.Collections.Generic.IEnumerable`1[[StudentManagement.Models.Student, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-20 23:17:25.503 +07:00 [INF] Executed action StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement) in 15.3517ms
+2025-03-20 23:17:25.504 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 23:17:25.504 +07:00 [INF] HTTP GET /api/students responded 200 in 16.2933 ms
+2025-03-20 23:17:25.504 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - 200 null application/json; charset=utf-8 16.9118ms
+2025-03-20 23:17:25.518 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/1 - null null
+2025-03-20 23:17:25.518 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/2 - null null
+2025-03-20 23:17:25.518 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/3 - null null
+2025-03-20 23:17:25.519 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:25.519 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:25.519 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:25.519 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 23:17:25.519 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 23:17:25.519 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 23:17:25.521 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 23:17:25.521 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 23:17:25.521 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 23:17:25.522 +07:00 [INF] Fetching address with ID 2.
+2025-03-20 23:17:25.522 +07:00 [INF] Fetching address with ID 3.
+2025-03-20 23:17:25.522 +07:00 [INF] Fetching address with ID 1.
+2025-03-20 23:17:25.543 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 23:17:25.543 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 23:17:25.543 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 23:17:25.552 +07:00 [INF] Address with ID 3 retrieved successfully.
+2025-03-20 23:17:25.552 +07:00 [INF] Address with ID 1 retrieved successfully.
+2025-03-20 23:17:25.552 +07:00 [INF] Address with ID 2 retrieved successfully.
+2025-03-20 23:17:25.552 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 23:17:25.552 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 23:17:25.552 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 23:17:25.553 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 31.1729ms
+2025-03-20 23:17:25.553 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 31.2399ms
+2025-03-20 23:17:25.553 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 31.0886ms
+2025-03-20 23:17:25.553 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 23:17:25.553 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 23:17:25.553 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 23:17:25.554 +07:00 [INF] HTTP GET /api/address/3 responded 200 in 34.5733 ms
+2025-03-20 23:17:25.554 +07:00 [INF] HTTP GET /api/address/1 responded 200 in 34.8436 ms
+2025-03-20 23:17:25.554 +07:00 [INF] HTTP GET /api/address/2 responded 200 in 34.8499 ms
+2025-03-20 23:17:25.554 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/1 - 200 null application/json; charset=utf-8 36.1876ms
+2025-03-20 23:17:25.554 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/3 - null null
+2025-03-20 23:17:25.554 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/3 - 200 null application/json; charset=utf-8 35.4392ms
+2025-03-20 23:17:25.554 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/1 - null null
+2025-03-20 23:17:25.554 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/address/2 - null null
+2025-03-20 23:17:25.554 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/2 - 200 null application/json; charset=utf-8 36.3382ms
+2025-03-20 23:17:25.555 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:25.555 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:25.555 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:17:25.555 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 23:17:25.555 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 23:17:25.556 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 23:17:25.556 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 23:17:25.555 +07:00 [INF] Executing endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 23:17:25.556 +07:00 [INF] Route matched with {action = "GetAddressById", controller = "Address"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Address]] GetAddressById(Int32) on controller AddressController (StudentManagement).
+2025-03-20 23:17:25.556 +07:00 [INF] Fetching address with ID 2.
+2025-03-20 23:17:25.556 +07:00 [INF] Fetching address with ID 1.
+2025-03-20 23:17:25.557 +07:00 [INF] Fetching address with ID 3.
+2025-03-20 23:17:25.561 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 23:17:25.561 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 23:17:25.561 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward]
+FROM [Addresses] AS [a]
+WHERE [a].[Id] = @__p_0
+2025-03-20 23:17:25.562 +07:00 [INF] Address with ID 2 retrieved successfully.
+2025-03-20 23:17:25.562 +07:00 [INF] Address with ID 1 retrieved successfully.
+2025-03-20 23:17:25.562 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 23:17:25.562 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 23:17:25.562 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 6.4959ms
+2025-03-20 23:17:25.562 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 23:17:25.562 +07:00 [INF] HTTP GET /api/address/1 responded 200 in 6.9037 ms
+2025-03-20 23:17:25.562 +07:00 [INF] Address with ID 3 retrieved successfully.
+2025-03-20 23:17:25.562 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/1 - 200 null application/json; charset=utf-8 8.5317ms
+2025-03-20 23:17:25.562 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 6.5532ms
+2025-03-20 23:17:25.563 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 23:17:25.563 +07:00 [INF] HTTP GET /api/address/2 responded 200 in 7.6505 ms
+2025-03-20 23:17:25.563 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/2 - 200 null application/json; charset=utf-8 9.348ms
+2025-03-20 23:17:25.563 +07:00 [INF] Executing OkObjectResult, writing value of type 'Address'.
+2025-03-20 23:17:25.564 +07:00 [INF] Executed action AddressController.GetAddressById (StudentManagement) in 7.6091ms
+2025-03-20 23:17:25.564 +07:00 [INF] Executed endpoint 'AddressController.GetAddressById (StudentManagement)'
+2025-03-20 23:17:25.564 +07:00 [INF] HTTP GET /api/address/3 responded 200 in 8.4712 ms
+2025-03-20 23:17:25.564 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/address/3 - 200 null application/json; charset=utf-8 10.2849ms
+2025-03-20 23:17:40.466 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/data/export/csv - null null
+2025-03-20 23:17:40.468 +07:00 [INF] Executing endpoint 'DataController.ExportCsv (StudentManagement)'
+2025-03-20 23:17:40.473 +07:00 [INF] Route matched with {action = "ExportCsv", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult ExportCsv() on controller DataController (StudentManagement).
+2025-03-20 23:17:40.483 +07:00 [INF] Exporting students data to CSV.
+2025-03-20 23:17:40.563 +07:00 [INF] Executed DbCommand (17ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [d].[Name] AS [Department], [s0].[Name] AS [SchoolYear], [s1].[Name] AS [StudyProgram], [a].[HouseNumber] + N' ' + [a].[StreetName] + N' ' + [a].[Ward] + N' ' + [a].[District] + N' ' + [a].[Country] AS [AddressNhanThu], CASE
+    WHEN [a0].[Id] IS NOT NULL THEN COALESCE([a0].[HouseNumber], N'') + N' ' + COALESCE([a0].[StreetName], N'') + N' ' + COALESCE([a0].[Ward], N'') + N' ' + COALESCE([a0].[District], N'') + N' ' + COALESCE([a0].[Country], N'')
+END AS [AddressThuongTru], CASE
+    WHEN [a1].[Id] IS NOT NULL THEN COALESCE([a1].[HouseNumber], N'') + N' ' + COALESCE([a1].[StreetName], N'') + N' ' + COALESCE([a1].[Ward], N'') + N' ' + COALESCE([a1].[District], N'') + N' ' + COALESCE([a1].[Country], N'')
+END AS [AddressTamTru], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s2].[Name] AS [Status]
+FROM [Students] AS [s]
+INNER JOIN [Departments] AS [d] ON [s].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s0] ON [s].[SchoolYearId] = [s0].[Id]
+INNER JOIN [StudyPrograms] AS [s1] ON [s].[StudyProgramId] = [s1].[Id]
+INNER JOIN [Addresses] AS [a] ON [s].[DiaChiNhanThuId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s].[DiaChiThuongTruId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s].[DiaChiTamTruId] = [a1].[Id]
+INNER JOIN [StudentStatuses] AS [s2] ON [s].[StatusId] = [s2].[Id]
+2025-03-20 23:17:40.587 +07:00 [INF] CSV file generated successfully.
+2025-03-20 23:17:40.587 +07:00 [INF] Executing FileStreamResult, sending file with download name 'students.csv' ...
+2025-03-20 23:17:40.590 +07:00 [INF] Executed action DataController.ExportCsv (StudentManagement) in 116.2332ms
+2025-03-20 23:17:40.590 +07:00 [INF] Executed endpoint 'DataController.ExportCsv (StudentManagement)'
+2025-03-20 23:17:40.590 +07:00 [INF] HTTP GET /api/data/export/csv responded 200 in 121.9287 ms
+2025-03-20 23:17:40.590 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/data/export/csv - 200 663 text/csv 124.4998ms
+2025-03-20 23:17:41.690 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/data/export/json - null null
+2025-03-20 23:17:41.692 +07:00 [INF] Executing endpoint 'DataController.ExportJson (StudentManagement)'
+2025-03-20 23:17:41.694 +07:00 [INF] Route matched with {action = "ExportJson", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult ExportJson() on controller DataController (StudentManagement).
+2025-03-20 23:17:41.701 +07:00 [INF] Exporting students data to JSON.
+2025-03-20 23:17:41.722 +07:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [d].[Name] AS [Department], [s0].[Name] AS [SchoolYear], [s1].[Name] AS [StudyProgram], [a].[HouseNumber] + N',' + [a].[StreetName] + N',' + [a].[Ward] + N',' + [a].[District] + N',' + [a].[Country] AS [AddressNhanThu], CASE
+    WHEN [a0].[Id] IS NOT NULL THEN COALESCE([a0].[HouseNumber], N'') + N',' + COALESCE([a0].[StreetName], N'') + N',' + COALESCE([a0].[Ward], N'') + N',' + COALESCE([a0].[District], N'') + N',' + COALESCE([a0].[Country], N'')
+END AS [AddressThuongTru], CASE
+    WHEN [a1].[Id] IS NOT NULL THEN COALESCE([a1].[HouseNumber], N'') + N',' + COALESCE([a1].[StreetName], N'') + N',' + COALESCE([a1].[Ward], N'') + N',' + COALESCE([a1].[District], N'') + N',' + COALESCE([a1].[Country], N'')
+END AS [AddressTamTru], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s2].[Name] AS [Status]
+FROM [Students] AS [s]
+INNER JOIN [Departments] AS [d] ON [s].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s0] ON [s].[SchoolYearId] = [s0].[Id]
+INNER JOIN [StudyPrograms] AS [s1] ON [s].[StudyProgramId] = [s1].[Id]
+INNER JOIN [Addresses] AS [a] ON [s].[DiaChiNhanThuId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s].[DiaChiThuongTruId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s].[DiaChiTamTruId] = [a1].[Id]
+INNER JOIN [StudentStatuses] AS [s2] ON [s].[StatusId] = [s2].[Id]
+2025-03-20 23:17:41.770 +07:00 [INF] JSON file generated successfully.
+2025-03-20 23:17:41.770 +07:00 [INF] Executing FileStreamResult, sending file with download name 'students.json' ...
+2025-03-20 23:17:41.771 +07:00 [INF] Executed action DataController.ExportJson (StudentManagement) in 76.4508ms
+2025-03-20 23:17:41.771 +07:00 [INF] Executed endpoint 'DataController.ExportJson (StudentManagement)'
+2025-03-20 23:17:41.771 +07:00 [INF] HTTP GET /api/data/export/json responded 200 in 78.7120 ms
+2025-03-20 23:17:41.771 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/data/export/json - 200 1099 application/json 80.6717ms
+2025-03-20 23:18:06.453 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5136/api/data/import/csv - multipart/form-data; boundary=----WebKitFormBoundaryWVgLlG3TAAoJKu9D 847
+2025-03-20 23:18:06.455 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:18:06.456 +07:00 [INF] Executing endpoint 'DataController.ImportCsv (StudentManagement)'
+2025-03-20 23:18:06.470 +07:00 [INF] Route matched with {action = "ImportCsv", controller = "Data"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportCsv(Microsoft.AspNetCore.Http.IFormFile) on controller DataController (StudentManagement).
+2025-03-20 23:18:06.528 +07:00 [INF] Importing CSV file.
+2025-03-20 23:18:06.548 +07:00 [ERR] Error importing CSV.
+CsvHelper.HeaderValidationException: Header with name 'DepartmentId'[0] was not found.
+Header with name 'SchoolYearId'[0] was not found.
+Header with name 'StudyProgramId'[0] was not found.
+Header with name 'DiaChi'[0] was not found.
+Header with name 'DiaChiNhanThuId'[0] was not found.
+Header with name 'DiaChiThuongTruId'[0] was not found.
+Header with name 'DiaChiTamTruId'[0] was not found.
+Header with name 'StatusId'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Headers: 'MSSV', 'HoTen', 'NgaySinh', 'GioiTinh', 'Department', 'SchoolYear', 'StudyProgram', 'AddressNhanThu', 'AddressThuongTru', 'AddressTamTru', 'Email', 'SoDienThoai', 'QuocTich', 'Status'
+If you are expecting some headers to be missing and want to ignore this validation, set the configuration HeaderValidated to null. You can also change the functionality to do something else, like logging the issue.
+
+IReader state:
+   ColumnCount: 14
+   CurrentIndex: -1
+   HeaderRecord:
+["MSSV","HoTen","NgaySinh","GioiTinh","Department","SchoolYear","StudyProgram","AddressNhanThu","AddressThuongTru","AddressTamTru","Email","SoDienThoai","QuocTich","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 145
+   Row: 1
+   RawRow: 1
+   Count: 14
+   RawRecord:
+MSSV,HoTen,NgaySinh,GioiTinh,Department,SchoolYear,StudyProgram,AddressNhanThu,AddressThuongTru,AddressTamTru,Email,SoDienThoai,QuocTich,Status
+
+
+   at CsvHelper.Configuration.ConfigurationFunctions.HeaderValidated(HeaderValidatedArgs args)
+   at CsvHelper.CsvReader.ValidateHeader(Type type)
+   at CsvHelper.CsvReader.ValidateHeader[T]()
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/DataController.cs:line 148
+2025-03-20 23:18:06.570 +07:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-20 23:18:06.575 +07:00 [INF] Executed action DataController.ImportCsv (StudentManagement) in 104.4612ms
+2025-03-20 23:18:06.575 +07:00 [INF] Executed endpoint 'DataController.ImportCsv (StudentManagement)'
+2025-03-20 23:18:06.576 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 119.6806 ms
+2025-03-20 23:18:06.576 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5136/api/data/import/csv - 500 null application/json; charset=utf-8 123.4267ms
+2025-03-20 23:19:36.367 +07:00 [INF] Application is shutting down...

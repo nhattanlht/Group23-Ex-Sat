@@ -27,7 +27,32 @@ public class DataController : ControllerBase
         _logger.LogInformation("Exporting students data to JSON.");
         try
         {
-            var data = _context.Students.AsNoTracking().ToList();
+            var data = _context.Students
+                .Include(s => s.Department) // Lấy thông tin khoa
+                .Include(s => s.SchoolYear) // Lấy thông tin năm học
+                .Include(s => s.StudyProgram) // Lấy thông tin chương trình học
+                .Include(s => s.DiaChiNhanThu) // Lấy địa chỉ nhận thư
+                .Include(s => s.DiaChiThuongTru) // Lấy địa chỉ thường trú
+                .Include(s => s.DiaChiTamTru) // Lấy địa chỉ tạm trú
+                .Include(s => s.StudentStatus) // Lấy trạng thái sinh viên
+                .Select(s => new
+                {
+                    s.MSSV,
+                    s.HoTen,
+                    s.NgaySinh,
+                    s.GioiTinh,
+                    Department = s.Department != null ? s.Department.Name : null,
+                    SchoolYear = s.SchoolYear != null ? s.SchoolYear.Name : null,
+                    StudyProgram = s.StudyProgram != null ? s.StudyProgram.Name : null,
+                    AddressNhanThu = s.DiaChiNhanThu != null ? s.DiaChiNhanThu.HouseNumber + "," + s.DiaChiNhanThu.StreetName + "," + s.DiaChiNhanThu.Ward + "," + s.DiaChiNhanThu.District + "," + s.DiaChiNhanThu.Country : null,
+                    AddressThuongTru = s.DiaChiThuongTru != null ? s.DiaChiThuongTru.HouseNumber + "," + s.DiaChiThuongTru.StreetName + "," + s.DiaChiThuongTru.Ward + "," + s.DiaChiThuongTru.District + "," + s.DiaChiThuongTru.Country : null,
+                    AddressTamTru = s.DiaChiTamTru != null ? s.DiaChiTamTru.HouseNumber + "," + s.DiaChiTamTru.StreetName + "," + s.DiaChiTamTru.Ward + "," + s.DiaChiTamTru.District + "," + s.DiaChiTamTru.Country : null,
+                    s.Email,
+                    s.SoDienThoai,
+                    s.QuocTich,
+                    Status = s.StudentStatus != null ? s.StudentStatus.Name : null
+                })
+                .AsNoTracking().ToList();
             var json = JsonConvert.SerializeObject(data, Formatting.Indented);
             var byteArray = Encoding.UTF8.GetBytes(json);
             var stream = new MemoryStream(byteArray);
@@ -49,7 +74,33 @@ public class DataController : ControllerBase
         _logger.LogInformation("Exporting students data to CSV.");
         try
         {
-            var data = _context.Students.AsNoTracking().ToList();
+            var data = _context.Students
+                .Include(s => s.Department)
+                .Include(s => s.SchoolYear)
+                .Include(s => s.StudyProgram)
+                .Include(s => s.DiaChiNhanThu)
+                .Include(s => s.DiaChiThuongTru)
+                .Include(s => s.DiaChiTamTru)
+                .Include(s => s.StudentStatus)
+                .Select(s => new
+                {
+                    s.MSSV,
+                    s.HoTen,
+                    s.NgaySinh,
+                    s.GioiTinh,
+                    Department = s.Department != null ? s.Department.Name : null,
+                    SchoolYear = s.SchoolYear != null ? s.SchoolYear.Name : null,
+                    StudyProgram = s.StudyProgram != null ? s.StudyProgram.Name : null,
+                    AddressNhanThu = s.DiaChiNhanThu != null ? s.DiaChiNhanThu.HouseNumber + " " + s.DiaChiNhanThu.StreetName + " " + s.DiaChiNhanThu.Ward + " " + s.DiaChiNhanThu.District + " " + s.DiaChiNhanThu.Country : null,
+                    AddressThuongTru = s.DiaChiThuongTru != null ? s.DiaChiThuongTru.HouseNumber + " " + s.DiaChiThuongTru.StreetName + " " + s.DiaChiThuongTru.Ward + " " + s.DiaChiThuongTru.District + " " + s.DiaChiThuongTru.Country : null,
+                    AddressTamTru = s.DiaChiTamTru != null ? s.DiaChiTamTru.HouseNumber + " " + s.DiaChiTamTru.StreetName + " " + s.DiaChiTamTru.Ward + " " + s.DiaChiTamTru.District + " " + s.DiaChiTamTru.Country : null,
+                    s.Email,
+                    s.SoDienThoai,
+                    s.QuocTich,
+                    Status = s.StudentStatus != null ? s.StudentStatus.Name : null
+                })
+                .AsNoTracking().ToList();
+
             var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 Encoding = Encoding.UTF8,
@@ -75,6 +126,7 @@ public class DataController : ControllerBase
             return StatusCode(500, new { message = "Internal Server Error", error = ex.Message });
         }
     }
+
 
     // 3. Import CSV (Thêm kiểm tra trùng lặp & Transaction)
     [HttpPost("import/csv")]
