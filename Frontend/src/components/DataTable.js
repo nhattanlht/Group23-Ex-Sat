@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import config from '../config';
+import { Pencil, Trash2 } from "lucide-react";
 // import readXlsxFile from "read-excel-file";
 // import { Button } from "@/components/ui/button";
 
@@ -71,11 +72,11 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
           {dataSet.map((row, rowIndex) => (
             <tr key={rowIndex}>
               <td>
-                <button className="btn btn-primary me-2" onClick={() => { handleEdit(row); }}>
-                  Sửa
+                <button className="btn btn-primary mr-2" onClick={() => { handleEdit(row); }}>
+                  <Pencil size={16} />
                 </button>
                 <button className="btn btn-danger" onClick={() => { handleDelete(row); }}>
-                  Xóa
+                  <Trash2 size={16} />
                 </button>
               </td>
               {fields

@@ -57,7 +57,7 @@ namespace StudentManagement.Services
                                  .Include(s => s.SchoolYear)
                                  .Include(s => s.StudyProgram)
                                  .Include(s => s.StudentStatus)
-                                 .Include(s => s.DiaChiNhanThu) 
+                                 .Include(s => s.DiaChiNhanThu)
                                  .Include(s => s.DiaChiThuongTru)
                                  .Include(s => s.DiaChiTamTru)
                                  .FirstOrDefaultAsync(s => s.MSSV == id);
@@ -162,14 +162,44 @@ namespace StudentManagement.Services
             }
         }
 
-        public async Task<IEnumerable<Student>> SearchStudents(string keyword, int page, int pageSize)
+        public async Task<(IEnumerable<Student>, int, int)> SearchStudents(string keyword, int page, int pageSize)
         {
-            return await _context.Students
-                .Where(s => s.HoTen.Contains(keyword) || s.MSSV.Contains(keyword))
-                .OrderBy(s => s.MSSV)
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10; // Default to 10 students per page
+
+            var query = _context.Students
+                 .Where(s => EF.Functions.Collate(
+                        s.HoTen, "Latin1_General_CI_AI").Contains(keyword) ||
+                        s.MSSV.Contains(keyword));
+                        
+            var totalStudents = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalStudents / pageSize);
+
+            var students = await query
+                .Select(s => new Student
+                {
+                    MSSV = s.MSSV,
+                    HoTen = s.HoTen,
+                    NgaySinh = s.NgaySinh,
+                    GioiTinh = s.GioiTinh,
+                    DepartmentId = s.DepartmentId,
+                    StatusId = s.StatusId,
+                    SchoolYearId = s.SchoolYearId,
+                    StudyProgramId = s.StudyProgramId,
+                    Email = s.Email,
+                    SoDienThoai = s.SoDienThoai,
+                    QuocTich = s.QuocTich,
+                    DiaChiNhanThuId = s.DiaChiNhanThuId,
+                    DiaChiThuongTruId = s.DiaChiThuongTruId,
+                    DiaChiTamTruId = s.DiaChiTamTruId
+                })
+                .OrderBy(s => s.MSSV) // Sorting by student ID
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
+            return (students, totalStudents, totalPages);
         }
+
     }
 }

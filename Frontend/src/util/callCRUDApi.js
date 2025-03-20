@@ -14,6 +14,16 @@ export const loadData = async (dataName, page, keyword = '') => {
     }
 }
 
+export const loadDataNoPaging = async (dataName) => {
+    try {
+        const response = await axios.get(`${config.backendUrl}/api/${dataName}`);
+        return response.data;
+    } catch (error) {
+        console.error("Lỗi khi tải dữ liệu:", error);
+        return null;
+    }
+}
+
 export const handleAddRow = async (dataName, data) => {
     try {
         const response = await axios.post(`${config.backendUrl}/api/${dataName}`, data);

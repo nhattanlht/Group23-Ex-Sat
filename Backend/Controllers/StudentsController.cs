@@ -129,8 +129,15 @@ namespace StudentManagement.Controllers
         {
             try
             {
-                var students = await _studentService.SearchStudents(keyword, page, pageSize);
-                return Ok(students);
+                var (students, totalStudents, totalPages) = await _studentService.SearchStudents(keyword, page, pageSize);
+                return Ok(new
+                {
+                    students,
+                    totalStudents,
+                    totalPages,
+                    currentPage = page,
+                    pageSize
+                });
             }
             catch (Exception ex)
             {
