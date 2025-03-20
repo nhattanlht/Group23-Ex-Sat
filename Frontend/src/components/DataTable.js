@@ -56,6 +56,7 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
   }, [dataSet, fields]);
 
   return (
+    (dataSet.length > 0) ? (
     <div className="py-4">
       <table className="table-auto w-full whitespace-nowrap">
         <thead>
@@ -103,7 +104,10 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
           ))}
         </tbody>
       </table>
-    </div>
+      </div>
+    ) : (
+      <div className="flex justify-center">Không tìm thấy dữ liệu</div>
+    )
   );
 };
 

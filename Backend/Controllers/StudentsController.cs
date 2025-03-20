@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using StudentManagement.DTOs;
 using StudentManagement.Models;
 using StudentManagement.Services;
 using System;
@@ -125,11 +126,11 @@ namespace StudentManagement.Controllers
 
         // Tìm kiếm sinh viên theo từ khóa
         [HttpGet("search")]
-        public async Task<IActionResult> Search(string keyword, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> Search([FromQuery] StudentFilterModel filter, int page = 1, int pageSize = 10)
         {
             try
             {
-                var (students, totalStudents, totalPages) = await _studentService.SearchStudents(keyword, page, pageSize);
+                var (students, totalStudents, totalPages) = await _studentService.SearchStudents(filter, page, pageSize);
                 return Ok(new
                 {
                     students,

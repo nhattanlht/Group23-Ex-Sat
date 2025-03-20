@@ -5,6 +5,7 @@ import config from '../config';
 import DataTable from './DataTable';
 import { loadData, handleAddRow, handleEditRow, handleDeleteRow } from '../util/callCRUDApi';
 import DataForm from './DataForm';
+import { Search } from 'lucide-react';
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -17,11 +18,25 @@ const StudentList = () => {
   const [modalData, setModalData] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
+  const [filters, setFilters] = useState({
+    keyword: "",
+    departmentId: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
+    console.log('filter', filters);
+  };
+
   const fields = [
     { display: 'MSSV', accessor: 'mssv', type: "text", required: true },
     { display: 'Họ Tên', accessor: 'hoTen', type: "text", required: true },
     { display: 'Ngày Sinh', accessor: 'ngaySinh', type: "date", required: true },
-    { display: 'Giới Tính', accessor: 'gioiTinh', type: "select", options: [{id:"Nam", name:"Nam"}, {id:"Nữ", name: "Nữ"}, {id:"Khác", name:"Khác"}], required: true },
+    { display: 'Giới Tính', accessor: 'gioiTinh', type: "select", options: [{ id: "Nam", name: "Nam" }, { id: "Nữ", name: "Nữ" }, { id: "Khác", name: "Khác" }], required: true },
     { display: 'Khoa', accessor: 'departmentId', type: "select", options: departments, required: true },
     { display: 'Trạng Thái', accessor: 'statusId', type: "select", options: statuses, required: true },
     { display: 'Khóa Học', accessor: 'schoolYearId', type: "select", options: schoolYears, required: true },
@@ -75,18 +90,18 @@ const StudentList = () => {
   ];
 
   useEffect(() => {
-    loadStudents(currentPage, searchTerm);
+    loadStudents(currentPage, filters);
     loadMetadata();
-  }, [currentPage, searchTerm]);
+  }, [currentPage]);
 
   // Gọi API lấy danh sách sinh viên
-  const loadStudents = async (page, keyword = '') => {
+  const loadStudents = async (page, filters) => {
     try {
-      const data = await loadData('students', page, keyword);
+      const data = await loadData('students', page, filters);
       setStudents(data.students || []);
       setCurrentPage(data.currentPage || 1);
       setTotalPages(data.totalPages || 1);
-      console.log("search",data.students);
+      console.log("search", data.students);
     } catch (error) {
       console.error("Lỗi khi tải danh sách sinh viên:", error);
       alert('Lỗi khi tải danh sách sinh viên!');
@@ -116,19 +131,19 @@ const StudentList = () => {
     const nestedObject = {};
 
     Object.keys(flatObject).forEach((key) => {
-        const keys = key.split('.'); // Split the key by dots
-        let current = nestedObject;
+      const keys = key.split('.'); // Split the key by dots
+      let current = nestedObject;
 
-        keys.forEach((subKey, index) => {
-            if (index === keys.length - 1) {
-                // If it's the last key, assign the value
-                current[subKey] = flatObject[key];
-            } else {
-                // Otherwise, create an object if it doesn't exist
-                current[subKey] = current[subKey] || {};
-                current = current[subKey];
-            }
-        });
+      keys.forEach((subKey, index) => {
+        if (index === keys.length - 1) {
+          // If it's the last key, assign the value
+          current[subKey] = flatObject[key];
+        } else {
+          // Otherwise, create an object if it doesn't exist
+          current[subKey] = current[subKey] || {};
+          current = current[subKey];
+        }
+      });
     });
 
     return nestedObject;
@@ -138,12 +153,12 @@ const StudentList = () => {
     const nestedObject = {};
 
     Object.keys(flatObject).forEach((key) => {
-        // Directly assign the value to the corresponding key
-        nestedObject[key] = flatObject[key];
+      // Directly assign the value to the corresponding key
+      nestedObject[key] = flatObject[key];
     });
 
     return nestedObject;
-};
+  };
 
   const handleAddStudent = async (student) => {
     try {
@@ -155,9 +170,9 @@ const StudentList = () => {
       delete student.diaChiNhanThu;
 
       if (student.diaChiThuongTru) {
-          const newStudent2 = transformToNestedObject(student.diaChiThuongTru);
-          const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2.diaChiThuongTru);
-          student.diaChiThuongTruId = diaChiThuongTru.data.id;
+        const newStudent2 = transformToNestedObject(student.diaChiThuongTru);
+        const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2.diaChiThuongTru);
+        student.diaChiThuongTruId = diaChiThuongTru.data.id;
       }
       else {
         student.diaChiThuongTruId = null;
@@ -166,9 +181,9 @@ const StudentList = () => {
       delete student.diaChiThuongTru;
 
       if (student.diaChiTamTru) {
-          const newStudent3 = transformToNestedObject(student.diaChiTamTru);
-          const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3.diaChiTamTru);
-          student.diaChiTamTruId = diaChiTamTru.data.id;
+        const newStudent3 = transformToNestedObject(student.diaChiTamTru);
+        const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3.diaChiTamTru);
+        student.diaChiTamTruId = diaChiTamTru.data.id;
       }
       else {
         student.diaChiTamTruId = null;
@@ -180,7 +195,7 @@ const StudentList = () => {
 
       await handleAddRow('students', student);
       setShowModal(false);
-      loadStudents(currentPage, searchTerm);
+      loadStudents(currentPage, filters);
     } catch (error) {
       alert('Lỗi khi thêm sinh viên!');
     }
@@ -199,11 +214,11 @@ const StudentList = () => {
 
       // Handle diaChiThuongTru
       if (student.diaChiThuongTru) {
-          delete student.diaChiThuongTru["id"];
+        delete student.diaChiThuongTru["id"];
 
-          const newStudent2 = transformToNestedObject2(student.diaChiThuongTru);
-          const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2);
-          student.diaChiThuongTruId = diaChiThuongTru.data.id;
+        const newStudent2 = transformToNestedObject2(student.diaChiThuongTru);
+        const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2);
+        student.diaChiThuongTruId = diaChiThuongTru.data.id;
       }
       else {
         student.diaChiThuongTruId = null;
@@ -212,11 +227,11 @@ const StudentList = () => {
 
       // Handle diaChiTamTru
       if (student.diaChiTamTru) {
-          delete student.diaChiTamTru["id"];
+        delete student.diaChiTamTru["id"];
 
-          const newStudent3 = transformToNestedObject2(student.diaChiTamTru);
-          const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3);
-          student.diaChiTamTruId = diaChiTamTru.data.id;
+        const newStudent3 = transformToNestedObject2(student.diaChiTamTru);
+        const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3);
+        student.diaChiTamTruId = diaChiTamTru.data.id;
       }
       else {
         student.diaChiTamTruId = null;
@@ -227,7 +242,7 @@ const StudentList = () => {
 
       await handleEditRow('students', student.mssv, student);
       setShowModal(false);
-      loadStudents(currentPage, searchTerm);
+      loadStudents(currentPage, filters);
     } catch (error) {
       alert('Lỗi khi chỉnh sửa sinh viên!');
     }
@@ -236,7 +251,7 @@ const StudentList = () => {
   const handleDeleteStudent = async (mssv) => {
     try {
       await handleDeleteRow('students', mssv);
-      loadStudents(currentPage, searchTerm);
+      loadStudents(currentPage, filters);
     } catch (error) {
       alert('Lỗi khi xóa sinh viên!');
     }
@@ -246,18 +261,30 @@ const StudentList = () => {
     <div>
       <h2>Danh sách sinh viên</h2>
       <div className="d-flex mb-3">
-        <button className="btn btn-success me-2" onClick={() => { setModalData(null); setShowModal(true); }}>
+        <button className="btn btn-success mb-2" onClick={() => { setModalData(null); setShowModal(true); }}>
           Thêm Sinh Viên
         </button>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Tìm kiếm sinh viên..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <form id="searchForm" className='flex space-x-2' onSubmit={(e) => { e.preventDefault(); loadStudents(1, filters); }}>
+          <input type="text"
+            id="searchInput"
+            placeholder="Tìm kiếm theo tên, MSSV"
+            name="keyword"
+            value={filters.keyword}
+            onChange={handleChange}
+          />
+
+          <select id="departmentId" onChange={handleChange} name="departmentId" value={filters.departmentId}>
+            <option value="">Chọn Khoa</option>
+            {departments.map((department) => (
+              <option key={department.id} value={department.id}>{department.name}</option>
+            ))}
+          </select>
+
+          <button type="submit" className='btn btn-primary'><Search size={16} /></button>
+        </form>
+
       </div>
-      <DataTable fields={fields} dataSet={students} handleEdit={(student) => {setModalData(student); setShowModal(true);}} handleDelete={(student)=>{handleDeleteStudent(student.mssv)}}></DataTable>
+      <DataTable fields={fields} dataSet={students} handleEdit={(student) => { setModalData(student); setShowModal(true); }} handleDelete={(student) => { handleDeleteStudent(student.mssv) }}></DataTable>
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
       {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} />}
     </div>

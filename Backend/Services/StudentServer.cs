@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using StudentManagement.DTOs;
 
 namespace StudentManagement.Services
 {
@@ -162,16 +163,25 @@ namespace StudentManagement.Services
             }
         }
 
-        public async Task<(IEnumerable<Student>, int, int)> SearchStudents(string keyword, int page, int pageSize)
+        public async Task<(IEnumerable<Student>, int, int)> SearchStudents(StudentFilterModel filters, int page, int pageSize)
         {
             if (page < 1) page = 1;
             if (pageSize < 1) pageSize = 10; // Default to 10 students per page
 
-            var query = _context.Students
-                 .Where(s => EF.Functions.Collate(
-                        s.HoTen, "Latin1_General_CI_AI").Contains(keyword) ||
-                        s.MSSV.Contains(keyword));
-                        
+            var query = _context.Students.AsQueryable();
+            if (!string.IsNullOrEmpty(filters.Keyword))
+            {
+                query = query
+                     .Where(s => EF.Functions.Collate(
+                            s.HoTen, "Latin1_General_CI_AI").Contains(filters.Keyword) ||
+                            s.MSSV.Contains(filters.Keyword));
+            }
+
+            if (filters.DepartmentId.HasValue)
+            {
+                query = query.Where(s => s.DepartmentId == filters.DepartmentId);
+            }
+            
             var totalStudents = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalStudents / pageSize);
 
