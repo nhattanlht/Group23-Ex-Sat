@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Menu } from "lucide-react";
-
+import { Link } from "react-router-dom";
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const pages = [
         { name: "Sinh viên", href: "/students" },
+        { name: "Nhập/xuất file", href: '/data'},
         { name: "Khoa", href: "/departments" },
         { name: "Chương trình", href: "/programs" },
         { name: "Tình trạng", href: "/statuses" },

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Pagination from './Pagination';
 import config from '../config';
@@ -86,23 +87,23 @@ const StudentList = () => {
       ],
     },
     { display: 'Địa Chỉ Tạm Trú Id', accessor: 'diaChiTamTruId', type: "text", hidden: true },
-    { display: "Identification Id", accessor: "identificationId", type: "text", hidden: true},
+    { display: "Identification Id", accessor: "identificationId", type: "text", hidden: true },
     { display: 'Loại Giấy Tờ', accessor: 'identificationType', type: "select", options: [{ id: "CMND", name: "CMND" }, { id: "CCCD", name: "CCCD" }, { id: "Hộ Chiếu", name: "Hộ Chiếu" }], required: true, customeType: "identificationType" },
     {
-        display: 'Thông Tin Giấy Tờ',
-        accessor: 'identification',
-        type: "group",
-        fields: [
-            { display: 'Loại Giấy Tờ', accessor: 'identification.identificationType', type: "text", required: true, hidden: true },
-            { display: 'Số Giấy Tờ', accessor: 'identification.number', type: "text", required: true },
-            { display: 'Ngày Cấp', accessor: 'identification.issueDate', type: "date", required: true },
-            { display: 'Ngày Hết Hạn', accessor: 'identification.expiryDate', type: "date" },
-            { display: 'Nơi Cấp', accessor: 'identification.issuedBy', type: "text", required: true },
-            { display: 'Có Gắn Chip', accessor: 'identification.hasChip', type: "checkbox", condition: (formData) => formData.identificationType === "CCCD" },
-            { display: 'Quốc Gia Cấp', accessor: 'identification.issuingCountry', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
-            { display: 'Ghi Chú', accessor: 'identification.notes', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
-        ],
-        customeType: "identification"
+      display: 'Thông Tin Giấy Tờ',
+      accessor: 'identification',
+      type: "group",
+      fields: [
+        { display: 'Loại Giấy Tờ', accessor: 'identification.identificationType', type: "text", required: true, hidden: true },
+        { display: 'Số Giấy Tờ', accessor: 'identification.number', type: "text", required: true },
+        { display: 'Ngày Cấp', accessor: 'identification.issueDate', type: "date", required: true },
+        { display: 'Ngày Hết Hạn', accessor: 'identification.expiryDate', type: "date" },
+        { display: 'Nơi Cấp', accessor: 'identification.issuedBy', type: "text", required: true },
+        { display: 'Có Gắn Chip', accessor: 'identification.hasChip', type: "checkbox", condition: (formData) => formData.identificationType === "CCCD" },
+        { display: 'Quốc Gia Cấp', accessor: 'identification.issuingCountry', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
+        { display: 'Ghi Chú', accessor: 'identification.notes', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
+      ],
+      customeType: "identification"
     },
   ];
 
@@ -180,7 +181,7 @@ const StudentList = () => {
   const handleAddStudent = async (student) => {
     try {
       student.identification["identification.identificationType"] = student.identificationType;
-      
+
       if (!student.identification?.["identification.hasChip"]) {
         student.identification["identification.hasChip"] = null;
       }
@@ -208,14 +209,14 @@ const StudentList = () => {
 
 
       if (student.diaChiThuongTru) {
-          if (student.diaChiThuongTru?.["diaChiThuongTru.houseNumber"]) {
+        if (student.diaChiThuongTru?.["diaChiThuongTru.houseNumber"]) {
           const newStudent2 = transformToNestedObject(student.diaChiThuongTru);
           const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2.diaChiThuongTru);
           student.diaChiThuongTruId = diaChiThuongTru.data.id;
-          }
-          else {
-            student.diaChiThuongTruId = null;
-          }
+        }
+        else {
+          student.diaChiThuongTruId = null;
+        }
       }
       else {
         student.diaChiThuongTruId = null;
@@ -224,14 +225,14 @@ const StudentList = () => {
       delete student.diaChiThuongTru;
 
       if (student.diaChiTamTru) {
-          if (student.diaChiTamTru?.["diaChiTamTru.houseNumber"]) {
+        if (student.diaChiTamTru?.["diaChiTamTru.houseNumber"]) {
           const newStudent3 = transformToNestedObject(student.diaChiTamTru);
           const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3.diaChiTamTru);
           student.diaChiTamTruId = diaChiTamTru.data.id;
-          }
-          else {
-            student.diaChiTamTruId = null;
-          }
+        }
+        else {
+          student.diaChiTamTruId = null;
+        }
       }
       else {
         student.diaChiTamTruId = null;
@@ -250,7 +251,7 @@ const StudentList = () => {
   const handleEditStudent = async (student) => {
     try {
       student.identification["identificationType"] = student.identificationType;
-      
+
       if (!student.identification["hasChip"]) {
         student.identification["hasChip"] = null;
       }
@@ -326,74 +327,79 @@ const StudentList = () => {
 
   const initializeFormData = async (fields, modalData) => {
     const initialData = fields.reduce((acc, field) => {
-        if (field.type === "group") {
-            // Initialize nested group fields
-            acc[field.accessor] = field.fields.reduce((subAcc, subField) => {
-                subAcc[subField.accessor] = "";
-                return subAcc;
-            }, {});
-        } else {
-            // Initialize flat fields
-            acc[field.accessor] = "";
-        }
-        return acc;
+      if (field.type === "group") {
+        // Initialize nested group fields
+        acc[field.accessor] = field.fields.reduce((subAcc, subField) => {
+          subAcc[subField.accessor] = "";
+          return subAcc;
+        }, {});
+      } else {
+        // Initialize flat fields
+        acc[field.accessor] = "";
+      }
+      return acc;
     }, {});
 
     // Populate with existing data
     if (modalData) {
-        Object.keys(modalData).forEach((key) => {
-            initialData[key] = modalData[key];
-        });
+      Object.keys(modalData).forEach((key) => {
+        initialData[key] = modalData[key];
+      });
 
-        if (modalData.diaChiNhanThuId) {
-            try {
-                const response = await axios.get(`${config.backendUrl}/api/address/${modalData.diaChiNhanThuId}`);
-                initialData.diaChiNhanThu = response.data; // Populate address fields
-            } catch (error) {
-                console.error("Error fetching address:", error);
-            }
-        }
-
-        if (modalData.diaChiThuongTruId) {
-            try {
-                const response = await axios.get(`${config.backendUrl}/api/address/${modalData.diaChiThuongTruId}`);
-                initialData.diaChiThuongTru = response.data; // Populate address fields
-            } catch (error) {
-                console.error("Error fetching address:", error);
-            }
-        }
-
-        if (modalData.diaChiTamTruId) {
-            try {
-                const response = await axios.get(`${config.backendUrl}/api/address/${modalData.diaChiTamTruId}`);
-                initialData.diaChiTamTru = response.data; // Populate address fields
-            } catch (error) {
-                console.error("Error fetching address:", error);
-            }
-        }
-
+      if (modalData.diaChiNhanThuId) {
         try {
-            const response = await axios.get(`${config.backendUrl}/api/identification/${modalData.identificationId}`);
-            initialData.identification = response.data; // Populate identification fields
-            initialData.identification["issueDate"] = initialData.identification["issueDate"].split("T")[0];
-            initialData.identification["expiryDate"] = initialData.identification["expiryDate"].split("T")[0];
+          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.diaChiNhanThuId}`);
+          initialData.diaChiNhanThu = response.data; // Populate address fields
         } catch (error) {
-            console.error("Error fetching identification:", error);
+          console.error("Error fetching address:", error);
         }
+      }
 
-        initialData.identificationType = initialData.identification["identificationType"];
+      if (modalData.diaChiThuongTruId) {
+        try {
+          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.diaChiThuongTruId}`);
+          initialData.diaChiThuongTru = response.data; // Populate address fields
+        } catch (error) {
+          console.error("Error fetching address:", error);
+        }
+      }
+
+      if (modalData.diaChiTamTruId) {
+        try {
+          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.diaChiTamTruId}`);
+          initialData.diaChiTamTru = response.data; // Populate address fields
+        } catch (error) {
+          console.error("Error fetching address:", error);
+        }
+      }
+
+      try {
+        const response = await axios.get(`${config.backendUrl}/api/identification/${modalData.identificationId}`);
+        initialData.identification = response.data; // Populate identification fields
+        initialData.identification["issueDate"] = initialData.identification["issueDate"].split("T")[0];
+        initialData.identification["expiryDate"] = initialData.identification["expiryDate"].split("T")[0];
+      } catch (error) {
+        console.error("Error fetching identification:", error);
+      }
+
+      initialData.identificationType = initialData.identification["identificationType"];
     }
 
     return initialData;
-};
+  };
 
   return (
     <div>
       <h2>Danh sách sinh viên</h2>
       <div className="d-flex mb-3">
-        <button className="btn btn-success mb-2" onClick={() => { setModalData(null); setShowModal(true); }}>
+        <button className="btn btn-success mb-2 mr-2" onClick={() => { setModalData(null); setShowModal(true); }}>
           Thêm Sinh Viên
         </button>
+        <Link to='/data'>
+          <button className='btn btn-primary mb-2'>
+          Import/Export
+          </button>
+        </Link>
         <form id="searchForm" className='flex space-x-2' onSubmit={(e) => { e.preventDefault(); loadStudents(1, filters); }}>
           <input type="text"
             id="searchInput"
@@ -416,7 +422,7 @@ const StudentList = () => {
       </div>
       <DataTable fields={fields} dataSet={students} handleEdit={(student) => { setModalData(student); setShowModal(true); }} handleDelete={(student) => { handleDeleteStudent(student.mssv) }}></DataTable>
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-      {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} label='Sinh Viên' initializeFormData={initializeFormData}/>}
+      {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} label='Sinh Viên' initializeFormData={initializeFormData} />}
     </div>
   );
 };

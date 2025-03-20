@@ -155,7 +155,7 @@ namespace StudentManagement.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] StudentFilterModel filter, int page = 1, int pageSize = 10)
         {
-            _logger.LogInformation("Searching students with keyword: {Keyword}, Page: {Page}, PageSize: {PageSize}", keyword, page, pageSize);
+            _logger.LogInformation("Searching students with keyword: {Keyword}, departmentId: {DepartmentId}, Page: {Page}, PageSize: {PageSize}", filter.Keyword, filter.DepartmentId, page, pageSize);
             try
             {
                 var (students, totalStudents, totalPages) = await _studentService.SearchStudents(filter, page, pageSize);
@@ -170,7 +170,7 @@ namespace StudentManagement.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while searching students with keyword: {Keyword}", keyword);
+                _logger.LogError(ex, "Error while searching students with keyword: {Keyword}, departmentId: {DepartmentId}", filter.Keyword, filter.DepartmentId);
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
