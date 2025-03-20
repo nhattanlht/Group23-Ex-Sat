@@ -16,6 +16,8 @@ namespace StudentManagement.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            // Cấu hình dữ liệu mẫu
             modelBuilder.Entity<Department>().HasData(
                 new Department { Id = 1, Name = "Khoa Luật" },
                 new Department { Id = 2, Name = "Khoa Tiếng Anh thương mại" },
@@ -47,6 +49,7 @@ namespace StudentManagement.Models
                 new StudentStatus { Id = 4, Name = "Tạm dừng học" }
             );
 
+            // Cấu hình Unique Index cho Student
             modelBuilder.Entity<Student>()
                 .HasIndex(s => s.Email)
                 .IsUnique();
@@ -55,6 +58,7 @@ namespace StudentManagement.Models
                 .HasIndex(s => s.SoDienThoai)
                 .IsUnique();
 
+            // Cấu hình quan hệ khóa ngoại cho Student
             modelBuilder.Entity<Student>()
                 .HasOne(s => s.DiaChiNhanThu)
                 .WithMany()
