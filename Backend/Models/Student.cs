@@ -63,6 +63,12 @@ namespace StudentManagement.Models
         public virtual Address? DiaChiTamTru { get; set; }
 
         [Required]
+        public int IdentificationId { get; set; }
+
+        [ForeignKey("IdentificationId")]
+        public virtual Identification? Identification { get; set; }
+
+        [Required]
         public int StatusId { get; set; }
 
         [ForeignKey("StatusId")]

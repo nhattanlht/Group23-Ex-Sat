@@ -12,6 +12,7 @@ namespace StudentManagement.Models
         public DbSet<StudyProgram> StudyPrograms { get; set; }
         public DbSet<StudentStatus> StudentStatuses { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Identification> Identifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -70,6 +71,12 @@ namespace StudentManagement.Models
                 .HasOne(s => s.DiaChiTamTru)
                 .WithMany()
                 .HasForeignKey(s => s.DiaChiTamTruId)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.Identification)
+                .WithMany()
+                .HasForeignKey(s => s.IdentificationId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

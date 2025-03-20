@@ -39,6 +39,7 @@ namespace StudentManagement.Services
                     Email = s.Email,
                     SoDienThoai = s.SoDienThoai,
                     QuocTich = s.QuocTich,
+                    IdentificationId = s.IdentificationId,
                     DiaChiNhanThuId = s.DiaChiNhanThuId,
                     DiaChiThuongTruId = s.DiaChiThuongTruId,
                     DiaChiTamTruId = s.DiaChiTamTruId
@@ -134,6 +135,8 @@ namespace StudentManagement.Services
                 existingStudent.DiaChiThuongTruId = student.DiaChiThuongTruId;
                 existingStudent.DiaChiTamTruId = student.DiaChiTamTruId;
                 existingStudent.DiaChiNhanThuId = student.DiaChiNhanThuId;
+                existingStudent.QuocTich = student.QuocTich;
+                existingStudent.IdentificationId = student.IdentificationId;
 
                 _context.Update(existingStudent);
                 await _context.SaveChangesAsync();
