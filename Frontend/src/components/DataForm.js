@@ -53,6 +53,17 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
                         console.error("Error fetching address:", error);
                     }
                 }
+
+                try {
+                    const response = await axios.get(`${config.backendUrl}/api/identification/${data.identificationId}`);
+                    initialData.identification = response.data; // Populate identification fields
+                    initialData.identification["issueDate"] = initialData.identification["issueDate"].split("T")[0];
+                    initialData.identification["expiryDate"] = initialData.identification["expiryDate"].split("T")[0];
+                } catch (error) {
+                    console.error("Error fetching identification:", error);
+                }
+
+                initialData.identificationType = initialData.identification["identificationType"];
             }
 
             setFormData(initialData);
