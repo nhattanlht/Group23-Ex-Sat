@@ -134,6 +134,17 @@ const StudentList = () => {
     return nestedObject;
   };
 
+  const transformToNestedObject2 = (flatObject) => {
+    const nestedObject = {};
+
+    Object.keys(flatObject).forEach((key) => {
+        // Directly assign the value to the corresponding key
+        nestedObject[key] = flatObject[key];
+    });
+
+    return nestedObject;
+};
+
   const handleAddStudent = async (student) => {
     try {
       const newStudent1 = transformToNestedObject(student.diaChiNhanThu);
@@ -178,16 +189,20 @@ const StudentList = () => {
   const handleEditStudent = async (student) => {
     try {
       // Handle diaChiNhanThu
-      const newStudent1 = transformToNestedObject(student.diaChiNhanThu);
-      const diaChiNhanThu = await axios.post(`${config.backendUrl}/api/address`, newStudent1.diaChiNhanThu);
+      delete student.diaChiNhanThu["id"];
+      const newStudent1 = transformToNestedObject2(student.diaChiNhanThu);
+
+      const diaChiNhanThu = await axios.post(`${config.backendUrl}/api/address`, newStudent1);
       student.diaChiNhanThuId = diaChiNhanThu.data.id;
 
       delete student.diaChiNhanThu;
 
       // Handle diaChiThuongTru
       if (student.diaChiThuongTru) {
-          const newStudent2 = transformToNestedObject(student.diaChiThuongTru);
-          const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2.diaChiThuongTru);
+          delete student.diaChiThuongTru["id"];
+
+          const newStudent2 = transformToNestedObject2(student.diaChiThuongTru);
+          const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2);
           student.diaChiThuongTruId = diaChiThuongTru.data.id;
       }
       else {
@@ -197,8 +212,10 @@ const StudentList = () => {
 
       // Handle diaChiTamTru
       if (student.diaChiTamTru) {
-          const newStudent3 = transformToNestedObject(student.diaChiTamTru);
-          const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3.diaChiTamTru);
+          delete student.diaChiTamTru["id"];
+
+          const newStudent3 = transformToNestedObject2(student.diaChiTamTru);
+          const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3);
           student.diaChiTamTruId = diaChiTamTru.data.id;
       }
       else {
