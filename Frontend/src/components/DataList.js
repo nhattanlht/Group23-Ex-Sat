@@ -73,7 +73,7 @@ const DataList = ({fields, dataName, pk, label}) => {
       </div>
       <DataTable fields={fields} dataSet={dataSet} handleEdit={(data) => {setModalData(data); setShowModal(true);}} handleDelete={(data)=>{handleDeleteData(data[pk])}}></DataTable>
       {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /> */}
-      {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditData : handleAddData} onClose={() => setShowModal(false)} />}
+      {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditData : handleAddData} onClose={() => setShowModal(false)} label={label} />}
     </div>
   );
 };

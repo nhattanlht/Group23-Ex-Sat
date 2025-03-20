@@ -16,7 +16,6 @@ const StudentList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
 
   const [filters, setFilters] = useState({
     keyword: "",
@@ -325,6 +324,69 @@ const StudentList = () => {
     }
   };
 
+  const initializeFormData = async (fields, modalData) => {
+    const initialData = fields.reduce((acc, field) => {
+        if (field.type === "group") {
+            // Initialize nested group fields
+            acc[field.accessor] = field.fields.reduce((subAcc, subField) => {
+                subAcc[subField.accessor] = "";
+                return subAcc;
+            }, {});
+        } else {
+            // Initialize flat fields
+            acc[field.accessor] = "";
+        }
+        return acc;
+    }, {});
+
+    // Populate with existing data
+    if (modalData) {
+        Object.keys(modalData).forEach((key) => {
+            initialData[key] = modalData[key];
+        });
+
+        if (modalData.diaChiNhanThuId) {
+            try {
+                const response = await axios.get(`${config.backendUrl}/api/address/${modalData.diaChiNhanThuId}`);
+                initialData.diaChiNhanThu = response.data; // Populate address fields
+            } catch (error) {
+                console.error("Error fetching address:", error);
+            }
+        }
+
+        if (modalData.diaChiThuongTruId) {
+            try {
+                const response = await axios.get(`${config.backendUrl}/api/address/${modalData.diaChiThuongTruId}`);
+                initialData.diaChiThuongTru = response.data; // Populate address fields
+            } catch (error) {
+                console.error("Error fetching address:", error);
+            }
+        }
+
+        if (modalData.diaChiTamTruId) {
+            try {
+                const response = await axios.get(`${config.backendUrl}/api/address/${modalData.diaChiTamTruId}`);
+                initialData.diaChiTamTru = response.data; // Populate address fields
+            } catch (error) {
+                console.error("Error fetching address:", error);
+            }
+        }
+
+        try {
+            const response = await axios.get(`${config.backendUrl}/api/identification/${modalData.identificationId}`);
+            initialData.identification = response.data; // Populate identification fields
+            initialData.identification["issueDate"] = initialData.identification["issueDate"].split("T")[0];
+            initialData.identification["expiryDate"] = initialData.identification["expiryDate"].split("T")[0];
+        } catch (error) {
+            console.error("Error fetching identification:", error);
+        }
+
+        initialData.identificationType = initialData.identification["identificationType"];
+    }
+
+    return initialData;
+};
+
   return (
     <div>
       <h2>Danh sách sinh viên</h2>
@@ -354,7 +416,7 @@ const StudentList = () => {
       </div>
       <DataTable fields={fields} dataSet={students} handleEdit={(student) => { setModalData(student); setShowModal(true); }} handleDelete={(student) => { handleDeleteStudent(student.mssv) }}></DataTable>
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-      {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} />}
+      {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} label='Sinh Viên' initializeFormData={initializeFormData}/>}
     </div>
   );
 };
