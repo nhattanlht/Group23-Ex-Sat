@@ -72,6 +72,24 @@ const StudentList = () => {
       ],
     },
     { display: 'Địa Chỉ Tạm Trú Id', accessor: 'diaChiTamTruId', type: "text", hidden: true },
+    { display: "Identification Id", accessor: "identificationId", type: "text", hidden: true},
+    { display: 'Loại Giấy Tờ', accessor: 'identificationType', type: "select", options: [{ id: "CMND", name: "CMND" }, { id: "CCCD", name: "CCCD" }, { id: "Hộ Chiếu", name: "Hộ Chiếu" }], required: true, customeType: "identificationType" },
+    {
+        display: 'Thông Tin Giấy Tờ',
+        accessor: 'identification',
+        type: "group",
+        fields: [
+            { display: 'Loại Giấy Tờ', accessor: 'identification.identificationType', type: "text", required: true, hidden: true },
+            { display: 'Số Giấy Tờ', accessor: 'identification.number', type: "text", required: true },
+            { display: 'Ngày Cấp', accessor: 'identification.issueDate', type: "date", required: true },
+            { display: 'Ngày Hết Hạn', accessor: 'identification.expiryDate', type: "date" },
+            { display: 'Nơi Cấp', accessor: 'identification.issuedBy', type: "text", required: true },
+            { display: 'Có Gắn Chip', accessor: 'identification.hasChip', type: "checkbox", condition: (formData) => formData.identificationType === "CCCD" },
+            { display: 'Quốc Gia Cấp', accessor: 'identification.issuingCountry', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
+            { display: 'Ghi Chú', accessor: 'identification.notes', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
+        ],
+        customeType: "identification"
+    },
   ];
 
   useEffect(() => {
@@ -147,6 +165,26 @@ const StudentList = () => {
 
   const handleAddStudent = async (student) => {
     try {
+      student.identification["identification.identificationType"] = student.identificationType;
+      
+      if (!student.identification?.["identification.hasChip"]) {
+        student.identification["identification.hasChip"] = null;
+      }
+      if (!student.identification?.["identification.issuingCountry"]) {
+        student.identification["identification.issuingCountry"] = null;
+      }
+      if (!student.identification?.["identification.notes"]) {
+        student.identification["identification.notes"] = null;
+      }
+
+      const newStudent4 = transformToNestedObject(student.identification);
+
+      const identification = await axios.post(`${config.backendUrl}/api/identification`, newStudent4.identification);
+      student.identificationId = identification.data.id;
+
+      delete student.identification;
+      delete student.identificationType;
+
       const newStudent1 = transformToNestedObject(student.diaChiNhanThu);
 
       const diaChiNhanThu = await axios.post(`${config.backendUrl}/api/address`, newStudent1.diaChiNhanThu);
@@ -154,10 +192,16 @@ const StudentList = () => {
 
       delete student.diaChiNhanThu;
 
+
       if (student.diaChiThuongTru) {
+          if (student.diaChiThuongTru?.["diaChiThuongTru.houseNumber"]) {
           const newStudent2 = transformToNestedObject(student.diaChiThuongTru);
           const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2.diaChiThuongTru);
           student.diaChiThuongTruId = diaChiThuongTru.data.id;
+          }
+          else {
+            student.diaChiThuongTruId = null;
+          }
       }
       else {
         student.diaChiThuongTruId = null;
@@ -166,17 +210,20 @@ const StudentList = () => {
       delete student.diaChiThuongTru;
 
       if (student.diaChiTamTru) {
+          if (student.diaChiTamTru?.["diaChiTamTru.houseNumber"]) {
           const newStudent3 = transformToNestedObject(student.diaChiTamTru);
           const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3.diaChiTamTru);
           student.diaChiTamTruId = diaChiTamTru.data.id;
+          }
+          else {
+            student.diaChiTamTruId = null;
+          }
       }
       else {
         student.diaChiTamTruId = null;
       }
 
       delete student.diaChiTamTru;
-
-      console.log(student);
 
       await handleAddRow('students', student);
       setShowModal(false);
@@ -188,6 +235,27 @@ const StudentList = () => {
 
   const handleEditStudent = async (student) => {
     try {
+      student.identification["identificationType"] = student.identificationType;
+      
+      if (!student.identification["hasChip"]) {
+        student.identification["hasChip"] = null;
+      }
+      if (!student.identification["issuingCountry"]) {
+        student.identification["issuingCountry"] = null;
+      }
+      if (!student.identification["notes"]) {
+        student.identification["notes"] = null;
+      }
+
+      delete student.identification["id"];
+
+      const newStudent4 = transformToNestedObject2(student.identification);
+
+      const identification = await axios.post(`${config.backendUrl}/api/identification`, newStudent4);
+      student.identificationId = identification.data.id;
+
+      delete student.identification;
+      delete student.identificationType;
       // Handle diaChiNhanThu
       delete student.diaChiNhanThu["id"];
       const newStudent1 = transformToNestedObject2(student.diaChiNhanThu);

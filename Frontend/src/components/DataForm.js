@@ -63,9 +63,15 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
 
     const handleChange = (e) => {
         const { name, value, type } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === "number" ? Number(value) : value
+        setFormData((formData) => {
+            const updatedFormData = {...formData,
+                [name]: type === "number" ? Number(value) : value}
+            
+            if (name === "identificationType") {
+                updatedFormData.identification = {}; // Clear existing identification fields
+            }
+    
+            return updatedFormData;
         });
     };
 
@@ -120,7 +126,15 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
                                                 </select>
                                             ) : field.type === "group" ? (
                                                 <div className="mb-3 border border-gray-300 p-2 rounded-md grid grid-cols-3 gap-2">
-                                                    {field.fields.map((subField) => (
+                                                    {field.fields.map((subField) => {
+                                                        if (subField.condition && !subField.condition(formData)) {
+                                                            return null; // Skip rendering this field
+                                                        }
+                                                        if (subField.hidden) {
+                                                            return null;
+                                                        }
+                                                        
+                                                        return data ? (
                                                         <div key={subField.accessor} className="mb-2">
                                                             <label htmlFor={`${field.accessor}.${subField.accessor}`}>{subField.display}</label>
                                                             <input
@@ -135,7 +149,23 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
                                                                 required={subField.required}
                                                             />
                                                         </div>
-                                                    ))}
+                                                        ) : (
+                                                            <div key={subField.accessor} className="mb-2">
+                                                            <label htmlFor={`${field.accessor}.${subField.accessor}`}>{subField.display}</label>
+                                                            <input
+                                                                id={`${field.accessor}.${subField.accessor}`}
+                                                                name={`${field.accessor}.${subField.accessor}`}
+                                                                type={subField.type || "text"} // Default to "text"
+                                                                value={formData[field.accessor]?.[subField.accessor] || ""}
+                                                                onChange={(e) =>
+                                                                    handleGroupChange(field.accessor, subField.accessor, e.target.value)
+                                                                }
+                                                                className="w-full border p-2"
+                                                                required={subField.required}
+                                                            />
+                                                        </div>
+                                                        );
+                                                    })}
                                                 </div>
                                             ) : (
                                                 <input
