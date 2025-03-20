@@ -1,14 +1,7 @@
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
-dotnet add package Microsoft.EntityFrameworkCore.Tools
-dotnet add package Microsoft.AspNetCore.Mvc
-dotnet add package Microsoft.AspNetCore.Razor.Runtime
-dotnet add package Microsoft.Extensions.Logging.Console
+dotnet restore
 
 //cai ef cho migration
 dotnet tool install --global dotnet-ef
-
-//khoi tao migrations
-dotnet ef migrations add InitialCreate
 //cap nhat database
 dotnet ef database update
 //chay ung dung
