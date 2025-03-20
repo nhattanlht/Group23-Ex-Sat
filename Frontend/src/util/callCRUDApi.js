@@ -1,12 +1,23 @@
 import axios from "axios";
 import config from '../config';
 
-export const loadData = async (dataName, page, keyword = '') => {
+export const loadData = async (dataName, page, filters = '') => {
     try {
-        const url = keyword
-            ? `${config.backendUrl}/api/${dataName}/search?keyword=${keyword}&page=${page}&pageSize=10`
+        const queryString = buildQueryString(filters);
+        const url = queryString
+            ? `${config.backendUrl}/api/${dataName}/search?${queryString}&page=${page}&pageSize=10`
             : `${config.backendUrl}/api/${dataName}?page=${page}&pageSize=10`;
         const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        console.error("Lỗi khi tải dữ liệu:", error);
+        return null;
+    }
+}
+
+export const loadDataNoPaging = async (dataName) => {
+    try {
+        const response = await axios.get(`${config.backendUrl}/api/${dataName}`);
         return response.data;
     } catch (error) {
         console.error("Lỗi khi tải dữ liệu:", error);
@@ -17,7 +28,7 @@ export const loadData = async (dataName, page, keyword = '') => {
 export const handleAddRow = async (dataName, data) => {
     try {
         const response = await axios.post(`${config.backendUrl}/api/${dataName}`, data);
-        alert(response.data.message);
+        alert('Thêm dữ liệu thành công');
 
         return response.data;
     } catch (error) {
@@ -30,7 +41,7 @@ export const handleAddRow = async (dataName, data) => {
 export const handleEditRow = async (dataName, id, data) => {
     try {
         const response = await axios.put(`${config.backendUrl}/api/${dataName}/${id}`, data);
-        alert(response.data.message);
+        alert('Cập nhật dữ liệu thành công');
         return response.data;
     } catch (error) {
         alert(error.response?.data?.message || 'Lỗi không xác định');
@@ -40,10 +51,10 @@ export const handleEditRow = async (dataName, id, data) => {
 }
 
 export const handleDeleteRow = async (dataName, id) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa sinh viên này không?')) return;
+    if (!window.confirm('Bạn có chắc chắn muốn xóa dòng này không?')) return;
     try {
         const response = await axios.delete(`${config.backendUrl}/api/${dataName}/${id}`);
-        alert(response.data.message);
+        alert('Xóa dữ liệu thành công');
         return response.data;
     } catch (error) {
         alert(error.response?.data?.message || 'Lỗi không xác định');
@@ -51,3 +62,15 @@ export const handleDeleteRow = async (dataName, id) => {
         return null;
     }
 }
+
+const buildQueryString = (filters) => {
+    const params = new URLSearchParams();
+
+    Object.entries(filters).forEach(([key, value]) => {
+        if (value !== null && value !== undefined && value !== "") {
+            params.append(key, value);
+        }
+    });
+
+    return params.toString();
+};

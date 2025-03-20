@@ -2,75 +2,28 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import config from '../config';
 
-const DataForm = ({ fields, data, onSave, onClose }) => {
+const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = null }) => {
     const [formData, setFormData] = useState({});
 
     useEffect(() => {
-        const initializeFormData = async () => {
-            const initialData = fields.reduce((acc, field) => {
-                if (field.type === "group") {
-                    // Initialize nested group fields
-                    acc[field.accessor] = field.fields.reduce((subAcc, subField) => {
-                        subAcc[subField.accessor] = "";
-                        return subAcc;
-                    }, {});
-                } else {
-                    // Initialize flat fields
-                    acc[field.accessor] = "";
-                }
-                return acc;
-            }, {});
-
-            // Populate with existing data
-            if (data) {
-                Object.keys(data).forEach((key) => {
-                    initialData[key] = data[key];
-                });
-
-                if (data.diaChiNhanThuId) {
-                    try {
-                        const response = await axios.get(`${config.backendUrl}/api/address/${data.diaChiNhanThuId}`);
-                        initialData.diaChiNhanThu = response.data; // Populate address fields
-                    } catch (error) {
-                        console.error("Error fetching address:", error);
-                    }
-                }
-
-                if (data.diaChiThuongTruId) {
-                    try {
-                        const response = await axios.get(`${config.backendUrl}/api/address/${data.diaChiThuongTruId}`);
-                        initialData.diaChiThuongTru = response.data; // Populate address fields
-                    } catch (error) {
-                        console.error("Error fetching address:", error);
-                    }
-                }
-
-                if (data.diaChiTamTruId) {
-                    try {
-                        const response = await axios.get(`${config.backendUrl}/api/address/${data.diaChiTamTruId}`);
-                        initialData.diaChiTamTru = response.data; // Populate address fields
-                    } catch (error) {
-                        console.error("Error fetching address:", error);
-                    }
-                }
-
-                try {
-                    const response = await axios.get(`${config.backendUrl}/api/identification/${data.identificationId}`);
-                    initialData.identification = response.data; // Populate identification fields
-                    initialData.identification["issueDate"] = initialData.identification["issueDate"].split("T")[0];
-                    initialData.identification["expiryDate"] = initialData.identification["expiryDate"].split("T")[0];
-                } catch (error) {
-                    console.error("Error fetching identification:", error);
-                }
-
-                initialData.identificationType = initialData.identification["identificationType"];
-            }
-
-            setFormData(initialData);
-        };
-
-        initializeFormData();
+        handleInitializeFormData(fields, data);
     }, [data, fields]);
+
+    const defaultInitializeFormData = () => {
+        setFormData(
+            data || fields.reduce((acc, field) => ({ ...acc, [field.accessor]: "" }), {})
+        );
+    }
+    const handleInitializeFormData = async (fields, data) => {
+        if (initializeFormData) {
+            const initialFormData = await initializeFormData(fields, data);
+            setFormData(initialFormData || {});
+            console.log('custom initializeFormData', initializeFormData);
+        } else {
+            defaultInitializeFormData();
+            console.log('default initializeFormData');
+        }
+    }
 
     const handleChange = (e) => {
         const { name, value, type } = e.target;
@@ -107,7 +60,7 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">{data ? 'Sửa Thông Tin Sinh Viên' : 'Thêm Sinh Viên'}</h5>
+                        <h5 className="modal-title">{data ? `Sửa Thông Tin ${label}` : `Thêm ${label}`}</h5>
                         <button type="button" className="btn-close" onClick={onClose}></button>
                     </div>
                     <div className="modal-body">
@@ -132,7 +85,7 @@ const DataForm = ({ fields, data, onSave, onClose }) => {
                                                 >
                                                     <option value="">Select an option</option>
                                                     {field.options.map((option) => (
-                                                        <option key={option.id} value={option.id}>{option.name}</option>
+                                                        <option key={option.id} value={option.id || ''}>{option.name}</option>
                                                     ))}
                                                 </select>
                                             ) : field.type === "group" ? (

@@ -30,7 +30,7 @@ h3 {
 /* Buttons */
 button {
     font-size: 1em;
-    padding: 0.5em 1em;
+    padding: 0.5em 0.5em;
     border: none;
     border-radius: 4px;
     cursor: pointer;

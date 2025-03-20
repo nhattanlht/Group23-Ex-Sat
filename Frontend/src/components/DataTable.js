@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import config from '../config';
+import { Pencil, Trash2 } from "lucide-react";
 // import readXlsxFile from "read-excel-file";
 // import { Button } from "@/components/ui/button";
 
@@ -60,7 +61,7 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
     if (!identification) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded shadow-lg w-96">
                 <h2 className="text-xl font-bold mb-4">Chi Tiết Giấy Tờ</h2>
                 <div className="mb-2"><strong>Loại Giấy Tờ:</strong> {identification.identificationType}</div>
@@ -111,6 +112,7 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
   }, [dataSet, fields]);
 
   return (
+    (dataSet.length > 0) ? (
     <div className="py-4">
       <table className="table-auto w-full whitespace-nowrap">
         <thead>
@@ -127,11 +129,11 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
           {dataSet.map((row, rowIndex) => (
             <tr key={rowIndex}>
               <td>
-                <button className="btn btn-primary me-2" onClick={() => { handleEdit(row); }}>
-                  Sửa
+                <button className="btn btn-primary mr-2" onClick={() => { handleEdit(row); }}>
+                  <Pencil size={16} />
                 </button>
                 <button className="btn btn-danger" onClick={() => { handleDelete(row); }}>
-                  Xóa
+                  <Trash2 size={16} />
                 </button>
               </td>
               {fields
@@ -184,7 +186,7 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
           ))}
         </tbody>
       </table>
-
+  
       {isPopupVisible && (
             <IdentificationPopup
                 identification={selectedIdentification}
@@ -192,6 +194,9 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
             />
         )}
     </div>
+    ) : (
+      <div className="flex justify-center">Không tìm thấy dữ liệu</div>
+    )
   );
 };
 
