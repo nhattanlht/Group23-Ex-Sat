@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import StudentList from './components/StudentList'; // Import the StudentList component
+import DataManagement from './components/DataManagement'; // Import the StudentList component
 import './styles.css'; // Import the CSS file
 import DepartmentPage from './pages/DepartmentPage';
 import ProgramPage from './pages/ProgramPage';
@@ -19,6 +20,7 @@ function App() {
           <Route path="/departments" element={<DepartmentPage />} />
           <Route path="/programs" element={<ProgramPage />} />
           <Route path="/statuses" element={<StatusPage />} />
+          <Route path="/data" element={<DataManagement />} />
       </Routes>
         </BrowserRouter>
         </div>

@@ -8,6 +8,7 @@ Backend/TestResults/
 #Frontend
 # dependencies
 Frontend/node_modules
+Frontend/packege-lock.json
 Frontend/.pnp
 Frontend/.pnp.js
 
