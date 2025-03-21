@@ -3101,3 +3101,720 @@ MSSV,HoTen,NgaySinh,GioiTinh,Department,SchoolYear,StudyProgram,AddressNhanThu,A
 2025-03-20 23:18:06.576 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 119.6806 ms
 2025-03-20 23:18:06.576 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5136/api/data/import/csv - 500 null application/json; charset=utf-8 123.4267ms
 2025-03-20 23:19:36.367 +07:00 [INF] Application is shutting down...
+2025-03-20 23:23:19.290 +07:00 [INF] Now listening on: http://localhost:5136
+2025-03-20 23:23:19.309 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-20 23:23:19.309 +07:00 [INF] Hosting environment: Production
+2025-03-20 23:23:19.309 +07:00 [INF] Content root path: /Users/tantrannhat/Desktop/StudentManagement/Backend
+2025-03-20 23:23:31.355 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/schoolyears - null null
+2025-03-20 23:23:31.356 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/departments - null null
+2025-03-20 23:23:31.356 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/programs - null null
+2025-03-20 23:23:31.356 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - null null
+2025-03-20 23:23:31.356 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/student-statuses - null null
+2025-03-20 23:23:31.365 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-03-20 23:23:31.379 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:23:31.379 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:23:31.379 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:23:31.379 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:23:31.379 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:23:31.382 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 23:23:31.382 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 23:23:31.382 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 23:23:31.382 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 23:23:31.382 +07:00 [INF] Executing endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 23:23:31.397 +07:00 [INF] Route matched with {action = "GetStudentStatuses", controller = "StudentStatus"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudentStatus]]] GetStudentStatuses() on controller StudentManagement.Controllers.StudentStatusController (StudentManagement).
+2025-03-20 23:23:31.397 +07:00 [INF] Route matched with {action = "GetSchoolYears", controller = "SchoolYear"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.SchoolYear]]] GetSchoolYears() on controller StudentManagement.Controllers.SchoolYearController (StudentManagement).
+2025-03-20 23:23:31.397 +07:00 [INF] Route matched with {action = "GetDepartments", controller = "Departments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.Department]]] GetDepartments() on controller DepartmentsController (StudentManagement).
+2025-03-20 23:23:31.397 +07:00 [INF] Route matched with {action = "GetPrograms", controller = "Program"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudyProgram]]] GetPrograms() on controller StudentManagement.Controllers.ProgramController (StudentManagement).
+2025-03-20 23:23:31.398 +07:00 [INF] Route matched with {action = "GetStudents", controller = "Students"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudents(Int32, Int32) on controller StudentManagement.Controllers.StudentsController (StudentManagement).
+2025-03-20 23:23:31.457 +07:00 [INF] Fetching all departments.
+2025-03-20 23:23:31.457 +07:00 [INF] Fetching all student statuses.
+2025-03-20 23:23:31.457 +07:00 [INF] Fetching all school years.
+2025-03-20 23:23:31.457 +07:00 [INF] Fetching all study programs.
+2025-03-20 23:23:31.463 +07:00 [INF] Fetching students (Page: 1, PageSize: 10)
+2025-03-20 23:23:31.888 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudentStatuses] AS [s]
+2025-03-20 23:23:31.888 +07:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudyPrograms] AS [s]
+2025-03-20 23:23:31.904 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [SchoolYears] AS [s]
+2025-03-20 23:23:31.915 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudyProgram, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:23:31.915 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.SchoolYear, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:23:31.915 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudentStatus, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:23:31.923 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[Id], [d].[Name]
+FROM [Departments] AS [d]
+2025-03-20 23:23:31.923 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Students] AS [s]
+2025-03-20 23:23:31.927 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.Department, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:23:31.941 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/departments - null null
+2025-03-20 23:23:31.941 +07:00 [INF] Executed action StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement) in 541.7611ms
+2025-03-20 23:23:31.941 +07:00 [INF] Executed action StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement) in 541.8984ms
+2025-03-20 23:23:31.941 +07:00 [INF] Executed action DepartmentsController.GetDepartments (StudentManagement) in 541.8759ms
+2025-03-20 23:23:31.942 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:23:31.941 +07:00 [INF] Executed action StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement) in 541.9382ms
+2025-03-20 23:23:31.944 +07:00 [INF] Executing endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 23:23:31.944 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 23:23:31.944 +07:00 [INF] Route matched with {action = "GetDepartments", controller = "Departments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.Department]]] GetDepartments() on controller DepartmentsController (StudentManagement).
+2025-03-20 23:23:31.944 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 23:23:31.944 +07:00 [INF] Executed endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 23:23:31.944 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 23:23:31.945 +07:00 [INF] HTTP GET /api/student-statuses responded 200 in 563.1098 ms
+2025-03-20 23:23:31.945 +07:00 [INF] HTTP GET /api/schoolyears responded 200 in 562.7955 ms
+2025-03-20 23:23:31.945 +07:00 [INF] HTTP GET /api/programs responded 200 in 562.7964 ms
+2025-03-20 23:23:31.945 +07:00 [INF] HTTP GET /api/departments responded 200 in 563.0580 ms
+2025-03-20 23:23:31.945 +07:00 [INF] Fetching all departments.
+2025-03-20 23:23:31.951 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/schoolyears - 200 null application/json; charset=utf-8 597.5002ms
+2025-03-20 23:23:31.951 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/departments - 200 null application/json; charset=utf-8 597.4572ms
+2025-03-20 23:23:31.951 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/student-statuses - 200 null application/json; charset=utf-8 597.4303ms
+2025-03-20 23:23:31.951 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/programs - 200 null application/json; charset=utf-8 597.4591ms
+2025-03-20 23:23:31.952 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/student-statuses - null null
+2025-03-20 23:23:31.952 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/schoolyears - null null
+2025-03-20 23:23:31.951 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/programs - null null
+2025-03-20 23:23:31.952 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:23:31.952 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:23:31.952 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:23:31.952 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 23:23:31.952 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 23:23:31.952 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 23:23:31.953 +07:00 [INF] Route matched with {action = "GetSchoolYears", controller = "SchoolYear"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.SchoolYear]]] GetSchoolYears() on controller StudentManagement.Controllers.SchoolYearController (StudentManagement).
+2025-03-20 23:23:31.953 +07:00 [INF] Route matched with {action = "GetPrograms", controller = "Program"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudyProgram]]] GetPrograms() on controller StudentManagement.Controllers.ProgramController (StudentManagement).
+2025-03-20 23:23:31.953 +07:00 [INF] Route matched with {action = "GetStudentStatuses", controller = "StudentStatus"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudentStatus]]] GetStudentStatuses() on controller StudentManagement.Controllers.StudentStatusController (StudentManagement).
+2025-03-20 23:23:31.953 +07:00 [INF] Fetching all school years.
+2025-03-20 23:23:31.956 +07:00 [INF] Fetching all student statuses.
+2025-03-20 23:23:31.954 +07:00 [INF] Fetching all study programs.
+2025-03-20 23:23:31.978 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [SchoolYears] AS [s]
+2025-03-20 23:23:31.978 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudentStatuses] AS [s]
+2025-03-20 23:23:31.978 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudentStatus, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:23:31.979 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.SchoolYear, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:23:31.979 +07:00 [INF] Executed action StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement) in 26.0782ms
+2025-03-20 23:23:31.979 +07:00 [INF] Executed action StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement) in 23.6319ms
+2025-03-20 23:23:31.979 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 23:23:31.979 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 23:23:31.979 +07:00 [INF] HTTP GET /api/student-statuses responded 200 in 26.7208 ms
+2025-03-20 23:23:31.979 +07:00 [INF] HTTP GET /api/schoolyears responded 200 in 26.6215 ms
+2025-03-20 23:23:31.979 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/student-statuses - 200 null application/json; charset=utf-8 27.7292ms
+2025-03-20 23:23:31.979 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/schoolyears - 200 null application/json; charset=utf-8 27.8545ms
+2025-03-20 23:23:31.990 +07:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudyPrograms] AS [s]
+2025-03-20 23:23:31.990 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudyProgram, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:23:31.991 +07:00 [INF] Executed action StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement) in 37.7695ms
+2025-03-20 23:23:31.991 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 23:23:31.991 +07:00 [INF] HTTP GET /api/programs responded 200 in 38.2443 ms
+2025-03-20 23:23:31.991 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/programs - 200 null application/json; charset=utf-8 39.8627ms
+2025-03-20 23:23:31.999 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[Id], [d].[Name]
+FROM [Departments] AS [d]
+2025-03-20 23:23:32.000 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.Department, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:23:32.000 +07:00 [INF] Executed action DepartmentsController.GetDepartments (StudentManagement) in 55.9214ms
+2025-03-20 23:23:32.000 +07:00 [INF] Executed endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 23:23:32.000 +07:00 [INF] HTTP GET /api/departments responded 200 in 56.4017 ms
+2025-03-20 23:23:32.000 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/departments - 200 null application/json; charset=utf-8 59.3153ms
+2025-03-20 23:23:32.006 +07:00 [ERR] Failed executing DbCommand (61ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [s].[DepartmentId], [s].[StatusId], [s].[SchoolYearId], [s].[StudyProgramId], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s].[IdentificationId], [s].[DiaChiNhanThuId], [s].[DiaChiThuongTruId], [s].[DiaChiTamTruId]
+FROM [Students] AS [s]
+ORDER BY [s].[MSSV]
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-03-20 23:23:32.026 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'IdentificationId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:93ccfd61-4499-489d-a1cf-173cd93e1ca0
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'IdentificationId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:93ccfd61-4499-489d-a1cf-173cd93e1ca0
+Error Number:207,State:1,Class:16
+2025-03-20 23:23:32.028 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'IdentificationId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Services/StudentServer.cs:line 27
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/StudentsController.cs:line 30
+ClientConnectionId:93ccfd61-4499-489d-a1cf-173cd93e1ca0
+Error Number:207,State:1,Class:16
+2025-03-20 23:23:32.033 +07:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-20 23:23:32.035 +07:00 [INF] Executed action StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement) in 636.6857ms
+2025-03-20 23:23:32.035 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 23:23:32.035 +07:00 [ERR] HTTP GET /api/students responded 500 in 654.3182 ms
+2025-03-20 23:23:32.036 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - 500 null application/json; charset=utf-8 682.6809ms
+2025-03-20 23:23:32.037 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - null null
+2025-03-20 23:23:32.037 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:23:32.037 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 23:23:32.038 +07:00 [INF] Route matched with {action = "GetStudents", controller = "Students"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudents(Int32, Int32) on controller StudentManagement.Controllers.StudentsController (StudentManagement).
+2025-03-20 23:23:32.038 +07:00 [INF] Fetching students (Page: 1, PageSize: 10)
+2025-03-20 23:23:32.040 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Students] AS [s]
+2025-03-20 23:23:32.047 +07:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [s].[DepartmentId], [s].[StatusId], [s].[SchoolYearId], [s].[StudyProgramId], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s].[IdentificationId], [s].[DiaChiNhanThuId], [s].[DiaChiThuongTruId], [s].[DiaChiTamTruId]
+FROM [Students] AS [s]
+ORDER BY [s].[MSSV]
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-03-20 23:23:32.048 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'IdentificationId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:93ccfd61-4499-489d-a1cf-173cd93e1ca0
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'IdentificationId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:93ccfd61-4499-489d-a1cf-173cd93e1ca0
+Error Number:207,State:1,Class:16
+2025-03-20 23:23:32.049 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'IdentificationId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Services/StudentServer.cs:line 27
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/StudentsController.cs:line 30
+ClientConnectionId:93ccfd61-4499-489d-a1cf-173cd93e1ca0
+Error Number:207,State:1,Class:16
+2025-03-20 23:23:32.051 +07:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-20 23:23:32.051 +07:00 [INF] Executed action StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement) in 13.3777ms
+2025-03-20 23:23:32.051 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 23:23:32.051 +07:00 [ERR] HTTP GET /api/students responded 500 in 13.8684 ms
+2025-03-20 23:23:32.052 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - 500 null application/json; charset=utf-8 14.9509ms
+2025-03-20 23:25:57.071 +07:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5136/api/identification - null null
+2025-03-20 23:25:57.074 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:25:57.080 +07:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5136/api/identification - 204 null null 9.7295ms
+2025-03-20 23:25:57.084 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5136/api/identification - application/json 176
+2025-03-20 23:25:57.084 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:25:57.085 +07:00 [INF] Executing endpoint 'IdentificationController.CreateIdentification (StudentManagement)'
+2025-03-20 23:25:57.098 +07:00 [INF] Route matched with {action = "CreateIdentification", controller = "Identification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateIdentification(StudentManagement.Models.Identification) on controller IdentificationController (StudentManagement).
+2025-03-20 23:25:57.236 +07:00 [ERR] Failed executing DbCommand (32ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Boolean), @p2='?' (Size = 4000), @p3='?' (DbType = DateTime2), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Identifications] ([ExpiryDate], [HasChip], [IdentificationType], [IssueDate], [IssuedBy], [IssuingCountry], [Notes], [Number])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7);
+2025-03-20 23:25:57.242 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Identifications'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:93ccfd61-4499-489d-a1cf-173cd93e1ca0
+Error Number:208,State:1,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Identifications'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:93ccfd61-4499-489d-a1cf-173cd93e1ca0
+Error Number:208,State:1,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2025-03-20 23:25:57.244 +07:00 [INF] Executed action IdentificationController.CreateIdentification (StudentManagement) in 146.2906ms
+2025-03-20 23:25:57.245 +07:00 [INF] Executed endpoint 'IdentificationController.CreateIdentification (StudentManagement)'
+2025-03-20 23:25:57.245 +07:00 [ERR] HTTP POST /api/identification responded 500 in 160.4113 ms
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Identifications'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:93ccfd61-4499-489d-a1cf-173cd93e1ca0
+Error Number:208,State:1,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at IdentificationController.CreateIdentification(Identification identification) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/IdentificationController.cs:line 25
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-03-20 23:25:57.252 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Identifications'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:93ccfd61-4499-489d-a1cf-173cd93e1ca0
+Error Number:208,State:1,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at IdentificationController.CreateIdentification(Identification identification) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/IdentificationController.cs:line 25
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+2025-03-20 23:25:57.258 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:25:57.258 +07:00 [INF] HTTP POST /error responded 404 in 0.0368 ms
+2025-03-20 23:25:57.260 +07:00 [ERR] Connection id "0HNB7PE6UGR9N", Request id "0HNB7PE6UGR9N:00000002": An unhandled exception was thrown by the application.
+System.InvalidOperationException: The exception handler configured on ExceptionHandlerOptions produced a 404 status response. This InvalidOperationException containing the original exception was thrown since this is often due to a misconfigured ExceptionHandlingPath. If the exception handler is expected to return 404 status responses then set AllowStatusCode404Response to true.
+ ---> Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Identifications'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:93ccfd61-4499-489d-a1cf-173cd93e1ca0
+Error Number:208,State:1,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at IdentificationController.CreateIdentification(Identification identification) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/IdentificationController.cs:line 25
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2025-03-20 23:25:57.262 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5136/api/identification - 500 0 null 178.5145ms
+2025-03-20 23:25:57.264 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: POST http://localhost:5136/api/identification, Response status code: 500
+2025-03-20 23:26:26.442 +07:00 [INF] Application is shutting down...
+2025-03-20 23:41:35.098 +07:00 [INF] Now listening on: http://localhost:5136
+2025-03-20 23:41:35.117 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-20 23:41:35.117 +07:00 [INF] Hosting environment: Production
+2025-03-20 23:41:35.117 +07:00 [INF] Content root path: /Users/tantrannhat/Desktop/StudentManagement/Backend
+2025-03-20 23:41:39.839 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/programs - null null
+2025-03-20 23:41:39.839 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/student-statuses - null null
+2025-03-20 23:41:39.839 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/schoolyears - null null
+2025-03-20 23:41:39.839 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/departments - null null
+2025-03-20 23:41:39.839 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - null null
+2025-03-20 23:41:39.848 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-03-20 23:41:39.861 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:41:39.861 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:41:39.861 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:41:39.861 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:41:39.861 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:41:39.865 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 23:41:39.865 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 23:41:39.865 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 23:41:39.865 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 23:41:39.865 +07:00 [INF] Executing endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 23:41:39.881 +07:00 [INF] Route matched with {action = "GetSchoolYears", controller = "SchoolYear"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.SchoolYear]]] GetSchoolYears() on controller StudentManagement.Controllers.SchoolYearController (StudentManagement).
+2025-03-20 23:41:39.881 +07:00 [INF] Route matched with {action = "GetPrograms", controller = "Program"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudyProgram]]] GetPrograms() on controller StudentManagement.Controllers.ProgramController (StudentManagement).
+2025-03-20 23:41:39.881 +07:00 [INF] Route matched with {action = "GetDepartments", controller = "Departments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.Department]]] GetDepartments() on controller DepartmentsController (StudentManagement).
+2025-03-20 23:41:39.881 +07:00 [INF] Route matched with {action = "GetStudentStatuses", controller = "StudentStatus"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudentStatus]]] GetStudentStatuses() on controller StudentManagement.Controllers.StudentStatusController (StudentManagement).
+2025-03-20 23:41:39.883 +07:00 [INF] Route matched with {action = "GetStudents", controller = "Students"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudents(Int32, Int32) on controller StudentManagement.Controllers.StudentsController (StudentManagement).
+2025-03-20 23:41:39.950 +07:00 [INF] Fetching all school years.
+2025-03-20 23:41:39.950 +07:00 [INF] Fetching all study programs.
+2025-03-20 23:41:39.950 +07:00 [INF] Fetching all departments.
+2025-03-20 23:41:39.951 +07:00 [INF] Fetching all student statuses.
+2025-03-20 23:41:39.957 +07:00 [INF] Fetching students (Page: 1, PageSize: 10)
+2025-03-20 23:41:40.397 +07:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudentStatuses] AS [s]
+2025-03-20 23:41:40.397 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudyPrograms] AS [s]
+2025-03-20 23:41:40.410 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Students] AS [s]
+2025-03-20 23:41:40.418 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudentStatus, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:41:40.418 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudyProgram, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:41:40.424 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[Id], [d].[Name]
+FROM [Departments] AS [d]
+2025-03-20 23:41:40.424 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [SchoolYears] AS [s]
+2025-03-20 23:41:40.427 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.Department, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:41:40.428 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.SchoolYear, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:41:40.441 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/departments - null null
+2025-03-20 23:41:40.441 +07:00 [INF] Executed action StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement) in 558.0157ms
+2025-03-20 23:41:40.441 +07:00 [INF] Executed action StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement) in 557.5183ms
+2025-03-20 23:41:40.441 +07:00 [INF] Executed action StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement) in 557.9389ms
+2025-03-20 23:41:40.442 +07:00 [INF] Executed action DepartmentsController.GetDepartments (StudentManagement) in 557.6293ms
+2025-03-20 23:41:40.442 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:41:40.444 +07:00 [INF] Executed endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 23:41:40.445 +07:00 [INF] Executing endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 23:41:40.444 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 23:41:40.445 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 23:41:40.445 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 23:41:40.445 +07:00 [INF] Route matched with {action = "GetDepartments", controller = "Departments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.Department]]] GetDepartments() on controller DepartmentsController (StudentManagement).
+2025-03-20 23:41:40.446 +07:00 [INF] HTTP GET /api/programs responded 200 in 581.2383 ms
+2025-03-20 23:41:40.446 +07:00 [INF] HTTP GET /api/student-statuses responded 200 in 581.3418 ms
+2025-03-20 23:41:40.446 +07:00 [INF] HTTP GET /api/departments responded 200 in 581.2182 ms
+2025-03-20 23:41:40.446 +07:00 [INF] HTTP GET /api/schoolyears responded 200 in 581.2644 ms
+2025-03-20 23:41:40.446 +07:00 [ERR] Failed executing DbCommand (12ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [s].[DepartmentId], [s].[StatusId], [s].[SchoolYearId], [s].[StudyProgramId], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s].[IdentificationId], [s].[DiaChiNhanThuId], [s].[DiaChiThuongTruId], [s].[DiaChiTamTruId]
+FROM [Students] AS [s]
+ORDER BY [s].[MSSV]
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-03-20 23:41:40.447 +07:00 [INF] Fetching all departments.
+2025-03-20 23:41:40.452 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/schoolyears - 200 null application/json; charset=utf-8 614.269ms
+2025-03-20 23:41:40.452 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/programs - 200 null application/json; charset=utf-8 614.2586ms
+2025-03-20 23:41:40.452 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/departments - 200 null application/json; charset=utf-8 614.2725ms
+2025-03-20 23:41:40.452 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/student-statuses - 200 null application/json; charset=utf-8 614.2571ms
+2025-03-20 23:41:40.452 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/programs - null null
+2025-03-20 23:41:40.452 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/schoolyears - null null
+2025-03-20 23:41:40.452 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/student-statuses - null null
+2025-03-20 23:41:40.453 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:41:40.453 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:41:40.453 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 23:41:40.453 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:41:40.453 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 23:41:40.453 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 23:41:40.453 +07:00 [INF] Route matched with {action = "GetPrograms", controller = "Program"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudyProgram]]] GetPrograms() on controller StudentManagement.Controllers.ProgramController (StudentManagement).
+2025-03-20 23:41:40.453 +07:00 [INF] Route matched with {action = "GetStudentStatuses", controller = "StudentStatus"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.StudentStatus]]] GetStudentStatuses() on controller StudentManagement.Controllers.StudentStatusController (StudentManagement).
+2025-03-20 23:41:40.453 +07:00 [INF] Route matched with {action = "GetSchoolYears", controller = "SchoolYear"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[StudentManagement.Models.SchoolYear]]] GetSchoolYears() on controller StudentManagement.Controllers.SchoolYearController (StudentManagement).
+2025-03-20 23:41:40.454 +07:00 [INF] Fetching all school years.
+2025-03-20 23:41:40.454 +07:00 [INF] Fetching all study programs.
+2025-03-20 23:41:40.454 +07:00 [INF] Fetching all student statuses.
+2025-03-20 23:41:40.467 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'IdentificationId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:7f47decd-a689-4818-b77f-1d3d89e7944a
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'IdentificationId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:7f47decd-a689-4818-b77f-1d3d89e7944a
+Error Number:207,State:1,Class:16
+2025-03-20 23:41:40.473 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'IdentificationId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Services/StudentServer.cs:line 27
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/StudentsController.cs:line 30
+ClientConnectionId:7f47decd-a689-4818-b77f-1d3d89e7944a
+Error Number:207,State:1,Class:16
+2025-03-20 23:41:40.477 +07:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-20 23:41:40.479 +07:00 [INF] Executed action StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement) in 595.7981ms
+2025-03-20 23:41:40.479 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 23:41:40.479 +07:00 [ERR] HTTP GET /api/students responded 500 in 615.4424 ms
+2025-03-20 23:41:40.479 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - 500 null application/json; charset=utf-8 642.0936ms
+2025-03-20 23:41:40.480 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - null null
+2025-03-20 23:41:40.481 +07:00 [INF] CORS policy execution successful.
+2025-03-20 23:41:40.481 +07:00 [INF] Executing endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 23:41:40.482 +07:00 [INF] Route matched with {action = "GetStudents", controller = "Students"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudents(Int32, Int32) on controller StudentManagement.Controllers.StudentsController (StudentManagement).
+2025-03-20 23:41:40.486 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudyPrograms] AS [s]
+2025-03-20 23:41:40.486 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [SchoolYears] AS [s]
+2025-03-20 23:41:40.486 +07:00 [INF] Fetching students (Page: 1, PageSize: 10)
+2025-03-20 23:41:40.487 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudyProgram, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:41:40.487 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.SchoolYear, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:41:40.487 +07:00 [INF] Executed action StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement) in 34.0104ms
+2025-03-20 23:41:40.487 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.ProgramController.GetPrograms (StudentManagement)'
+2025-03-20 23:41:40.487 +07:00 [INF] HTTP GET /api/programs responded 200 in 34.4998 ms
+2025-03-20 23:41:40.488 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/programs - 200 null application/json; charset=utf-8 35.3676ms
+2025-03-20 23:41:40.487 +07:00 [INF] Executed action StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement) in 33.8007ms
+2025-03-20 23:41:40.486 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[Id], [d].[Name]
+FROM [Departments] AS [d]
+2025-03-20 23:41:40.487 +07:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Name]
+FROM [StudentStatuses] AS [s]
+2025-03-20 23:41:40.488 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.SchoolYearController.GetSchoolYears (StudentManagement)'
+2025-03-20 23:41:40.489 +07:00 [INF] HTTP GET /api/schoolyears responded 200 in 35.6311 ms
+2025-03-20 23:41:40.489 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.Department, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:41:40.489 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudentManagement.Models.StudentStatus, StudentManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-03-20 23:41:40.489 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/schoolyears - 200 null application/json; charset=utf-8 36.6642ms
+2025-03-20 23:41:40.489 +07:00 [INF] Executed action StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement) in 35.6802ms
+2025-03-20 23:41:40.490 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentStatusController.GetStudentStatuses (StudentManagement)'
+2025-03-20 23:41:40.490 +07:00 [INF] HTTP GET /api/student-statuses responded 200 in 36.7883 ms
+2025-03-20 23:41:40.489 +07:00 [INF] Executed action DepartmentsController.GetDepartments (StudentManagement) in 44.0887ms
+2025-03-20 23:41:40.490 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/student-statuses - 200 null application/json; charset=utf-8 37.4482ms
+2025-03-20 23:41:40.490 +07:00 [INF] Executed endpoint 'DepartmentsController.GetDepartments (StudentManagement)'
+2025-03-20 23:41:40.490 +07:00 [INF] HTTP GET /api/departments responded 200 in 45.6366 ms
+2025-03-20 23:41:40.490 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/departments - 200 null application/json; charset=utf-8 49.5927ms
+2025-03-20 23:41:40.491 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Students] AS [s]
+2025-03-20 23:41:40.496 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [s].[DepartmentId], [s].[StatusId], [s].[SchoolYearId], [s].[StudyProgramId], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s].[IdentificationId], [s].[DiaChiNhanThuId], [s].[DiaChiThuongTruId], [s].[DiaChiTamTruId]
+FROM [Students] AS [s]
+ORDER BY [s].[MSSV]
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-03-20 23:41:40.497 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'IdentificationId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:59936c17-aca8-4ec5-8dd3-d2494d872f12
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'IdentificationId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:59936c17-aca8-4ec5-8dd3-d2494d872f12
+Error Number:207,State:1,Class:16
+2025-03-20 23:41:40.498 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'IdentificationId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Services/StudentServer.cs:line 27
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in /Users/tantrannhat/Desktop/StudentManagement/Backend/Controllers/StudentsController.cs:line 30
+ClientConnectionId:59936c17-aca8-4ec5-8dd3-d2494d872f12
+Error Number:207,State:1,Class:16
+2025-03-20 23:41:40.499 +07:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-20 23:41:40.499 +07:00 [INF] Executed action StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement) in 17.1539ms
+2025-03-20 23:41:40.499 +07:00 [INF] Executed endpoint 'StudentManagement.Controllers.StudentsController.GetStudents (StudentManagement)'
+2025-03-20 23:41:40.499 +07:00 [ERR] HTTP GET /api/students responded 500 in 17.9437 ms
+2025-03-20 23:41:40.499 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/students?page=1&pageSize=10 - 500 null application/json; charset=utf-8 18.96ms
+2025-03-20 23:48:06.153 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5136/api/data/export/json - null null
+2025-03-20 23:48:06.159 +07:00 [INF] Executing endpoint 'DataController.ExportJson (StudentManagement)'
+2025-03-20 23:48:06.168 +07:00 [INF] Route matched with {action = "ExportJson", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult ExportJson() on controller DataController (StudentManagement).
+2025-03-20 23:48:06.181 +07:00 [INF] Exporting students data to JSON.
+2025-03-20 23:48:06.278 +07:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[MSSV], [s].[HoTen], [s].[NgaySinh], [s].[GioiTinh], [d].[Name] AS [Department], [s0].[Name] AS [SchoolYear], [s1].[Name] AS [StudyProgram], [a].[HouseNumber] + N',' + [a].[StreetName] + N',' + [a].[Ward] + N',' + [a].[District] + N',' + [a].[Country] AS [AddressNhanThu], CASE
+    WHEN [a0].[Id] IS NOT NULL THEN COALESCE([a0].[HouseNumber], N'') + N',' + COALESCE([a0].[StreetName], N'') + N',' + COALESCE([a0].[Ward], N'') + N',' + COALESCE([a0].[District], N'') + N',' + COALESCE([a0].[Country], N'')
+END AS [AddressThuongTru], CASE
+    WHEN [a1].[Id] IS NOT NULL THEN COALESCE([a1].[HouseNumber], N'') + N',' + COALESCE([a1].[StreetName], N'') + N',' + COALESCE([a1].[Ward], N'') + N',' + COALESCE([a1].[District], N'') + N',' + COALESCE([a1].[Country], N'')
+END AS [AddressTamTru], [s].[Email], [s].[SoDienThoai], [s].[QuocTich], [s2].[Name] AS [Status]
+FROM [Students] AS [s]
+INNER JOIN [Departments] AS [d] ON [s].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s0] ON [s].[SchoolYearId] = [s0].[Id]
+INNER JOIN [StudyPrograms] AS [s1] ON [s].[StudyProgramId] = [s1].[Id]
+INNER JOIN [Addresses] AS [a] ON [s].[DiaChiNhanThuId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s].[DiaChiThuongTruId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s].[DiaChiTamTruId] = [a1].[Id]
+INNER JOIN [StudentStatuses] AS [s2] ON [s].[StatusId] = [s2].[Id]
+2025-03-20 23:48:06.320 +07:00 [INF] JSON file generated successfully.
+2025-03-20 23:48:06.322 +07:00 [INF] Executing FileStreamResult, sending file with download name 'students.json' ...
+2025-03-20 23:48:06.329 +07:00 [INF] Executed action DataController.ExportJson (StudentManagement) in 161.5469ms
+2025-03-20 23:48:06.329 +07:00 [INF] Executed endpoint 'DataController.ExportJson (StudentManagement)'
+2025-03-20 23:48:06.330 +07:00 [INF] HTTP GET /api/data/export/json responded 200 in 171.2844 ms
+2025-03-20 23:48:06.330 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5136/api/data/export/json - 200 1099 application/json 177.9785ms

@@ -72,6 +72,6 @@ namespace StudentManagement.Models
         public int StatusId { get; set; }
 
         [ForeignKey("StatusId")]
-        public virtual StudentStatus? StudentStatus { get; set; } // ✅ Cho phép null
+        public virtual StudentStatus? StudentStatus { get; set; }
     }
 }
