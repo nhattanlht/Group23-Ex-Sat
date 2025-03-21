@@ -49,18 +49,21 @@ public class DataController : ControllerBase
                     AddressNhanThu_StreetName = s.DiaChiNhanThu.StreetName,
                     AddressNhanThu_Ward = s.DiaChiNhanThu.Ward,
                     AddressNhanThu_District = s.DiaChiNhanThu.District,
+                    AddressNhanThu_Province = s.DiaChiNhanThu.Province,
                     AddressNhanThu_Country = s.DiaChiNhanThu.Country,
 
                     AddressThuongTru_HouseNumber = s.DiaChiThuongTru.HouseNumber,
                     AddressThuongTru_StreetName = s.DiaChiThuongTru.StreetName,
                     AddressThuongTru_Ward = s.DiaChiThuongTru.Ward,
                     AddressThuongTru_District = s.DiaChiThuongTru.District,
+                    AddressThuongTru_Province = s.DiaChiThuongTru.Province,
                     AddressThuongTru_Country = s.DiaChiThuongTru.Country,
 
                     AddressTamTru_HouseNumber = s.DiaChiTamTru.HouseNumber,
                     AddressTamTru_StreetName = s.DiaChiTamTru.StreetName,
                     AddressTamTru_Ward = s.DiaChiTamTru.Ward,
                     AddressTamTru_District = s.DiaChiTamTru.District,
+                    AddressTamTru_Province = s.DiaChiTamTru.Province,
                     AddressTamTru_Country = s.DiaChiTamTru.Country,
 
                     s.Email,
@@ -72,6 +75,7 @@ public class DataController : ControllerBase
                     Identification_IssueDate = s.Identification.IssueDate,
                     Identification_ExpiryDate = s.Identification.ExpiryDate,
                     Identification_IssuedBy = s.Identification.IssuedBy,
+                    Identification_HasChip = s.Identification.HasChip,
                     Identification_IssuingCountry = s.Identification.IssuingCountry,
                     Identification_Notes = s.Identification.Notes,
 
@@ -121,18 +125,21 @@ public class DataController : ControllerBase
                     AddressNhanThu_StreetName = s.DiaChiNhanThu.StreetName,
                     AddressNhanThu_Ward = s.DiaChiNhanThu.Ward,
                     AddressNhanThu_District = s.DiaChiNhanThu.District,
+                    AddressNhanThu_Province = s.DiaChiNhanThu.Province,
                     AddressNhanThu_Country = s.DiaChiNhanThu.Country,
 
                     AddressThuongTru_HouseNumber = s.DiaChiThuongTru.HouseNumber,
                     AddressThuongTru_StreetName = s.DiaChiThuongTru.StreetName,
                     AddressThuongTru_Ward = s.DiaChiThuongTru.Ward,
                     AddressThuongTru_District = s.DiaChiThuongTru.District,
+                    AddressThuongTru_Province = s.DiaChiThuongTru.Province,
                     AddressThuongTru_Country = s.DiaChiThuongTru.Country,
 
                     AddressTamTru_HouseNumber = s.DiaChiTamTru.HouseNumber,
                     AddressTamTru_StreetName = s.DiaChiTamTru.StreetName,
                     AddressTamTru_Ward = s.DiaChiTamTru.Ward,
                     AddressTamTru_District = s.DiaChiTamTru.District,
+                    AddressTamTru_Province = s.DiaChiTamTru.Province,
                     AddressTamTru_Country = s.DiaChiTamTru.Country,
 
                     s.Email,
@@ -144,6 +151,7 @@ public class DataController : ControllerBase
                     Identification_IssueDate = s.Identification.IssueDate,
                     Identification_ExpiryDate = s.Identification.ExpiryDate,
                     Identification_IssuedBy = s.Identification.IssuedBy,
+                    Identification_HasChip = s.Identification.HasChip,
                     Identification_IssuingCountry = s.Identification.IssuingCountry,
                     Identification_Notes = s.Identification.Notes,
 
@@ -179,61 +187,170 @@ public class DataController : ControllerBase
 
 
     // 3. Import CSV (Thêm kiểm tra trùng lặp & Transaction)
+    private async Task<Address> FindOrCreateAddressAsync(string houseNumber, string streetName, string ward, string district, string province, string country)
+    {
+        var address = await _context.Addresses.FirstOrDefaultAsync(a =>
+            a.HouseNumber == houseNumber &&
+            a.StreetName == streetName &&
+            a.Ward == ward &&
+            a.District == district &&
+            a.Province == province &&
+            a.Country == country);
+
+        if (address == null)
+        {
+            address = new Address
+            {
+                HouseNumber = houseNumber,
+                StreetName = streetName,
+                Ward = ward,
+                District = district,
+                Province = province,
+                Country = country
+            };
+            _context.Addresses.Add(address);
+            await _context.SaveChangesAsync();
+        }
+
+        return address;
+    }
+
     [HttpPost("import/csv")]
     public async Task<IActionResult> ImportCsv([FromForm] IFormFile file)
+{
+    _logger.LogInformation("Importing CSV file.");
+    if (file == null || file.Length == 0)
     {
-        _logger.LogInformation("Importing CSV file.");
-        if (file == null || file.Length == 0)
+        _logger.LogWarning("Invalid CSV file.");
+        return BadRequest(new { message = "File không hợp lệ." });
+    }
+
+    try
+    {
+        using var stream = file.OpenReadStream();
+        using var reader = new StreamReader(stream);
+        using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
+
+        csv.Context.RegisterClassMap<StudentMap>();
+        var records = csv.GetRecords<StudentCsvDto>().ToList();
+
+        if (!records.Any())
         {
-            _logger.LogWarning("Invalid CSV file.");
-            return BadRequest(new { message = "File không hợp lệ." });
+            _logger.LogWarning("CSV file contains no valid data.");
+            return BadRequest(new { message = "Dữ liệu CSV không hợp lệ." });
         }
 
+        var newStudents = new List<Student>();
+
+        foreach (var record in records)
+        {
+            // 🔹 Convert Department Name to ID
+            var department = await _context.Departments.FirstOrDefaultAsync(d => d.Name == record.DepartmentName);
+            if (department == null)
+            {
+                return BadRequest(new { message = $"Department not found: {record.DepartmentName}" });
+            }
+
+            // 🔹 Convert School Year Name to ID
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(sy => sy.Name == record.SchoolYearName);
+            if (schoolYear == null)
+            {
+                return BadRequest(new { message = $"SchoolYear not found: {record.SchoolYearName}" });
+            }
+
+            // 🔹 Convert Study Program Name to ID
+            var studyProgram = await _context.StudyPrograms.FirstOrDefaultAsync(sp => sp.Name == record.StudyProgramName);
+            if (studyProgram == null)
+            {
+                return BadRequest(new { message = $"StudyProgram not found: {record.StudyProgramName}" });
+            }
+
+            // 🔹 Convert Status Name to ID
+            var status = await _context.StudentStatuses.FirstOrDefaultAsync(st => st.Name == record.StatusName);
+            if (status == null)
+            {
+                return BadRequest(new { message = $"Status not found: {record.StatusName}" });
+            }
+
+            // 🔹 Find or create Addresses
+            var diaChiNhanThu = await FindOrCreateAddressAsync(record.DiaChiNhanThu_HouseNumber, record.DiaChiNhanThu_StreetName, record.DiaChiNhanThu_Ward, record.DiaChiNhanThu_District, record.DiaChiNhanThu_Province, record.DiaChiNhanThu_Country);
+            var diaChiThuongTru = await FindOrCreateAddressAsync(record.DiaChiThuongTru_HouseNumber, record.DiaChiThuongTru_StreetName, record.DiaChiThuongTru_Ward, record.DiaChiThuongTru_District, record.DiaChiThuongTru_Province, record.DiaChiThuongTru_Country);
+            var diaChiTamTru = await FindOrCreateAddressAsync(record.DiaChiTamTru_HouseNumber, record.DiaChiTamTru_StreetName, record.DiaChiTamTru_Ward, record.DiaChiTamTru_District, record.DiaChiTamTru_Province, record.DiaChiTamTru_Country);
+
+            // 🔹 Find or create Identification
+            var identification = await _context.Identifications.FirstOrDefaultAsync(i => i.Number == record.Identification_Number);
+            if (identification == null)
+            {
+                identification = new Identification
+                {
+                    IdentificationType = record.Identification_Type,
+                    Number = record.Identification_Number,
+                    IssueDate = record.Identification_IssueDate,
+                    ExpiryDate = record.Identification_ExpiryDate,
+                    IssuedBy = record.Identification_IssuedBy,
+                    HasChip = record.Identification_HasChip,
+                    IssuingCountry = record.Identification_IssuingCountry,
+                    Notes = record.Identification_Notes
+                };
+                _context.Identifications.Add(identification);
+                await _context.SaveChangesAsync();
+            }
+
+            // 🔹 Create Student object
+            var student = new Student
+            {
+                MSSV = record.MSSV,
+                HoTen = record.HoTen,
+                NgaySinh = record.NgaySinh,
+                GioiTinh = record.GioiTinh,
+                DepartmentId = department.Id,
+                SchoolYearId = schoolYear.Id,
+                StudyProgramId = studyProgram.Id,
+                StatusId = status.Id,
+                Email = record.Email,
+                QuocTich = record.QuocTich,
+                SoDienThoai = record.SoDienThoai,
+                DiaChiNhanThuId = diaChiNhanThu?.Id ?? 0,
+                DiaChiThuongTruId = diaChiThuongTru?.Id,
+                DiaChiTamTruId = diaChiTamTru?.Id,
+                IdentificationId = identification.Id
+            };
+
+            newStudents.Add(student);
+        }
+
+        // 🔹 Check for duplicates before inserting
+        var existingIds = _context.Students.Select(s => s.MSSV).ToHashSet();
+        var uniqueStudents = newStudents.Where(s => !existingIds.Contains(s.MSSV)).ToList();
+
+        if (!uniqueStudents.Any())
+        {
+            return BadRequest(new { message = "Tất cả dữ liệu đã tồn tại trong hệ thống!" });
+        }
+
+        // 🔹 Use transaction for data integrity
+        await using var transaction = await _context.Database.BeginTransactionAsync();
         try
         {
-            using var stream = file.OpenReadStream();
-            using var reader = new StreamReader(stream);
-            using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
+            await _context.Students.AddRangeAsync(uniqueStudents);
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
 
-            var records = csv.GetRecords<Student>().ToList();
-            if (!records.Any())
-            {
-                _logger.LogWarning("CSV file contains no valid data.");
-                return BadRequest(new { message = "Dữ liệu CSV không hợp lệ." });
-            }
-
-            // Kiểm tra trùng lặp trước khi thêm vào DB
-            var existingIds = _context.Students.Select(s => s.MSSV).ToHashSet();
-            var newStudents = records.Where(s => !existingIds.Contains(s.MSSV)).ToList();
-
-            if (!newStudents.Any())
-            {
-                return BadRequest(new { message = "Tất cả dữ liệu đã tồn tại trong hệ thống!" });
-            }
-
-            // Sử dụng transaction để đảm bảo toàn vẹn dữ liệu
-            await using var transaction = await _context.Database.BeginTransactionAsync();
-            try
-            {
-                await _context.Students.AddRangeAsync(newStudents);
-                await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
-
-                _logger.LogInformation("CSV import successful.");
-                return Ok(new { message = $"Import CSV thành công ({newStudents.Count} bản ghi mới)." });
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
+            _logger.LogInformation("CSV import successful.");
+            return Ok(new { message = $"Import CSV thành công ({uniqueStudents.Count} bản ghi mới)." });
         }
-        catch (Exception ex)
+        catch
         {
-            _logger.LogError(ex, "Error importing CSV.");
-            return StatusCode(500, new { message = "Lỗi khi import CSV", error = ex.Message });
+            await transaction.RollbackAsync();
+            throw;
         }
     }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error importing CSV.");
+        return StatusCode(500, new { message = "Lỗi khi import CSV", error = ex.Message });
+    }
+}
 
     // 4. Import JSON (Thêm kiểm tra trùng lặp & Transaction)
     [HttpPost("import/json")]
@@ -286,6 +403,7 @@ public class DataController : ControllerBase
                     StudyProgram = _context.StudyPrograms.FirstOrDefault(p => p.Name == studyProgramName),
                     StudentStatus = _context.StudentStatuses.FirstOrDefault(st => st.Name == statusName),
 
+
                     // Địa chỉ
                     DiaChiNhanThu = new Address
                     {
@@ -293,24 +411,27 @@ public class DataController : ControllerBase
                         StreetName = item.AddressNhanThu_StreetName,
                         Ward = item.AddressNhanThu_Ward,
                         District = item.AddressNhanThu_District,
+                        Province = item.AddressNhanThu_Province,
                         Country = item.AddressNhanThu_Country
                     },
-                    DiaChiThuongTru = new Address
+                    DiaChiThuongTru = item.AddressThuongTru_HouseNumber != null ? new Address
                     {
                         HouseNumber = item.AddressThuongTru_HouseNumber,
                         StreetName = item.AddressThuongTru_StreetName,
                         Ward = item.AddressThuongTru_Ward,
                         District = item.AddressThuongTru_District,
+                        Province = item.AddressThuongTru_Province,
                         Country = item.AddressThuongTru_Country
-                    },
-                    DiaChiTamTru = new Address
+                    } : null,
+                    DiaChiTamTru = item.AddressTamTru_HouseNumber != null ? new Address
                     {
                         HouseNumber = item.AddressTamTru_HouseNumber,
                         StreetName = item.AddressTamTru_StreetName,
                         Ward = item.AddressTamTru_Ward,
                         District = item.AddressTamTru_District,
+                        Province = item.AddressTamTru_Province,
                         Country = item.AddressTamTru_Country
-                    },
+                    } : null,
 
                     // Thông tin định danh
                     Identification = new Identification
@@ -325,6 +446,7 @@ public class DataController : ControllerBase
                     }
                 };
 
+                _logger.LogInformation($"New student: {student.GetType()} value: {student}");
                 newStudents.Add(student);
             }
 
