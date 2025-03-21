@@ -8,6 +8,17 @@ using StudentManagement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Đăng ký DbContext với chuỗi kết nối từ appsettings.json
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Đảm bảo database đã được tạo
+using (var scope = builder.Services.BuildServiceProvider().CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate(); // Tạo database nếu chưa có
+}
+
 // Cấu hình Serilog với MSSqlServerSinkOptions
 var columnOptions = new ColumnOptions();
 columnOptions.Store.Remove(StandardColumn.Properties);
@@ -39,10 +50,6 @@ Log.Logger = new LoggerConfiguration()
 
 // Đăng ký Serilog trong ASP.NET Core
 builder.Host.UseSerilog();
-
-// Đăng ký DbContext với chuỗi kết nối từ appsettings.json
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Đăng ký các service
 builder.Services.AddScoped<IStudentService, StudentService>();

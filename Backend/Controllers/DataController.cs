@@ -44,13 +44,38 @@ public class DataController : ControllerBase
                     Department = s.Department != null ? s.Department.Name : null,
                     SchoolYear = s.SchoolYear != null ? s.SchoolYear.Name : null,
                     StudyProgram = s.StudyProgram != null ? s.StudyProgram.Name : null,
-                    AddressNhanThu = s.DiaChiNhanThu != null ? s.DiaChiNhanThu.HouseNumber + "," + s.DiaChiNhanThu.StreetName + "," + s.DiaChiNhanThu.Ward + "," + s.DiaChiNhanThu.District + "," + s.DiaChiNhanThu.Country : null,
-                    AddressThuongTru = s.DiaChiThuongTru != null ? s.DiaChiThuongTru.HouseNumber + "," + s.DiaChiThuongTru.StreetName + "," + s.DiaChiThuongTru.Ward + "," + s.DiaChiThuongTru.District + "," + s.DiaChiThuongTru.Country : null,
-                    AddressTamTru = s.DiaChiTamTru != null ? s.DiaChiTamTru.HouseNumber + "," + s.DiaChiTamTru.StreetName + "," + s.DiaChiTamTru.Ward + "," + s.DiaChiTamTru.District + "," + s.DiaChiTamTru.Country : null,
+
+                    AddressNhanThu_HouseNumber = s.DiaChiNhanThu.HouseNumber,
+                    AddressNhanThu_StreetName = s.DiaChiNhanThu.StreetName,
+                    AddressNhanThu_Ward = s.DiaChiNhanThu.Ward,
+                    AddressNhanThu_District = s.DiaChiNhanThu.District,
+                    AddressNhanThu_Country = s.DiaChiNhanThu.Country,
+
+                    AddressThuongTru_HouseNumber = s.DiaChiThuongTru.HouseNumber,
+                    AddressThuongTru_StreetName = s.DiaChiThuongTru.StreetName,
+                    AddressThuongTru_Ward = s.DiaChiThuongTru.Ward,
+                    AddressThuongTru_District = s.DiaChiThuongTru.District,
+                    AddressThuongTru_Country = s.DiaChiThuongTru.Country,
+
+                    AddressTamTru_HouseNumber = s.DiaChiTamTru.HouseNumber,
+                    AddressTamTru_StreetName = s.DiaChiTamTru.StreetName,
+                    AddressTamTru_Ward = s.DiaChiTamTru.Ward,
+                    AddressTamTru_District = s.DiaChiTamTru.District,
+                    AddressTamTru_Country = s.DiaChiTamTru.Country,
+
                     s.Email,
                     s.SoDienThoai,
                     s.QuocTich,
-                    Status = s.StudentStatus != null ? s.StudentStatus.Name : null
+
+                    Identification_Type = s.Identification.IdentificationType,
+                    Identification_Number = s.Identification.Number,
+                    Identification_IssueDate = s.Identification.IssueDate,
+                    Identification_ExpiryDate = s.Identification.ExpiryDate,
+                    Identification_IssuedBy = s.Identification.IssuedBy,
+                    Identification_IssuingCountry = s.Identification.IssuingCountry,
+                    Identification_Notes = s.Identification.Notes,
+
+                    Status = s.StudentStatus.Name
                 })
                 .AsNoTracking().ToList();
             var json = JsonConvert.SerializeObject(data, Formatting.Indented);
@@ -91,13 +116,38 @@ public class DataController : ControllerBase
                     Department = s.Department != null ? s.Department.Name : null,
                     SchoolYear = s.SchoolYear != null ? s.SchoolYear.Name : null,
                     StudyProgram = s.StudyProgram != null ? s.StudyProgram.Name : null,
-                    AddressNhanThu = s.DiaChiNhanThu != null ? s.DiaChiNhanThu.HouseNumber + " " + s.DiaChiNhanThu.StreetName + " " + s.DiaChiNhanThu.Ward + " " + s.DiaChiNhanThu.District + " " + s.DiaChiNhanThu.Country : null,
-                    AddressThuongTru = s.DiaChiThuongTru != null ? s.DiaChiThuongTru.HouseNumber + " " + s.DiaChiThuongTru.StreetName + " " + s.DiaChiThuongTru.Ward + " " + s.DiaChiThuongTru.District + " " + s.DiaChiThuongTru.Country : null,
-                    AddressTamTru = s.DiaChiTamTru != null ? s.DiaChiTamTru.HouseNumber + " " + s.DiaChiTamTru.StreetName + " " + s.DiaChiTamTru.Ward + " " + s.DiaChiTamTru.District + " " + s.DiaChiTamTru.Country : null,
+
+                    AddressNhanThu_HouseNumber = s.DiaChiNhanThu.HouseNumber,
+                    AddressNhanThu_StreetName = s.DiaChiNhanThu.StreetName,
+                    AddressNhanThu_Ward = s.DiaChiNhanThu.Ward,
+                    AddressNhanThu_District = s.DiaChiNhanThu.District,
+                    AddressNhanThu_Country = s.DiaChiNhanThu.Country,
+
+                    AddressThuongTru_HouseNumber = s.DiaChiThuongTru.HouseNumber,
+                    AddressThuongTru_StreetName = s.DiaChiThuongTru.StreetName,
+                    AddressThuongTru_Ward = s.DiaChiThuongTru.Ward,
+                    AddressThuongTru_District = s.DiaChiThuongTru.District,
+                    AddressThuongTru_Country = s.DiaChiThuongTru.Country,
+
+                    AddressTamTru_HouseNumber = s.DiaChiTamTru.HouseNumber,
+                    AddressTamTru_StreetName = s.DiaChiTamTru.StreetName,
+                    AddressTamTru_Ward = s.DiaChiTamTru.Ward,
+                    AddressTamTru_District = s.DiaChiTamTru.District,
+                    AddressTamTru_Country = s.DiaChiTamTru.Country,
+
                     s.Email,
                     s.SoDienThoai,
                     s.QuocTich,
-                    Status = s.StudentStatus != null ? s.StudentStatus.Name : null
+
+                    Identification_Type = s.Identification.IdentificationType,
+                    Identification_Number = s.Identification.Number,
+                    Identification_IssueDate = s.Identification.IssueDate,
+                    Identification_ExpiryDate = s.Identification.ExpiryDate,
+                    Identification_IssuedBy = s.Identification.IssuedBy,
+                    Identification_IssuingCountry = s.Identification.IssuingCountry,
+                    Identification_Notes = s.Identification.Notes,
+
+                    Status = s.StudentStatus.Name
                 })
                 .AsNoTracking().ToList();
 
@@ -201,17 +251,86 @@ public class DataController : ControllerBase
             using var stream = file.OpenReadStream();
             using var reader = new StreamReader(stream);
             var json = await reader.ReadToEndAsync();
-            var students = JsonConvert.DeserializeObject<List<Student>>(json);
 
-            if (students == null || !students.Any())
+            var importedData = JsonConvert.DeserializeObject<List<dynamic>>(json);
+            if (importedData == null || !importedData.Any())
             {
                 _logger.LogWarning("JSON file contains no valid data.");
                 return BadRequest(new { message = "Dữ liệu JSON không hợp lệ." });
             }
 
-            // Kiểm tra trùng lặp trước khi thêm vào DB
+            // Danh sách sinh viên để thêm vào DB
+            var newStudents = new List<Student>();
+
+            foreach (var item in importedData)
+            {
+                // Chuyển dynamic thành kiểu dữ liệu cố định trước khi query
+                var departmentName = (string)item.Department;
+                var schoolYearName = (string)item.SchoolYear;
+                var studyProgramName = (string)item.StudyProgram;
+                var statusName = (string)item.Status;
+
+                var student = new Student
+                {
+                    MSSV = item.MSSV,
+                    HoTen = item.HoTen,
+                    NgaySinh = item.NgaySinh,
+                    GioiTinh = item.GioiTinh,
+                    Email = item.Email,
+                    SoDienThoai = item.SoDienThoai,
+                    QuocTich = item.QuocTich,
+
+                    // Liên kết với bảng ngoại
+                    Department = _context.Departments.FirstOrDefault(d => d.Name == departmentName),
+                    SchoolYear = _context.SchoolYears.FirstOrDefault(y => y.Name == schoolYearName),
+                    StudyProgram = _context.StudyPrograms.FirstOrDefault(p => p.Name == studyProgramName),
+                    StudentStatus = _context.StudentStatuses.FirstOrDefault(st => st.Name == statusName),
+
+                    // Địa chỉ
+                    DiaChiNhanThu = new Address
+                    {
+                        HouseNumber = item.AddressNhanThu_HouseNumber,
+                        StreetName = item.AddressNhanThu_StreetName,
+                        Ward = item.AddressNhanThu_Ward,
+                        District = item.AddressNhanThu_District,
+                        Country = item.AddressNhanThu_Country
+                    },
+                    DiaChiThuongTru = new Address
+                    {
+                        HouseNumber = item.AddressThuongTru_HouseNumber,
+                        StreetName = item.AddressThuongTru_StreetName,
+                        Ward = item.AddressThuongTru_Ward,
+                        District = item.AddressThuongTru_District,
+                        Country = item.AddressThuongTru_Country
+                    },
+                    DiaChiTamTru = new Address
+                    {
+                        HouseNumber = item.AddressTamTru_HouseNumber,
+                        StreetName = item.AddressTamTru_StreetName,
+                        Ward = item.AddressTamTru_Ward,
+                        District = item.AddressTamTru_District,
+                        Country = item.AddressTamTru_Country
+                    },
+
+                    // Thông tin định danh
+                    Identification = new Identification
+                    {
+                        IdentificationType = item.Identification_Type,
+                        Number = item.Identification_Number,
+                        IssueDate = item.Identification_IssueDate,
+                        ExpiryDate = item.Identification_ExpiryDate,
+                        IssuedBy = item.Identification_IssuedBy,
+                        IssuingCountry = item.Identification_IssuingCountry,
+                        Notes = item.Identification_Notes
+                    }
+                };
+
+                newStudents.Add(student);
+            }
+
+            // Kiểm tra trùng lặp
             var existingIds = _context.Students.Select(s => s.MSSV).ToHashSet();
-            var newStudents = students.Where(s => !existingIds.Contains(s.MSSV)).ToList();
+            newStudents = newStudents.Where(s => !existingIds.Contains(s.MSSV)).ToList();
 
             if (!newStudents.Any())
             {
@@ -241,4 +360,5 @@ public class DataController : ControllerBase
             return StatusCode(500, new { message = "Lỗi khi import JSON", error = ex.Message });
         }
     }
+
 }
