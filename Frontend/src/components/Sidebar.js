@@ -1,35 +1,35 @@
 import { useState } from "react";
 import { Menu } from "lucide-react";
+import { DynamicIcon } from 'lucide-react/dynamic';
 import { Link } from "react-router-dom";
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const pages = [
-        { name: "Sinh viên", href: "/students" },
-        { name: "Nhập/xuất file", href: '/data'},
-        { name: "Khoa", href: "/departments" },
-        { name: "Chương trình", href: "/programs" },
-        { name: "Tình trạng", href: "/statuses" },
+        { name: "Sinh viên", href: "/students", icon: 'circle-user-round' },
+        { name: "Nhập/xuất file", href: '/data', icon: 'file-spreadsheet' },
+        { name: "Khoa", href: "/departments", icon: 'building-2' },
+        { name: "Chương trình", href: "/programs", icon: 'book-open' },
+        { name: "Tình trạng", href: "/statuses", icon: 'user-round-check' },
     ];
 
     return (
-        <div className="h-full flex items-center">
-            {/* Sidebar Icon */}
-            <div 
-                className="p-2 bg-gray-800 text-white cursor-pointer rounded-r-lg hover:bg-gray-700 transition-all"
+        <div className="h-auto flex items-center">
+            {/* Sidebar */}
+            <div
+                className={`h-full bg-gray-900 text-white ${isOpen ? "w-48" : "w-16"} p-4 shadow-lg transition-all duration-300 flex flex-col items-center`}
                 onMouseEnter={() => setIsOpen(true)}
-            >
-                <Menu size={24} />
-            </div>
-            
-            {/* Sidebar Menu */}
-            <div 
-                className={`fixed left-0 top-0 h-full bg-gray-900 text-white w-48 p-4 shadow-lg transform ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300`}
                 onMouseLeave={() => setIsOpen(false)}
             >
-                <ul>
+                <ul className="w-full">
+                    <li className="block pointer mb-4 hover:bg-gray-700 py-2 rounded flex items-center gap-2"><Menu size={24} /></li>
                     {pages.map((page, index) => (
-                        <li key={index} className="mb-4 hover:bg-gray-700 p-2 rounded">
-                            <a href={page.href} className="block">{page.name}</a>
+                        <li key={index} className="block mb-4 hover:bg-gray-700 py-2 rounded flex items-center gap-2">
+                            <Link to={page.href}>
+                                <div className="flex space-x-2 items-center">
+                                    <DynamicIcon name={page.icon} size={24} />
+                                    {isOpen && <span> {page.name}</span>}
+                                </div>
+                            </Link>
                         </li>
                     ))}
                 </ul>
