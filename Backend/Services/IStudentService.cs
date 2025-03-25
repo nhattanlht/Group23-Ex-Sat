@@ -12,6 +12,7 @@ namespace StudentManagement.Services
         Task<(bool Success, string Message)> CreateStudent(Student student);
         Task<(bool Success, string Message)> UpdateStudent(Student student);
         Task<bool> DeleteStudent(string id);
+        
         Task<(IEnumerable<Student>, int, int)> SearchStudents(StudentFilterModel filter, int page, int pageSize);
     }
 }
