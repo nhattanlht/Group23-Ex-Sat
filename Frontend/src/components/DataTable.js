@@ -114,7 +114,7 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
   return (
     (dataSet.length > 0) ? (
     <div className="py-4">
-      <table className="table-auto w-full whitespace-nowrap">
+      <table className="table-auto whitespace-nowrap overflow-x-scroll">
         <thead>
           <tr>
             <th>Hành động</th>
@@ -195,7 +195,7 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
         )}
     </div>
     ) : (
-      <div className="flex justify-center">Không tìm thấy dữ liệu</div>
+      <div className="flex justify-center mt-4">Không tìm thấy dữ liệu</div>
     )
   );
 };

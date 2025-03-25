@@ -58,8 +58,7 @@ const DataList = ({fields, dataName, pk, label}) => {
 
   return (
     <div>
-      <h2>Danh sách {label}</h2>
-      <div className="d-flex mb-3">
+      <div className="flex mb-3">
         <button className="btn btn-success me-2" onClick={() => { setModalData(null); setShowModal(true); }}>
           Thêm {label}
         </button>
