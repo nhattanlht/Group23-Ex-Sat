@@ -3,7 +3,9 @@ import axios from 'axios';
 import config from '../config';
 
 const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = null }) => {
+    const ALLOWED_EMAIL_ENDING = process.env.ALLOWED_EMAIL_ENDING || "@gmail.com";
     const [formData, setFormData] = useState({});
+    const [emailError, setEmailError] = useState("");
 
     useEffect(() => {
         handleInitializeFormData(fields, data);
@@ -33,6 +35,14 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
             
             if (name === "identificationType") {
                 updatedFormData.identification = {}; // Clear existing identification fields
+            }
+
+            if (name === "email") {
+                if (!value.endsWith(ALLOWED_EMAIL_ENDING)) {
+                    setEmailError(`Email phải kết thúc bằng "${ALLOWED_EMAIL_ENDING}"`);
+                } else {
+                    setEmailError(""); // Clear the error if valid
+                }
             }
     
             return updatedFormData;
@@ -131,6 +141,21 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                         );
                                                     })}
                                                 </div>
+                                            ) : field.type === "email" ? (
+                                                <div>
+                                                    <input
+                                                        id={field.accessor}
+                                                        name={field.accessor}
+                                                        type="email"
+                                                        value={formData[field.accessor] || ""}
+                                                        onChange={handleChange}
+                                                        className={`w-full border p-2 ${emailError ? "border-red-500" : ""}`} // Highlight border if there's an error
+                                                        required={field.required}
+                                                    />
+                                                    {emailError && (
+                                                        <small className="text-red-500">{emailError}</small> // Display error message
+                                                    )}
+                                                </div>
                                             ) : (
                                                 <input
                                                     id={field.accessor}
@@ -149,7 +174,13 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
 
                                 <div className="flex justify-end gap-2 col-span-3">
                                     <button type="button" className="btn btn-secondary" onClick={onClose}>Hủy</button>
-                                    <button type="submit" className="btn btn-primary ">{data ? "Cập nhật" : "Thêm"}</button>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                        disabled={!!emailError} // Disable if there's an error
+                                    >
+                                        {data ? "Cập nhật" : "Thêm"}
+                                    </button>
                                 </div>
                             </form>
                         </div>
