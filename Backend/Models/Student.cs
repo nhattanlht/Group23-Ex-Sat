@@ -44,6 +44,7 @@ namespace StudentManagement.Models
         public string QuocTich { get; set; }
 
         [Phone]
+        [PhoneNumber("VN")]
         public string? SoDienThoai { get; set; }
 
         [Required]

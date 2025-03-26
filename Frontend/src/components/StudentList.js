@@ -7,7 +7,7 @@ import DataTable from './DataTable';
 import { loadData, handleAddRow, handleEditRow, handleDeleteRow } from '../util/callCRUDApi';
 import DataForm from './DataForm';
 import { Search } from 'lucide-react';
-import PageLayout from './PageLayout';
+
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -241,11 +241,14 @@ const StudentList = () => {
 
       delete student.diaChiTamTru;
 
-      await handleAddRow('students', student);
-      setShowModal(false);
+      const response = await handleAddRow('students', student);
+      
       loadStudents(currentPage, filters);
+
+      return response;
     } catch (error) {
       alert('Lỗi khi thêm sinh viên!');
+      throw error;
     }
   };
 
@@ -309,11 +312,13 @@ const StudentList = () => {
 
       console.log(student);
 
-      await handleEditRow('students', student.mssv, student);
-      setShowModal(false);
+      const response = await handleEditRow('students', student.mssv, student);
       loadStudents(currentPage, filters);
+      
+      return response;
     } catch (error) {
       alert('Lỗi khi chỉnh sửa sinh viên!');
+      throw error;
     }
   };
 
@@ -397,7 +402,7 @@ const StudentList = () => {
         </button>
         <Link to='/data'>
           <button className='btn btn-primary'>
-          Import/Export
+            Import/Export
           </button>
         </Link>
         <form id="searchForm" className='flex space-x-2' onSubmit={(e) => { e.preventDefault(); loadStudents(1, filters); }}>
