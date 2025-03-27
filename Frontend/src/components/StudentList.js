@@ -179,7 +179,8 @@ const StudentList = () => {
     return nestedObject;
   };
 
-  const handleAddStudent = async (student) => {
+  const handleAddStudent = async (studentForm) => {
+    const student = structuredClone(studentForm);
     try {
       student.identification["identification.identificationType"] = student.identificationType;
 
@@ -252,7 +253,8 @@ const StudentList = () => {
     }
   };
 
-  const handleEditStudent = async (student) => {
+  const handleEditStudent = async (studentForm) => {
+    const student = structuredClone(studentForm);
     try {
       student.identification["identificationType"] = student.identificationType;
 
