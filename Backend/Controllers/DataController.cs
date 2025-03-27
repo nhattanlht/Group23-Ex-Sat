@@ -6,7 +6,7 @@ using CsvHelper.Configuration;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Models;
-
+using System.ComponentModel.DataAnnotations;
 [ApiController]
 [Route("api/[controller]")]
 public class DataController : ControllerBase
@@ -189,6 +189,28 @@ public class DataController : ControllerBase
     // 3. Import CSV (Thêm kiểm tra trùng lặp & Transaction)
     private async Task<Address> FindOrCreateAddressAsync(string houseNumber, string streetName, string ward, string district, string province, string country)
     {
+        // Check if ALL address fields are empty → No address needed
+        if (string.IsNullOrWhiteSpace(houseNumber) &&
+            string.IsNullOrWhiteSpace(streetName) &&
+            string.IsNullOrWhiteSpace(ward) &&
+            string.IsNullOrWhiteSpace(district) &&
+            string.IsNullOrWhiteSpace(province) &&
+            string.IsNullOrWhiteSpace(country))
+        {
+            return null; // No address, student can still be imported
+        }
+
+        // Check if SOME fields are missing → This is an error!
+        if (string.IsNullOrWhiteSpace(houseNumber) ||
+            string.IsNullOrWhiteSpace(streetName) ||
+            string.IsNullOrWhiteSpace(ward) ||
+            string.IsNullOrWhiteSpace(district) ||
+            string.IsNullOrWhiteSpace(province) ||
+            string.IsNullOrWhiteSpace(country))
+        {
+            throw new Exception("Địa chỉ không hợp lệ, cần điền tất cả các trường hoặc bỏ trống tất cả.");
+        }
+
         var address = await _context.Addresses.FirstOrDefaultAsync(a =>
             a.HouseNumber == houseNumber &&
             a.StreetName == streetName &&
@@ -217,140 +239,153 @@ public class DataController : ControllerBase
 
     [HttpPost("import/csv")]
     public async Task<IActionResult> ImportCsv([FromForm] IFormFile file)
-{
-    _logger.LogInformation("Importing CSV file.");
-    if (file == null || file.Length == 0)
     {
-        _logger.LogWarning("Invalid CSV file.");
-        return BadRequest(new { message = "File không hợp lệ." });
-    }
-
-    try
-    {
-        using var stream = file.OpenReadStream();
-        using var reader = new StreamReader(stream);
-        using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
-
-        csv.Context.RegisterClassMap<StudentMap>();
-        var records = csv.GetRecords<StudentCsvDto>().ToList();
-
-        if (!records.Any())
+        _logger.LogInformation("Importing CSV file.");
+        if (file == null || file.Length == 0)
         {
-            _logger.LogWarning("CSV file contains no valid data.");
-            return BadRequest(new { message = "Dữ liệu CSV không hợp lệ." });
+            _logger.LogWarning("Invalid CSV file.");
+            return BadRequest(new { message = "File không hợp lệ." });
         }
 
-        var newStudents = new List<Student>();
-
-        foreach (var record in records)
-        {
-            // 🔹 Convert Department Name to ID
-            var department = await _context.Departments.FirstOrDefaultAsync(d => d.Name == record.DepartmentName);
-            if (department == null)
-            {
-                return BadRequest(new { message = $"Department not found: {record.DepartmentName}" });
-            }
-
-            // 🔹 Convert School Year Name to ID
-            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(sy => sy.Name == record.SchoolYearName);
-            if (schoolYear == null)
-            {
-                return BadRequest(new { message = $"SchoolYear not found: {record.SchoolYearName}" });
-            }
-
-            // 🔹 Convert Study Program Name to ID
-            var studyProgram = await _context.StudyPrograms.FirstOrDefaultAsync(sp => sp.Name == record.StudyProgramName);
-            if (studyProgram == null)
-            {
-                return BadRequest(new { message = $"StudyProgram not found: {record.StudyProgramName}" });
-            }
-
-            // 🔹 Convert Status Name to ID
-            var status = await _context.StudentStatuses.FirstOrDefaultAsync(st => st.Name == record.StatusName);
-            if (status == null)
-            {
-                return BadRequest(new { message = $"Status not found: {record.StatusName}" });
-            }
-
-            // 🔹 Find or create Addresses
-            var diaChiNhanThu = await FindOrCreateAddressAsync(record.DiaChiNhanThu_HouseNumber, record.DiaChiNhanThu_StreetName, record.DiaChiNhanThu_Ward, record.DiaChiNhanThu_District, record.DiaChiNhanThu_Province, record.DiaChiNhanThu_Country);
-            var diaChiThuongTru = await FindOrCreateAddressAsync(record.DiaChiThuongTru_HouseNumber, record.DiaChiThuongTru_StreetName, record.DiaChiThuongTru_Ward, record.DiaChiThuongTru_District, record.DiaChiThuongTru_Province, record.DiaChiThuongTru_Country);
-            var diaChiTamTru = await FindOrCreateAddressAsync(record.DiaChiTamTru_HouseNumber, record.DiaChiTamTru_StreetName, record.DiaChiTamTru_Ward, record.DiaChiTamTru_District, record.DiaChiTamTru_Province, record.DiaChiTamTru_Country);
-
-            // 🔹 Find or create Identification
-            var identification = await _context.Identifications.FirstOrDefaultAsync(i => i.Number == record.Identification_Number);
-            if (identification == null)
-            {
-                identification = new Identification
-                {
-                    IdentificationType = record.Identification_Type,
-                    Number = record.Identification_Number,
-                    IssueDate = record.Identification_IssueDate,
-                    ExpiryDate = record.Identification_ExpiryDate,
-                    IssuedBy = record.Identification_IssuedBy,
-                    HasChip = record.Identification_HasChip,
-                    IssuingCountry = record.Identification_IssuingCountry,
-                    Notes = record.Identification_Notes
-                };
-                _context.Identifications.Add(identification);
-                await _context.SaveChangesAsync();
-            }
-
-            // 🔹 Create Student object
-            var student = new Student
-            {
-                MSSV = record.MSSV,
-                HoTen = record.HoTen,
-                NgaySinh = record.NgaySinh,
-                GioiTinh = record.GioiTinh,
-                DepartmentId = department.Id,
-                SchoolYearId = schoolYear.Id,
-                StudyProgramId = studyProgram.Id,
-                StatusId = status.Id,
-                Email = record.Email,
-                QuocTich = record.QuocTich,
-                SoDienThoai = record.SoDienThoai,
-                DiaChiNhanThuId = diaChiNhanThu?.Id ?? 0,
-                DiaChiThuongTruId = diaChiThuongTru?.Id,
-                DiaChiTamTruId = diaChiTamTru?.Id,
-                IdentificationId = identification.Id
-            };
-
-            newStudents.Add(student);
-        }
-
-        // 🔹 Check for duplicates before inserting
-        var existingIds = _context.Students.Select(s => s.MSSV).ToHashSet();
-        var uniqueStudents = newStudents.Where(s => !existingIds.Contains(s.MSSV)).ToList();
-
-        if (!uniqueStudents.Any())
-        {
-            return BadRequest(new { message = "Tất cả dữ liệu đã tồn tại trong hệ thống!" });
-        }
-
-        // 🔹 Use transaction for data integrity
-        await using var transaction = await _context.Database.BeginTransactionAsync();
         try
         {
-            await _context.Students.AddRangeAsync(uniqueStudents);
-            await _context.SaveChangesAsync();
-            await transaction.CommitAsync();
+            using var stream = file.OpenReadStream();
+            using var reader = new StreamReader(stream);
+            using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
 
-            _logger.LogInformation("CSV import successful.");
-            return Ok(new { message = $"Import CSV thành công ({uniqueStudents.Count} bản ghi mới)." });
+            csv.Context.RegisterClassMap<StudentMap>();
+            var records = csv.GetRecords<StudentDto>().ToList();
+
+            if (!records.Any())
+            {
+                _logger.LogWarning("CSV file contains no valid data.");
+                return BadRequest(new { message = "Dữ liệu CSV không hợp lệ." });
+            }
+            var serviceProvider = HttpContext.RequestServices;
+            var validationResults = new List<ValidationResult>();
+            var newStudents = new List<Student>();
+
+            foreach (var record in records)
+            {
+                var context = new ValidationContext(record, serviceProvider, null);
+                var results = new List<ValidationResult>();
+
+                if (!Validator.TryValidateObject(record, context, results, true))
+                {
+                    validationResults.AddRange(results);
+                    continue;
+                }
+
+                // 🔹 Convert Department Name to ID
+                var department = await _context.Departments.FirstOrDefaultAsync(d => d.Name == record.Department);
+                if (department == null)
+                {
+                    return BadRequest(new { message = $"Department not found: {record.Department}" });
+                }
+
+                // 🔹 Convert School Year Name to ID
+                var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(sy => sy.Name == record.SchoolYear);
+                if (schoolYear == null)
+                {
+                    return BadRequest(new { message = $"SchoolYear not found: {record.SchoolYear}" });
+                }
+
+                // 🔹 Convert Study Program Name to ID
+                var studyProgram = await _context.StudyPrograms.FirstOrDefaultAsync(sp => sp.Name == record.StudyProgram);
+                if (studyProgram == null)
+                {
+                    return BadRequest(new { message = $"StudyProgram not found: {record.StudyProgram}" });
+                }
+
+                // 🔹 Convert Status Name to ID
+                var status = await _context.StudentStatuses.FirstOrDefaultAsync(st => st.Name == record.Status);
+                if (status == null)
+                {
+                    return BadRequest(new { message = $"Status not found: {record.Status}" });
+                }
+
+                // 🔹 Find or create Addresses
+                var diaChiNhanThu = await FindOrCreateAddressAsync(record.AddressNhanThu_HouseNumber, record.AddressNhanThu_StreetName, record.AddressNhanThu_Ward, record.AddressNhanThu_District, record.AddressNhanThu_Province, record.AddressNhanThu_Country);
+                var diaChiThuongTru = await FindOrCreateAddressAsync(record.AddressThuongTru_HouseNumber, record.AddressThuongTru_StreetName, record.AddressThuongTru_Ward, record.AddressThuongTru_District, record.AddressThuongTru_Province, record.AddressThuongTru_Country);
+                var diaChiTamTru = await FindOrCreateAddressAsync(record.AddressTamTru_HouseNumber, record.AddressTamTru_StreetName, record.AddressTamTru_Ward, record.AddressTamTru_District, record.AddressTamTru_Province, record.AddressTamTru_Country);
+
+                // 🔹 Find or create Identification
+                var identification = await _context.Identifications.FirstOrDefaultAsync(i => i.Number == record.Identification_Number);
+                if (identification == null)
+                {
+                    identification = new Identification
+                    {
+                        IdentificationType = record.Identification_Type,
+                        Number = record.Identification_Number,
+                        IssueDate = record.Identification_IssueDate,
+                        ExpiryDate = record.Identification_ExpiryDate,
+                        IssuedBy = record.Identification_IssuedBy,
+                        HasChip = record.Identification_HasChip,
+                        IssuingCountry = record.Identification_IssuingCountry,
+                        Notes = record.Identification_Notes
+                    };
+                    _context.Identifications.Add(identification);
+                    await _context.SaveChangesAsync();
+                }
+
+                // 🔹 Create Student object
+                var student = new Student
+                {
+                    MSSV = record.MSSV,
+                    HoTen = record.HoTen,
+                    NgaySinh = record.NgaySinh,
+                    GioiTinh = record.GioiTinh,
+                    DepartmentId = department.Id,
+                    SchoolYearId = schoolYear.Id,
+                    StudyProgramId = studyProgram.Id,
+                    StatusId = status.Id,
+                    Email = record.Email,
+                    QuocTich = record.QuocTich,
+                    SoDienThoai = record.SoDienThoai,
+                    DiaChiNhanThuId = diaChiNhanThu?.Id ?? 0,
+                    DiaChiThuongTruId = diaChiThuongTru?.Id,
+                    DiaChiTamTruId = diaChiTamTru?.Id,
+                    IdentificationId = identification.Id
+                };
+
+                newStudents.Add(student);
+            }
+
+            if (validationResults.Count > 0)
+                return BadRequest(validationResults);
+
+            // 🔹 Check for duplicates before inserting
+            var existingIds = _context.Students.Select(s => s.MSSV).ToHashSet();
+            var uniqueStudents = newStudents.Where(s => !existingIds.Contains(s.MSSV)).ToList();
+
+            if (!uniqueStudents.Any())
+            {
+                return BadRequest(new { message = "Tất cả dữ liệu đã tồn tại trong hệ thống!" });
+            }
+
+            // 🔹 Use transaction for data integrity
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                await _context.Students.AddRangeAsync(uniqueStudents);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                _logger.LogInformation("CSV import successful.");
+                return Ok(new { message = $"Import CSV thành công ({uniqueStudents.Count} bản ghi mới)." });
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
-        catch
+        catch (Exception ex)
         {
-            await transaction.RollbackAsync();
-            throw;
+            _logger.LogError(ex, "Error importing CSV.");
+            return StatusCode(500, new { message = "Lỗi khi import CSV", error = ex.Message });
         }
     }
-    catch (Exception ex)
-    {
-        _logger.LogError(ex, "Error importing CSV.");
-        return StatusCode(500, new { message = "Lỗi khi import CSV", error = ex.Message });
-    }
-}
 
     // 4. Import JSON (Thêm kiểm tra trùng lặp & Transaction)
     [HttpPost("import/json")]
@@ -369,7 +404,7 @@ public class DataController : ControllerBase
             using var reader = new StreamReader(stream);
             var json = await reader.ReadToEndAsync();
 
-            var importedData = JsonConvert.DeserializeObject<List<dynamic>>(json);
+            var importedData = JsonConvert.DeserializeObject<List<StudentDto>>(json);
             if (importedData == null || !importedData.Any())
             {
                 _logger.LogWarning("JSON file contains no valid data.");
@@ -377,15 +412,21 @@ public class DataController : ControllerBase
             }
 
             // Danh sách sinh viên để thêm vào DB
+            var validationResults = new List<ValidationResult>();
             var newStudents = new List<Student>();
+            var serviceProvider = HttpContext.RequestServices;
+
 
             foreach (var item in importedData)
             {
-                // Chuyển dynamic thành kiểu dữ liệu cố định trước khi query
-                var departmentName = (string)item.Department;
-                var schoolYearName = (string)item.SchoolYear;
-                var studyProgramName = (string)item.StudyProgram;
-                var statusName = (string)item.Status;
+                var context = new ValidationContext(item, serviceProvider, null);
+                var results = new List<ValidationResult>();
+
+                if (!Validator.TryValidateObject(item, context, results, true))
+                {
+                    validationResults.AddRange(results);
+                    continue;
+                }
 
                 var student = new Student
                 {
@@ -398,10 +439,10 @@ public class DataController : ControllerBase
                     QuocTich = item.QuocTich,
 
                     // Liên kết với bảng ngoại
-                    Department = _context.Departments.FirstOrDefault(d => d.Name == departmentName),
-                    SchoolYear = _context.SchoolYears.FirstOrDefault(y => y.Name == schoolYearName),
-                    StudyProgram = _context.StudyPrograms.FirstOrDefault(p => p.Name == studyProgramName),
-                    StudentStatus = _context.StudentStatuses.FirstOrDefault(st => st.Name == statusName),
+                    Department = _context.Departments.FirstOrDefault(d => d.Name == item.Department),
+                    SchoolYear = _context.SchoolYears.FirstOrDefault(y => y.Name == item.SchoolYear),
+                    StudyProgram = _context.StudyPrograms.FirstOrDefault(p => p.Name == item.StudyProgram),
+                    StudentStatus = _context.StudentStatuses.FirstOrDefault(st => st.Name == item.Status),
 
 
                     // Địa chỉ
@@ -449,6 +490,9 @@ public class DataController : ControllerBase
                 _logger.LogInformation($"New student: {student.GetType()} value: {student}");
                 newStudents.Add(student);
             }
+
+            if (validationResults.Count > 0)
+                return BadRequest(validationResults);
 
             // Kiểm tra trùng lặp
             var existingIds = _context.Students.Select(s => s.MSSV).ToHashSet();

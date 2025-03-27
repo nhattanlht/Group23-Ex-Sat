@@ -28,13 +28,10 @@ export const loadDataNoPaging = async (dataName) => {
 export const handleAddRow = async (dataName, data) => {
     try {
         const response = await axios.post(`${config.backendUrl}/api/${dataName}`, data);
-        alert('Thêm dữ liệu thành công');
-
         return response.data;
     } catch (error) {
-        alert(error.response?.data?.message || 'Lỗi không xác định');
         console.error("Lỗi khi thêm dữ liệu:", error);
-        return null;
+        throw error;
     }
 }
 
@@ -44,9 +41,8 @@ export const handleEditRow = async (dataName, id, data) => {
         alert('Cập nhật dữ liệu thành công');
         return response.data;
     } catch (error) {
-        alert(error.response?.data?.message || 'Lỗi không xác định');
         console.error("Lỗi khi cập nhật dữ liệu:", error);
-        return null;
+        throw error;
     }
 }
 

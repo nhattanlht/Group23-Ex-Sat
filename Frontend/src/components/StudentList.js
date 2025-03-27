@@ -7,7 +7,7 @@ import DataTable from './DataTable';
 import { loadData, handleAddRow, handleEditRow, handleDeleteRow } from '../util/callCRUDApi';
 import DataForm from './DataForm';
 import { Search } from 'lucide-react';
-import PageLayout from './PageLayout';
+
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -179,7 +179,8 @@ const StudentList = () => {
     return nestedObject;
   };
 
-  const handleAddStudent = async (student) => {
+  const handleAddStudent = async (studentForm) => {
+    const student = structuredClone(studentForm);
     try {
       student.identification["identification.identificationType"] = student.identificationType;
 
@@ -241,15 +242,19 @@ const StudentList = () => {
 
       delete student.diaChiTamTru;
 
-      await handleAddRow('students', student);
-      setShowModal(false);
+      const response = await handleAddRow('students', student);
+      
       loadStudents(currentPage, filters);
+
+      return response;
     } catch (error) {
       alert('Lỗi khi thêm sinh viên!');
+      throw error;
     }
   };
 
-  const handleEditStudent = async (student) => {
+  const handleEditStudent = async (studentForm) => {
+    const student = structuredClone(studentForm);
     try {
       student.identification["identificationType"] = student.identificationType;
 
@@ -309,11 +314,13 @@ const StudentList = () => {
 
       console.log(student);
 
-      await handleEditRow('students', student.mssv, student);
-      setShowModal(false);
+      const response = await handleEditRow('students', student.mssv, student);
       loadStudents(currentPage, filters);
+      
+      return response;
     } catch (error) {
       alert('Lỗi khi chỉnh sửa sinh viên!');
+      throw error;
     }
   };
 
@@ -391,12 +398,13 @@ const StudentList = () => {
 
   return (
     <div>
-      <div className="flex space-x-2">
-        <button className="btn btn-success" onClick={() => { setModalData(null); setShowModal(true); }}>
+      <h2>Danh sách sinh viên</h2>
+      <div className="d-flex mb-3">
+        <button className="btn btn-success mb-2 mr-2" onClick={() => { setModalData(null); setShowModal(true); }}>
           Thêm Sinh Viên
         </button>
         <Link to='/data'>
-          <button className='btn btn-primary'>
+          <button className='btn btn-primary mb-2'>
           Import/Export
           </button>
         </Link>
@@ -416,7 +424,7 @@ const StudentList = () => {
             ))}
           </select>
 
-          <button type="submit" className='btn-primary'><Search size={16} /></button>
+          <button type="submit" className='btn btn-primary'><Search size={16} /></button>
         </form>
 
       </div>

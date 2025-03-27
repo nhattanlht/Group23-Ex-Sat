@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
-import config from '../config';
 
 const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = null }) => {
     const ALLOWED_EMAIL_ENDING = process.env.ALLOWED_EMAIL_ENDING || "@gmail.com";
     const [formData, setFormData] = useState({});
     const [emailError, setEmailError] = useState("");
-
     useEffect(() => {
         handleInitializeFormData(fields, data);
     }, [data, fields]);
@@ -30,9 +27,11 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
     const handleChange = (e) => {
         const { name, value, type } = e.target;
         setFormData((formData) => {
-            const updatedFormData = {...formData,
-                [name]: type === "number" ? Number(value) : value}
-            
+            const updatedFormData = {
+                ...formData,
+                [name]: type === "number" ? Number(value) : value
+            }
+
             if (name === "identificationType") {
                 updatedFormData.identification = {}; // Clear existing identification fields
             }
@@ -44,7 +43,6 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                     setEmailError(""); // Clear the error if valid
                 }
             }
-    
             return updatedFormData;
         });
     };
@@ -59,12 +57,25 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onSave(formData);
-        onClose();
+        setErrors({});
+        try {
+            const response = await onSave(formData);
+            if(response){
+                onClose();
+            }
+        } catch (error) {
+            if (error.response && error.response.data.errors) {
+                setErrors(error.response.data.errors); // Store validation errors
+            }
+            console.error("Lỗi khi cập nhật dữ liệu", error);
+        }
     };
 
+    function capitalize(string) {
+        return string[0].toUpperCase() + string.slice(1);
+    }
     return (
         <div className="modal show" style={{ display: 'block' }}>
             <div className="modal-dialog">
@@ -107,37 +118,37 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                         if (subField.hidden) {
                                                             return null;
                                                         }
-                                                        
+
                                                         return data ? (
-                                                        <div key={subField.accessor} className="mb-2">
-                                                            <label htmlFor={`${field.accessor}.${subField.accessor}`}>{subField.display}</label>
-                                                            <input
-                                                                id={`${field.accessor}.${subField.accessor}`}
-                                                                name={`${field.accessor}.${subField.accessor}`}
-                                                                type={subField.type || "text"} // Default to "text"
-                                                                value={formData[field.accessor]?.[subField.accessor.split(".")[1]] || ""}
-                                                                onChange={(e) =>
-                                                                    handleGroupChange(field.accessor, subField.accessor.split(".")[1], e.target.value)
-                                                                }
-                                                                className="w-full border p-2"
-                                                                required={subField.required}
-                                                            />
-                                                        </div>
+                                                            <div key={subField.accessor} className="mb-2">
+                                                                <label htmlFor={`${field.accessor}.${subField.accessor}`}>{subField.display}</label>
+                                                                <input
+                                                                    id={`${field.accessor}.${subField.accessor}`}
+                                                                    name={`${field.accessor}.${subField.accessor}`}
+                                                                    type={subField.type || "text"} // Default to "text"
+                                                                    value={formData[field.accessor]?.[subField.accessor.split(".")[1]] || ""}
+                                                                    onChange={(e) =>
+                                                                        handleGroupChange(field.accessor, subField.accessor.split(".")[1], e.target.value)
+                                                                    }
+                                                                    className="w-full border p-2"
+                                                                    required={subField.required}
+                                                                />
+                                                            </div>
                                                         ) : (
                                                             <div key={subField.accessor} className="mb-2">
-                                                            <label htmlFor={`${field.accessor}.${subField.accessor}`}>{subField.display}</label>
-                                                            <input
-                                                                id={`${field.accessor}.${subField.accessor}`}
-                                                                name={`${field.accessor}.${subField.accessor}`}
-                                                                type={subField.type || "text"} // Default to "text"
-                                                                value={formData[field.accessor]?.[subField.accessor] || ""}
-                                                                onChange={(e) =>
-                                                                    handleGroupChange(field.accessor, subField.accessor, e.target.value)
-                                                                }
-                                                                className="w-full border p-2"
-                                                                required={subField.required}
-                                                            />
-                                                        </div>
+                                                                <label htmlFor={`${field.accessor}.${subField.accessor}`}>{subField.display}</label>
+                                                                <input
+                                                                    id={`${field.accessor}.${subField.accessor}`}
+                                                                    name={`${field.accessor}.${subField.accessor}`}
+                                                                    type={subField.type || "text"} // Default to "text"
+                                                                    value={formData[field.accessor]?.[subField.accessor] || ""}
+                                                                    onChange={(e) =>
+                                                                        handleGroupChange(field.accessor, subField.accessor, e.target.value)
+                                                                    }
+                                                                    className="w-full border p-2"
+                                                                    required={subField.required}
+                                                                />
+                                                            </div>
                                                         );
                                                     })}
                                                 </div>
@@ -168,6 +179,10 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                     className="w-full border p-2"
                                                     required={field.required}
                                                 />
+                                            )}
+
+                                            {errors[capitalize(field.accessor)] && (
+                                                <p className="text-red-600">{errors[capitalize(field.accessor)][0]}</p>
                                             )}
                                         </div>
                                     ))}

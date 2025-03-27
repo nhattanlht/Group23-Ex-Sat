@@ -5,6 +5,7 @@
 Backend/bin/
 Backend/obj/
 Backend/TestResults/
+Backend/logs/
 #Frontend
 # dependencies
 Frontend/node_modules

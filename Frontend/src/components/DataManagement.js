@@ -7,6 +7,7 @@ const DataManagement = () => {
     const [loading, setLoading] = useState(false);
     const fileInputRef = useRef(null); // Tạo ref cho input file
     const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5136";
+    const [error, setError] = useState([]);
 
     // Export dữ liệu
     const handleExport = useCallback((type) => {
@@ -36,6 +37,7 @@ const DataManagement = () => {
 
     // Import dữ liệu
     const handleImport = useCallback(async () => {
+        setError([]);
         if (!fileType) {
             alert("Vui lòng chọn định dạng file trước khi import!");
             return;
@@ -59,6 +61,7 @@ const DataManagement = () => {
         } catch (error) {
             console.error("Lỗi khi import:", error);
             alert(error.response?.data?.message || "Lỗi khi import dữ liệu!");
+            setError(error.response?.data);
         } finally {
             setLoading(false);
         }
@@ -109,6 +112,8 @@ const DataManagement = () => {
                     className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
                     onClick={handleFileInputClick} // Ngăn chọn file nếu chưa chọn định dạng
                 />
+
+                {error && Array.isArray(error) && error.map((row, index) => <p className="text-red-500 text-sm mt-2" key={index}>{ row.errorMessage }</p>)}
 
                 {/* Nút Import */}
                 <div className="mt-3 flex justify-center">
