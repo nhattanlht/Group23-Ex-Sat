@@ -12,8 +12,8 @@ using StudentManagement.Models;
 namespace StudentManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250325125943_BusinessRuleStatus")]
-    partial class BusinessRuleStatus
+    [Migration("20250327055702_Newest")]
+    partial class Newest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

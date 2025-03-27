@@ -5,7 +5,7 @@
 namespace StudentManagement.Migrations
 {
     /// <inheritdoc />
-    public partial class BusinessRuleStatus : Migration
+    public partial class Newest : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
