@@ -23,19 +23,19 @@ public sealed class StudentMap : ClassMap<StudentDto>
         Map(m => m.AddressNhanThu_Province).Name("AddressNhanThu_Province");
         Map(m => m.AddressNhanThu_Country).Name("AddressNhanThu_Country");
 
-        Map(m => m.AddressThuongTru_HouseNumber).Name("AddressThuongTru_HouseNumber").Optional();
-        Map(m => m.AddressThuongTru_StreetName).Name("AddressThuongTru_StreetName").Optional();
-        Map(m => m.AddressThuongTru_Ward).Name("AddressThuongTru_Ward").Optional();
-        Map(m => m.AddressThuongTru_District).Name("AddressThuongTru_District").Optional();
-        Map(m => m.AddressThuongTru_Province).Name("AddressThuongTru_Province").Optional();
-        Map(m => m.AddressThuongTru_Country).Name("AddressThuongTru_Country").Optional();
+        Map(m => m.AddressThuongTru_HouseNumber).Name("AddressThuongTru_HouseNumber").TypeConverterOption.NullValues("");
+        Map(m => m.AddressThuongTru_StreetName).Name("AddressThuongTru_StreetName").TypeConverterOption.NullValues("");
+        Map(m => m.AddressThuongTru_Ward).Name("AddressThuongTru_Ward").TypeConverterOption.NullValues("");
+        Map(m => m.AddressThuongTru_District).Name("AddressThuongTru_District").TypeConverterOption.NullValues("");
+        Map(m => m.AddressThuongTru_Province).Name("AddressThuongTru_Province").TypeConverterOption.NullValues("");
+        Map(m => m.AddressThuongTru_Country).Name("AddressThuongTru_Country").TypeConverterOption.NullValues("");
 
-        Map(m => m.AddressTamTru_HouseNumber).Name("AddressTamTru_HouseNumber").Optional();
-        Map(m => m.AddressTamTru_StreetName).Name("AddressTamTru_StreetName").Optional();
-        Map(m => m.AddressTamTru_Ward).Name("AddressTamTru_Ward").Optional();
-        Map(m => m.AddressTamTru_District).Name("AddressTamTru_District").Optional();
-        Map(m => m.AddressTamTru_Province).Name("AddressTamTru_Province").Optional();
-        Map(m => m.AddressTamTru_Country).Name("AddressTamTru_Country").Optional();
+        Map(m => m.AddressTamTru_HouseNumber).Name("AddressTamTru_HouseNumber").TypeConverterOption.NullValues("");
+        Map(m => m.AddressTamTru_StreetName).Name("AddressTamTru_StreetName").TypeConverterOption.NullValues("");
+        Map(m => m.AddressTamTru_Ward).Name("AddressTamTru_Ward").TypeConverterOption.NullValues("");
+        Map(m => m.AddressTamTru_District).Name("AddressTamTru_District").TypeConverterOption.NullValues("");
+        Map(m => m.AddressTamTru_Province).Name("AddressTamTru_Province").TypeConverterOption.NullValues("");
+        Map(m => m.AddressTamTru_Country).Name("AddressTamTru_Country").TypeConverterOption.NullValues("");
 
         // Mapping Identification
         Map(m => m.Identification_Type).Name("Identification_Type");

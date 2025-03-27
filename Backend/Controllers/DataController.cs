@@ -189,6 +189,28 @@ public class DataController : ControllerBase
     // 3. Import CSV (Thêm kiểm tra trùng lặp & Transaction)
     private async Task<Address> FindOrCreateAddressAsync(string houseNumber, string streetName, string ward, string district, string province, string country)
     {
+        // Check if ALL address fields are empty → No address needed
+        if (string.IsNullOrWhiteSpace(houseNumber) &&
+            string.IsNullOrWhiteSpace(streetName) &&
+            string.IsNullOrWhiteSpace(ward) &&
+            string.IsNullOrWhiteSpace(district) &&
+            string.IsNullOrWhiteSpace(province) &&
+            string.IsNullOrWhiteSpace(country))
+        {
+            return null; // No address, student can still be imported
+        }
+
+        // Check if SOME fields are missing → This is an error!
+        if (string.IsNullOrWhiteSpace(houseNumber) ||
+            string.IsNullOrWhiteSpace(streetName) ||
+            string.IsNullOrWhiteSpace(ward) ||
+            string.IsNullOrWhiteSpace(district) ||
+            string.IsNullOrWhiteSpace(province) ||
+            string.IsNullOrWhiteSpace(country))
+        {
+            throw new Exception("Địa chỉ không hợp lệ, cần điền tất cả các trường hoặc bỏ trống tất cả.");
+        }
+
         var address = await _context.Addresses.FirstOrDefaultAsync(a =>
             a.HouseNumber == houseNumber &&
             a.StreetName == streetName &&
@@ -330,7 +352,7 @@ public class DataController : ControllerBase
             }
 
             if (validationResults.Count > 0)
-            return BadRequest(validationResults);
+                return BadRequest(validationResults);
 
             // 🔹 Check for duplicates before inserting
             var existingIds = _context.Students.Select(s => s.MSSV).ToHashSet();
@@ -470,7 +492,7 @@ public class DataController : ControllerBase
             }
 
             if (validationResults.Count > 0)
-            return BadRequest(validationResults);
+                return BadRequest(validationResults);
 
             // Kiểm tra trùng lặp
             var existingIds = _context.Students.Select(s => s.MSSV).ToHashSet();
