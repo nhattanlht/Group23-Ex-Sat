@@ -73,6 +73,9 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
 
+// Validation service
+builder.Services.AddSingleton<PhoneNumberValidationService>();
+
 var app = builder.Build();
 
 // Middleware pipeline

@@ -7,6 +7,7 @@ import DataTable from './DataTable';
 import { loadData, handleAddRow, handleEditRow, handleDeleteRow } from '../util/callCRUDApi';
 import DataForm from './DataForm';
 import { Search } from 'lucide-react';
+
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -178,7 +179,8 @@ const StudentList = () => {
     return nestedObject;
   };
 
-  const handleAddStudent = async (student) => {
+  const handleAddStudent = async (studentForm) => {
+    const student = structuredClone(studentForm);
     try {
       student.identification["identification.identificationType"] = student.identificationType;
 
@@ -240,15 +242,19 @@ const StudentList = () => {
 
       delete student.diaChiTamTru;
 
-      await handleAddRow('students', student);
-      setShowModal(false);
+      const response = await handleAddRow('students', student);
+      
       loadStudents(currentPage, filters);
+
+      return response;
     } catch (error) {
       alert('Lỗi khi thêm sinh viên!');
+      throw error;
     }
   };
 
-  const handleEditStudent = async (student) => {
+  const handleEditStudent = async (studentForm) => {
+    const student = structuredClone(studentForm);
     try {
       student.identification["identificationType"] = student.identificationType;
 
@@ -308,11 +314,13 @@ const StudentList = () => {
 
       console.log(student);
 
-      await handleEditRow('students', student.mssv, student);
-      setShowModal(false);
+      const response = await handleEditRow('students', student.mssv, student);
       loadStudents(currentPage, filters);
+      
+      return response;
     } catch (error) {
       alert('Lỗi khi chỉnh sửa sinh viên!');
+      throw error;
     }
   };
 

@@ -45,6 +45,12 @@ namespace StudentManagement.Controllers
             _logger.LogInformation("Creating student: {@Student}", student);
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogWarning(ModelState.ToString());
+                    return BadRequest(new { errors = ModelState });
+                    
+                }
                 if (student == null)
                 {
                     _logger.LogWarning("Invalid student data received.");
