@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Pagination from './Pagination';
 import DataTable from './DataTable';
 import { handleAddRow, handleEditRow, handleDeleteRow, loadDataNoPaging } from '../util/callCRUDApi';
 import DataForm from './DataForm';

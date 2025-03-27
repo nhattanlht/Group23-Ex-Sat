@@ -100,7 +100,37 @@ namespace StudentManagement.Services
 
         public async Task<(bool Success, string Message)> UpdateStudent(Student student)
         {
+
             var existingStudent = await _context.Students.FindAsync(student.MSSV);
+
+            // Quy tắc chuyển đổi trạng thái hợp lệ
+            var _validStatusTransitions = new Dictionary<int, HashSet<int>>
+            {
+                { 1, new HashSet<int> { 2, 3, 4 } }, // "Đang học" → "Bảo lưu", "Tốt nghiệp", "Đình chỉ"
+                { 2, new HashSet<int> { } }, // "Đã tốt nghiệp" → Không thể thay đổi
+                { 3, new HashSet<int> { } }, // "Đã thôi học" Không thể thay đổi
+                { 4, new HashSet<int> { 1, 4 } }   // "Tạm dừng học" → "Đang học", "Đã thôi học"
+            };
+            // Định nghĩa ánh xạ StatusId sang tên trạng thái
+            var statusNames = new Dictionary<int, string>
+            {
+                { 1, "Đang học" },
+                { 2, "Đã tốt nghiệp" },
+                { 3, "Đã thôi học" },
+                { 4, "Tạm dừng học" }
+            };
+            // Kiểm tra xem trạng thái mới có hợp lệ không
+            if (existingStudent.StatusId != student.StatusId)
+            {
+                if (!_validStatusTransitions.TryGetValue(existingStudent.StatusId, out var allowedTransitions) ||
+                    !allowedTransitions.Contains(student.StatusId))
+                {
+                    string oldStatus = statusNames.ContainsKey(existingStudent.StatusId) ? statusNames[existingStudent.StatusId] : "Không xác định";
+                    string newStatus = statusNames.ContainsKey(student.StatusId) ? statusNames[student.StatusId] : "Không xác định";
+
+                    return (false, $"Không thể chuyển đổi trạng thái sinh viên từ '{oldStatus}' sang '{newStatus}'.");
+                }
+            }
             if (existingStudent == null) return (false, "Sinh viên không tồn tại.");
 
             if (string.IsNullOrWhiteSpace(student.SoDienThoai))
@@ -184,7 +214,7 @@ namespace StudentManagement.Services
             {
                 query = query.Where(s => s.DepartmentId == filters.DepartmentId);
             }
-            
+
             var totalStudents = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalStudents / pageSize);
 
