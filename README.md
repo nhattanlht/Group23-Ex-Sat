@@ -11,6 +11,8 @@
 |------/Services 		Chứa các lớp xử lý nghiệp vụ, giúp giữ Controllers gọn gàng
 |------/logs			Chứa các tệp nhật ký (logs) để theo dõi hoạt động của hệ thống
 |------/wwwroot			Chứa các tài nguyên hình ảnh, CSS, JavaScript để phục vụ frontend
+|------/CsvMapping		Chứa dữ liệu liên quan đến việc ánh xạ từ CSV vào các model của ứng dụng
+|------/Validators		Chứa các logic liên quan đến việc kiểm tra dữ liệu đầu vào
 |-- /Frontend		Chứa các thư mục và file phụ trách các thao tác frontend
 |------/public			Chứa các thư mục hình ảnh, favicon và index.html, lưu trữ các tài nguyên không thay đổi
 				trong quá trình chạy ứng dụng
@@ -22,6 +24,7 @@
 	+ Điều chỉnh các thông số trong mục "DefaultConnection" trong file appsettings.json cho phù hợp
 	+ Enable .NET trong command prompt với quyền admin:
 		Dism /online /Enable-Feature /FeatureName:"NetFx3"
+	+ Khởi chạy Docker hoặc SQLServer
 	+ Mở command prompt trong folder Backend
 	+ Cài đặt các package cần thiết cho backend:
 		dotnet restore
@@ -49,3 +52,21 @@
 	https://drive.google.com/drive/folders/1ZI9GggYPb2FEz-4j5Kd274uA5l1-tXxn?usp=sharing
 - Department Configuration:
 	https://drive.google.com/drive/folders/1JQBREQKBxFH-iU_CdWvQdee_E5f2Az9q?usp=sharing
+
+5. Hướng dẫn sử dụng + minh chứng Version 3.0:
+- Business Rule Id:
+	+ Khi thêm hoặc sửa mã số sinh viên thành 1 mã số đã tồn tại thì sẽ báo lỗi
+	+ Minh chứng:
+		https://drive.google.com/drive/folders/1fAxrcf5GOUreYNVTwavUleqmTMMZyMuS?usp=sharing
+- Business Rule Email:
+	+ Điều chỉnh email ending trong file .env theo ý muốn, khi cập nhật hoặc thêm sinh viên với email có đuôi khác
+	giá trị đã chọn sẽ thông báo lỗi
+	+ Minh chứng:
+		https://drive.google.com/drive/folders/1DalKguHN87ox5Hbpl4l8Z0mYd3UxhYBn?usp=sharing
+- Business Rule Phone:
+	+ Điều chỉnh giá trị số điện thoại mong muốn ở file Backend/appsettings.json, khi cập nhật hoặc thêm sinh viên
+	với số điện thoại không đúng quy định trong file đó thì sẽ thông báo lỗi
+	+ Minh chứng:
+		https://drive.google.com/drive/folders/1TzjuF3HJFBZ0sdtbB-P2TPkbubkgYpTQ?usp=sharing
+- Business Rule Status:
+	https://drive.google.com/drive/folders/1joTf3GKLsAT9NXy9gW_yQJCeYOTISakM?usp=sharing

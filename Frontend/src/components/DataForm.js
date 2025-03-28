@@ -4,6 +4,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
     const ALLOWED_EMAIL_ENDING = process.env.ALLOWED_EMAIL_ENDING || "@gmail.com";
     const [formData, setFormData] = useState({});
     const [emailError, setEmailError] = useState("");
+    const [errors, setErrors] = useState({});
     useEffect(() => {
         handleInitializeFormData(fields, data);
     }, [data, fields]);
@@ -180,8 +181,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                     required={field.required}
                                                 />
                                             )}
-
-                                            {errors[capitalize(field.accessor)] && (
+                                            {errors && errors[capitalize(field.accessor)] && (
                                                 <p className="text-red-600">{errors[capitalize(field.accessor)][0]}</p>
                                             )}
                                         </div>
