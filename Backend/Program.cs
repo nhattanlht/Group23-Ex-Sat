@@ -4,6 +4,7 @@ using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
 using StudentManagement.Models;
 using StudentManagement.Services;
+using StudentManagement.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,6 +54,12 @@ builder.Host.UseSerilog();
 
 // Đăng ký các service
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<AddressService>();
+builder.Services.AddScoped<DataService>();
+
+// Đăng ký các repository
+builder.Services.AddScoped<AddressRepository>();
+builder.Services.AddScoped<DataRepository>();
 
 // Cấu hình CORS
 builder.Services.AddCors(options =>
@@ -78,6 +85,7 @@ builder.Services.AddSingleton<PhoneNumberValidationService>();
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
 // Middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
@@ -87,7 +95,6 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseCors("AllowAll");
 app.UseAuthorization();
 app.UseSerilogRequestLogging(); // Ghi log request
 

@@ -1,16 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Models;
+using StudentManagement.Services;
 
 [Route("api/[controller]")]
 [ApiController]
 public class AddressController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly AddressService _service;
     private readonly ILogger<AddressController> _logger;
 
-    public AddressController(ApplicationDbContext context, ILogger<AddressController> logger)
+    public AddressController(AddressService service, ILogger<AddressController> logger)
     {
-        _context = context;
+        _service = service;
         _logger = logger;
     }
 
@@ -27,9 +28,7 @@ public class AddressController : ControllerBase
 
         try
         {
-            _context.Addresses.Add(address);
-            await _context.SaveChangesAsync();
-
+            await _service.CreateAddressAsync(address);
             _logger.LogInformation("Address created successfully with ID {Id}.", address.Id);
             return Ok(address);
         }
@@ -45,7 +44,7 @@ public class AddressController : ControllerBase
     {
         _logger.LogInformation("Fetching address with ID {Id}.", id);
 
-        var address = await _context.Addresses.FindAsync(id);
+        var address = await _service.GetAddressByIdAsync(id);
         if (address == null)
         {
             _logger.LogWarning("Address with ID {Id} not found.", id);

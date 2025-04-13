@@ -4965,3 +4965,648 @@ Error Number:2627,State:1,Class:14
    at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
    at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
    at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2025-04-13 21:37:04.964 +07:00 [ERR] HTTP POST /api/address responded 500 in 32.8416 ms
+System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method350(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-04-13 21:37:05.032 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method350(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+2025-04-13 21:37:05.101 +07:00 [ERR] Connection id "0HNBQJ273SV31", Request id "0HNBQJ273SV31:00000004": An unhandled exception was thrown by the application.
+System.InvalidOperationException: The exception handler configured on ExceptionHandlerOptions produced a 404 status response. This InvalidOperationException containing the original exception was thrown since this is often due to a misconfigured ExceptionHandlingPath. If the exception handler is expected to return 404 status responses then set AllowStatusCode404Response to true.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method350(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2025-04-13 21:40:41.428 +07:00 [ERR] HTTP POST /api/address responded 500 in 52.5302 ms
+System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method351(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-04-13 21:40:41.481 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method351(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+2025-04-13 21:40:41.534 +07:00 [ERR] Connection id "0HNBQJ4AN59JQ", Request id "0HNBQJ4AN59JQ:00000004": An unhandled exception was thrown by the application.
+System.InvalidOperationException: The exception handler configured on ExceptionHandlerOptions produced a 404 status response. This InvalidOperationException containing the original exception was thrown since this is often due to a misconfigured ExceptionHandlingPath. If the exception handler is expected to return 404 status responses then set AllowStatusCode404Response to true.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method351(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2025-04-13 21:44:06.442 +07:00 [ERR] HTTP POST /api/address responded 500 in 17.9407 ms
+System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method351(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-04-13 21:44:06.475 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method351(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+2025-04-13 21:44:06.520 +07:00 [ERR] Connection id "0HNBQJ4AN59K6", Request id "0HNBQJ4AN59K6:00000004": An unhandled exception was thrown by the application.
+System.InvalidOperationException: The exception handler configured on ExceptionHandlerOptions produced a 404 status response. This InvalidOperationException containing the original exception was thrown since this is often due to a misconfigured ExceptionHandlingPath. If the exception handler is expected to return 404 status responses then set AllowStatusCode404Response to true.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method351(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2025-04-13 21:51:11.899 +07:00 [ERR] HTTP POST /api/address responded 500 in 25.0942 ms
+System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method350(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-04-13 21:51:11.958 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method350(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+2025-04-13 21:51:12.009 +07:00 [ERR] Connection id "0HNBQJA63GCC1", Request id "0HNBQJA63GCC1:00000006": An unhandled exception was thrown by the application.
+System.InvalidOperationException: The exception handler configured on ExceptionHandlerOptions produced a 404 status response. This InvalidOperationException containing the original exception was thrown since this is often due to a misconfigured ExceptionHandlingPath. If the exception handler is expected to return 404 status responses then set AllowStatusCode404Response to true.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method350(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2025-04-13 21:55:37.386 +07:00 [ERR] HTTP POST /api/address responded 500 in 55.9056 ms
+System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method350(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-04-13 21:55:37.454 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method350(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+2025-04-13 21:55:37.531 +07:00 [ERR] Connection id "0HNBQJCLN256P", Request id "0HNBQJCLN256P:00000006": An unhandled exception was thrown by the application.
+System.InvalidOperationException: The exception handler configured on ExceptionHandlerOptions produced a 404 status response. This InvalidOperationException containing the original exception was thrown since this is often due to a misconfigured ExceptionHandlingPath. If the exception handler is expected to return 404 status responses then set AllowStatusCode404Response to true.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'StudentManagement.Services.AddressService' while attempting to activate 'AddressController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method350(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2025-04-13 22:09:19.599 +07:00 [ERR] Error exporting JSON file.
+Newtonsoft.Json.JsonSerializationException: Self referencing loop detected with type 'StudentManagement.Models.Student'. Path '[0].Department.Students'.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.CheckForCircularReference(JsonWriter writer, Object value, JsonProperty property, JsonContract contract, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject(JsonWriter writer, Object value, JsonObjectContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject(JsonWriter writer, Object value, JsonObjectContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.SerializeInternal(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Serialize(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonConvert.SerializeObjectInternal(Object value, Type type, JsonSerializer jsonSerializer)
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value, Type type, Formatting formatting, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value, Formatting formatting, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value, Formatting formatting)
+   at DataController.ExportJson() in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 30
+2025-04-13 22:09:19.701 +07:00 [ERR] HTTP GET /api/data/export/json responded 500 in 1073.9706 ms
+2025-04-13 22:10:13.078 +07:00 [ERR] Error exporting CSV file.
+System.ObjectDisposedException: Cannot access a closed Stream.
+   at System.IO.MemoryStream.set_Position(Int64 value)
+   at DataController.ExportCsv() in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 66
+2025-04-13 22:10:13.097 +07:00 [ERR] HTTP GET /api/data/export/csv responded 500 in 196.6694 ms
+2025-04-13 22:10:20.382 +07:00 [ERR] Error exporting JSON file.
+Newtonsoft.Json.JsonSerializationException: Self referencing loop detected with type 'StudentManagement.Models.Student'. Path '[0].Department.Students'.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.CheckForCircularReference(JsonWriter writer, Object value, JsonProperty property, JsonContract contract, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject(JsonWriter writer, Object value, JsonObjectContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject(JsonWriter writer, Object value, JsonObjectContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.SerializeInternal(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Serialize(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonConvert.SerializeObjectInternal(Object value, Type type, JsonSerializer jsonSerializer)
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value, Type type, Formatting formatting, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value, Formatting formatting, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value, Formatting formatting)
+   at DataController.ExportJson() in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 30
+2025-04-13 22:10:20.415 +07:00 [ERR] HTTP GET /api/data/export/json responded 500 in 80.6965 ms
+2025-04-13 22:10:25.345 +07:00 [ERR] Error exporting JSON file.
+Newtonsoft.Json.JsonSerializationException: Self referencing loop detected with type 'StudentManagement.Models.Student'. Path '[0].Department.Students'.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.CheckForCircularReference(JsonWriter writer, Object value, JsonProperty property, JsonContract contract, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject(JsonWriter writer, Object value, JsonObjectContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject(JsonWriter writer, Object value, JsonObjectContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.SerializeInternal(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Serialize(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonConvert.SerializeObjectInternal(Object value, Type type, JsonSerializer jsonSerializer)
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value, Type type, Formatting formatting, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value, Formatting formatting, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value, Formatting formatting)
+   at DataController.ExportJson() in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 30
+2025-04-13 22:10:25.383 +07:00 [ERR] HTTP GET /api/data/export/json responded 500 in 78.8173 ms
+2025-04-13 22:11:39.567 +07:00 [ERR] Error importing CSV.
+CsvHelper.HeaderValidationException: Header with name 'DepartmentId'[0] was not found.
+Header with name 'SchoolYearId'[0] was not found.
+Header with name 'StudyProgramId'[0] was not found.
+Header with name 'DiaChi'[0] was not found.
+Header with name 'DiaChiNhanThuId'[0] was not found.
+Header with name 'DiaChiThuongTruId'[0] was not found.
+Header with name 'DiaChiTamTruId'[0] was not found.
+Header with name 'IdentificationId'[0] was not found.
+Header with name 'StatusId'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'IdentificationType'[0] was not found.
+Header with name 'Number'[0] was not found.
+Header with name 'IssueDate'[0] was not found.
+Header with name 'ExpiryDate'[0] was not found.
+Header with name 'IssuedBy'[0] was not found.
+Header with name 'HasChip'[0] was not found.
+Header with name 'IssuingCountry'[0] was not found.
+Header with name 'Notes'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Headers: 'MSSV', 'HoTen', 'NgaySinh', 'GioiTinh', 'Department', 'SchoolYear', 'StudyProgram', 'AddressNhanThu_HouseNumber', 'AddressNhanThu_StreetName', 'AddressNhanThu_Ward', 'AddressNhanThu_District', 'AddressNhanThu_Province', 'AddressNhanThu_Country', 'AddressThuongTru_HouseNumber', 'AddressThuongTru_StreetName', 'AddressThuongTru_Ward', 'AddressThuongTru_District', 'AddressThuongTru_Province', 'AddressThuongTru_Country', 'AddressTamTru_HouseNumber', 'AddressTamTru_StreetName', 'AddressTamTru_Ward', 'AddressTamTru_District', 'AddressTamTru_Province', 'AddressTamTru_Country', 'Email', 'SoDienThoai', 'QuocTich', 'Identification_Type', 'Identification_Number', 'Identification_IssueDate', 'Identification_ExpiryDate', 'Identification_IssuedBy', 'Identification_HasChip', 'Identification_IssuingCountry', 'Identification_Notes', 'Status'
+If you are expecting some headers to be missing and want to ignore this validation, set the configuration HeaderValidated to null. You can also change the functionality to do something else, like logging the issue.
+
+IReader state:
+   ColumnCount: 37
+   CurrentIndex: -1
+   HeaderRecord:
+["MSSV","HoTen","NgaySinh","GioiTinh","Department","SchoolYear","StudyProgram","AddressNhanThu_HouseNumber","AddressNhanThu_StreetName","AddressNhanThu_Ward","AddressNhanThu_District","AddressNhanThu_Province","AddressNhanThu_Country","AddressThuongTru_HouseNumber","AddressThuongTru_StreetName","AddressThuongTru_Ward","AddressThuongTru_District","AddressThuongTru_Province","AddressThuongTru_Country","AddressTamTru_HouseNumber","AddressTamTru_StreetName","AddressTamTru_Ward","AddressTamTru_District","AddressTamTru_Province","AddressTamTru_Country","Email","SoDienThoai","QuocTich","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 728
+   Row: 1
+   RawRow: 1
+   Count: 37
+   RawRecord:
+MSSV,HoTen,NgaySinh,GioiTinh,Department,SchoolYear,StudyProgram,AddressNhanThu_HouseNumber,AddressNhanThu_StreetName,AddressNhanThu_Ward,AddressNhanThu_District,AddressNhanThu_Province,AddressNhanThu_Country,AddressThuongTru_HouseNumber,AddressThuongTru_StreetName,AddressThuongTru_Ward,AddressThuongTru_District,AddressThuongTru_Province,AddressThuongTru_Country,AddressTamTru_HouseNumber,AddressTamTru_StreetName,AddressTamTru_Ward,AddressTamTru_District,AddressTamTru_Province,AddressTamTru_Country,Email,SoDienThoai,QuocTich,Identification_Type,Identification_Number,Identification_IssueDate,Identification_ExpiryDate,Identification_IssuedBy,Identification_HasChip,Identification_IssuingCountry,Identification_Notes,Status
+
+
+   at CsvHelper.Configuration.ConfigurationFunctions.HeaderValidated(HeaderValidatedArgs args)
+   at CsvHelper.CsvReader.ValidateHeader(Type type)
+   at CsvHelper.CsvReader.ValidateHeader[T]()
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 129
+2025-04-13 22:11:39.634 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 129.8540 ms
+2025-04-13 22:21:52.532 +07:00 [ERR] Error importing CSV.
+CsvHelper.HeaderValidationException: Header with name 'DepartmentId'[0] was not found.
+Header with name 'SchoolYearId'[0] was not found.
+Header with name 'StudyProgramId'[0] was not found.
+Header with name 'DiaChi'[0] was not found.
+Header with name 'DiaChiNhanThuId'[0] was not found.
+Header with name 'DiaChiThuongTruId'[0] was not found.
+Header with name 'DiaChiTamTruId'[0] was not found.
+Header with name 'IdentificationId'[0] was not found.
+Header with name 'StatusId'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'HouseNumber'[0] was not found.
+Header with name 'StreetName'[0] was not found.
+Header with name 'Ward'[0] was not found.
+Header with name 'District'[0] was not found.
+Header with name 'Province'[0] was not found.
+Header with name 'Country'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'IdentificationType'[0] was not found.
+Header with name 'Number'[0] was not found.
+Header with name 'IssueDate'[0] was not found.
+Header with name 'ExpiryDate'[0] was not found.
+Header with name 'IssuedBy'[0] was not found.
+Header with name 'HasChip'[0] was not found.
+Header with name 'IssuingCountry'[0] was not found.
+Header with name 'Notes'[0] was not found.
+Header with name 'Id'[0] was not found.
+Header with name 'Name'[0] was not found.
+Headers: 'MSSV', 'HoTen', 'NgaySinh', 'GioiTinh', 'Department', 'SchoolYear', 'StudyProgram', 'AddressNhanThu_HouseNumber', 'AddressNhanThu_StreetName', 'AddressNhanThu_Ward', 'AddressNhanThu_District', 'AddressNhanThu_Province', 'AddressNhanThu_Country', 'AddressThuongTru_HouseNumber', 'AddressThuongTru_StreetName', 'AddressThuongTru_Ward', 'AddressThuongTru_District', 'AddressThuongTru_Province', 'AddressThuongTru_Country', 'AddressTamTru_HouseNumber', 'AddressTamTru_StreetName', 'AddressTamTru_Ward', 'AddressTamTru_District', 'AddressTamTru_Province', 'AddressTamTru_Country', 'Email', 'SoDienThoai', 'QuocTich', 'Identification_Type', 'Identification_Number', 'Identification_IssueDate', 'Identification_ExpiryDate', 'Identification_IssuedBy', 'Identification_HasChip', 'Identification_IssuingCountry', 'Identification_Notes', 'Status'
+If you are expecting some headers to be missing and want to ignore this validation, set the configuration HeaderValidated to null. You can also change the functionality to do something else, like logging the issue.
+
+IReader state:
+   ColumnCount: 37
+   CurrentIndex: -1
+   HeaderRecord:
+["MSSV","HoTen","NgaySinh","GioiTinh","Department","SchoolYear","StudyProgram","AddressNhanThu_HouseNumber","AddressNhanThu_StreetName","AddressNhanThu_Ward","AddressNhanThu_District","AddressNhanThu_Province","AddressNhanThu_Country","AddressThuongTru_HouseNumber","AddressThuongTru_StreetName","AddressThuongTru_Ward","AddressThuongTru_District","AddressThuongTru_Province","AddressThuongTru_Country","AddressTamTru_HouseNumber","AddressTamTru_StreetName","AddressTamTru_Ward","AddressTamTru_District","AddressTamTru_Province","AddressTamTru_Country","Email","SoDienThoai","QuocTich","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 728
+   Row: 1
+   RawRow: 1
+   Count: 37
+   RawRecord:
+MSSV,HoTen,NgaySinh,GioiTinh,Department,SchoolYear,StudyProgram,AddressNhanThu_HouseNumber,AddressNhanThu_StreetName,AddressNhanThu_Ward,AddressNhanThu_District,AddressNhanThu_Province,AddressNhanThu_Country,AddressThuongTru_HouseNumber,AddressThuongTru_StreetName,AddressThuongTru_Ward,AddressThuongTru_District,AddressThuongTru_Province,AddressThuongTru_Country,AddressTamTru_HouseNumber,AddressTamTru_StreetName,AddressTamTru_Ward,AddressTamTru_District,AddressTamTru_Province,AddressTamTru_Country,Email,SoDienThoai,QuocTich,Identification_Type,Identification_Number,Identification_IssueDate,Identification_ExpiryDate,Identification_IssuedBy,Identification_HasChip,Identification_IssuingCountry,Identification_Notes,Status
+
+
+   at CsvHelper.Configuration.ConfigurationFunctions.HeaderValidated(HeaderValidatedArgs args)
+   at CsvHelper.CsvReader.ValidateHeader(Type type)
+   at CsvHelper.CsvReader.ValidateHeader[T]()
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 136
+2025-04-13 22:21:53.371 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 1295.9408 ms
+2025-04-13 22:26:46.822 +07:00 [ERR] Error importing CSV.
+System.Exception: Địa chỉ không hợp lệ, cần điền tất cả các trường hoặc bỏ trống tất cả.
+   at StudentManagement.Services.DataService.FindOrCreateAddressAsync(String houseNumber, String streetName, String ward, String district, String province, String country) in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Services\DataService.cs:line 42
+   at DataController.ImportCsv(IFormFile file) in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 202
+2025-04-13 22:26:46.939 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 1279.5278 ms
+2025-04-13 22:29:32.939 +07:00 [ERR] Error importing CSV.
+System.Exception: Department not found: Khoa Lu?t
+   at StudentManagement.Services.DataService.GetDepartmentByNameAsync(String departmentName) in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Services\DataService.cs:line 62
+   at DataController.ImportCsv(IFormFile file) in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 197
+2025-04-13 22:29:32.966 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 194.9571 ms
+2025-04-13 22:31:09.922 +07:00 [ERR] Error exporting CSV file.
+System.ObjectDisposedException: Cannot access a closed Stream.
+   at System.IO.MemoryStream.set_Position(Int64 value)
+   at DataController.ExportCsv() in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 66
+2025-04-13 22:31:09.950 +07:00 [ERR] HTTP GET /api/data/export/csv responded 500 in 356.8299 ms
+2025-04-13 22:31:19.315 +07:00 [ERR] Error exporting CSV file.
+System.ObjectDisposedException: Cannot access a closed Stream.
+   at System.IO.MemoryStream.set_Position(Int64 value)
+   at DataController.ExportCsv() in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 66
+2025-04-13 22:31:19.342 +07:00 [ERR] HTTP GET /api/data/export/csv responded 500 in 127.3485 ms
+2025-04-13 22:44:48.144 +07:00 [ERR] Error importing CSV.
+CsvHelper.HeaderValidationException: Header with name 'Department'[0] was not found.
+Header with name 'SchoolYear'[0] was not found.
+Header with name 'StudyProgram'[0] was not found.
+Header with name 'Status'[0] was not found.
+Header with name 'AddressNhanThu_HouseNumber'[0] was not found.
+Header with name 'AddressNhanThu_StreetName'[0] was not found.
+Header with name 'AddressNhanThu_Ward'[0] was not found.
+Header with name 'AddressNhanThu_District'[0] was not found.
+Header with name 'AddressNhanThu_Province'[0] was not found.
+Header with name 'AddressNhanThu_Country'[0] was not found.
+Header with name 'AddressThuongTru_HouseNumber'[0] was not found.
+Header with name 'AddressThuongTru_StreetName'[0] was not found.
+Header with name 'AddressThuongTru_Ward'[0] was not found.
+Header with name 'AddressThuongTru_District'[0] was not found.
+Header with name 'AddressThuongTru_Province'[0] was not found.
+Header with name 'AddressThuongTru_Country'[0] was not found.
+Header with name 'AddressTamTru_HouseNumber'[0] was not found.
+Header with name 'AddressTamTru_StreetName'[0] was not found.
+Header with name 'AddressTamTru_Ward'[0] was not found.
+Header with name 'AddressTamTru_District'[0] was not found.
+Header with name 'AddressTamTru_Province'[0] was not found.
+Header with name 'AddressTamTru_Country'[0] was not found.
+Header with name 'Identification_Type'[0] was not found.
+Header with name 'Identification_Number'[0] was not found.
+Header with name 'Identification_IssueDate'[0] was not found.
+Header with name 'Identification_ExpiryDate'[0] was not found.
+Header with name 'Identification_IssuedBy'[0] was not found.
+Headers: 'MSSV', 'HoTen', 'NgaySinh', 'GioiTinh', 'DepartmentId', 'Id', 'Name', 'SchoolYearId', 'Id', 'Name', 'StudyProgramId', 'Id', 'Name', 'DiaChi', 'Email', 'QuocTich', 'SoDienThoai', 'DiaChiNhanThuId', 'DiaChiThuongTruId', 'DiaChiTamTruId', 'Id', 'HouseNumber', 'StreetName', 'Ward', 'District', 'Province', 'Country', 'Id', 'HouseNumber', 'StreetName', 'Ward', 'District', 'Province', 'Country', 'Id', 'HouseNumber', 'StreetName', 'Ward', 'District', 'Province', 'Country', 'IdentificationId', 'Id', 'IdentificationType', 'Number', 'IssueDate', 'ExpiryDate', 'IssuedBy', 'HasChip', 'IssuingCountry', 'Notes', 'StatusId', 'Id', 'Name'
+If you are expecting some headers to be missing and want to ignore this validation, set the configuration HeaderValidated to null. You can also change the functionality to do something else, like logging the issue.
+
+IReader state:
+   ColumnCount: 54
+   CurrentIndex: -1
+   HeaderRecord:
+["MSSV","HoTen","NgaySinh","GioiTinh","DepartmentId","Id","Name","SchoolYearId","Id","Name","StudyProgramId","Id","Name","DiaChi","Email","QuocTich","SoDienThoai","DiaChiNhanThuId","DiaChiThuongTruId","DiaChiTamTruId","Id","HouseNumber","StreetName","Ward","District","Province","Country","Id","HouseNumber","StreetName","Ward","District","Province","Country","Id","HouseNumber","StreetName","Ward","District","Province","Country","IdentificationId","Id","IdentificationType","Number","IssueDate","ExpiryDate","IssuedBy","HasChip","IssuingCountry","Notes","StatusId","Id","Name"]
+IParser state:
+   ByteCount: 0
+   CharCount: 471
+   Row: 1
+   RawRow: 1
+   Count: 54
+   RawRecord:
+MSSV,HoTen,NgaySinh,GioiTinh,DepartmentId,Id,Name,SchoolYearId,Id,Name,StudyProgramId,Id,Name,DiaChi,Email,QuocTich,SoDienThoai,DiaChiNhanThuId,DiaChiThuongTruId,DiaChiTamTruId,Id,HouseNumber,StreetName,Ward,District,Province,Country,Id,HouseNumber,StreetName,Ward,District,Province,Country,Id,HouseNumber,StreetName,Ward,District,Province,Country,IdentificationId,Id,IdentificationType,Number,IssueDate,ExpiryDate,IssuedBy,HasChip,IssuingCountry,Notes,StatusId,Id,Name
+
+
+   at CsvHelper.Configuration.ConfigurationFunctions.HeaderValidated(HeaderValidatedArgs args)
+   at CsvHelper.CsvReader.ValidateHeader(Type type)
+   at CsvHelper.CsvReader.ValidateHeader[T]()
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 201
+2025-04-13 22:44:48.315 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 263.3671 ms
+2025-04-13 22:49:06.561 +07:00 [ERR] Error importing CSV.
+CsvHelper.HeaderValidationException: Header with name 'Department'[0] was not found.
+Header with name 'SchoolYear'[0] was not found.
+Header with name 'StudyProgram'[0] was not found.
+Header with name 'Status'[0] was not found.
+Header with name 'AddressNhanThu_HouseNumber'[0] was not found.
+Header with name 'AddressNhanThu_StreetName'[0] was not found.
+Header with name 'AddressNhanThu_Ward'[0] was not found.
+Header with name 'AddressNhanThu_District'[0] was not found.
+Header with name 'AddressNhanThu_Province'[0] was not found.
+Header with name 'AddressNhanThu_Country'[0] was not found.
+Header with name 'AddressThuongTru_HouseNumber'[0] was not found.
+Header with name 'AddressThuongTru_StreetName'[0] was not found.
+Header with name 'AddressThuongTru_Ward'[0] was not found.
+Header with name 'AddressThuongTru_District'[0] was not found.
+Header with name 'AddressThuongTru_Province'[0] was not found.
+Header with name 'AddressThuongTru_Country'[0] was not found.
+Header with name 'AddressTamTru_HouseNumber'[0] was not found.
+Header with name 'AddressTamTru_StreetName'[0] was not found.
+Header with name 'AddressTamTru_Ward'[0] was not found.
+Header with name 'AddressTamTru_District'[0] was not found.
+Header with name 'AddressTamTru_Province'[0] was not found.
+Header with name 'AddressTamTru_Country'[0] was not found.
+Header with name 'Identification_Type'[0] was not found.
+Header with name 'Identification_Number'[0] was not found.
+Header with name 'Identification_IssueDate'[0] was not found.
+Header with name 'Identification_ExpiryDate'[0] was not found.
+Header with name 'Identification_IssuedBy'[0] was not found.
+Headers: 'MSSV', 'HoTen', 'NgaySinh', 'GioiTinh', 'DepartmentId', 'Id', 'Name', 'SchoolYearId', 'Id', 'Name', 'StudyProgramId', 'Id', 'Name', 'DiaChi', 'Email', 'QuocTich', 'SoDienThoai', 'DiaChiNhanThuId', 'DiaChiThuongTruId', 'DiaChiTamTruId', 'Id', 'HouseNumber', 'StreetName', 'Ward', 'District', 'Province', 'Country', 'Id', 'HouseNumber', 'StreetName', 'Ward', 'District', 'Province', 'Country', 'Id', 'HouseNumber', 'StreetName', 'Ward', 'District', 'Province', 'Country', 'IdentificationId', 'Id', 'IdentificationType', 'Number', 'IssueDate', 'ExpiryDate', 'IssuedBy', 'HasChip', 'IssuingCountry', 'Notes', 'StatusId', 'Id', 'Name'
+If you are expecting some headers to be missing and want to ignore this validation, set the configuration HeaderValidated to null. You can also change the functionality to do something else, like logging the issue.
+
+IReader state:
+   ColumnCount: 54
+   CurrentIndex: -1
+   HeaderRecord:
+["MSSV","HoTen","NgaySinh","GioiTinh","DepartmentId","Id","Name","SchoolYearId","Id","Name","StudyProgramId","Id","Name","DiaChi","Email","QuocTich","SoDienThoai","DiaChiNhanThuId","DiaChiThuongTruId","DiaChiTamTruId","Id","HouseNumber","StreetName","Ward","District","Province","Country","Id","HouseNumber","StreetName","Ward","District","Province","Country","Id","HouseNumber","StreetName","Ward","District","Province","Country","IdentificationId","Id","IdentificationType","Number","IssueDate","ExpiryDate","IssuedBy","HasChip","IssuingCountry","Notes","StatusId","Id","Name"]
+IParser state:
+   ByteCount: 0
+   CharCount: 471
+   Row: 1
+   RawRow: 1
+   Count: 54
+   RawRecord:
+MSSV,HoTen,NgaySinh,GioiTinh,DepartmentId,Id,Name,SchoolYearId,Id,Name,StudyProgramId,Id,Name,DiaChi,Email,QuocTich,SoDienThoai,DiaChiNhanThuId,DiaChiThuongTruId,DiaChiTamTruId,Id,HouseNumber,StreetName,Ward,District,Province,Country,Id,HouseNumber,StreetName,Ward,District,Province,Country,Id,HouseNumber,StreetName,Ward,District,Province,Country,IdentificationId,Id,IdentificationType,Number,IssueDate,ExpiryDate,IssuedBy,HasChip,IssuingCountry,Notes,StatusId,Id,Name
+
+
+   at CsvHelper.Configuration.ConfigurationFunctions.HeaderValidated(HeaderValidatedArgs args)
+   at CsvHelper.CsvReader.ValidateHeader(Type type)
+   at CsvHelper.CsvReader.ValidateHeader[T]()
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 203
+2025-04-13 22:49:06.649 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 152.9430 ms
+2025-04-13 23:01:29.657 +07:00 [ERR] Error importing CSV.
+CsvHelper.HeaderValidationException: Header with name 'Department'[0] was not found.
+Header with name 'SchoolYear'[0] was not found.
+Header with name 'StudyProgram'[0] was not found.
+Header with name 'Status'[0] was not found.
+Header with name 'AddressNhanThu_HouseNumber'[0] was not found.
+Header with name 'AddressNhanThu_StreetName'[0] was not found.
+Header with name 'AddressNhanThu_Ward'[0] was not found.
+Header with name 'AddressNhanThu_District'[0] was not found.
+Header with name 'AddressNhanThu_Province'[0] was not found.
+Header with name 'AddressNhanThu_Country'[0] was not found.
+Header with name 'AddressThuongTru_HouseNumber'[0] was not found.
+Header with name 'AddressThuongTru_StreetName'[0] was not found.
+Header with name 'AddressThuongTru_Ward'[0] was not found.
+Header with name 'AddressThuongTru_District'[0] was not found.
+Header with name 'AddressThuongTru_Province'[0] was not found.
+Header with name 'AddressThuongTru_Country'[0] was not found.
+Header with name 'AddressTamTru_HouseNumber'[0] was not found.
+Header with name 'AddressTamTru_StreetName'[0] was not found.
+Header with name 'AddressTamTru_Ward'[0] was not found.
+Header with name 'AddressTamTru_District'[0] was not found.
+Header with name 'AddressTamTru_Province'[0] was not found.
+Header with name 'AddressTamTru_Country'[0] was not found.
+Header with name 'Identification_Type'[0] was not found.
+Header with name 'Identification_Number'[0] was not found.
+Header with name 'Identification_IssueDate'[0] was not found.
+Header with name 'Identification_ExpiryDate'[0] was not found.
+Header with name 'Identification_IssuedBy'[0] was not found.
+Headers: 'MSSV', 'HoTen', 'NgaySinh', 'GioiTinh', 'DepartmentId', 'Id', 'Name', 'SchoolYearId', 'Id', 'Name', 'StudyProgramId', 'Id', 'Name', 'DiaChi', 'Email', 'QuocTich', 'SoDienThoai', 'DiaChiNhanThuId', 'DiaChiThuongTruId', 'DiaChiTamTruId', 'Id', 'HouseNumber', 'StreetName', 'Ward', 'District', 'Province', 'Country', 'Id', 'HouseNumber', 'StreetName', 'Ward', 'District', 'Province', 'Country', 'Id', 'HouseNumber', 'StreetName', 'Ward', 'District', 'Province', 'Country', 'IdentificationId', 'Id', 'IdentificationType', 'Number', 'IssueDate', 'ExpiryDate', 'IssuedBy', 'HasChip', 'IssuingCountry', 'Notes', 'StatusId', 'Id', 'Name'
+If you are expecting some headers to be missing and want to ignore this validation, set the configuration HeaderValidated to null. You can also change the functionality to do something else, like logging the issue.
+
+IReader state:
+   ColumnCount: 54
+   CurrentIndex: -1
+   HeaderRecord:
+["MSSV","HoTen","NgaySinh","GioiTinh","DepartmentId","Id","Name","SchoolYearId","Id","Name","StudyProgramId","Id","Name","DiaChi","Email","QuocTich","SoDienThoai","DiaChiNhanThuId","DiaChiThuongTruId","DiaChiTamTruId","Id","HouseNumber","StreetName","Ward","District","Province","Country","Id","HouseNumber","StreetName","Ward","District","Province","Country","Id","HouseNumber","StreetName","Ward","District","Province","Country","IdentificationId","Id","IdentificationType","Number","IssueDate","ExpiryDate","IssuedBy","HasChip","IssuingCountry","Notes","StatusId","Id","Name"]
+IParser state:
+   ByteCount: 0
+   CharCount: 471
+   Row: 1
+   RawRow: 1
+   Count: 54
+   RawRecord:
+MSSV,HoTen,NgaySinh,GioiTinh,DepartmentId,Id,Name,SchoolYearId,Id,Name,StudyProgramId,Id,Name,DiaChi,Email,QuocTich,SoDienThoai,DiaChiNhanThuId,DiaChiThuongTruId,DiaChiTamTruId,Id,HouseNumber,StreetName,Ward,District,Province,Country,Id,HouseNumber,StreetName,Ward,District,Province,Country,Id,HouseNumber,StreetName,Ward,District,Province,Country,IdentificationId,Id,IdentificationType,Number,IssueDate,ExpiryDate,IssuedBy,HasChip,IssuingCountry,Notes,StatusId,Id,Name
+
+
+   at CsvHelper.Configuration.ConfigurationFunctions.HeaderValidated(HeaderValidatedArgs args)
+   at CsvHelper.CsvReader.ValidateHeader(Type type)
+   at CsvHelper.CsvReader.ValidateHeader[T]()
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in E:\CODE\C#\TKPM\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 204
+2025-04-13 23:01:29.798 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 291.1553 ms
