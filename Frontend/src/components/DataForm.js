@@ -44,6 +44,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                     setEmailError(""); // Clear the error if valid
                 }
             }
+
             return updatedFormData;
         });
     };
@@ -129,7 +130,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                                     type={subField.type || "text"} // Default to "text"
                                                                     value={formData[field.accessor]?.[subField.accessor.split(".")[1]] || ""}
                                                                     onChange={(e) =>
-                                                                        handleGroupChange(field.accessor, subField.accessor.split(".")[1], e.target.value)
+                                                                        handleGroupChange(field.accessor, subField.accessor.split(".")[1], subField.type === "checkbox" ? e.target.checked : e.target.value)
                                                                     }
                                                                     className="w-full border p-2"
                                                                     required={subField.required}
@@ -144,7 +145,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                                     type={subField.type || "text"} // Default to "text"
                                                                     value={formData[field.accessor]?.[subField.accessor] || ""}
                                                                     onChange={(e) =>
-                                                                        handleGroupChange(field.accessor, subField.accessor, e.target.value)
+                                                                        handleGroupChange(field.accessor, subField.accessor, subField.type === "checkbox" ? e.target.checked : e.target.value)
                                                                     }
                                                                     className="w-full border p-2"
                                                                     required={subField.required}

@@ -53,13 +53,24 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 // Đăng ký các service
-builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<AddressService>();
 builder.Services.AddScoped<DataService>();
+builder.Services.AddScoped<DepartmentService>();
+builder.Services.AddScoped<IdentificationService>();
+builder.Services.AddScoped<ProgramService>();
+builder.Services.AddScoped<SchoolYearService>();
+builder.Services.AddScoped<StudentStatusService>();
 
 // Đăng ký các repository
 builder.Services.AddScoped<AddressRepository>();
 builder.Services.AddScoped<DataRepository>();
+builder.Services.AddScoped<DepartmentRepository>();
+builder.Services.AddScoped<IdentificationRepository>();
+builder.Services.AddScoped<ProgramRepository>();
+builder.Services.AddScoped<SchoolYearRepository>();
+builder.Services.AddScoped<StudentStatusRepository>();
+builder.Services.AddScoped<StudentRepository>();
 
 // Cấu hình CORS
 builder.Services.AddCors(options =>

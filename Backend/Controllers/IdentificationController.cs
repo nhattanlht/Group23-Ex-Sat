@@ -1,37 +1,35 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using StudentManagement.Models;
+using StudentManagement.Services;
 
 [Route("api/[controller]")]
 [ApiController]
 public class IdentificationController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly IdentificationService _service;
 
-    public IdentificationController(ApplicationDbContext context)
+    public IdentificationController(IdentificationService service)
     {
-        _context = context;
+        _service = service;
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateIdentification([FromBody] Identification identification)
     {
         if (!ModelState.IsValid)
-        {
             return BadRequest(ModelState);
-        }
 
-        _context.Identifications.Add(identification);
-        await _context.SaveChangesAsync();
-
-        return Ok(identification);
+        var result = await _service.CreateIdentificationAsync(identification);
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Identification>> GetIdentificationById(int id)
+    public async Task<IActionResult> GetIdentificationById(int id)
     {
-        var identification = await _context.Identifications.FindAsync(id);
-        if (identification == null) return NotFound();
-        return Ok(identification);
+        var result = await _service.GetIdentificationByIdAsync(id);
+        if (result == null)
+            return NotFound(new { message = "Không tìm thấy CMND/CCCD!" });
+
+        return Ok(result);
     }
 }

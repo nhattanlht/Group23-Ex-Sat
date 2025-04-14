@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using StudentManagement.DTOs;
 using Microsoft.Extensions.Logging;
 using StudentManagement.Models;
 using StudentManagement.Services;
 using System;
 using System.Threading.Tasks;
+using StudentManagement.DTOs;
 
 namespace StudentManagement.Controllers
 {
@@ -12,16 +12,15 @@ namespace StudentManagement.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
-        private readonly IStudentService _studentService;
-        private readonly ILogger<StudentsController> _logger; // Thêm logger
+        private readonly StudentService _studentService;
+        private readonly ILogger<StudentsController> _logger;
 
-        public StudentsController(IStudentService studentService, ILogger<StudentsController> logger)
+        public StudentsController(StudentService studentService, ILogger<StudentsController> logger)
         {
             _studentService = studentService;
             _logger = logger;
         }
 
-        // Lấy danh sách sinh viên với phân trang
         [HttpGet]
         public async Task<IActionResult> GetStudents(int page = 1, int pageSize = 10)
         {
@@ -38,7 +37,6 @@ namespace StudentManagement.Controllers
             }
         }
 
-        // Thêm sinh viên mới
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Student student)
         {
@@ -49,7 +47,6 @@ namespace StudentManagement.Controllers
                 {
                     _logger.LogWarning(ModelState.ToString());
                     return BadRequest(new { errors = ModelState });
-                    
                 }
                 if (student == null)
                 {
@@ -74,7 +71,6 @@ namespace StudentManagement.Controllers
             }
         }
 
-        // Lấy thông tin 1 sinh viên theo MSSV
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStudent(string id)
         {
@@ -97,7 +93,6 @@ namespace StudentManagement.Controllers
             }
         }
 
-        // Cập nhật thông tin sinh viên
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(string id, [FromBody] Student student)
         {
@@ -133,7 +128,6 @@ namespace StudentManagement.Controllers
             }
         }
 
-        // Xóa sinh viên theo MSSV
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
@@ -157,7 +151,6 @@ namespace StudentManagement.Controllers
             }
         }
 
-        // Tìm kiếm sinh viên theo từ khóa
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] StudentFilterModel filter, int page = 1, int pageSize = 10)
         {

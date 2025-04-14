@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using StudentManagement.Models;
+using StudentManagement.Services;
 
 namespace StudentManagement.Controllers
 {
@@ -8,23 +8,21 @@ namespace StudentManagement.Controllers
     [ApiController]
     public class StudentStatusController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        private readonly ILogger<StudentStatusController> _logger; // Thêm logger
+        private readonly StudentStatusService _studentStatusService;
+        private readonly ILogger<StudentStatusController> _logger;
 
-        public StudentStatusController(ApplicationDbContext context, ILogger<StudentStatusController> logger)
+        public StudentStatusController(StudentStatusService studentStatusService, ILogger<StudentStatusController> logger)
         {
-            _context = context;
+            _studentStatusService = studentStatusService;
             _logger = logger;
         }
 
-        // 1. Lấy danh sách tất cả các StudentStatus
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<StudentStatus>>> GetStudentStatuses()
+        public async Task<IActionResult> GetStudentStatuses()
         {
-            _logger.LogInformation("Fetching all student statuses.");
             try
             {
-                var statuses = await _context.StudentStatuses.ToListAsync();
+                var statuses = await _studentStatusService.GetAllStudentStatusesAsync();
                 return Ok(statuses);
             }
             catch (Exception ex)
@@ -34,47 +32,34 @@ namespace StudentManagement.Controllers
             }
         }
 
-        // 2. Lấy thông tin một StudentStatus theo Id
         [HttpGet("{id}")]
-        public async Task<ActionResult<StudentStatus>> GetStudentStatus(int id)
+        public async Task<IActionResult> GetStudentStatus(int id)
         {
-            _logger.LogInformation("Fetching student status with ID: {ID}", id);
             try
             {
-                var studentStatus = await _context.StudentStatuses.FindAsync(id);
-                if (studentStatus == null)
-                {
-                    _logger.LogWarning("Student status not found: {ID}", id);
+                var status = await _studentStatusService.GetStudentStatusByIdAsync(id);
+                if (status == null)
                     return NotFound(new { message = "Không tìm thấy tình trạng sinh viên!" });
-                }
 
-                return Ok(studentStatus);
+                return Ok(status);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while fetching student status: {ID}", id);
+                _logger.LogError(ex, $"Error while fetching student status: {id}");
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
 
-        // 3. Thêm mới một StudentStatus
         [HttpPost]
-        public async Task<ActionResult<StudentStatus>> CreateStudentStatus(StudentStatus studentStatus)
+        public async Task<IActionResult> CreateStudentStatus(StudentStatus studentStatus)
         {
-            _logger.LogInformation("Creating student status: {@StudentStatus}", studentStatus);
             try
             {
-                if (await _context.StudentStatuses.AnyAsync(s => s.Name == studentStatus.Name))
-                {
-                    _logger.LogWarning("Student status already exists: {Name}", studentStatus.Name);
+                var createdStatus = await _studentStatusService.CreateStudentStatusAsync(studentStatus);
+                if (createdStatus == null)
                     return BadRequest(new { message = "Tình trạng sinh viên đã tồn tại!" });
-                }
 
-                _context.StudentStatuses.Add(studentStatus);
-                await _context.SaveChangesAsync();
-
-                _logger.LogInformation("Student status created successfully: {ID}", studentStatus.Id);
-                return CreatedAtAction(nameof(GetStudentStatus), new { id = studentStatus.Id }, studentStatus);
+                return CreatedAtAction(nameof(GetStudentStatus), new { id = createdStatus.Id }, createdStatus);
             }
             catch (Exception ex)
             {
@@ -83,71 +68,38 @@ namespace StudentManagement.Controllers
             }
         }
 
-        // 4. Cập nhật tên của một StudentStatus
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStudentStatus(int id, StudentStatus studentStatus)
         {
-            _logger.LogInformation("Updating student status: {ID}, Data: {@StudentStatus}", id, studentStatus);
             try
             {
-                if (id != studentStatus.Id)
-                {
-                    _logger.LogWarning("Student status ID mismatch. Provided: {ID}, Actual: {StatusID}", id, studentStatus.Id);
-                    return BadRequest(new { message = "ID không khớp!" });
-                }
+                var updated = await _studentStatusService.UpdateStudentStatusAsync(id, studentStatus);
+                if (!updated)
+                    return BadRequest(new { message = "ID không khớp hoặc tình trạng sinh viên không tồn tại!" });
 
-                var existingStatus = await _context.StudentStatuses.FindAsync(id);
-                if (existingStatus == null)
-                {
-                    _logger.LogWarning("Student status not found: {ID}", id);
-                    return NotFound(new { message = "Không tìm thấy tình trạng sinh viên!" });
-                }
-
-                existingStatus.Name = studentStatus.Name;
-                await _context.SaveChangesAsync();
-
-                _logger.LogInformation("Student status updated successfully: {ID}", id);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while updating student status: {ID}", id);
+                _logger.LogError(ex, $"Error while updating student status: {id}");
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
 
-        // 5. Xóa một StudentStatus
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudentStatus(int id)
         {
-            _logger.LogInformation("Deleting student status with ID: {ID}", id);
             try
             {
-                var studentStatus = await _context.StudentStatuses
-                    .Include(s => s.Students)
-                    .FirstOrDefaultAsync(s => s.Id == id);
+                var deleted = await _studentStatusService.DeleteStudentStatusAsync(id);
+                if (!deleted)
+                    return BadRequest(new { message = "Tình trạng sinh viên không tồn tại hoặc có sinh viên đang sử dụng tình trạng này!" });
 
-                if (studentStatus == null)
-                {
-                    _logger.LogWarning("Student status not found: {ID}", id);
-                    return NotFound(new { message = "Không tìm thấy tình trạng sinh viên!" });
-                }
-
-                if (studentStatus.Students.Any())
-                {
-                    _logger.LogWarning("Cannot delete student status {ID} because it's in use.", id);
-                    return BadRequest(new { message = "Không thể xóa vì có sinh viên đang sử dụng tình trạng này!" });
-                }
-
-                _context.StudentStatuses.Remove(studentStatus);
-                await _context.SaveChangesAsync();
-
-                _logger.LogInformation("Student status deleted successfully: {ID}", id);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while deleting student status: {ID}", id);
+                _logger.LogError(ex, $"Error while deleting student status: {id}");
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }

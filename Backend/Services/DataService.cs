@@ -2,6 +2,11 @@ using StudentManagement.Models;
 using StudentManagement.DTOs;
 using StudentManagement.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using CsvHelper;
+using CsvHelper.Configuration;
+using System.Globalization;
+using System.Text;
 
 namespace StudentManagement.Services
 {
@@ -117,6 +122,218 @@ namespace StudentManagement.Services
             {
                 await _repository.AddStudentsAsync(students);
             });
+        }
+
+        public async Task<(bool isSuccess, string message, int importedCount)> ImportStudentsFromJsonAsync(IFormFile file, ILogger logger)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return (false, "File không hợp lệ.", 0);
+            }
+
+            try
+            {
+                using var stream = file.OpenReadStream();
+                using var reader = new StreamReader(stream);
+                var json = await reader.ReadToEndAsync();
+
+                var records = JsonConvert.DeserializeObject<List<StudentDto>>(json);
+                if (records == null || !records.Any())
+                {
+                    return (false, "Dữ liệu JSON không hợp lệ.", 0);
+                }
+
+                var newStudents = new List<Student>();
+
+                foreach (var record in records)
+                {
+                    var department = await GetDepartmentByNameAsync(record.Department);
+                    var schoolYear = await GetSchoolYearByNameAsync(record.SchoolYear);
+                    var studyProgram = await GetStudyProgramByNameAsync(record.StudyProgram);
+                    var status = await GetStudentStatusByNameAsync(record.Status);
+
+                    var diaChiNhanThu = await FindOrCreateAddressAsync(
+                        record.AddressNhanThu_HouseNumber,
+                        record.AddressNhanThu_StreetName,
+                        record.AddressNhanThu_Ward,
+                        record.AddressNhanThu_District,
+                        record.AddressNhanThu_Province,
+                        record.AddressNhanThu_Country);
+
+                    var diaChiThuongTru = await FindOrCreateAddressAsync(
+                        record.AddressThuongTru_HouseNumber,
+                        record.AddressThuongTru_StreetName,
+                        record.AddressThuongTru_Ward,
+                        record.AddressThuongTru_District,
+                        record.AddressThuongTru_Province,
+                        record.AddressThuongTru_Country);
+
+                    var diaChiTamTru = await FindOrCreateAddressAsync(
+                        record.AddressTamTru_HouseNumber,
+                        record.AddressTamTru_StreetName,
+                        record.AddressTamTru_Ward,
+                        record.AddressTamTru_District,
+                        record.AddressTamTru_Province,
+                        record.AddressTamTru_Country);
+
+                    var identification = await FindOrCreateIdentificationAsync(new Identification
+                    {
+                        IdentificationType = record.Identification_Type,
+                        Number = record.Identification_Number,
+                        IssueDate = record.Identification_IssueDate,
+                        ExpiryDate = record.Identification_ExpiryDate,
+                        IssuedBy = record.Identification_IssuedBy,
+                        HasChip = record.Identification_HasChip,
+                        IssuingCountry = record.Identification_IssuingCountry,
+                        Notes = record.Identification_Notes
+                    });
+
+                    var student = new Student
+                    {
+                        MSSV = record.MSSV,
+                        HoTen = record.HoTen,
+                        NgaySinh = record.NgaySinh,
+                        GioiTinh = record.GioiTinh,
+                        DepartmentId = department.Id,
+                        SchoolYearId = schoolYear.Id,
+                        StudyProgramId = studyProgram.Id,
+                        StatusId = status.Id,
+                        Email = record.Email,
+                        QuocTich = record.QuocTich,
+                        SoDienThoai = record.SoDienThoai,
+                        DiaChiNhanThuId = diaChiNhanThu.Id,
+                        DiaChiThuongTruId = diaChiThuongTru?.Id ?? null,
+                        DiaChiTamTruId = diaChiTamTru?.Id ?? null,
+                        IdentificationId = identification.Id
+                    };
+
+                    newStudents.Add(student);
+                }
+
+                var uniqueStudents = await FilterDuplicateStudentsAsync(newStudents);
+
+                if (!uniqueStudents.Any())
+                {
+                    return (false, "Tất cả dữ liệu đã tồn tại trong hệ thống!", 0);
+                }
+
+                await ImportStudentsAsync(uniqueStudents);
+                logger.LogInformation("JSON import successful.");
+
+                return (true, "Import JSON thành công", uniqueStudents.Count);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error importing JSON.");
+                return (false, $"Lỗi khi import JSON: {ex.Message}", 0);
+            }
+        }
+
+        public async Task<(bool isSuccess, string message, int importedCount)> ImportStudentsFromCsvAsync(IFormFile file, ILogger logger)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return (false, "File không hợp lệ.", 0);
+            }
+
+            try
+            {
+                using var stream = file.OpenReadStream();
+                using var reader = new StreamReader(stream, Encoding.UTF8);
+                using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
+
+                csv.Context.RegisterClassMap<StudentMap>();
+                var records = csv.GetRecords<StudentDto>().ToList();
+
+                if (!records.Any())
+                {
+                    return (false, "Dữ liệu CSV không hợp lệ.", 0);
+                }
+
+                var newStudents = new List<Student>();
+
+                foreach (var record in records)
+                {
+                    var department = await GetDepartmentByNameAsync(record.Department);
+                    var schoolYear = await GetSchoolYearByNameAsync(record.SchoolYear);
+                    var studyProgram = await GetStudyProgramByNameAsync(record.StudyProgram);
+                    var status = await GetStudentStatusByNameAsync(record.Status);
+
+                    var diaChiNhanThu = await FindOrCreateAddressAsync(
+                        record.AddressNhanThu_HouseNumber,
+                        record.AddressNhanThu_StreetName,
+                        record.AddressNhanThu_Ward,
+                        record.AddressNhanThu_District,
+                        record.AddressNhanThu_Province,
+                        record.AddressNhanThu_Country);
+
+                    var diaChiThuongTru = await FindOrCreateAddressAsync(
+                        record.AddressThuongTru_HouseNumber,
+                        record.AddressThuongTru_StreetName,
+                        record.AddressThuongTru_Ward,
+                        record.AddressThuongTru_District,
+                        record.AddressThuongTru_Province,
+                        record.AddressThuongTru_Country);
+
+                    var diaChiTamTru = await FindOrCreateAddressAsync(
+                        record.AddressTamTru_HouseNumber,
+                        record.AddressTamTru_StreetName,
+                        record.AddressTamTru_Ward,
+                        record.AddressTamTru_District,
+                        record.AddressTamTru_Province,
+                        record.AddressTamTru_Country);
+
+                    var identification = await FindOrCreateIdentificationAsync(new Identification
+                    {
+                        IdentificationType = record.Identification_Type,
+                        Number = record.Identification_Number,
+                        IssueDate = record.Identification_IssueDate,
+                        ExpiryDate = record.Identification_ExpiryDate,
+                        IssuedBy = record.Identification_IssuedBy,
+                        HasChip = record.Identification_HasChip,
+                        IssuingCountry = record.Identification_IssuingCountry,
+                        Notes = record.Identification_Notes
+                    });
+
+                    var student = new Student
+                    {
+                        MSSV = record.MSSV,
+                        HoTen = record.HoTen,
+                        NgaySinh = record.NgaySinh,
+                        GioiTinh = record.GioiTinh,
+                        DepartmentId = department.Id,
+                        SchoolYearId = schoolYear.Id,
+                        StudyProgramId = studyProgram.Id,
+                        StatusId = status.Id,
+                        Email = record.Email,
+                        QuocTich = record.QuocTich,
+                        SoDienThoai = record.SoDienThoai,
+                        DiaChiNhanThuId = diaChiNhanThu.Id,
+                        DiaChiThuongTruId = diaChiThuongTru?.Id ?? null,
+                        DiaChiTamTruId = diaChiTamTru?.Id ?? null,
+                        IdentificationId = identification.Id
+                    };
+
+                    newStudents.Add(student);
+                }
+
+                var uniqueStudents = await FilterDuplicateStudentsAsync(newStudents);
+
+                if (!uniqueStudents.Any())
+                {
+                    return (false, "Tất cả dữ liệu đã tồn tại trong hệ thống!", 0);
+                }
+
+                await ImportStudentsAsync(uniqueStudents);
+                logger.LogInformation("CSV import successful.");
+
+                return (true, "Import CSV thành công.", uniqueStudents.Count);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error importing CSV.");
+                return (false, $"Lỗi khi import CSV: {ex.Message}", 0);
+            }
         }
     }
 }
