@@ -33,6 +33,11 @@ namespace StudentManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CourseCreateDto dto)
         {
+            if (string.IsNullOrWhiteSpace(dto.PrerequisiteCourseCode))
+            {
+                dto.PrerequisiteCourseCode = null;
+            }
+            
             var course = new Course
             {
                 CourseCode = dto.CourseCode,

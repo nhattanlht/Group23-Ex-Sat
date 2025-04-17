@@ -399,7 +399,7 @@ const StudentList = () => {
   return (
     <div>
       <h2>Danh sách sinh viên</h2>
-      <div className="d-flex mb-3">
+      <div className="flex mb-3">
         <button className="btn btn-success mb-2 mr-2" onClick={() => { setModalData(null); setShowModal(true); }}>
           Thêm Sinh Viên
         </button>

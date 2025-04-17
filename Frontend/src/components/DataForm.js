@@ -33,6 +33,9 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                 [name]: type === "number" ? Number(value) : value
             }
 
+            if (type === 'checkbox') {
+                updatedFormData[name] = e.target.checked
+            }
             if (name === "identificationType") {
                 updatedFormData.identification = {}; // Clear existing identification fields
             }
@@ -169,6 +172,16 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                         <small className="text-red-500">{emailError}</small> // Display error message
                                                     )}
                                                 </div>
+                                            ) : field.type === 'checkbox' ? (
+                                                <input
+                                                        id={field.accessor}
+                                                        name={field.accessor}
+                                                        type="checkbox"
+                                                        checked={formData[field.accessor] || false}
+                                                        onChange={handleChange}
+                                                        className={`w-full border p-2 ${emailError ? "border-red-500" : ""}`} // Highlight border if there's an error
+                                                        required={field.required}
+                                                    />
                                             ) : (
                                                 <input
                                                     id={field.accessor}

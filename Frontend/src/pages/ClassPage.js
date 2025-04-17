@@ -3,11 +3,11 @@ import PageLayout from '../components/PageLayout';
 
 const ClassPage = () => {
   const fields = [
-    { display: 'Mã Lớp Học', accessor: 'classCode', type: 'text', required: true },
-    { display: 'Khóa Học', accessor: 'courseCode', type: 'select', optionsEndpoint: 'courses', required: true },
-    { display: 'Năm Học', accessor: 'schoolYearId', type: 'select', optionsEndpoint: 'schoolyears', required: true },
+    { display: 'Mã Lớp Học', accessor: 'classId', type: 'text', required: true },
+    { display: 'Khóa Học', accessor: 'courseCode', type: 'select', optionsEndpoint: 'course', required: true },
+    { display: 'Năm Học', accessor: 'AcademicYear', type: 'select', optionsEndpoint: 'schoolyears', required: true },
     { display: 'Học Kỳ', accessor: 'semester', type: 'text', required: true },
-    { display: 'Giảng Viên', accessor: 'lecturer', type: 'text', required: true },
+    { display: 'Giảng Viên', accessor: 'teacher', type: 'text', required: true },
     { display: 'Số Lượng Tối Đa', accessor: 'maxStudents', type: 'number', required: true },
     { display: 'Lịch Học', accessor: 'schedule', type: 'text' },
     { display: 'Phòng Học', accessor: 'room', type: 'text' },
@@ -15,7 +15,7 @@ const ClassPage = () => {
 
   return (
     <PageLayout title="Danh sách lớp học">
-      <DataList fields={fields} dataName="classes" pk="classCode" label="Lớp Học" />
+      <DataList fields={fields} dataName="class" pk="classCode" label="Lớp Học" />
     </PageLayout>
   );
 };

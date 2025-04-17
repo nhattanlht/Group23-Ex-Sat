@@ -8,13 +8,13 @@ const CoursePage = () => {
     { display: 'Số Tín Chỉ', accessor: 'credits', type: 'number', required: true },
     { display: 'Khoa', accessor: 'departmentId', type: 'select', optionsEndpoint: 'departments', required: true },
     { display: 'Mô Tả', accessor: 'description', type: 'textarea' },
-    { display: 'Môn Tiên Quyết', accessor: 'prerequisiteCourseCode', type: 'select', optionsEndpoint: 'courses' },
+    { display: 'Môn Tiên Quyết', accessor: 'prerequisiteCourseCode', type: 'select', optionsEndpoint: 'course' },
     { display: 'Hoạt Động', accessor: 'isActive', type: 'checkbox' },
   ];
 
   return (
     <PageLayout title="Danh sách khóa học">
-      <DataList fields={fields} dataName="courses" pk="courseCode" label="Khóa Học" />
+      <DataList fields={fields} dataName="course" pk="courseCode" label="Khóa Học" />
     </PageLayout>
   );
 };
