@@ -10,6 +10,8 @@ const Sidebar = () => {
         { name: "Khoa", href: "/departments", icon: 'building-2' },
         { name: "Chương trình", href: "/programs", icon: 'book-open' },
         { name: "Tình trạng", href: "/statuses", icon: 'user-round-check' },
+        { name: "Khóa học", href: "/courses", icon: 'book' },
+        { name: "Lớp học", href: "/classes", icon: 'presentation' }
     ];
 
     return (

@@ -1,28 +1,47 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import config from '../config';
 import DataTable from './DataTable';
 import { handleAddRow, handleEditRow, handleDeleteRow, loadDataNoPaging } from '../util/callCRUDApi';
 import DataForm from './DataForm';
-const DataList = ({fields, dataName, pk, label}) => {
+
+const DataList = ({ fields, dataName, pk, label }) => {
   const [dataSet, setDataSet] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [options, setOptions] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+
+  const fetchOptions = async () => {
+    const newOptions = {};
+    for (const field of fields) {
+      if (field.type === 'select' && field.optionsEndpoint) {
+        try {
+          const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}`);
+          newOptions[field.accessor] = response.data.map((item) => ({
+            id: item.id || item.courseCode,
+            name: item.name || item.courseCode,
+          }));
+        } catch (error) {
+          console.error(`Error fetching options for ${field.accessor}:`, error);
+          newOptions[field.accessor] = []; // Ensure options are initialized to an empty array
+        }
+      }
+    }
+    setOptions(newOptions);
+  };
 
   useEffect(() => {
+    fetchOptions();
     loadListData();
   }, []);
 
-  // Gọi API lấy danh sách
   const loadListData = async () => {
     try {
       const data = await loadDataNoPaging(dataName);
       setDataSet(data || []);
-      console.log("search",data);
     } catch (error) {
-      console.error(`Lỗi khi tải danh sách ${label}`, error);
-      alert(`Lỗi khi tải danh sách ${label}`);
+      console.error(`Error loading ${label} list:`, error);
+      alert(`Error loading ${label} list`);
     }
   };
 
@@ -32,7 +51,7 @@ const DataList = ({fields, dataName, pk, label}) => {
       setShowModal(false);
       loadListData();
     } catch (error) {
-      alert(`Lỗi khi thêm ${label}`);
+      alert(`Error adding ${label}`);
     }
   };
 
@@ -42,7 +61,7 @@ const DataList = ({fields, dataName, pk, label}) => {
       setShowModal(false);
       loadListData();
     } catch (error) {
-      alert(`Lỗi khi chỉnh sửa ${label}`);
+      alert(`Error editing ${label}`);
     }
   };
 
@@ -51,7 +70,7 @@ const DataList = ({fields, dataName, pk, label}) => {
       await handleDeleteRow(dataName, pk);
       loadListData();
     } catch (error) {
-      alert(`Lỗi khi xóa ${label}`);
+      alert(`Error deleting ${label}`);
     }
   };
 
@@ -59,19 +78,27 @@ const DataList = ({fields, dataName, pk, label}) => {
     <div>
       <div className="flex mb-3">
         <button className="btn btn-success me-2" onClick={() => { setModalData(null); setShowModal(true); }}>
-          Thêm {label}
+          Add {label}
         </button>
-        {/* <input
-          type="text"
-          className="form-control"
-          placeholder={`Tìm kiếm ${label}`}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        /> */}
       </div>
-      <DataTable fields={fields} dataSet={dataSet} handleEdit={(data) => {setModalData(data); setShowModal(true);}} handleDelete={(data)=>{handleDeleteData(data[pk])}}></DataTable>
-      {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /> */}
-      {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditData : handleAddData} onClose={() => setShowModal(false)} label={label} />}
+      <DataTable
+        fields={fields}
+        dataSet={dataSet}
+        handleEdit={(data) => { setModalData(data); setShowModal(true); }}
+        handleDelete={(data) => { handleDeleteData(data[pk]); }}
+      />
+      {showModal && (
+        <DataForm
+          fields={fields.map((field) => ({
+            ...field,
+            options: field.type === 'select' ? options[field.accessor] || [] : field.options,
+          }))}
+          data={modalData}
+          onSave={modalData ? handleEditData : handleAddData}
+          onClose={() => setShowModal(false)}
+          label={label}
+        />
+      )}
     </div>
   );
 };

@@ -1,11 +1,7 @@
 using StudentManagement.Models;
 using StudentManagement.Repositories;
 using StudentManagement.DTOs;
-using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Linq;
 
 namespace StudentManagement.Services
 {

@@ -12,13 +12,19 @@ public class PhoneNumberAttribute : ValidationAttribute
         _countryCode = countryCode;
     }
 
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
         if (value == null)
-            return ValidationResult.Success; // Allow null values
+        {
+            return ValidationResult.Success;
+        }
 
         var phoneNumber = value.ToString();
-        
+        if (string.IsNullOrEmpty(phoneNumber))
+        {
+            return new ValidationResult("Phone number is required.");
+        }
+
         // Get the validation service from DI container
         var serviceProvider = validationContext.GetService<IServiceProvider>();
         var validationService = serviceProvider.GetService<PhoneNumberValidationService>();

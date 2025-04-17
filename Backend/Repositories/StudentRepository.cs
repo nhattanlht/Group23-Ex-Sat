@@ -29,7 +29,7 @@ namespace StudentManagement.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Student> GetStudentById(string id)
+        public async Task<Student?> GetStudentById(string id)
         {
             return await _context.Students
                                  .Include(s => s.Department)
@@ -98,6 +98,16 @@ namespace StudentManagement.Repositories
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+        }
+
+        public async Task<Student?> GetStudentByIdAsync(string studentId)
+        {
+            return await _context.Students.FirstOrDefaultAsync(s => s.MSSV == studentId);
+        }
+
+        public async Task<Student?> GetStudentByEmailAsync(string email)
+        {
+            return await _context.Students.FirstOrDefaultAsync(s => s.Email == email);
         }
     }
 }

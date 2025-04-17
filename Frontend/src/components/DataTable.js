@@ -2,34 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import config from '../config';
 import { Pencil, Trash2 } from "lucide-react";
-// import readXlsxFile from "read-excel-file";
-// import { Button } from "@/components/ui/button";
 
 const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
-  // const handleFileUpload = async (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     readXlsxFile(file).then((rows) => {
-  //       const headers = rows[0];
-  //       const formattedData = rows.slice(1).map((row) => {
-  //         return headers.reduce((acc, header, index) => {
-  //           acc[header] = row[index] || "";
-  //           return acc;
-  //         }, {});
-  //       });
-  //       setData(formattedData);
-  //       if (onFileUpload) {
-  //         onFileUpload(formattedData);
-  //       }
-  //     });
-  //   }
-  // };
   const [addresses, setAddresses] = useState({});
   const [identifications, setIdentifications] = useState({});
   const [selectedIdentification, setSelectedIdentification] = useState(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   // Tìm tên theo ID từ danh sách
   const getNameById = (id, list) => {
+    if (!list || !Array.isArray(list)) return 'Chưa có'; // Handle undefined or invalid list
     const item = list.find((item) => item.id === id);
     return item ? item.name : 'Chưa có';
   };

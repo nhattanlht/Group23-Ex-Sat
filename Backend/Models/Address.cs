@@ -8,22 +8,22 @@ public class Address
     public int Id { get; set; }
 
     [Required]
-    public string HouseNumber { get; set; }
+    public string? HouseNumber { get; set; } // Make nullable
 
     [Required]
-    public string StreetName { get; set; }
+    public string? StreetName { get; set; } // Make nullable
 
     [Required]
-    public string Ward { get; set; }
+    public string? Ward { get; set; } // Make nullable
 
     [Required]
-    public string District { get; set; }
+    public string? District { get; set; } // Make nullable
 
     [Required]
-    public string Province { get; set; }
+    public string? Province { get; set; } // Make nullable
 
     [Required]
-    public string Country { get; set; }
+    public string? Country { get; set; } // Make nullable
 
     public override string ToString()
     {

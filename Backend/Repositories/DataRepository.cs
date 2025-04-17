@@ -87,22 +87,22 @@ namespace StudentManagement.Repositories
             return address;
         }
 
-        public async Task<Department> GetDepartmentByNameAsync(string departmentName)
+        public async Task<Department?> GetDepartmentByNameAsync(string departmentName)
         {
             return await _context.Departments.FirstOrDefaultAsync(d => d.Name == departmentName);
         }
 
-        public async Task<SchoolYear> GetSchoolYearByNameAsync(string schoolYearName)
+        public async Task<SchoolYear?> GetSchoolYearByNameAsync(string schoolYearName)
         {
             return await _context.SchoolYears.FirstOrDefaultAsync(sy => sy.Name == schoolYearName);
         }
 
-        public async Task<StudyProgram> GetStudyProgramByNameAsync(string studyProgramName)
+        public async Task<StudyProgram?> GetStudyProgramByNameAsync(string studyProgramName)
         {
             return await _context.StudyPrograms.FirstOrDefaultAsync(sp => sp.Name == studyProgramName);
         }
 
-        public async Task<StudentStatus> GetStudentStatusByNameAsync(string statusName)
+        public async Task<StudentStatus?> GetStudentStatusByNameAsync(string statusName)
         {
             return await _context.StudentStatuses.FirstOrDefaultAsync(st => st.Name == statusName);
         }
@@ -145,6 +145,12 @@ namespace StudentManagement.Repositories
                 await transaction.RollbackAsync();
                 throw;
             }
+        }
+
+        public async Task<BinaryData?> GetDataByIdAsync(int id)
+        {
+            var data = await _context.Data.FindAsync(id);
+            return data != null ? new BinaryData(data) : null; // Convert to BinaryData
         }
     }
 }

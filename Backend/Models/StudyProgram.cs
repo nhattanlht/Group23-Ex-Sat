@@ -11,7 +11,7 @@ namespace StudentManagement.Models
 
         [Required]
         [StringLength(200, ErrorMessage = "Tên khoa không được vượt quá 200 ký tự.")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty; // Default value to avoid nullability warning
 
         // Khởi tạo danh sách để tránh lỗi NullReferenceException
         public ICollection<Student> Students { get; set; } = new HashSet<Student>();

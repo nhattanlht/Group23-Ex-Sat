@@ -11,9 +11,11 @@ namespace StudentManagement.Models
 
         [Required]
         [StringLength(100, ErrorMessage = "Tên khoa không được vượt quá 100 ký tự.")]
-        public string Name { get; set; }
+        public string? Name { get; set; } // Make nullable
 
         // Khởi tạo danh sách để tránh lỗi NullReferenceException
         public ICollection<Student> Students { get; set; } = new HashSet<Student>();
+
+        public ICollection<Course> Courses { get; set; } = new HashSet<Course>();
     }
 }

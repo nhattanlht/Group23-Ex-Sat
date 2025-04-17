@@ -11,11 +11,11 @@ namespace StudentManagement.Models
         public int Id { get; set; }
 
         [Required]
-        public string IdentificationType { get; set; } // CMND, CCCD, or Passport
+        public string? IdentificationType { get; set; } // CMND, CCCD, or Passport
 
         // Common fields
         [Required]
-        public string Number { get; set; } // Identification number (e.g., CMND/CCCD/Passport number)
+        public string? Number { get; set; } // Identification number (e.g., CMND/CCCD/Passport number)
 
         [DataType(DataType.Date)]
         public DateTime IssueDate { get; set; } // Date of issue
@@ -24,7 +24,7 @@ namespace StudentManagement.Models
         public DateTime? ExpiryDate { get; set; } // Expiry date (nullable for CMND/CCCD)
 
         [Required]
-        public string IssuedBy { get; set; } // Place of issue
+        public string? IssuedBy { get; set; } // Place of issue
 
         // Specific to CCCD
         public bool? HasChip { get; set; } // Whether the CCCD has a chip (nullable for non-CCCD)

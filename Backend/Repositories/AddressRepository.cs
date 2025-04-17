@@ -12,9 +12,9 @@ namespace StudentManagement.Repositories
             _context = context;
         }
 
-        public async Task<Address> GetAddressByIdAsync(int id)
+        public async Task<Address?> GetAddressByIdAsync(int id)
         {
-            return await _context.Addresses.FindAsync(id);
+            return await _context.Addresses.FindAsync(id) ?? null; // Ensure null is explicitly returned
         }
 
         public async Task AddAddressAsync(Address address)

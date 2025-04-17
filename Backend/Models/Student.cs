@@ -6,16 +6,16 @@ namespace StudentManagement.Models
     public class Student
     {
         [Key]
-        public string MSSV { get; set; }
+        public string MSSV { get; set; } = string.Empty; // Default value to avoid nullability warning
 
         [Required, StringLength(100)]
-        public string HoTen { get; set; }
+        public string HoTen { get; set; } = string.Empty; // Default value to avoid nullability warning
 
         [DataType(DataType.Date)]
         public DateTime NgaySinh { get; set; }
 
         [Required]
-        public string GioiTinh { get; set; }
+        public string GioiTinh { get; set; } = string.Empty; // Default value to avoid nullability warning
 
         [Required]
         public int DepartmentId { get; set; }
@@ -41,7 +41,7 @@ namespace StudentManagement.Models
         public string? Email { get; set; }
 
         [Required]
-        public string QuocTich { get; set; }
+        public string QuocTich { get; set; } = string.Empty; // Default value to avoid nullability warning
 
         [Phone]
         [PhoneNumber("VN")]
@@ -74,5 +74,9 @@ namespace StudentManagement.Models
 
         [ForeignKey("StatusId")]
         public virtual StudentStatus? StudentStatus { get; set; }
+
+        public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+
+        public ICollection<Grade> Grades { get; set; } = new List<Grade>();
     }
 }

@@ -1,5 +1,5 @@
 const config = {
-    backendUrl: process.env.REACT_APP_BACKEND_URL
-  };
-  
-  export default config;
+  backendUrl: 'http://localhost:5136' // Ensure this matches the backend URL
+};
+
+export default config;

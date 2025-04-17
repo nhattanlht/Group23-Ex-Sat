@@ -15,13 +15,13 @@ export const loadData = async (dataName, page, filters = '') => {
     }
 }
 
-export const loadDataNoPaging = async (dataName) => {
+export const loadDataNoPaging = async (endpoint) => {
     try {
-        const response = await axios.get(`${config.backendUrl}/api/${dataName}`);
+        const response = await axios.get(`${config.backendUrl}/api/${endpoint}`);
         return response.data;
     } catch (error) {
-        console.error("Lỗi khi tải dữ liệu:", error);
-        return null;
+        console.error(`Error loading data from ${endpoint}:`, error);
+        throw error;
     }
 }
 

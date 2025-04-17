@@ -5,20 +5,21 @@ using Serilog.Sinks.MSSqlServer;
 using StudentManagement.Models;
 using StudentManagement.Services;
 using StudentManagement.Repositories;
-
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Đăng ký DbContext với chuỗi kết nối từ appsettings.json
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "StudentManagement API", Version = "v1" });
+});
+
+// Register ApplicationDbContext with the connection string
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-// Đảm bảo database đã được tạo
-using (var scope = builder.Services.BuildServiceProvider().CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.Migrate(); // Tạo database nếu chưa có
-}
 
 // Cấu hình Serilog với MSSqlServerSinkOptions
 var columnOptions = new ColumnOptions();
@@ -48,7 +49,6 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.WithThreadId() // Đã có package Serilog.Enrichers.Thread
     .CreateLogger();
 
-
 // Đăng ký Serilog trong ASP.NET Core
 builder.Host.UseSerilog();
 
@@ -61,16 +61,29 @@ builder.Services.AddScoped<IdentificationService>();
 builder.Services.AddScoped<ProgramService>();
 builder.Services.AddScoped<SchoolYearService>();
 builder.Services.AddScoped<StudentStatusService>();
+builder.Services.AddScoped<CourseService>();
+
+
+// Register CourseService
+builder.Services.AddScoped<StudentManagement.Services.CourseService>();
 
 // Đăng ký các repository
 builder.Services.AddScoped<AddressRepository>();
-builder.Services.AddScoped<DataRepository>();
+builder.Services.AddScoped<DataRepository>(); // Register DataRepository
 builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<IdentificationRepository>();
 builder.Services.AddScoped<ProgramRepository>();
 builder.Services.AddScoped<SchoolYearRepository>();
 builder.Services.AddScoped<StudentStatusRepository>();
 builder.Services.AddScoped<StudentRepository>();
+
+
+// Register services and repositories
+builder.Services.AddScoped<StudentManagement.Repositories.CourseRepository>();
+builder.Services.AddScoped<StudentManagement.Services.CourseService>();
+builder.Services.AddScoped<StudentManagement.Repositories.ClassRepository>();
+builder.Services.AddScoped<StudentManagement.Services.ClassService>();
+
 
 // Cấu hình CORS
 builder.Services.AddCors(options =>
@@ -96,7 +109,20 @@ builder.Services.AddSingleton<PhoneNumberValidationService>();
 
 var app = builder.Build();
 
-app.UseCors("AllowAll");
+// Ensure the database is created
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate(); // Apply migrations
+}
+
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StudentManagement API v1"));
+}
+
 // Middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
@@ -106,6 +132,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseCors("AllowAll"); // Ensure CORS middleware is added after UseRouting
 app.UseAuthorization();
 app.UseSerilogRequestLogging(); // Ghi log request
 

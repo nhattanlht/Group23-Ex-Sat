@@ -24,8 +24,14 @@ namespace StudentManagement.Services
             return await _repository.GetAllStudentsAsync();
         }
 
-        public async Task<Address> FindOrCreateAddressAsync(string houseNumber, string streetName, string ward, string district, string province, string country)
+        public async Task<Address> FindOrCreateAddressAsync(string? houseNumber, string? streetName, string? ward, string? district, string? province, string? country)
         {
+            if (string.IsNullOrEmpty(houseNumber) || string.IsNullOrEmpty(streetName) || string.IsNullOrEmpty(ward) ||
+                string.IsNullOrEmpty(district) || string.IsNullOrEmpty(province) || string.IsNullOrEmpty(country))
+            {
+                throw new ArgumentNullException("Address fields cannot be null or empty.");
+            }
+
             // Case 1: All fields are empty → No address needed
             if (string.IsNullOrWhiteSpace(houseNumber) &&
                 string.IsNullOrWhiteSpace(streetName) &&
