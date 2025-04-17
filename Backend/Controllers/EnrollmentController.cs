@@ -16,8 +16,10 @@ namespace StudentManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll() =>
-            Ok(await _service.GetAllAsync());
+        public async Task<IActionResult> GetAll() {
+            var enrollments = await _service.GetAllAsync();
+            return Ok(enrollments);
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
