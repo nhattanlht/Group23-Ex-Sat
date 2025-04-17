@@ -12,7 +12,8 @@ const Sidebar = () => {
         { name: "Tình trạng", href: "/statuses", icon: 'user-round-check' },
         { name: "Khóa học", href: "/courses", icon: 'book' },
         { name: "Lớp học", href: "/classes", icon: 'presentation' },
-        { name: "Đăng ký Lớp học", href: "/enrollment", icon: 'presentation' }
+        { name: "Đăng ký Lớp học", href: "/enrollment", icon: 'clipboard-pen' },
+        { name: "Điểm", href: "/grade", icon: 'notebook' }
     ];
 
     return (

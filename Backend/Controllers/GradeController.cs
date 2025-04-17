@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Models;
 using StudentManagement.Services;
+using System.Text;
 
 namespace StudentManagement.Controllers
 {
@@ -27,6 +28,36 @@ namespace StudentManagement.Controllers
             if (result == null) return NotFound();
             return Ok(result);
         }
+
+        [HttpGet("export/{studentId}")]
+        public async Task<IActionResult> ExportStudentGrades(string studentId)
+        {
+            var grades = (await _service.GetAllAsync())
+                         .Where(g => g.StudentId == studentId)
+                         .ToList();
+
+            if (!grades.Any()) return NotFound();
+
+            var csv = new StringBuilder();
+
+            // Header
+            csv.AppendLine("\uFEFFBảng điểm sinh viên");
+            csv.AppendLine($"Mã Sinh Viên: {studentId}");
+            csv.AppendLine($"Họ Tên: {grades.First().Student.HoTen}");
+            csv.AppendLine("\uFEFFMôn Học,Số Tín Chỉ,Điểm,Xếp Loại,GPA");
+
+            // Rows
+            foreach (var grade in grades)
+            {
+                csv.AppendLine($"\"{grade.CourseName}\",{grade.Credit},{grade.Score},{grade.GradeLetter},{grade.GPA}");
+            }
+
+            var fileName = $"BangDiem_{studentId}.csv";
+            var bytes = Encoding.UTF8.GetBytes(csv.ToString());
+
+            return File(bytes, "text/csv", fileName);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Create(Grade grade)

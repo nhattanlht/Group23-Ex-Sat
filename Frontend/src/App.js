@@ -8,6 +8,7 @@ import StudentPage from './pages/StudentPage';
 import CoursePage from './pages/CoursePage';
 import ClassPage from './pages/ClassPage';
 import EnrollmentPage from './pages/EnrollmentPage';
+import GradePage from './pages/GradePage';
 import DataManagement from './pages/DataManagement';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/courses" element={<CoursePage />} />
           <Route path="/classes" element={<ClassPage />} />
           <Route path="/enrollment" element={<EnrollmentPage />} />
+          <Route path="/grade" element={<GradePage />} />
       </Routes>
         </BrowserRouter>
         </div>
