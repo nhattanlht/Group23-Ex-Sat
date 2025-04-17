@@ -91,7 +91,7 @@ const DataList = ({ fields, dataName, pk, label }) => {
         <DataForm
           fields={fields.map((field) => ({
             ...field,
-            options: field.type === 'select' ? options[field.accessor] || [] : field.options,
+            options: field.type === 'select' && field.optionsEndpoint ? options[field.accessor] || [] : field.options,
           }))}
           data={modalData}
           onSave={modalData ? handleEditData : handleAddData}
