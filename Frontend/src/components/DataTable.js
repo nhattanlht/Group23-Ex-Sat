@@ -128,6 +128,8 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
                     return <td key={field.accessor} className="p-2">{getNameById(row[field.accessor], field.options)}</td>
                   case 'date':
                     return <td key={field.accessor} className="p-2">{new Date(row[field.accessor]).toLocaleDateString()}</td>
+                  case 'checkbox':
+                    return <td key={field.accessor} className="p-2">{row[field.accessor] ? "Có" : "Không"}</td>
                   case 'group':
                     if (field.customeType === "identification") {
                       return (

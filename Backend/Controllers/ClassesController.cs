@@ -44,7 +44,8 @@ namespace StudentManagement.Controllers
                 Teacher = dto.Teacher,
                 MaxStudents = dto.MaxStudents,
                 Schedule = dto.Schedule,
-                Classroom = dto.Classroom
+                Classroom = dto.Classroom,
+                CancelDeadline = dto.CancelDeadline
             };
 
             await _service.AddAsync(classEntity);
@@ -66,7 +67,8 @@ namespace StudentManagement.Controllers
                 Teacher = dto.Teacher,
                 MaxStudents = dto.MaxStudents,
                 Schedule = dto.Schedule,
-                Classroom = dto.Classroom
+                Classroom = dto.Classroom,
+                CancelDeadline = dto.CancelDeadline
             };
 
             // Gọi service để cập nhật

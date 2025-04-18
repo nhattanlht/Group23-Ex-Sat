@@ -11,6 +11,7 @@ const ClassPage = () => {
     { display: 'Số Lượng Tối Đa', accessor: 'maxStudents', type: 'number', required: true },
     { display: 'Lịch Học', accessor: 'schedule', type: 'text' },
     { display: 'Phòng Học', accessor: 'room', type: 'text' },
+    { display: 'Thời gian hủy đăng ký', accessor: 'cancelDeadline', type: 'date', required: true },
   ];
 
   return (

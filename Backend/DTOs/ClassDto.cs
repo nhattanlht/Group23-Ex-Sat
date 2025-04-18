@@ -31,4 +31,7 @@ public class ClassCreateDto
 
     [MaxLength(50)]
     public string? Classroom { get; set; } // Phòng học
+
+    [Required]
+    public DateTime CancelDeadline { get; set; } // Thời gian hủy đăng ký
 }

@@ -68,9 +68,22 @@ namespace StudentManagement.Controllers
             if (existingCourse == null) return NotFound();
 
             var hasRegistrations = await _service.HasStudentRegistrationsAsync(code);
-            if (hasRegistrations)
+            if (hasRegistrations && dto.Credits != existingCourse.Credits)
             {
-                dto.Credits = existingCourse.Credits;
+                return BadRequest("Không thể cập nhật khóa học đã có sinh viên đăng ký");
+            }
+            else if (dto.Credits < 2)
+            {
+                return BadRequest("Số tín chỉ không hợp lệ");
+            }
+            else if (!string.IsNullOrEmpty(dto.PrerequisiteCourseCode) && dto.PrerequisiteCourseCode != existingCourse.PrerequisiteCourseCode)
+            {
+                var prereqExists = await _service.GetCourseByCodeAsync(dto.PrerequisiteCourseCode);
+                if (prereqExists == null) return BadRequest("Khóa học tiên quyết không tồn tại");
+            }
+            else if (hasRegistrations && dto.PrerequisiteCourseCode != existingCourse.PrerequisiteCourseCode)
+            {
+                return BadRequest("Không thể cập nhật khóa học đã có sinh viên đăng ký");
             }
             else {
                 existingCourse.Credits = dto.Credits;

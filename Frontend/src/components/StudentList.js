@@ -34,7 +34,7 @@ const StudentList = () => {
   };
 
   const fields = [
-    { display: 'MSSV', accessor: 'mssv', type: "text", required: true },
+    { display: 'MSSV', accessor: 'mssv', type: "text", required: true, disabled: true },
     { display: 'Họ Tên', accessor: 'hoTen', type: "text", required: true },
     { display: 'Ngày Sinh', accessor: 'ngaySinh', type: "date", required: true },
     { display: 'Giới Tính', accessor: 'gioiTinh', type: "select", options: [{ id: "Nam", name: "Nam" }, { id: "Nữ", name: "Nữ" }, { id: "Khác", name: "Khác" }], required: true },

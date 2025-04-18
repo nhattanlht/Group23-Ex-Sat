@@ -66,7 +66,7 @@ const DataList = ({ fields, dataName, pk, label }) => {
       setDataSet(data || []);
     } catch (error) {
       console.error(`Error loading ${label} list:`, error);
-      alert(`Error loading ${label} list`);
+      alert(`Error loading ${label} list: ${error.response.data || ''}`);
     }
   };
 
@@ -76,7 +76,7 @@ const DataList = ({ fields, dataName, pk, label }) => {
       setShowModal(false);
       loadListData();
     } catch (error) {
-      alert(`Error adding ${label}`);
+      alert(`Error adding ${label}: ${error.response.data || ''}`);
     }
   };
 
@@ -86,7 +86,7 @@ const DataList = ({ fields, dataName, pk, label }) => {
       setShowModal(false);
       loadListData();
     } catch (error) {
-      alert(`Error editing ${label}`);
+      alert(`Error editing ${label}: ${error.response.data || ''}`);
     }
   };
 
@@ -95,7 +95,7 @@ const DataList = ({ fields, dataName, pk, label }) => {
       await handleDeleteRow(dataName, pk);
       loadListData();
     } catch (error) {
-      alert(`Error deleting ${label}`);
+      alert(`Error deleting ${label}: ${error.response.data || ''}`);
     }
   };
 

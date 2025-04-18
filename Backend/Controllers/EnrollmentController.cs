@@ -16,7 +16,8 @@ namespace StudentManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll() {
+        public async Task<IActionResult> GetAll()
+        {
             var enrollments = await _service.GetAllAsync();
             return Ok(enrollments);
         }
@@ -54,11 +55,23 @@ namespace StudentManagement.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Enrollment enrollment)
+        public async Task<IActionResult> Update(int id, [FromBody] EnrollmentUpdateDto dto)
         {
-            if (id != enrollment.EnrollmentId) return BadRequest();
+            var enrollment = await _service.GetByIdAsync(id);
+            if (enrollment == null)
+                return NotFound("Không tìm thấy đăng ký");
+
+            if (dto.IsCancelled && !enrollment.IsCancelled)
+            {
+                var success = await _service.CancelEnrollmentAsync(id, dto.CancelReason ?? "Không có lý do");
+                if (!success)
+                    return BadRequest("Hủy đăng ký không hợp lệ hoặc đã quá hạn.");
+
+                return Ok("Đã hủy đăng ký thành công.");
+            }
+
             await _service.UpdateAsync(enrollment);
-            return Ok();
+            return Ok("Cập nhật đăng ký thành công.");
         }
 
         [HttpDelete("{id}")]

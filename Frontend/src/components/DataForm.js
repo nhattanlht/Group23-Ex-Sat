@@ -67,7 +67,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
         setErrors({});
         try {
             const response = await onSave(formData);
-            if(response){
+            if (response) {
                 onClose();
             }
         } catch (error) {
@@ -167,6 +167,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                         onChange={handleChange}
                                                         className={`w-full border p-2 ${emailError ? "border-red-500" : ""}`} // Highlight border if there's an error
                                                         required={field.required}
+                                                        disabled={field.disabled && data}
                                                     />
                                                     {emailError && (
                                                         <small className="text-red-500">{emailError}</small> // Display error message
@@ -174,14 +175,15 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                 </div>
                                             ) : field.type === 'checkbox' ? (
                                                 <input
-                                                        id={field.accessor}
-                                                        name={field.accessor}
-                                                        type="checkbox"
-                                                        checked={formData[field.accessor] || false}
-                                                        onChange={handleChange}
-                                                        className={`w-full border p-2 ${emailError ? "border-red-500" : ""}`} // Highlight border if there's an error
-                                                        required={field.required}
-                                                    />
+                                                    id={field.accessor}
+                                                    name={field.accessor}
+                                                    type="checkbox"
+                                                    checked={formData[field.accessor] || false}
+                                                    onChange={handleChange}
+                                                    className={`w-full border p-2 ${emailError ? "border-red-500" : ""}`} // Highlight border if there's an error
+                                                    required={field.required}
+                                                    disabled={field.disabled && data}
+                                                />
                                             ) : (
                                                 <input
                                                     id={field.accessor}
@@ -193,6 +195,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                     onChange={handleChange}
                                                     className="w-full border p-2"
                                                     required={field.required}
+                                                    disabled={field.disabled && data}
                                                 />
                                             )}
                                             {errors && errors[capitalize(field.accessor)] && (

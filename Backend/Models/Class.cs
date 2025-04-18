@@ -38,6 +38,8 @@ namespace StudentManagement.Models
         [MaxLength(50)]
         public string? Classroom { get; set; } // Phòng học
 
+        [Required]
+        public DateTime CancelDeadline { get; set; } // Thời gian hủy đăng ký
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
 
         public ICollection<Grade> Grades { get; set; } = new List<Grade>();

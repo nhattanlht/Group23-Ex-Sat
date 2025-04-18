@@ -37,6 +37,10 @@ const CoursePage = () => {
     const fields = useMemo(() => [
         { display: 'Lớp Học', accessor: 'classId', type: 'select', options: classes, required: true },
         { display: 'Sinh Viên', accessor: 'studentId', type: 'select', options: students, required: true },
+        { display: 'Thời gian đăng ký', accessor: 'registeredAt', type: 'date', required: false, disabled: true },
+        { display: 'Hủy', accessor: 'isCancelled', type: 'checkbox', required: false },
+        { display: 'Lí do hủy', accessor: 'cancelReason', type: 'text', required: false },
+        { display: 'Thời gian hủy', accessor: 'cancelDate', type: 'date', required: false, disabled: true },
     ], [classes, students]);
 
     if (classes.length === 0 || students.length === 0) {
