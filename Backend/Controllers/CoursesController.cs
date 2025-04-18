@@ -22,6 +22,13 @@ namespace StudentManagement.Controllers
             return Ok(courses);
         }
 
+        [HttpGet("active")]
+        public async Task<IActionResult> GetActiveCourses()
+        {
+            var courses = await _service.GetActiveCoursesAsync();
+            return Ok(courses);
+        }
+
         [HttpGet("{code}")]
         public async Task<IActionResult> Get(string code)
         {
@@ -60,10 +67,18 @@ namespace StudentManagement.Controllers
             var existingCourse = await _service.GetCourseByCodeAsync(code);
             if (existingCourse == null) return NotFound();
 
+            var hasRegistrations = await _service.HasStudentRegistrationsAsync(code);
+            if (hasRegistrations)
+            {
+                dto.Credits = existingCourse.Credits;
+            }
+            else {
+                existingCourse.Credits = dto.Credits;
+            }
+
             // Cập nhật dữ liệu
             existingCourse.Name = dto.Name;
             existingCourse.Description = dto.Description;
-            existingCourse.Credits = dto.Credits;
             existingCourse.DepartmentId = dto.DepartmentId;
             existingCourse.PrerequisiteCourseCode = dto.PrerequisiteCourseCode;
             existingCourse.IsActive = dto.IsActive;

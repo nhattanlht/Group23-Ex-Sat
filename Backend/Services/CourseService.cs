@@ -18,6 +18,11 @@ namespace StudentManagement.Services
             return await _repository.GetAllAsync();
         }
 
+        public async Task<List<Course>> GetActiveCoursesAsync()
+        {
+            return await _repository.GetActiveCoursesAsync();
+        }
+
         public async Task<Course?> GetCourseByCodeAsync(string code)
         {
             return await _repository.GetByCodeAsync(code);
@@ -34,6 +39,11 @@ namespace StudentManagement.Services
 
             await _repository.AddAsync(course);
             return true;
+        }
+
+        public async Task<bool> HasStudentRegistrationsAsync(string courseCode)
+        {
+            return await _repository.HasStudentRegistrationsAsync(courseCode);
         }
 
         public async Task<bool> UpdateCourseAsync(Course updatedCourse)

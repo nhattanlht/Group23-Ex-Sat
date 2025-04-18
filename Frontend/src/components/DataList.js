@@ -8,6 +8,7 @@ import DataForm from './DataForm';
 const DataList = ({ fields, dataName, pk, label }) => {
   const [dataSet, setDataSet] = useState([]);
   const [options, setOptions] = useState({});
+  const [selectedOptions, setSelectedOptions] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
 
@@ -28,6 +29,30 @@ const DataList = ({ fields, dataName, pk, label }) => {
       }
     }
     setOptions(newOptions);
+    const newSelectedOptions = {};
+    for (const field of fields) {
+      if (field.type === 'select' && field.optionsEndpoint) {
+        try {
+          if (field.optionsEndpoint !== 'course') {
+            const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}`);
+            newSelectedOptions[field.accessor] = response.data.map((item) => ({
+              id: String(item.id || item.courseCode),
+              name: item.name || item.courseCode,
+            }));
+          } else {
+            const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}/active`);
+            newSelectedOptions[field.accessor] = response.data.map((item) => ({
+              id: String(item.id || item.courseCode),
+              name: item.name || item.courseCode,
+            }));
+          }
+        } catch (error) {
+          console.error(`Error fetching options for ${field.accessor}:`, error);
+          newSelectedOptions[field.accessor] = []; // Ensure options are initialized to an empty array
+        }
+      }
+    }
+    setSelectedOptions(newSelectedOptions);
   };
 
   useEffect(() => {
@@ -94,7 +119,7 @@ const DataList = ({ fields, dataName, pk, label }) => {
         <DataForm
           fields={fields.map((field) => ({
             ...field,
-            options: field.type === 'select' && field.optionsEndpoint ? options[field.accessor] || [] : field.options,
+            options: field.type === 'select' && field.optionsEndpoint ? selectedOptions[field.accessor] || [] : field.options,
           }))}
           data={modalData}
           onSave={modalData ? handleEditData : handleAddData}

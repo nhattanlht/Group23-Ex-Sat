@@ -17,6 +17,21 @@ namespace StudentManagement.Repositories
             return await _context.Courses.Include(c => c.Department).ToListAsync();
         }
 
+        public async Task<List<Course>> GetActiveCoursesAsync()
+        {
+            return await _context.Courses.Include(c => c.Department).Where(c => c.IsActive).ToListAsync();
+        }
+
+        public async Task<bool> HasStudentRegistrationsAsync(string courseCode)
+        {
+            var hasEnrollments = await _context.Enrollments
+                .Include(e => e.Class)
+                .Where(e => e.Class.CourseCode == courseCode) 
+                .AnyAsync(); 
+
+            return hasEnrollments;
+        }
+
         public async Task<Course?> GetByCodeAsync(string code)
         {
             return await _context.Courses.Include(c => c.Department).FirstOrDefaultAsync(c => c.CourseCode == code);
