@@ -4,7 +4,7 @@ using StudentManagement.DTOs;
 
 namespace StudentManagement.Repositories
 {
-    public class DataRepository
+    public class DataRepository : IDataRepository
     {
         private readonly ApplicationDbContext _context;
 

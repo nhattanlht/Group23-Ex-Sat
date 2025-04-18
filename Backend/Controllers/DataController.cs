@@ -14,9 +14,9 @@ public class DataController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
     private readonly ILogger<DataController> _logger;
-    private readonly DataRepository _dataRepository; // Add this field
+    private readonly IDataRepository _dataRepository; // Add this field
 
-    public DataController(ApplicationDbContext context, ILogger<DataController> logger, DataRepository dataRepository)
+    public DataController(ApplicationDbContext context, ILogger<DataController> logger, IDataRepository dataRepository)
     {
         _context = context;
         _logger = logger;

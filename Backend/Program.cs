@@ -55,13 +55,13 @@ builder.Host.UseSerilog();
 // Đăng ký các service
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<AddressService>();
-builder.Services.AddScoped<DataService>();
+builder.Services.AddScoped<IDataService, DataService>();
 builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<IdentificationService>();
 builder.Services.AddScoped<ProgramService>();
 builder.Services.AddScoped<SchoolYearService>();
 builder.Services.AddScoped<StudentStatusService>();
-builder.Services.AddScoped<CourseService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<EnrollmentService>();
 builder.Services.AddScoped<GradeService>();
 
@@ -70,7 +70,7 @@ builder.Services.AddScoped<StudentManagement.Services.CourseService>();
 
 // Đăng ký các repository
 builder.Services.AddScoped<AddressRepository>();
-builder.Services.AddScoped<DataRepository>(); // Register DataRepository
+builder.Services.AddScoped<IDataRepository, DataRepository>(); // Register DataRepository
 builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<IdentificationRepository>();
 builder.Services.AddScoped<ProgramRepository>();
@@ -79,6 +79,7 @@ builder.Services.AddScoped<StudentStatusRepository>();
 builder.Services.AddScoped<StudentRepository>();
 builder.Services.AddScoped<EnrollmentRepository>();
 builder.Services.AddScoped<GradeRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
 // Register services and repositories
 builder.Services.AddScoped<StudentManagement.Repositories.CourseRepository>();

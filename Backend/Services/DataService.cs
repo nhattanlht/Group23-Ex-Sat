@@ -10,7 +10,7 @@ using System.Text;
 
 namespace StudentManagement.Services
 {
-    public class DataService
+    public class DataService: IDataService
     {
         private readonly DataRepository _repository;
 
