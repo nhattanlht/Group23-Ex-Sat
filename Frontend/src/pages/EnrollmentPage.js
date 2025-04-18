@@ -19,7 +19,7 @@ const CoursePage = () => {
 
             setClasses(classRes.data.map((item) => ({
                 id: item.classId,
-                name: item.course.name
+                name: item.classId
             })));
 
             setStudents(studentRes.data.students.map((item) => ({
