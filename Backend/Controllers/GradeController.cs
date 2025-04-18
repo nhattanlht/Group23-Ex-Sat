@@ -90,10 +90,10 @@ namespace StudentManagement.Controllers
             return Ok();
         }
 
-        [HttpDelete("{MSSV}/{classId}")]
-        public async Task<IActionResult> Delete(string MSSV, string classId)
+        [HttpDelete("{gradeId}")]
+        public async Task<IActionResult> Delete(int gradeId)
         {
-            await _service.DeleteAsync(MSSV, classId);
+            await _service.DeleteAsync(gradeId);
             return Ok();
         }
     }

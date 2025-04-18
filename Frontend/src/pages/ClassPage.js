@@ -15,7 +15,7 @@ const ClassPage = () => {
 
   return (
     <PageLayout title="Danh sách lớp học">
-      <DataList fields={fields} dataName="class" pk="classCode" label="Lớp Học" />
+      <DataList fields={fields} dataName="class" pk="classId" label="Lớp Học" />
     </PageLayout>
   );
 };

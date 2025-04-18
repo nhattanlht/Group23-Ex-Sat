@@ -19,10 +19,10 @@ namespace StudentManagement.Controllers
         public async Task<IActionResult> GetAll() =>
             Ok(await _service.GetAllAsync());
 
-        [HttpGet("{classCode}")]
-        public async Task<IActionResult> GetById(string classCode)
+        [HttpGet("{classId}")]
+        public async Task<IActionResult> GetById(string classId)
         {
-            var result = await _service.GetByIdAsync(classCode);
+            var result = await _service.GetByIdAsync(classId);
             if (result == null) return NotFound();
             return Ok(result);
         }
@@ -51,10 +51,10 @@ namespace StudentManagement.Controllers
             return Ok("Class created successfully");
         }
 
-        [HttpPut("{classCode}")]
-        public async Task<IActionResult> Update(string classCode, [FromBody] ClassCreateDto dto)
+        [HttpPut("{classId}")]
+        public async Task<IActionResult> Update(string classId, [FromBody] ClassCreateDto dto)
         {
-            if (classCode != dto.ClassId) return BadRequest("Class ID mismatch");
+            if (classId != dto.ClassId) return BadRequest("Class ID mismatch");
 
             // Tạo đối tượng Class từ DTO
             var classEntity = new Class
@@ -72,6 +72,15 @@ namespace StudentManagement.Controllers
             // Gọi service để cập nhật
             await _service.UpdateAsync(classEntity);
             return Ok("Class updated successfully");
+        }
+        [HttpDelete("{classId}")]
+        public async Task<IActionResult> Delete(string classId)
+        {
+            var existingClass = await _service.GetByIdAsync(classId);
+            if (existingClass == null) return NotFound();
+
+            await _service.DeleteAsync(classId);
+            return Ok("Class deleted successfully");
         }
     }
 }

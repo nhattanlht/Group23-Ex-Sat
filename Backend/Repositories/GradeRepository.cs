@@ -38,13 +38,13 @@ namespace StudentManagement.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(string MSSV, string classId)
+        public async Task DeleteAsync(int gradeId)
         {
-            var grade = await GetByIdAsync(MSSV, classId);
+            var grade = await _context.Grades.FindAsync(gradeId);
             if (grade != null)
             {
-                _context.Grades.Remove(grade);
-                await _context.SaveChangesAsync();
+            _context.Grades.Remove(grade);
+            await _context.SaveChangesAsync();
             }
         }
     }

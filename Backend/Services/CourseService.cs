@@ -53,6 +53,14 @@ namespace StudentManagement.Services
             var course = await _repository.GetByCodeAsync(courseCode);
             if (course == null) return false;
 
+            var hasOpenClasses = await _repository.HasOpenClassesAsync(courseCode);
+            if (hasOpenClasses)
+            {
+                course.IsActive = false;
+                await _repository.UpdateAsync(course);
+                return true;
+            }
+
             await _repository.DeleteAsync(course);
             return true;
         }

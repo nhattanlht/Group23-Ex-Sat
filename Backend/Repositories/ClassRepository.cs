@@ -15,9 +15,9 @@ namespace StudentManagement.Repositories
         public async Task<List<Class>> GetAllAsync() =>
             await _context.Classes.Include(c => c.Course).ToListAsync();
 
-        public async Task<Class?> GetByIdAsync(string classCode) =>
+        public async Task<Class?> GetByIdAsync(string classId) =>
             await _context.Classes.Include(c => c.Course)
-                                  .FirstOrDefaultAsync(c => c.ClassId == classCode);
+                                  .FirstOrDefaultAsync(c => c.ClassId == classId);
 
         public async Task AddAsync(Class classEntity)
         {
@@ -31,9 +31,9 @@ namespace StudentManagement.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(string classCode)
+        public async Task DeleteAsync(string classId)
         {
-            var existing = await GetByIdAsync(classCode);
+            var existing = await GetByIdAsync(classId);
             if (existing != null)
             {
                 _context.Classes.Remove(existing);

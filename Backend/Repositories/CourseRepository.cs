@@ -22,6 +22,12 @@ namespace StudentManagement.Repositories
             return await _context.Courses.Include(c => c.Department).FirstOrDefaultAsync(c => c.CourseCode == code);
         }
 
+        public async Task<bool> HasOpenClassesAsync(string courseCode)
+        {
+            return await _context.Classes
+                .AnyAsync(c => c.CourseCode == courseCode);
+        }
+
         public async Task AddAsync(Course course)
         {
             _context.Courses.Add(course);
