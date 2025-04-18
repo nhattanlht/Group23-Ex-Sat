@@ -32,6 +32,16 @@ namespace StudentManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> Enroll([FromBody] EnrollmentCreateDto dto)
         {
+            var hasPrerequisite = await _service.HasPrerequisiteAsync(dto.StudentId, dto.ClassId);
+            if (!hasPrerequisite)
+            {
+                return BadRequest("Student has not completed the prerequisite course.");
+            }
+            var isClassFull = await _service.IsClassFullAsync(dto.ClassId);
+            if (isClassFull)
+            {
+                return BadRequest("The class is already full.");
+            }
             var enrollment = new Enrollment
             {
                 StudentId = dto.StudentId,
