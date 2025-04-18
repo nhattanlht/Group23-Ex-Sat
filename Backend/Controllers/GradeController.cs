@@ -21,19 +21,19 @@ namespace StudentManagement.Controllers
         public async Task<IActionResult> GetAll() =>
             Ok(await _service.GetAllAsync());
 
-        [HttpGet("{studentId}/{classId}")]
-        public async Task<IActionResult> GetById(string studentId, string classId)
+        [HttpGet("{MSSV}/{classId}")]
+        public async Task<IActionResult> GetById(string MSSV, string classId)
         {
-            var result = await _service.GetByIdAsync(studentId, classId);
+            var result = await _service.GetByIdAsync(MSSV, classId);
             if (result == null) return NotFound();
             return Ok(result);
         }
 
-        [HttpGet("export/{studentId}")]
-        public async Task<IActionResult> ExportStudentGrades(string studentId)
+        [HttpGet("export/{MSSV}")]
+        public async Task<IActionResult> ExportStudentGrades(string MSSV)
         {
             var grades = (await _service.GetAllAsync())
-                         .Where(g => g.StudentId == studentId)
+                         .Where(g => g.MSSV == MSSV)
                          .ToList();
 
             if (!grades.Any()) return NotFound();
@@ -42,7 +42,7 @@ namespace StudentManagement.Controllers
 
             // Header
             csv.AppendLine("\uFEFFBảng điểm sinh viên");
-            csv.AppendLine($"Mã Sinh Viên: {studentId}");
+            csv.AppendLine($"Mã Sinh Viên: {MSSV}");
             csv.AppendLine($"Họ Tên: {grades.First().Student.HoTen}");
             csv.AppendLine("\uFEFFMôn Học,Số Tín Chỉ,Điểm,Xếp Loại,GPA");
 
@@ -52,7 +52,7 @@ namespace StudentManagement.Controllers
                 csv.AppendLine($"\"{grade.CourseName}\",{grade.Credit},{grade.Score},{grade.GradeLetter},{grade.GPA}");
             }
 
-            var fileName = $"BangDiem_{studentId}.csv";
+            var fileName = $"BangDiem_{MSSV}.csv";
             var bytes = Encoding.UTF8.GetBytes(csv.ToString());
 
             return File(bytes, "text/csv", fileName);
@@ -60,24 +60,40 @@ namespace StudentManagement.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(Grade grade)
+        public async Task<IActionResult> Create(GradeCreateDTO dto)
         {
+            var grade = new Grade
+            {
+                MSSV = dto.MSSV,
+                ClassId = dto.ClassId,
+                Score = dto.Score,
+                GradeLetter = dto.GradeLetter,
+                GPA = dto.GPA
+            };
             await _service.AddAsync(grade);
             return Ok();
         }
 
-        [HttpPut("{studentId}/{classId}")]
-        public async Task<IActionResult> Update(string studentId, string classId, Grade grade)
+        [HttpPut("{MSSV}/{classId}")]
+        public async Task<IActionResult> Update(string MSSV, string classId, [FromBody] GradeUpdateDTO dto)
         {
-            if (studentId != grade.StudentId || classId != grade.ClassId) return BadRequest();
+            var grade = new Grade
+            {
+                MSSV = MSSV,
+                ClassId = classId,
+                Score = dto.Score,
+                GradeLetter = dto.GradeLetter,
+                GPA = dto.GPA
+            };
+
             await _service.UpdateAsync(grade);
             return Ok();
         }
 
-        [HttpDelete("{studentId}/{classId}")]
-        public async Task<IActionResult> Delete(string studentId, string classId)
+        [HttpDelete("{MSSV}/{classId}")]
+        public async Task<IActionResult> Delete(string MSSV, string classId)
         {
-            await _service.DeleteAsync(studentId, classId);
+            await _service.DeleteAsync(MSSV, classId);
             return Ok();
         }
     }

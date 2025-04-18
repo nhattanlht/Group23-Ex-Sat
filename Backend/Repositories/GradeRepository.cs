@@ -19,12 +19,12 @@ namespace StudentManagement.Repositories
                           .ThenInclude(c => c.Course)
                           .ToListAsync();
 
-        public async Task<Grade?> GetByIdAsync(string studentId, string classId) =>
+        public async Task<Grade?> GetByIdAsync(string MSSV, string classId) =>
             await _context.Grades
                           .Include(g => g.Student)
                           .Include(g => g.Class)
                           .ThenInclude(c => c.Course)
-                          .FirstOrDefaultAsync(g => g.StudentId == studentId && g.ClassId == classId);
+                          .FirstOrDefaultAsync(g => g.MSSV == MSSV && g.ClassId == classId);
 
         public async Task AddAsync(Grade grade)
         {
@@ -38,9 +38,9 @@ namespace StudentManagement.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(string studentId, string classId)
+        public async Task DeleteAsync(string MSSV, string classId)
         {
-            var grade = await GetByIdAsync(studentId, classId);
+            var grade = await GetByIdAsync(MSSV, classId);
             if (grade != null)
             {
                 _context.Grades.Remove(grade);

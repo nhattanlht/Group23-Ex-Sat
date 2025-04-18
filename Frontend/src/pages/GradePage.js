@@ -37,7 +37,7 @@ const CoursePage = () => {
 
     const fields = [
         { display: 'Lớp Học', accessor: 'classId', type: 'select', options: classes, required: true },
-        { display: 'MSSV', accessor: 'studentId', type: 'select', options: students, required: true },
+        { display: 'MSSV', accessor: 'MSSV', type: 'select', options: students, required: true },
         { display: 'Điểm', accessor: 'score', type: 'number', required: true },
         { display: 'Điểm chữ', accessor: 'gradeLetter', type: 'text', required: false },
         { display: 'GPA', accessor: 'gpa', type: 'number', required: true },

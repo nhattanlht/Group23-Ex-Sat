@@ -9,12 +9,12 @@ public class Grade
     public int GradeId { get; set; }
 
     [Required]
-    public string StudentId { get; set; } = string.Empty;
+    public string MSSV { get; set; } = string.Empty;
 
     [Required]
     public string ClassId { get; set; } = string.Empty;
 
-    [ForeignKey(nameof(StudentId))]
+    [ForeignKey(nameof(MSSV))]
     public Student Student { get; set; } = null!;
 
     [ForeignKey(nameof(ClassId))]
