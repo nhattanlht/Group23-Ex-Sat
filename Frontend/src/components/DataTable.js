@@ -11,7 +11,7 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete }) => {
   // Tìm tên theo ID từ danh sách
   const getNameById = (id, list) => {
     if (!list || !Array.isArray(list)) return 'Chưa có'; // Handle undefined or invalid list
-    const item = list.find((item) => item.id === String(id));
+    const item = list.find((item) => String(item.id) === String(id));
     return item ? item.name : 'Chưa có';
   };
 
