@@ -18,7 +18,7 @@ const DataList = ({ fields, dataName, pk, label }) => {
         try {
           const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}`);
           newOptions[field.accessor] = response.data.map((item) => ({
-            id: item.id || item.courseCode,
+            id: String(item.id || item.courseCode),
             name: item.name || item.courseCode,
           }));
         } catch (error) {
@@ -82,7 +82,10 @@ const DataList = ({ fields, dataName, pk, label }) => {
         </button>
       </div>
       <DataTable
-        fields={fields}
+        fields={fields.map((field) => ({
+          ...field,
+          options: field.type === 'select' && field.optionsEndpoint ? options[field.accessor] || [] : field.options,
+        }))}
         dataSet={dataSet}
         handleEdit={(data) => { setModalData(data); setShowModal(true); }}
         handleDelete={(data) => { handleDeleteData(data[pk]); }}

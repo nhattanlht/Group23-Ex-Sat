@@ -5,7 +5,7 @@ const ClassPage = () => {
   const fields = [
     { display: 'Mã Lớp Học', accessor: 'classId', type: 'text', required: true },
     { display: 'Khóa Học', accessor: 'courseCode', type: 'select', optionsEndpoint: 'course', required: true },
-    { display: 'Năm Học', accessor: 'AcademicYear', type: 'select', optionsEndpoint: 'schoolyears', required: true },
+    { display: 'Năm Học', accessor: 'academicYear', type: 'select', optionsEndpoint: 'schoolyears', required: true },
     { display: 'Học Kỳ', accessor: 'semester', type: 'text', required: true },
     { display: 'Giảng Viên', accessor: 'teacher', type: 'text', required: true },
     { display: 'Số Lượng Tối Đa', accessor: 'maxStudents', type: 'number', required: true },
