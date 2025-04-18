@@ -3,11 +3,11 @@ using StudentManagement.Repositories;
 
 namespace StudentManagement.Services
 {
-    public class GradeService
+    public class GradeService : IGradeService
     {
-        private readonly GradeRepository _repository;
+        private readonly IGradeRepository _repository;
 
-        public GradeService(GradeRepository repository)
+        public GradeService(IGradeRepository repository)
         {
             _repository = repository;
         }

@@ -63,7 +63,7 @@ builder.Services.AddScoped<SchoolYearService>();
 builder.Services.AddScoped<StudentStatusService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<EnrollmentService>();
-builder.Services.AddScoped<GradeService>();
+builder.Services.AddScoped<IGradeService, GradeService>();
 
 // Register CourseService
 builder.Services.AddScoped<StudentManagement.Services.CourseService>();
@@ -78,7 +78,7 @@ builder.Services.AddScoped<SchoolYearRepository>();
 builder.Services.AddScoped<StudentStatusRepository>();
 builder.Services.AddScoped<StudentRepository>();
 builder.Services.AddScoped<EnrollmentRepository>();
-builder.Services.AddScoped<GradeRepository>();
+builder.Services.AddScoped<IGradeRepository, GradeRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
 // Register services and repositories
