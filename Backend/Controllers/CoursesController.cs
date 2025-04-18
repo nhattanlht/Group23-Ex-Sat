@@ -8,9 +8,9 @@ namespace StudentManagement.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly CourseService _service;
+        private readonly ICourseService _service;
 
-        public CourseController(CourseService service)
+        public CourseController(ICourseService service)
         {
             _service = service;
         }

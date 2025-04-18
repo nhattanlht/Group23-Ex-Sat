@@ -8,11 +8,13 @@
 |------/Migrations		Chứa các tập tin quản lý cơ sở dữ liệu thông qua Entity Framework
 |------/Models			Chứa các mô hình đại diện cho cấu trúc dữ liệu trong ứng dụng
 |------/Properties		Chứa tập tin cấu hình ứng dụng
+|------/Repositories		Chứa các tập tin truy cập và thao tác trên cơ sở dữ liệu
 |------/Services 		Chứa các lớp xử lý nghiệp vụ, giúp giữ Controllers gọn gàng
 |------/logs			Chứa các tệp nhật ký (logs) để theo dõi hoạt động của hệ thống
 |------/wwwroot			Chứa các tài nguyên hình ảnh, CSS, JavaScript để phục vụ frontend
 |------/CsvMapping		Chứa dữ liệu liên quan đến việc ánh xạ từ CSV vào các model của ứng dụng
 |------/Validators		Chứa các logic liên quan đến việc kiểm tra dữ liệu đầu vào
+|-- /Backend.Tests 	Chứa các file phục vụ cho unit testing
 |-- /Frontend		Chứa các thư mục và file phụ trách các thao tác frontend
 |------/public			Chứa các thư mục hình ảnh, favicon và index.html, lưu trữ các tài nguyên không thay đổi
 				trong quá trình chạy ứng dụng
@@ -25,6 +27,7 @@
 	+ Enable .NET trong command prompt với quyền admin:
 		Dism /online /Enable-Feature /FeatureName:"NetFx3"
 	+ Khởi chạy Docker hoặc SQLServer
+	+ Tạo database StudentManagementDB trong cơ sở dữ liệu
 	+ Mở command prompt trong folder Backend
 	+ Cài đặt các package cần thiết cho backend:
 		dotnet restore
@@ -34,6 +37,10 @@
 		dotnet ef database update
 	+ Chạy backend:
 		dotnet run
+- Backend.Tests:
+	+ Mở command prompt trong folder Backend.Tests
+	+ Chạy lệnh sau để thực hiện các unit test đã được cài đặt:
+		dotnet test
 - Frontend:
 	+ Mở command prompt trong folder Frontend
 	+ Cài đặt các package cần thiết cho frontend:
@@ -70,3 +77,13 @@
 		https://drive.google.com/drive/folders/1TzjuF3HJFBZ0sdtbB-P2TPkbubkgYpTQ?usp=sharing
 - Business Rule Status:
 	https://drive.google.com/drive/folders/1joTf3GKLsAT9NXy9gW_yQJCeYOTISakM?usp=sharing
+
+6. Hướng dẫn sử dụng + minh chứng Version 5.0:
+- Course:
+	https://drive.google.com/drive/folders/1jSxYSmPIvIQqwRJZ29d3OQLY5OobYuji?usp=sharing
+- Class:
+	https://drive.google.com/drive/folders/1Q_TXWGeEX5rV9SprpzHpWZDoAA_e71xn?usp=sharing
+- Enrollment:
+	https://drive.google.com/drive/folders/10emL71Get2U91BW89ZFbsLfoiBABoRFE?usp=sharing
+- Grade:
+	https://drive.google.com/drive/folders/1cRW4WL6anyVKzFHnglffkPMtjoY1201U?usp=sharing

@@ -12,9 +12,9 @@ namespace StudentManagement.Services
 {
     public class DataService: IDataService
     {
-        private readonly DataRepository _repository;
+        private readonly IDataRepository _repository;
 
-        public DataService(DataRepository repository)
+        public DataService(IDataRepository repository)
         {
             _repository = repository;
         }

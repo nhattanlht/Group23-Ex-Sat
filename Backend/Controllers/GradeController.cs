@@ -10,9 +10,9 @@ namespace StudentManagement.Controllers
     [Route("api/[controller]")]
     public class GradeController : ControllerBase
     {
-        private readonly GradeService _service;
+        private readonly IGradeService _service;
 
-        public GradeController(GradeService service)
+        public GradeController(IGradeService service)
         {
             _service = service;
         }
