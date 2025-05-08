@@ -3,7 +3,7 @@ using StudentManagement.Models;
 
 namespace StudentManagement.Repositories
 {
-    public class AddressRepository
+    public class AddressRepository : IAddressRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -14,13 +14,14 @@ namespace StudentManagement.Repositories
 
         public async Task<Address?> GetAddressByIdAsync(int id)
         {
-            return await _context.Addresses.FindAsync(id) ?? null; // Ensure null is explicitly returned
+            return await _context.Addresses.FindAsync(id);
         }
 
-        public async Task AddAddressAsync(Address address)
+        public async Task<Address> AddAddressAsync(Address address)
         {
             _context.Addresses.Add(address);
             await _context.SaveChangesAsync();
+            return address;
         }
     }
 }

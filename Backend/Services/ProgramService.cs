@@ -3,11 +3,11 @@ using StudentManagement.Repositories;
 
 namespace StudentManagement.Services
 {
-    public class ProgramService
+    public class ProgramService : IProgramService
     {
-        private readonly ProgramRepository _repository;
+        private readonly IProgramRepository _repository;
 
-        public ProgramService(ProgramRepository repository)
+        public ProgramService(IProgramRepository repository)
         {
             _repository = repository;
         }

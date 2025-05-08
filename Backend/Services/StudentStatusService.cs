@@ -3,11 +3,11 @@ using StudentManagement.Repositories;
 
 namespace StudentManagement.Services
 {
-    public class StudentStatusService
+    public class StudentStatusService : IStudentStatusService
     {
-        private readonly StudentStatusRepository _repository;
+        private readonly IStudentStatusRepository _repository;
 
-        public StudentStatusService(StudentStatusRepository repository)
+        public StudentStatusService(IStudentStatusRepository repository)
         {
             _repository = repository;
         }

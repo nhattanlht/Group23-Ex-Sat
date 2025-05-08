@@ -52,40 +52,33 @@ Log.Logger = new LoggerConfiguration()
 // Đăng ký Serilog trong ASP.NET Core
 builder.Host.UseSerilog();
 
-// Đăng ký các service
-builder.Services.AddScoped<StudentService>();
-builder.Services.AddScoped<AddressService>();
+// Đăng ký các interface service
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IDataService, DataService>();
-builder.Services.AddScoped<DepartmentService>();
-builder.Services.AddScoped<IdentificationService>();
-builder.Services.AddScoped<ProgramService>();
-builder.Services.AddScoped<SchoolYearService>();
-builder.Services.AddScoped<StudentStatusService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IProgramService, ProgramService>();
+builder.Services.AddScoped<ISchoolYearService, SchoolYearService>();
+builder.Services.AddScoped<IStudentStatusService, StudentStatusService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
-builder.Services.AddScoped<EnrollmentService>();
 builder.Services.AddScoped<IGradeService, GradeService>();
+builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
+builder.Services.AddScoped<IIdentificationService, IdentificationService>();
 
-// Register CourseService
-builder.Services.AddScoped<StudentManagement.Services.CourseService>();
-
-// Đăng ký các repository
-builder.Services.AddScoped<AddressRepository>();
-builder.Services.AddScoped<IDataRepository, DataRepository>(); // Register DataRepository
-builder.Services.AddScoped<DepartmentRepository>();
-builder.Services.AddScoped<IdentificationRepository>();
-builder.Services.AddScoped<ProgramRepository>();
-builder.Services.AddScoped<SchoolYearRepository>();
-builder.Services.AddScoped<StudentStatusRepository>();
-builder.Services.AddScoped<StudentRepository>();
-builder.Services.AddScoped<EnrollmentRepository>();
+// Đăng ký các interface repository
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IDataRepository, DataRepository>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped<IProgramRepository, ProgramRepository>();
+builder.Services.AddScoped<ISchoolYearRepository, SchoolYearRepository>();
+builder.Services.AddScoped<IStudentStatusRepository, StudentStatusRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IGradeRepository, GradeRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-
-// Register services and repositories
-builder.Services.AddScoped<StudentManagement.Repositories.CourseRepository>();
-builder.Services.AddScoped<StudentManagement.Services.CourseService>();
-builder.Services.AddScoped<StudentManagement.Repositories.ClassRepository>();
-builder.Services.AddScoped<StudentManagement.Services.ClassService>();
+builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<IIdentificationRepository, IdentificationRepository>();
 
 
 // Cấu hình CORS

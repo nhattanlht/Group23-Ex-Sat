@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StudentManagement.Repositories
 {
-    public class StudentRepository
+    public class StudentRepository : IStudentRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -56,7 +56,50 @@ namespace StudentManagement.Repositories
 
         public async Task<bool> UpdateStudent(Student student)
         {
-            _context.Update(student);
+            var existingStudent = await _context.Students
+                .Include(s => s.Department)
+                .Include(s => s.SchoolYear)
+                .Include(s => s.StudyProgram)
+                .Include(s => s.StudentStatus)
+                .Include(s => s.DiaChiNhanThu)
+                .Include(s => s.DiaChiThuongTru)
+                .Include(s => s.DiaChiTamTru)
+                .Include(s => s.Identification)
+                .FirstOrDefaultAsync(s => s.MSSV == student.MSSV);
+
+            if (existingStudent == null)
+                return false;
+
+            // Update basic properties
+            existingStudent.HoTen = student.HoTen;
+            existingStudent.NgaySinh = student.NgaySinh;
+            existingStudent.GioiTinh = student.GioiTinh;
+            existingStudent.Email = student.Email;
+            existingStudent.SoDienThoai = student.SoDienThoai;
+            existingStudent.QuocTich = student.QuocTich;
+
+            // Update related entities if they are provided
+            if (student.Department != null)
+                existingStudent.Department = student.Department;
+            if (student.SchoolYear != null)
+                existingStudent.SchoolYear = student.SchoolYear;
+            if (student.StudyProgram != null)
+                existingStudent.StudyProgram = student.StudyProgram;
+            if (student.StudentStatus != null)
+                existingStudent.StudentStatus = student.StudentStatus;
+
+            // Update addresses if they are provided
+            if (student.DiaChiNhanThu != null)
+                existingStudent.DiaChiNhanThu = student.DiaChiNhanThu;
+            if (student.DiaChiThuongTru != null)
+                existingStudent.DiaChiThuongTru = student.DiaChiThuongTru;
+            if (student.DiaChiTamTru != null)
+                existingStudent.DiaChiTamTru = student.DiaChiTamTru;
+
+            // Update identification if provided
+            if (student.Identification != null)
+                existingStudent.Identification = student.Identification;
+
             await _context.SaveChangesAsync();
             return true;
         }

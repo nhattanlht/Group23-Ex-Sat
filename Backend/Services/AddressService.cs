@@ -3,23 +3,23 @@ using StudentManagement.Repositories;
 
 namespace StudentManagement.Services
 {
-    public class AddressService
+    public class AddressService : IAddressService
     {
-        private readonly AddressRepository _repository;
+        private readonly IAddressRepository _repository;
 
-        public AddressService(AddressRepository repository)
+        public AddressService(IAddressRepository repository)
         {
             _repository = repository;
         }
 
         public async Task<Address?> GetAddressByIdAsync(int id)
         {
-            return await _repository.GetAddressByIdAsync(id) ?? null; // Ensure null is explicitly returned
+            return await _repository.GetAddressByIdAsync(id);
         }
 
-        public async Task CreateAddressAsync(Address address)
+        public async Task<Address> CreateAddressAsync(Address address)
         {
-            await _repository.AddAddressAsync(address);
+            return await _repository.AddAddressAsync(address);
         }
     }
 }

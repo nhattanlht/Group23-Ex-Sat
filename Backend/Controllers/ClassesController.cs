@@ -8,9 +8,9 @@ namespace StudentManagement.Controllers
     [Route("api/[controller]")]
     public class ClassController : ControllerBase
     {
-        private readonly ClassService _service;
+        private readonly IClassService _service;
 
-        public ClassController(ClassService service)
+        public ClassController(IClassService service)
         {
             _service = service;
         }

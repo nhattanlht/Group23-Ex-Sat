@@ -6,9 +6,9 @@ using StudentManagement.Services;
 [ApiController]
 public class IdentificationController : ControllerBase
 {
-    private readonly IdentificationService _service;
+    private readonly IIdentificationService _service;
 
-    public IdentificationController(IdentificationService service)
+    public IdentificationController(IIdentificationService service)
     {
         _service = service;
     }

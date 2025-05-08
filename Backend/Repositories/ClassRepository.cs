@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace StudentManagement.Repositories
 {
-    public class ClassRepository
+    public class ClassRepository : IClassRepository
     {
         private readonly ApplicationDbContext _context;
 

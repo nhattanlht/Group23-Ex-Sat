@@ -161,7 +161,7 @@ public class CourseServiceTests
         var result = await _service.DeleteCourseAsync("CS109");
 
         Assert.True(result);
-        Assert.False(!course.IsActive); // confirms IsActive = false
+        Assert.False(course.IsActive); // confirms IsActive = false
     }
 
     [Fact]
