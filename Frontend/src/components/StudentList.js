@@ -7,6 +7,7 @@ import DataTable from './DataTable';
 import { loadData, handleAddRow, handleEditRow, handleDeleteRow } from '../util/callCRUDApi';
 import DataForm from './DataForm';
 import { Search } from 'lucide-react';
+import { formatDataSetForTable } from '../util/formatData';
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);
@@ -50,12 +51,12 @@ const StudentList = () => {
       accessor: 'diaChiNhanThu',
       type: "group",
       fields: [
-        { display: 'Số Nhà', accessor: 'diaChiNhanThu.houseNumber', type: "text", required: true },
-        { display: 'Tên Đường', accessor: 'diaChiNhanThu.streetName', type: "text", required: true },
-        { display: 'Phường/Xã', accessor: 'diaChiNhanThu.ward', type: "text", required: true },
-        { display: 'Quận/Huyện', accessor: 'diaChiNhanThu.district', type: "text", required: true },
-        { display: 'Tỉnh/Thành Phố', accessor: 'diaChiNhanThu.province', type: "text", required: true },
-        { display: 'Quốc Gia', accessor: 'diaChiNhanThu.country', type: "text", required: true },
+        { display: 'Số Nhà', accessor: 'houseNumber', type: "text", required: true },
+        { display: 'Tên Đường', accessor: 'streetName', type: "text", required: true },
+        { display: 'Phường/Xã', accessor: 'ward', type: "text", required: true },
+        { display: 'Quận/Huyện', accessor: 'district', type: "text", required: true },
+        { display: 'Tỉnh/Thành Phố', accessor: 'province', type: "text", required: true },
+        { display: 'Quốc Gia', accessor: 'country', type: "text", required: true },
       ],
       required: true,
     },
@@ -65,12 +66,12 @@ const StudentList = () => {
       accessor: 'diaChiThuongTru',
       type: "group",
       fields: [
-        { display: 'Số Nhà', accessor: 'diaChiThuongTru.houseNumber', type: "text" },
-        { display: 'Tên Đường', accessor: 'diaChiThuongTru.streetName', type: "text" },
-        { display: 'Phường/Xã', accessor: 'diaChiThuongTru.ward', type: "text" },
-        { display: 'Quận/Huyện', accessor: 'diaChiThuongTru.district', type: "text" },
-        { display: 'Tỉnh/Thành Phố', accessor: 'diaChiThuongTru.province', type: "text" },
-        { display: 'Quốc Gia', accessor: 'diaChiThuongTru.country', type: "text" },
+        { display: 'Số Nhà', accessor: 'houseNumber', type: "text" },
+        { display: 'Tên Đường', accessor: 'streetName', type: "text" },
+        { display: 'Phường/Xã', accessor: 'ward', type: "text" },
+        { display: 'Quận/Huyện', accessor: 'district', type: "text" },
+        { display: 'Tỉnh/Thành Phố', accessor: 'province', type: "text" },
+        { display: 'Quốc Gia', accessor: 'country', type: "text" },
       ],
     },
     { display: 'Địa Chỉ Thường Trú Id', accessor: 'diaChiThuongTruId', type: "text", hidden: true },
@@ -79,12 +80,12 @@ const StudentList = () => {
       accessor: 'diaChiTamTru',
       type: "group",
       fields: [
-        { display: 'Số Nhà', accessor: 'diaChiTamTru.houseNumber', type: "text" },
-        { display: 'Tên Đường', accessor: 'diaChiTamTru.streetName', type: "text" },
-        { display: 'Phường/Xã', accessor: 'diaChiTamTru.ward', type: "text" },
-        { display: 'Quận/Huyện', accessor: 'diaChiTamTru.district', type: "text" },
-        { display: 'Tỉnh/Thành Phố', accessor: 'diaChiTamTru.province', type: "text" },
-        { display: 'Quốc Gia', accessor: 'diaChiTamTru.country', type: "text" },
+        { display: 'Số Nhà', accessor: 'houseNumber', type: "text" },
+        { display: 'Tên Đường', accessor: 'streetName', type: "text" },
+        { display: 'Phường/Xã', accessor: 'ward', type: "text" },
+        { display: 'Quận/Huyện', accessor: 'district', type: "text" },
+        { display: 'Tỉnh/Thành Phố', accessor: 'province', type: "text" },
+        { display: 'Quốc Gia', accessor: 'country', type: "text" },
       ],
     },
     { display: 'Địa Chỉ Tạm Trú Id', accessor: 'diaChiTamTruId', type: "text", hidden: true },
@@ -95,32 +96,77 @@ const StudentList = () => {
       accessor: 'identification',
       type: "group",
       fields: [
-        { display: 'Loại Giấy Tờ', accessor: 'identification.identificationType', type: "text", required: true, hidden: true },
-        { display: 'Số Giấy Tờ', accessor: 'identification.number', type: "text", required: true },
-        { display: 'Ngày Cấp', accessor: 'identification.issueDate', type: "date", required: true },
-        { display: 'Ngày Hết Hạn', accessor: 'identification.expiryDate', type: "date" },
-        { display: 'Nơi Cấp', accessor: 'identification.issuedBy', type: "text", required: true },
-        { display: 'Có Gắn Chip', accessor: 'identification.hasChip', type: "checkbox", condition: (formData) => formData.identificationType === "CCCD" },
-        { display: 'Quốc Gia Cấp', accessor: 'identification.issuingCountry', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
-        { display: 'Ghi Chú', accessor: 'identification.notes', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
+        { display: 'Loại Giấy Tờ', accessor: 'identificationType', type: "text", required: true, hidden: true },
+        { display: 'Số Giấy Tờ', accessor: 'number', type: "text", required: true },
+        { display: 'Ngày Cấp', accessor: 'issueDate', type: "date", required: true },
+        { display: 'Ngày Hết Hạn', accessor: 'expiryDate', type: "date" },
+        { display: 'Nơi Cấp', accessor: 'issuedBy', type: "text", required: true },
+        { display: 'Có Gắn Chip', accessor: 'hasChip', type: "checkbox", condition: (formData) => formData.identificationType === "CCCD" },
+        { display: 'Quốc Gia Cấp', accessor: 'issuingCountry', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
+        { display: 'Ghi Chú', accessor: 'notes', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
       ],
       customeType: "identification"
     },
   ];
 
+  const addresses = {};
+  const getViewAddress = async (id) => {
+    if (!addresses[id]) { // Avoid duplicate API calls for the same ID
+      try {
+        const response = await axios.get(`${config.backendUrl}/api/address/${id}`);
+        const formattedAddress = `${response.data.houseNumber} ${response.data.streetName}, ${response.data.ward}, ${response.data.district}, ${response.data.province}, ${response.data.country}`;
+        addresses[id] = formattedAddress;
+      } catch (error) {
+        console.error("Error fetching address:", error);
+        addresses[id] = "Chưa có"
+      }
+    }
+  };
+
+  const identifications = {};
+  const getIdentifications = async (id) => {
+    if (!identifications[id]) { // Avoid duplicate API calls for the same ID
+      try {
+        const response = await axios.get(`${config.backendUrl}/api/identification/${id}`);
+        identifications[id] = response.data;
+      } catch (error) {
+        console.error("Error fetching address:", error);
+      }
+    }
+  };
+
   useEffect(() => {
-    loadStudents(currentPage, filters);
     loadMetadata();
+    loadStudents(currentPage, filters);
   }, [currentPage]);
 
   // Gọi API lấy danh sách sinh viên
   const loadStudents = async (page, filters) => {
     try {
       const data = await loadData('students', page, filters);
-      setStudents(data.students || []);
+      
+      for (const student of data.students) {
+        if (student.diaChiNhanThuId) {
+          await getViewAddress(student.diaChiNhanThuId);
+        }
+        if (student.diaChiThuongTruId) {
+          await getViewAddress(student.diaChiThuongTruId);
+        }
+        if (student.diaChiTamTruId) {
+          await getViewAddress(student.diaChiTamTruId);
+        }
+        if (student.identificationId) {
+          await getIdentifications(student.identificationId);
+        }
+      }
+      
+      const formattedData = formatDataSetForTable(data.students, fields, {
+        addresses,
+        identifications,
+      });
+      setStudents(formattedData);
       setCurrentPage(data.currentPage || 1);
       setTotalPages(data.totalPages || 1);
-      console.log("search", data.students);
     } catch (error) {
       console.error("Lỗi khi tải danh sách sinh viên:", error);
       alert('Lỗi khi tải danh sách sinh viên!');
@@ -136,7 +182,10 @@ const StudentList = () => {
         axios.get(`${config.backendUrl}/api/programs`),
         axios.get(`${config.backendUrl}/api/schoolyears`),
       ]);
-      console.log(depRes.data, statusRes.data, programRes.data);
+      fields[4].options = depRes.data || [];
+      fields[5].options = statusRes.data || [];
+      fields[6].options = yearRes.data || [];
+      fields[7].options = programRes.data || [];
       setDepartments(depRes.data || []);
       setStatuses(statusRes.data || []);
       setStudyPrograms(programRes.data || []);
@@ -146,104 +195,42 @@ const StudentList = () => {
     }
   };
 
-  const transformToNestedObject = (flatObject) => {
-    const nestedObject = {};
 
-    Object.keys(flatObject).forEach((key) => {
-      const keys = key.split('.'); // Split the key by dots
-      let current = nestedObject;
-
-      keys.forEach((subKey, index) => {
-        if (index === keys.length - 1) {
-          // If it's the last key, assign the value
-          current[subKey] = flatObject[key];
-        } else {
-          // Otherwise, create an object if it doesn't exist
-          current[subKey] = current[subKey] || {};
-          current = current[subKey];
-        }
-      });
-    });
-
-    return nestedObject;
-  };
-
-  const transformToNestedObject2 = (flatObject) => {
-    const nestedObject = {};
-
-    Object.keys(flatObject).forEach((key) => {
-      // Directly assign the value to the corresponding key
-      nestedObject[key] = flatObject[key];
-    });
-
-    return nestedObject;
-  };
 
   const handleAddStudent = async (studentForm) => {
+    console.log('add student', studentForm);
     const student = structuredClone(studentForm);
     try {
-      student.identification["identification.identificationType"] = student.identificationType;
+      student.identification["identificationType"] = student.identificationType;
 
-      if (!student.identification?.["identification.hasChip"]) {
-        student.identification["identification.hasChip"] = null;
-      }
-      if (!student.identification?.["identification.issuingCountry"]) {
-        student.identification["identification.issuingCountry"] = null;
-      }
-      if (!student.identification?.["identification.notes"]) {
-        student.identification["identification.notes"] = null;
-      }
-
-      const newStudent4 = transformToNestedObject(student.identification);
-
-      const identification = await axios.post(`${config.backendUrl}/api/identification`, newStudent4.identification);
+      const identification = await axios.post(`${config.backendUrl}/api/identification`, student.identification);
       student.identificationId = identification.data.id;
 
       delete student.identification;
       delete student.identificationType;
 
-      const newStudent1 = transformToNestedObject(student.diaChiNhanThu);
-
-      const diaChiNhanThu = await axios.post(`${config.backendUrl}/api/address`, newStudent1.diaChiNhanThu);
+      const diaChiNhanThu = await axios.post(`${config.backendUrl}/api/address`, student.diaChiNhanThu);
       student.diaChiNhanThuId = diaChiNhanThu.data.id;
 
       delete student.diaChiNhanThu;
 
 
       if (student.diaChiThuongTru) {
-        if (student.diaChiThuongTru?.["diaChiThuongTru.houseNumber"]) {
-          const newStudent2 = transformToNestedObject(student.diaChiThuongTru);
-          const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2.diaChiThuongTru);
+          const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, student.diaChiThuongTru);
           student.diaChiThuongTruId = diaChiThuongTru.data.id;
-        }
-        else {
-          student.diaChiThuongTruId = null;
-        }
-      }
-      else {
-        student.diaChiThuongTruId = null;
       }
 
       delete student.diaChiThuongTru;
 
       if (student.diaChiTamTru) {
-        if (student.diaChiTamTru?.["diaChiTamTru.houseNumber"]) {
-          const newStudent3 = transformToNestedObject(student.diaChiTamTru);
-          const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3.diaChiTamTru);
+          const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, student.diaChiTamTru);
           student.diaChiTamTruId = diaChiTamTru.data.id;
-        }
-        else {
-          student.diaChiTamTruId = null;
-        }
-      }
-      else {
-        student.diaChiTamTruId = null;
       }
 
       delete student.diaChiTamTru;
 
       const response = await handleAddRow('students', student);
-      
+
       loadStudents(currentPage, filters);
 
       return response;
@@ -254,6 +241,7 @@ const StudentList = () => {
   };
 
   const handleEditStudent = async (studentForm) => {
+    console.log('edit student', studentForm);
     const student = structuredClone(studentForm);
     try {
       student.identification["identificationType"] = student.identificationType;
@@ -270,18 +258,15 @@ const StudentList = () => {
 
       delete student.identification["id"];
 
-      const newStudent4 = transformToNestedObject2(student.identification);
-
-      const identification = await axios.post(`${config.backendUrl}/api/identification`, newStudent4);
+      const identification = await axios.post(`${config.backendUrl}/api/identification`, student.identification);
       student.identificationId = identification.data.id;
 
       delete student.identification;
       delete student.identificationType;
       // Handle diaChiNhanThu
       delete student.diaChiNhanThu["id"];
-      const newStudent1 = transformToNestedObject2(student.diaChiNhanThu);
 
-      const diaChiNhanThu = await axios.post(`${config.backendUrl}/api/address`, newStudent1);
+      const diaChiNhanThu = await axios.post(`${config.backendUrl}/api/address`, student.diaChiNhanThu);
       student.diaChiNhanThuId = diaChiNhanThu.data.id;
 
       delete student.diaChiNhanThu;
@@ -290,8 +275,7 @@ const StudentList = () => {
       if (student.diaChiThuongTru) {
         delete student.diaChiThuongTru["id"];
 
-        const newStudent2 = transformToNestedObject2(student.diaChiThuongTru);
-        const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, newStudent2);
+        const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, student.diaChiThuongTru);
         student.diaChiThuongTruId = diaChiThuongTru.data.id;
       }
       else {
@@ -303,8 +287,7 @@ const StudentList = () => {
       if (student.diaChiTamTru) {
         delete student.diaChiTamTru["id"];
 
-        const newStudent3 = transformToNestedObject2(student.diaChiTamTru);
-        const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, newStudent3);
+        const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, student.diaChiTamTru);
         student.diaChiTamTruId = diaChiTamTru.data.id;
       }
       else {
@@ -312,11 +295,9 @@ const StudentList = () => {
       }
       delete student.diaChiTamTru;
 
-      console.log(student);
-
       const response = await handleEditRow('students', student.mssv, student);
       loadStudents(currentPage, filters);
-      
+
       return response;
     } catch (error) {
       alert('Lỗi khi chỉnh sửa sinh viên!');
@@ -398,14 +379,13 @@ const StudentList = () => {
 
   return (
     <div>
-      <h2>Danh sách sinh viên</h2>
       <div className="flex mb-3">
         <button className="btn btn-success mb-2 mr-2" onClick={() => { setModalData(null); setShowModal(true); }}>
           Thêm Sinh Viên
         </button>
         <Link to='/data'>
           <button className='btn btn-primary mb-2'>
-          Import/Export
+            Import/Export
           </button>
         </Link>
         <form id="searchForm" className='flex space-x-2' onSubmit={(e) => { e.preventDefault(); loadStudents(1, filters); }}>
@@ -428,7 +408,7 @@ const StudentList = () => {
         </form>
 
       </div>
-      <DataTable fields={fields} dataSet={students} handleEdit={(student) => { setModalData(student); setShowModal(true); }} handleDelete={(student) => { handleDeleteStudent(student.mssv) }}></DataTable>
+      <DataTable fields={fields} dataSet={students} handleEdit={(student) => { setModalData(student.__original); setShowModal(true); }} handleDelete={(student) => { handleDeleteStudent(student.mssv) }}></DataTable>
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
       {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} label='Sinh Viên' initializeFormData={initializeFormData} />}
     </div>

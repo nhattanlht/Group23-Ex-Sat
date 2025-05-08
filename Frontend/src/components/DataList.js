@@ -4,24 +4,26 @@ import config from '../config';
 import DataTable from './DataTable';
 import { handleAddRow, handleEditRow, handleDeleteRow, loadDataNoPaging } from '../util/callCRUDApi';
 import DataForm from './DataForm';
+import { formatDataSetForTable } from '../util/formatData';
 
-const DataList = ({ fields, dataName, pk, label }) => {
+const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, formatDataSet = formatDataSetForTable, actions=[] }) => {
   const [dataSet, setDataSet] = useState([]);
   const [options, setOptions] = useState({});
-  const [selectedOptions, setSelectedOptions] = useState({});
+  const [validSelectedOptions, setValidSelectedOptions] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
 
   const fetchOptions = async () => {
     const newOptions = {};
-    for (const field of fields) {
+    for (const field of tableFields) {
       if (field.type === 'select' && field.optionsEndpoint) {
         try {
           const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}`);
           newOptions[field.accessor] = response.data.map((item) => ({
-            id: String(item.id || item.courseCode),
-            name: item.name || item.courseCode,
+            id: String(item.id),
+            name: item.name,
           }));
+          field.options = newOptions[field.accessor]; // Update field options directly
         } catch (error) {
           console.error(`Error fetching options for ${field.accessor}:`, error);
           newOptions[field.accessor] = []; // Ensure options are initialized to an empty array
@@ -29,30 +31,23 @@ const DataList = ({ fields, dataName, pk, label }) => {
       }
     }
     setOptions(newOptions);
-    const newSelectedOptions = {};
-    for (const field of fields) {
+    const newValidSelectedOptions = {};
+    for (const field of formFields) {
       if (field.type === 'select' && field.optionsEndpoint) {
         try {
-          if (field.optionsEndpoint !== 'course') {
             const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}`);
-            newSelectedOptions[field.accessor] = response.data.map((item) => ({
+            newValidSelectedOptions[field.accessor] = response.data.map((item) => ({
               id: String(item.id || item.courseCode),
               name: item.name || item.courseCode,
             }));
-          } else {
-            const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}/active`);
-            newSelectedOptions[field.accessor] = response.data.map((item) => ({
-              id: String(item.id || item.courseCode),
-              name: item.name || item.courseCode,
-            }));
-          }
+            field.options = newValidSelectedOptions[field.accessor]; // Update field options directly
         } catch (error) {
           console.error(`Error fetching options for ${field.accessor}:`, error);
-          newSelectedOptions[field.accessor] = []; // Ensure options are initialized to an empty array
+          newValidSelectedOptions[field.accessor] = []; // Ensure options are initialized to an empty array
         }
       }
     }
-    setSelectedOptions(newSelectedOptions);
+    setValidSelectedOptions(newValidSelectedOptions);
   };
 
   useEffect(() => {
@@ -63,7 +58,8 @@ const DataList = ({ fields, dataName, pk, label }) => {
   const loadListData = async () => {
     try {
       const data = await loadDataNoPaging(dataName);
-      setDataSet(data || []);
+      const formattedData = formatDataSet(data, tableFields);
+      setDataSet(formattedData || []);
     } catch (error) {
       console.error(`Error loading ${label} list:`, error);
       alert(`Error loading ${label} list: ${error.response.data || ''}`);
@@ -103,23 +99,24 @@ const DataList = ({ fields, dataName, pk, label }) => {
     <div>
       <div className="flex mb-3">
         <button className="btn btn-success me-2" onClick={() => { setModalData(null); setShowModal(true); }}>
-          Add {label}
+          Thêm {label}
         </button>
       </div>
       <DataTable
-        fields={fields.map((field) => ({
+        fields={tableFields.map((field) => ({
           ...field,
-          options: field.type === 'select' && field.optionsEndpoint ? options[field.accessor] || [] : field.options,
+          options: field.type === 'select' && field.optionsEndpoint ? options[field.accessor] : field.options,
         }))}
         dataSet={dataSet}
-        handleEdit={(data) => { setModalData(data); setShowModal(true); }}
+        handleEdit={(data) => { setModalData(data.__original); setShowModal(true); }}
         handleDelete={(data) => { handleDeleteData(data[pk]); }}
+        actions={actions}
       />
       {showModal && (
         <DataForm
-          fields={fields.map((field) => ({
+          fields={formFields.map((field) => ({
             ...field,
-            options: field.type === 'select' && field.optionsEndpoint ? selectedOptions[field.accessor] || [] : field.options,
+            options: field.type === 'select' && field.optionsEndpoint ? validSelectedOptions[field.accessor] : field.options,
           }))}
           data={modalData}
           onSave={modalData ? handleEditData : handleAddData}

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import SelectInput from "./Input/SelectInput";
+import EmailInput from "./Input/EmailInput";
+import config from "../config";
 
-const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = null }) => {
-    const ALLOWED_EMAIL_ENDING = process.env.ALLOWED_EMAIL_ENDING || "@gmail.com";
+const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = null, customInput= [] }) => {
+    const ALLOWED_EMAIL_ENDING = config.ALLOWED_EMAIL_ENDING;
     const [formData, setFormData] = useState({});
-    const [emailError, setEmailError] = useState("");
     const [errors, setErrors] = useState({});
     useEffect(() => {
         handleInitializeFormData(fields, data);
@@ -40,16 +42,10 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                 updatedFormData.identification = {}; // Clear existing identification fields
             }
 
-            if (name === "email") {
-                if (!value.endsWith(ALLOWED_EMAIL_ENDING)) {
-                    setEmailError(`Email phải kết thúc bằng "${ALLOWED_EMAIL_ENDING}"`);
-                } else {
-                    setEmailError(""); // Clear the error if valid
-                }
-            }
-
             return updatedFormData;
         });
+        console.log('formData', formData);
+
     };
 
     const handleGroupChange = (groupAccessor, subFieldAccessor, value) => {
@@ -100,20 +96,12 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
 
                                             {/* Detect input type */}
                                             {field.type === "select" ? (
-                                                <select
+                                                <SelectInput options={field.options}
                                                     id={field.accessor}
                                                     name={field.accessor}
                                                     value={formData[field.accessor] || ""}
-                                                    onChange={handleChange}
                                                     required={field.required}
-                                                    className="w-full border p-2"
-
-                                                >
-                                                    <option value="">Select an option</option>
-                                                    {(field.options || []).map((option) => (
-                                                        <option key={option.id} value={option.id || ''}>{option.name}</option>
-                                                    ))}
-                                                </select>
+                                                    onChange={handleChange} />
                                             ) : field.type === "group" ? (
                                                 <div className="mb-3 border border-gray-300 p-2 rounded-md grid grid-cols-3 gap-2">
                                                     {field.fields.map((subField) => {
@@ -124,22 +112,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                             return null;
                                                         }
 
-                                                        return data ? (
-                                                            <div key={subField.accessor} className="mb-2">
-                                                                <label htmlFor={`${field.accessor}.${subField.accessor}`}>{subField.display}</label>
-                                                                <input
-                                                                    id={`${field.accessor}.${subField.accessor}`}
-                                                                    name={`${field.accessor}.${subField.accessor}`}
-                                                                    type={subField.type || "text"} // Default to "text"
-                                                                    value={formData[field.accessor]?.[subField.accessor.split(".")[1]] || ""}
-                                                                    onChange={(e) =>
-                                                                        handleGroupChange(field.accessor, subField.accessor.split(".")[1], subField.type === "checkbox" ? e.target.checked : e.target.value)
-                                                                    }
-                                                                    className="w-full border p-2"
-                                                                    required={subField.required}
-                                                                />
-                                                            </div>
-                                                        ) : (
+                                                        return (
                                                             <div key={subField.accessor} className="mb-2">
                                                                 <label htmlFor={`${field.accessor}.${subField.accessor}`}>{subField.display}</label>
                                                                 <input
@@ -154,25 +127,17 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                                     required={subField.required}
                                                                 />
                                                             </div>
-                                                        );
+                                                        )
                                                     })}
                                                 </div>
                                             ) : field.type === "email" ? (
-                                                <div>
-                                                    <input
-                                                        id={field.accessor}
-                                                        name={field.accessor}
-                                                        type="email"
-                                                        value={formData[field.accessor] || ""}
-                                                        onChange={handleChange}
-                                                        className={`w-full border p-2 ${emailError ? "border-red-500" : ""}`} // Highlight border if there's an error
-                                                        required={field.required}
-                                                        disabled={field.disabled && data}
-                                                    />
-                                                    {emailError && (
-                                                        <small className="text-red-500">{emailError}</small> // Display error message
-                                                    )}
-                                                </div>
+                                                <EmailInput id={field.accessor}
+                                                    name={field.accessor}
+                                                    value={formData[field.accessor]}
+                                                    required={field.required}
+                                                    disabled={field.disabled && data}
+                                                    onChange={handleChange}
+                                                    ALLOWED_EMAIL_ENDING={ALLOWED_EMAIL_ENDING} />
                                             ) : field.type === 'checkbox' ? (
                                                 <input
                                                     id={field.accessor}
@@ -180,7 +145,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                     type="checkbox"
                                                     checked={formData[field.accessor] || false}
                                                     onChange={handleChange}
-                                                    className={`w-full border p-2 ${emailError ? "border-red-500" : ""}`} // Highlight border if there's an error
+                                                    className='w-full border p-2'
                                                     required={field.required}
                                                     disabled={field.disabled && data}
                                                 />
@@ -198,6 +163,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                     disabled={field.disabled && data}
                                                 />
                                             )}
+                                            
                                             {errors && errors[capitalize(field.accessor)] && (
                                                 <p className="text-red-600">{errors[capitalize(field.accessor)][0]}</p>
                                             )}
@@ -209,7 +175,6 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                     <button
                                         type="submit"
                                         className="btn btn-primary"
-                                        disabled={!!emailError} // Disable if there's an error
                                     >
                                         {data ? "Cập nhật" : "Thêm"}
                                     </button>
