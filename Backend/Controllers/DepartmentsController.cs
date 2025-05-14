@@ -8,10 +8,10 @@ namespace StudentManagement.Controllers
     [ApiController]
     public class DepartmentsController : ControllerBase
     {
-        private readonly DepartmentService _service;
+        private readonly IDepartmentService _service;
         private readonly ILogger<DepartmentsController> _logger;
 
-        public DepartmentsController(DepartmentService service, ILogger<DepartmentsController> logger)
+        public DepartmentsController(IDepartmentService service, ILogger<DepartmentsController> logger)
         {
             _service = service;
             _logger = logger;

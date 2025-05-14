@@ -6,10 +6,10 @@ using StudentManagement.Services;
 [ApiController]
 public class AddressController : ControllerBase
 {
-    private readonly AddressService _service;
+    private readonly IAddressService _service;
     private readonly ILogger<AddressController> _logger;
 
-    public AddressController(AddressService service, ILogger<AddressController> logger)
+    public AddressController(IAddressService service, ILogger<AddressController> logger)
     {
         _service = service;
         _logger = logger;

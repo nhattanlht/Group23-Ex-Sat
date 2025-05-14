@@ -8,10 +8,10 @@ namespace StudentManagement.Controllers
     [ApiController]
     public class ProgramController : ControllerBase
     {
-        private readonly ProgramService _programService;
+        private readonly IProgramService _programService;
         private readonly ILogger<ProgramController> _logger;
 
-        public ProgramController(ProgramService programService, ILogger<ProgramController> logger)
+        public ProgramController(IProgramService programService, ILogger<ProgramController> logger)
         {
             _programService = programService;
             _logger = logger;

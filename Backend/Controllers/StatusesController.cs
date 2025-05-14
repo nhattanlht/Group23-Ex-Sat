@@ -8,10 +8,10 @@ namespace StudentManagement.Controllers
     [ApiController]
     public class StudentStatusController : ControllerBase
     {
-        private readonly StudentStatusService _studentStatusService;
+        private readonly IStudentStatusService _studentStatusService;
         private readonly ILogger<StudentStatusController> _logger;
 
-        public StudentStatusController(StudentStatusService studentStatusService, ILogger<StudentStatusController> logger)
+        public StudentStatusController(IStudentStatusService studentStatusService, ILogger<StudentStatusController> logger)
         {
             _studentStatusService = studentStatusService;
             _logger = logger;

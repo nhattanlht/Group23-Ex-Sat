@@ -3,11 +3,11 @@ using StudentManagement.Repositories;
 
 namespace StudentManagement.Services
 {
-    public class SchoolYearService
+    public class SchoolYearService : ISchoolYearService
     {
-        private readonly SchoolYearRepository _repository;
+        private readonly ISchoolYearRepository _repository;
 
-        public SchoolYearService(SchoolYearRepository repository)
+        public SchoolYearService(ISchoolYearRepository repository)
         {
             _repository = repository;
         }

@@ -8,10 +8,10 @@ namespace StudentManagement.Controllers
     [ApiController]
     public class SchoolYearController : ControllerBase
     {
-        private readonly SchoolYearService _schoolYearService;
+        private readonly ISchoolYearService _schoolYearService;
         private readonly ILogger<SchoolYearController> _logger;
 
-        public SchoolYearController(SchoolYearService schoolYearService, ILogger<SchoolYearController> logger)
+        public SchoolYearController(ISchoolYearService schoolYearService, ILogger<SchoolYearController> logger)
         {
             _schoolYearService = schoolYearService;
             _logger = logger;

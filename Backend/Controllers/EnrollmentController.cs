@@ -8,9 +8,9 @@ namespace StudentManagement.Controllers
     [Route("api/[controller]")]
     public class EnrollmentController : ControllerBase
     {
-        private readonly EnrollmentService _service;
+        private readonly IEnrollmentService _service;
 
-        public EnrollmentController(EnrollmentService service)
+        public EnrollmentController(IEnrollmentService service)
         {
             _service = service;
         }

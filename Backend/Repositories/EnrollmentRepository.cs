@@ -3,7 +3,7 @@ using StudentManagement.Models;
 
 namespace StudentManagement.Repositories
 {
-    public class EnrollmentRepository
+    public class EnrollmentRepository : IEnrollmentRepository
     {
         private readonly ApplicationDbContext _context;
 

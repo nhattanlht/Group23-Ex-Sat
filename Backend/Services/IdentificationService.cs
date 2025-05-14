@@ -3,11 +3,11 @@ using StudentManagement.Repositories;
 
 namespace StudentManagement.Services
 {
-    public class IdentificationService
+    public class IdentificationService : IIdentificationService
     {
-        private readonly IdentificationRepository _repository;
+        private readonly IIdentificationRepository _repository;
 
-        public IdentificationService(IdentificationRepository repository)
+        public IdentificationService(IIdentificationRepository repository)
         {
             _repository = repository;
         }
