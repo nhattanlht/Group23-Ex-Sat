@@ -1,4 +1,3 @@
-import React from "react";
 import { Pencil, Trash2 } from "lucide-react";
 
 const DataTable = ({ fields, dataSet, handleEdit, handleDelete, actions = [] }) => {
@@ -12,14 +11,14 @@ const DataTable = ({ fields, dataSet, handleEdit, handleDelete, actions = [] }) 
               {fields
                 .filter((field) => !field.hidden)
                 .map((field) => (
-                  <th key={field.display} className="p-2  max-w-xs">{field.display}</th>
+                  <th key={field.display} className="p-2 max-w-xs">{field.display}</th>
                 ))}
             </tr>
           </thead>
           <tbody>
             {dataSet.map((row, rowIndex) => (
               <tr key={rowIndex}>
-                <td className="flex space-x-2">
+                <td className="p-2 flex space-x-2">
                   <button className="btn btn-primary" onClick={() => { handleEdit(row); }}>
                     <Pencil size={16} />
                   </button>

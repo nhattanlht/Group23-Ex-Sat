@@ -10,7 +10,6 @@ export const ViewIdentificationBtn = ({ identification, onClick }) => {
                 className="btn btn-primary"
                 onClick={() => {
                     setIsPopupVisible(true);
-                    console.log("identification", identification);
                 }}
             >
                 Xem

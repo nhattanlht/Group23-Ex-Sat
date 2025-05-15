@@ -21,7 +21,7 @@ export const loadDataNoPaging = async (endpoint) => {
         return response.data;
     } catch (error) {
         console.error(`Error loading data from ${endpoint}:`, error);
-        throw error;
+        throw error.response?.data || error.response?.data.message || error.response?.data.errors;
     }
 }
 
@@ -31,18 +31,17 @@ export const handleAddRow = async (dataName, data) => {
         return response.data;
     } catch (error) {
         console.error("Lỗi khi thêm dữ liệu:", error);
-        throw error;
+        throw error.response?.data || error.response?.data.message || error.response?.data.errors;
     }
 }
 
 export const handleEditRow = async (dataName, id, data) => {
     try {
         const response = await axios.put(`${config.backendUrl}/api/${dataName}/${id}`, data);
-        alert('Cập nhật dữ liệu thành công');
         return response.data;
     } catch (error) {
         console.error("Lỗi khi cập nhật dữ liệu:", error);
-        throw error;
+        throw error.response?.data || error.response?.data.message || error.response?.data.errors;
     }
 }
 
@@ -50,12 +49,10 @@ export const handleDeleteRow = async (dataName, id) => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa dòng này không?')) return;
     try {
         const response = await axios.delete(`${config.backendUrl}/api/${dataName}/${id}`);
-        alert('Xóa dữ liệu thành công');
         return response.data;
     } catch (error) {
-        alert(error.response?.data?.message || 'Lỗi không xác định');
         console.error("Lỗi khi xóa dữ liệu:", error);
-        return null;
+        throw error.response?.data || error.response?.data.message || error.response?.data.errors;
     }
 }
 

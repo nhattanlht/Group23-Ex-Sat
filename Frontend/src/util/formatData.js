@@ -56,8 +56,7 @@ export const formatDataSetForTable = (dataSet, fields, helpers = {}) => {
 };
 
 export const getNameById = (id, list) => {
-    // console.log('getNameById', id, list);
-    if (!list || !Array.isArray(list)) return 'Chưa có'; // Handle undefined or invalid list
+    if (!list || !Array.isArray(list)) return 'Chưa có';
     const item = list.find((item) => String(item.id) === String(id));
     return item ? item.name : 'Chưa có';
   };
@@ -68,7 +67,7 @@ export const transformToNestedObject = (flatObject) => {
     const nestedObject = {};
 
     Object.keys(flatObject).forEach((key) => {
-        const keys = key.split('.'); // Split the key by dots
+        const keys = key.split('.');
         let current = nestedObject;
 
         keys.forEach((subKey, index) => {

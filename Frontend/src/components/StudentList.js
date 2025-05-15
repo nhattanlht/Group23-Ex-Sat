@@ -216,15 +216,31 @@ const StudentList = () => {
 
 
       if (student.diaChiThuongTru) {
+        if (student.diaChiThuongTru?.houseNumber) {
           const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, student.diaChiThuongTru);
           student.diaChiThuongTruId = diaChiThuongTru.data.id;
+          }
+        else {
+          student.diaChiThuongTruId = null;
+        }
+      }
+      else {
+        student.diaChiThuongTruId = null;
       }
 
       delete student.diaChiThuongTru;
 
       if (student.diaChiTamTru) {
+        if (student.diaChiTamTru?.houseNumber) {
           const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, student.diaChiTamTru);
           student.diaChiTamTruId = diaChiTamTru.data.id;
+          }
+        else {
+          student.diaChiTamTruId = null;
+        }
+      }
+      else {
+        student.diaChiTamTruId = null;
       }
 
       delete student.diaChiTamTru;
@@ -235,7 +251,7 @@ const StudentList = () => {
 
       return response;
     } catch (error) {
-      alert('Lỗi khi thêm sinh viên!');
+      alert('Lỗi khi thêm sinh viên!', error);
       throw error;
     }
   };

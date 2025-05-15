@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import config from '../config';
 import DataTable from './DataTable';
@@ -23,32 +23,45 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
             id: String(item.id),
             name: item.name,
           }));
-          field.options = newOptions[field.accessor]; // Update field options directly
+          field.options = newOptions[field.accessor];
         } catch (error) {
           console.error(`Error fetching options for ${field.accessor}:`, error);
-          newOptions[field.accessor] = []; // Ensure options are initialized to an empty array
+          newOptions[field.accessor] = [];
         }
       }
     }
     setOptions(newOptions);
+    
     const newValidSelectedOptions = {};
     for (const field of formFields) {
       if (field.type === 'select' && field.optionsEndpoint) {
         try {
             const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}`);
             newValidSelectedOptions[field.accessor] = response.data.map((item) => ({
-              id: String(item.id || item.courseCode),
-              name: item.name || item.courseCode,
+              id: String(item.id),
+              name: item.name,
             }));
-            field.options = newValidSelectedOptions[field.accessor]; // Update field options directly
+            field.options = newValidSelectedOptions[field.accessor];
         } catch (error) {
           console.error(`Error fetching options for ${field.accessor}:`, error);
-          newValidSelectedOptions[field.accessor] = []; // Ensure options are initialized to an empty array
+          newValidSelectedOptions[field.accessor] = [];
         }
       }
     }
     setValidSelectedOptions(newValidSelectedOptions);
   };
+
+  const tableFieldsWithOptions = useMemo(() => {
+    return tableFields.map((field) => {
+      if (field.type === 'select' && field.optionsEndpoint) {
+        return {
+          ...field,
+          options: options[field.accessor],
+        };
+      }
+      return field;
+    });
+  }, [options, tableFields]);
 
   useEffect(() => {
     fetchOptions();
@@ -62,7 +75,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       setDataSet(formattedData || []);
     } catch (error) {
       console.error(`Error loading ${label} list:`, error);
-      alert(`Error loading ${label} list: ${error.response.data || ''}`);
+      alert(`Error loading ${label} list: ${error || 'Lỗi không xác định'}`);
     }
   };
 
@@ -72,7 +85,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       setShowModal(false);
       loadListData();
     } catch (error) {
-      alert(`Error adding ${label}: ${error.response.data || ''}`);
+      alert(`Error adding ${label}: ${error || 'Lỗi không xác định'}`);
     }
   };
 
@@ -82,7 +95,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       setShowModal(false);
       loadListData();
     } catch (error) {
-      alert(`Error editing ${label}: ${error.response.data || ''}`);
+      alert(`Error editing ${label}: ${error || 'Lỗi không xác định'}`);
     }
   };
 
@@ -91,9 +104,17 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       await handleDeleteRow(dataName, pk);
       loadListData();
     } catch (error) {
-      alert(`Error deleting ${label}: ${error.response.data || ''}`);
+      alert(`Error deleting ${label}: ${error || 'Lỗi không xác định'}`);
     }
   };
+
+  const allOptionsReady = tableFieldsWithOptions
+      .filter(field => field.optionsEndpoint && field.type === 'select')
+      .every(field => Array.isArray(options?.[field.accessor]));
+  
+  if (!allOptionsReady) {
+    return <div>Đang tải dữ liệu lựa chọn...</div>; 
+  }
 
   return (
     <div>
@@ -103,13 +124,10 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
         </button>
       </div>
       <DataTable
-        fields={tableFields.map((field) => ({
-          ...field,
-          options: field.type === 'select' && field.optionsEndpoint ? options[field.accessor] : field.options,
-        }))}
+        fields={tableFields}
         dataSet={dataSet}
         handleEdit={(data) => { setModalData(data.__original); setShowModal(true); }}
-        handleDelete={(data) => { handleDeleteData(data[pk]); }}
+        handleDelete={(data) => { handleDeleteData(data.__original[pk]); }}
         actions={actions}
       />
       {showModal && (

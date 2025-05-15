@@ -9,8 +9,8 @@ const ClassPage = () => {
   const [activeCourses, setActiveCourses] = useState([]);
 
   const formFields = [
-    { display: 'Mã Lớp Học', accessor: 'classId', type: 'text', required: true },
-    { display: 'Tên Khóa Học', accessor: 'courseCode', type: 'select', options: courses, required: true },
+    { display: 'Mã Lớp Học', accessor: 'classId', type: 'text', required: true, disabled: true },
+    { display: 'Tên Khóa Học', accessor: 'courseCode', type: 'select', options: activeCourses, required: true },
     { display: 'Năm Học', accessor: 'academicYear', type: 'select', optionsEndpoint: 'schoolyears', required: true },
     { display: 'Học Kỳ', accessor: 'semester', type: 'text', required: true },
     { display: 'Giảng Viên', accessor: 'teacher', type: 'text', required: true },
@@ -22,7 +22,7 @@ const ClassPage = () => {
 
   const tableFields = [
     { display: 'Mã Lớp Học', accessor: 'classId', type: 'text' },
-    { display: 'Tên Khóa Học', accessor: 'courseCode', type: 'select', options: activeCourses },
+    { display: 'Tên Khóa Học', accessor: 'courseCode', type: 'select', options: courses },
     { display: 'Năm Học', accessor: 'academicYear', type: 'select', optionsEndpoint: 'schoolyears' },
     { display: 'Học Kỳ', accessor: 'semester', type: 'text' },
     { display: 'Giảng Viên', accessor: 'teacher', type: 'text' },
@@ -44,7 +44,6 @@ const ClassPage = () => {
         name: item.name
       }));
       setCourses(course);
-      tableFields[1].options = course;
 
       const activeCourseRes = await axios.get(`${config.backendUrl}/api/course/active`);
       const activeCourse = activeCourseRes.data.map((item) => ({
@@ -52,7 +51,6 @@ const ClassPage = () => {
         name: item.name
       }));
       setActiveCourses(activeCourse);
-      formFields[1].options = activeCourse;
 
 
     } catch (error) {
