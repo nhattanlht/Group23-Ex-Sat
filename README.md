@@ -14,6 +14,7 @@
 |------/wwwroot			Chứa các tài nguyên hình ảnh, CSS, JavaScript để phục vụ frontend
 |------/CsvMapping		Chứa dữ liệu liên quan đến việc ánh xạ từ CSV vào các model của ứng dụng
 |------/Validators		Chứa các logic liên quan đến việc kiểm tra dữ liệu đầu vào
+|------/Interfaces		Chứa các interfaces dùng trong ứng dụng
 |-- /Backend.Tests 	Chứa các file phục vụ cho unit testing
 |-- /Frontend		Chứa các thư mục và file phụ trách các thao tác frontend
 |------/public			Chứa các thư mục hình ảnh, favicon và index.html, lưu trữ các tài nguyên không thay đổi
@@ -87,3 +88,8 @@
 	https://drive.google.com/drive/folders/10emL71Get2U91BW89ZFbsLfoiBABoRFE?usp=sharing
 - Grade:
 	https://drive.google.com/drive/folders/1cRW4WL6anyVKzFHnglffkPMtjoY1201U?usp=sharing
+
+7. Tổng hợp cập nhật Version 6.0:
+- Viết unit test cho một số phần quan trọng khác của hệ thống: AddressService, ClassService, DepartmentServices, 
+EnrollmentServices, IdentificationServices, ProgramServices, ...
+- Refactor Frontend của hệ thống, cải thiện một số phần còn thiếu sót
