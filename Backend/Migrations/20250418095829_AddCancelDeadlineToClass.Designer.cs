@@ -268,7 +268,7 @@ namespace StudentManagement.Migrations
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
-                    b.Property<string>("MSSV")
+                    b.Property<string>("StudentId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -279,7 +279,7 @@ namespace StudentManagement.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.HasIndex("MSSV");
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Grades");
                 });
@@ -380,32 +380,32 @@ namespace StudentManagement.Migrations
 
             modelBuilder.Entity("StudentManagement.Models.Student", b =>
                 {
-                    b.Property<string>("MSSV")
+                    b.Property<string>("StudentId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DiaChi")
+                    b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DiaChiNhanThuId")
+                    b.Property<int>("PermanentAddressId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DiaChiTamTruId")
+                    b.Property<int?>("TemporaryAddressIdd")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DiaChiThuongTruId")
+                    b.Property<int?>("RegisteredAddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("GioiTinh")
+                    b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("HoTen")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -413,17 +413,17 @@ namespace StudentManagement.Migrations
                     b.Property<int>("IdentificationId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("NgaySinh")
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("QuocTich")
+                    b.Property<string>("Nationality")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SchoolYearId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SoDienThoai")
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("StatusId")
@@ -432,15 +432,15 @@ namespace StudentManagement.Migrations
                     b.Property<int>("StudyProgramId")
                         .HasColumnType("int");
 
-                    b.HasKey("MSSV");
+                    b.HasKey("StudentId");
 
                     b.HasIndex("DepartmentId");
 
-                    b.HasIndex("DiaChiNhanThuId");
+                    b.HasIndex("PermanentAddressId");
 
-                    b.HasIndex("DiaChiTamTruId");
+                    b.HasIndex("TemporaryAddressIdd");
 
-                    b.HasIndex("DiaChiThuongTruId");
+                    b.HasIndex("RegisteredAddressId");
 
                     b.HasIndex("Email")
                         .IsUnique()
@@ -450,9 +450,9 @@ namespace StudentManagement.Migrations
 
                     b.HasIndex("SchoolYearId");
 
-                    b.HasIndex("SoDienThoai")
+                    b.HasIndex("PhoneNumber")
                         .IsUnique()
-                        .HasFilter("[SoDienThoai] IS NOT NULL");
+                        .HasFilter("[PhoneNumber] IS NOT NULL");
 
                     b.HasIndex("StatusId");
 
@@ -598,7 +598,7 @@ namespace StudentManagement.Migrations
 
                     b.HasOne("StudentManagement.Models.Student", "Student")
                         .WithMany("Grades")
-                        .HasForeignKey("MSSV")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -615,20 +615,20 @@ namespace StudentManagement.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Address", "DiaChiNhanThu")
+                    b.HasOne("Address", "PermanentAddress")
                         .WithMany()
-                        .HasForeignKey("DiaChiNhanThuId")
+                        .HasForeignKey("PermanentAddressId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Address", "DiaChiTamTru")
+                    b.HasOne("Address", "TemporaryAddress")
                         .WithMany()
-                        .HasForeignKey("DiaChiTamTruId")
+                        .HasForeignKey("TemporaryAddressIdd")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Address", "DiaChiThuongTru")
+                    b.HasOne("Address", "RegisteredAddress")
                         .WithMany()
-                        .HasForeignKey("DiaChiThuongTruId")
+                        .HasForeignKey("RegisteredAddressId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("StudentManagement.Models.Identification", "Identification")
@@ -657,11 +657,11 @@ namespace StudentManagement.Migrations
 
                     b.Navigation("Department");
 
-                    b.Navigation("DiaChiNhanThu");
+                    b.Navigation("PermanentAddress");
 
-                    b.Navigation("DiaChiTamTru");
+                    b.Navigation("TemporaryAddress");
 
-                    b.Navigation("DiaChiThuongTru");
+                    b.Navigation("RegisteredAddress");
 
                     b.Navigation("Identification");
 

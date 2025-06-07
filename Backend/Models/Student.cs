@@ -6,16 +6,16 @@ namespace StudentManagement.Models
     public class Student
     {
         [Key]
-        public string MSSV { get; set; } = string.Empty; // Default value to avoid nullability warning
+        public string StudentId { get; set; } = string.Empty; // Default value to avoid nullability warning
 
         [Required, StringLength(100)]
-        public string HoTen { get; set; } = string.Empty; // Default value to avoid nullability warning
+        public string FullName { get; set; } = string.Empty; // Default value to avoid nullability warning
 
         [DataType(DataType.Date)]
-        public DateTime NgaySinh { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         [Required]
-        public string GioiTinh { get; set; } = string.Empty; // Default value to avoid nullability warning
+        public string Gender { get; set; } = string.Empty; // Default value to avoid nullability warning
 
         [Required]
         public int DepartmentId { get; set; }
@@ -35,33 +35,33 @@ namespace StudentManagement.Models
         [ForeignKey("StudyProgramId")]
         public virtual StudyProgram? StudyProgram { get; set; }
 
-        public string? DiaChi { get; set; }
+        public string? Address { get; set; }
 
         [EmailAddress]
         public string? Email { get; set; }
 
         [Required]
-        public string QuocTich { get; set; } = string.Empty; // Default value to avoid nullability warning
+        public string Nationality { get; set; } = string.Empty; // Default value to avoid nullability warning
 
         [Phone]
         [PhoneNumber("VN")]
-        public string? SoDienThoai { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [Required]
-        public int DiaChiNhanThuId { get; set; }
+        public int PermanentAddressId { get; set; }
 
-        public int? DiaChiThuongTruId { get; set; }
+        public int? RegisteredAddressId { get; set; }
         
-        public int? DiaChiTamTruId { get; set; }
+        public int? TemporaryAddressIdd { get; set; }
 
-        [ForeignKey("DiaChiNhanThuId")]
-        public virtual Address? DiaChiNhanThu { get; set; }
+        [ForeignKey("PermanentAddressId")]
+        public virtual Address? PermanentAddress { get; set; }
 
-        [ForeignKey("DiaChiThuongTruId")]
-        public virtual Address? DiaChiThuongTru { get; set; }
+        [ForeignKey("RegisteredAddressId")]
+        public virtual Address? RegisteredAddress { get; set; }
 
-        [ForeignKey("DiaChiTamTruId")]
-        public virtual Address? DiaChiTamTru { get; set; }
+        [ForeignKey("TemporaryAddressIdd")]
+        public virtual Address? TemporaryAddress { get; set; }
 
         [Required]
         public int IdentificationId { get; set; }

@@ -57,7 +57,7 @@ namespace StudentManagement.Controllers
                 var (success, message) = await _studentService.CreateStudent(student);
                 if (success)
                 {
-                    _logger.LogInformation("Student created successfully: {MSSV}", student.MSSV);
+                    _logger.LogInformation("Student created successfully: {StudentId}", student.StudentId);
                     return Ok(new { message });
                 }
 
@@ -105,9 +105,9 @@ namespace StudentManagement.Controllers
                     return BadRequest(new { message = "Dữ liệu sinh viên không hợp lệ." });
                 }
 
-                if (id != student.MSSV)
+                if (id != student.StudentId)
                 {
-                    _logger.LogWarning("Student ID mismatch. Provided: {ID}, Actual: {MSSV}", id, student.MSSV);
+                    _logger.LogWarning("Student ID mismatch. Provided: {ID}, Actual: {StudentId}", id, student.StudentId);
                     return BadRequest(new { message = "Mã số sinh viên không khớp." });
                 }
 

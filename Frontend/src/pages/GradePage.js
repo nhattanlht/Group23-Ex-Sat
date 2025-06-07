@@ -8,7 +8,7 @@ import { Download } from 'lucide-react';
 const CoursePage = () => {
     const [classes, setClasses] = useState([]);
     const [students, setStudents] = useState([]);
-    const [mssv, setMssv] = useState('');
+    const [StudentId, setStudentId] = useState('');
 
     useEffect(() => {
         loadMetadata();
@@ -25,8 +25,8 @@ const CoursePage = () => {
             })));
 
             setStudents(studentRes.data.students.map((item) => ({
-                id: item.mssv,
-                name: item.mssv
+                id: item.StudentId,
+                name: item.StudentId
             })));
 
         } catch (error) {
@@ -36,7 +36,7 @@ const CoursePage = () => {
 
     const formFields = [
         { display: 'Lớp Học', accessor: 'classId', type: 'select', options: classes, required: true },
-        { display: 'MSSV', accessor: 'mssv', type: 'select', options: students, required: true },
+        { display: 'StudentId', accessor: 'StudentId', type: 'select', options: students, required: true },
         { display: 'Điểm', accessor: 'score', type: 'number', required: true },
         { display: 'Điểm chữ', accessor: 'gradeLetter', type: 'text', required: false },
         { display: 'GPA', accessor: 'gpa', type: 'number', required: true },
@@ -44,7 +44,7 @@ const CoursePage = () => {
 
     const tableFields = [
         { display: 'Lớp Học', accessor: 'classId', type: 'select', options: classes },
-        { display: 'MSSV', accessor: 'mssv', type: 'select', options: students },
+        { display: 'StudentId', accessor: 'StudentId', type: 'select', options: students },
         { display: 'Họ tên Sinh viên', accessor: 'student', type: 'select', options: students },
         { display: 'Điểm', accessor: 'score', type: 'number' },
         { display: 'Điểm chữ', accessor: 'gradeLetter', type: 'text' },
@@ -64,7 +64,7 @@ const CoursePage = () => {
                 switch (field.accessor) {
 
                     case 'student':
-                        row[key] = item.student?.hoTen || 'N/A';
+                        row[key] = item.student?.FullName || 'N/A';
                         break;
 
                     // Add more custom fields here
@@ -81,10 +81,10 @@ const CoursePage = () => {
         });
     }
 
-    const exportGrade = async (mssv) => {
-        console.log('Exporting grade for:', mssv);
+    const exportGrade = async (StudentId) => {
+        console.log('Exporting grade for:', StudentId);
         try {
-            const response = await axios.get(`${config.backendUrl}/api/grade/export/${mssv}`, {
+            const response = await axios.get(`${config.backendUrl}/api/grade/export/${StudentId}`, {
                 responseType: 'blob'
             });
             const blob = new Blob([response.data], { type: "text/csv" });
@@ -92,7 +92,7 @@ const CoursePage = () => {
 
             const a = document.createElement("a");
             a.href = url;
-            a.download = `BangDiem_${mssv}.csv`;
+            a.download = `BangDiem_${StudentId}.csv`;
             a.click();
 
             window.URL.revokeObjectURL(url);
@@ -106,7 +106,7 @@ const CoursePage = () => {
         {
             label: 'Chi tiết',
             icon: <Download size={16} />,
-            onClick: (row) => exportGrade(row.__original.mssv),
+            onClick: (row) => exportGrade(row.__original.StudentId),
             className: 'btn bg-green-600 text-white',
         }
     ];
@@ -115,12 +115,12 @@ const CoursePage = () => {
     return (
         <PageLayout title="Danh sách Điểm">
             <div>
-                <button className="btn btn-primary mb-2 disabled:opacity-50" disabled={!mssv} onClick={() => exportGrade(mssv)}>Xuất điểm</button>
+                <button className="btn btn-primary mb-2 disabled:opacity-50" disabled={!StudentId} onClick={() => exportGrade(StudentId)}>Xuất điểm</button>
                 <input
                     type="text"
-                    value={mssv}
-                    onChange={(e) => setMssv(e.target.value)}
-                    placeholder="Nhập MSSV để xuất bảng điểm"
+                    value={StudentId}
+                    onChange={(e) => setStudentId(e.target.value)}
+                    placeholder="Nhập StudentId để xuất bảng điểm"
                     className="form-control mb-2" />
             </div>
             <DataList formFields={formFields} tableFields={tableFields} dataName="grade" pk="gradeId" label="điểm" actions={actions} formatDataSet={formatDataSetForTable} />

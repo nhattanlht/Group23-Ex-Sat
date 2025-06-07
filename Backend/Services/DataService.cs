@@ -114,7 +114,7 @@ namespace StudentManagement.Services
         public async Task<List<Student>> FilterDuplicateStudentsAsync(List<Student> students)
         {
             var existingIds = await _repository.GetExistingStudentIdsAsync();
-            return students.Where(s => !existingIds.Contains(s.MSSV)).ToList();
+            return students.Where(s => !existingIds.Contains(s.StudentId)).ToList();
         }
 
         public async Task AddStudentsAsync(List<Student> students)
@@ -158,29 +158,29 @@ namespace StudentManagement.Services
                     var studyProgram = await GetStudyProgramByNameAsync(record.StudyProgram);
                     var status = await GetStudentStatusByNameAsync(record.Status);
 
-                    var diaChiNhanThu = await FindOrCreateAddressAsync(
-                        record.AddressNhanThu_HouseNumber,
-                        record.AddressNhanThu_StreetName,
-                        record.AddressNhanThu_Ward,
-                        record.AddressNhanThu_District,
-                        record.AddressNhanThu_Province,
-                        record.AddressNhanThu_Country);
+                    var PermanentAddress = await FindOrCreateAddressAsync(
+                        record.PermanentAddress_HouseNumber,
+                        record.PermanentAddress_StreetName,
+                        record.PermanentAddress_Ward,
+                        record.PermanentAddress_District,
+                        record.PermanentAddress_Province,
+                        record.PermanentAddress_Country);
 
-                    var diaChiThuongTru = await FindOrCreateAddressAsync(
-                        record.AddressThuongTru_HouseNumber,
-                        record.AddressThuongTru_StreetName,
-                        record.AddressThuongTru_Ward,
-                        record.AddressThuongTru_District,
-                        record.AddressThuongTru_Province,
-                        record.AddressThuongTru_Country);
+                    var RegisteredAddress = await FindOrCreateAddressAsync(
+                        record.RegisteredAddress_HouseNumber,
+                        record.RegisteredAddress_StreetName,
+                        record.RegisteredAddress_Ward,
+                        record.RegisteredAddress_District,
+                        record.RegisteredAddress_Province,
+                        record.RegisteredAddress_Country);
 
-                    var diaChiTamTru = await FindOrCreateAddressAsync(
-                        record.AddressTamTru_HouseNumber,
-                        record.AddressTamTru_StreetName,
-                        record.AddressTamTru_Ward,
-                        record.AddressTamTru_District,
-                        record.AddressTamTru_Province,
-                        record.AddressTamTru_Country);
+                    var TemporaryAddress = await FindOrCreateAddressAsync(
+                        record.TemporaryAddress_HouseNumber,
+                        record.TemporaryAddress_StreetName,
+                        record.TemporaryAddress_Ward,
+                        record.TemporaryAddress_District,
+                        record.TemporaryAddress_Province,
+                        record.TemporaryAddress_Country);
 
                     var identification = await FindOrCreateIdentificationAsync(new Identification
                     {
@@ -196,20 +196,20 @@ namespace StudentManagement.Services
 
                     var student = new Student
                     {
-                        MSSV = record.MSSV,
-                        HoTen = record.HoTen,
-                        NgaySinh = record.NgaySinh,
-                        GioiTinh = record.GioiTinh,
+                        StudentId = record.StudentId,
+                        FullName = record.FullName,
+                        DateOfBirth = record.DateOfBirth,
+                        Gender = record.Gender,
                         DepartmentId = department.Id,
                         SchoolYearId = schoolYear.Id,
                         StudyProgramId = studyProgram.Id,
                         StatusId = status.Id,
                         Email = record.Email,
-                        QuocTich = record.QuocTich,
-                        SoDienThoai = record.SoDienThoai,
-                        DiaChiNhanThuId = diaChiNhanThu.Id,
-                        DiaChiThuongTruId = diaChiThuongTru?.Id ?? null,
-                        DiaChiTamTruId = diaChiTamTru?.Id ?? null,
+                        Nationality = record.Nationality,
+                        PhoneNumber = record.PhoneNumber,
+                        PermanentAddressId = PermanentAddress.Id,
+                        RegisteredAddressId = RegisteredAddress?.Id ?? null,
+                        TemporaryAddressIdd = TemporaryAddress?.Id ?? null,
                         IdentificationId = identification.Id
                     };
 
@@ -265,29 +265,29 @@ namespace StudentManagement.Services
                     var studyProgram = await GetStudyProgramByNameAsync(record.StudyProgram);
                     var status = await GetStudentStatusByNameAsync(record.Status);
 
-                    var diaChiNhanThu = await FindOrCreateAddressAsync(
-                        record.AddressNhanThu_HouseNumber,
-                        record.AddressNhanThu_StreetName,
-                        record.AddressNhanThu_Ward,
-                        record.AddressNhanThu_District,
-                        record.AddressNhanThu_Province,
-                        record.AddressNhanThu_Country);
+                    var PermanentAddress = await FindOrCreateAddressAsync(
+                        record.PermanentAddress_HouseNumber,
+                        record.PermanentAddress_StreetName,
+                        record.PermanentAddress_Ward,
+                        record.PermanentAddress_District,
+                        record.PermanentAddress_Province,
+                        record.PermanentAddress_Country);
 
-                    var diaChiThuongTru = await FindOrCreateAddressAsync(
-                        record.AddressThuongTru_HouseNumber,
-                        record.AddressThuongTru_StreetName,
-                        record.AddressThuongTru_Ward,
-                        record.AddressThuongTru_District,
-                        record.AddressThuongTru_Province,
-                        record.AddressThuongTru_Country);
+                    var RegisteredAddress = await FindOrCreateAddressAsync(
+                        record.RegisteredAddress_HouseNumber,
+                        record.RegisteredAddress_StreetName,
+                        record.RegisteredAddress_Ward,
+                        record.RegisteredAddress_District,
+                        record.RegisteredAddress_Province,
+                        record.RegisteredAddress_Country);
 
-                    var diaChiTamTru = await FindOrCreateAddressAsync(
-                        record.AddressTamTru_HouseNumber,
-                        record.AddressTamTru_StreetName,
-                        record.AddressTamTru_Ward,
-                        record.AddressTamTru_District,
-                        record.AddressTamTru_Province,
-                        record.AddressTamTru_Country);
+                    var TemporaryAddress = await FindOrCreateAddressAsync(
+                        record.TemporaryAddress_HouseNumber,
+                        record.TemporaryAddress_StreetName,
+                        record.TemporaryAddress_Ward,
+                        record.TemporaryAddress_District,
+                        record.TemporaryAddress_Province,
+                        record.TemporaryAddress_Country);
 
                     var identification = await FindOrCreateIdentificationAsync(new Identification
                     {
@@ -303,20 +303,20 @@ namespace StudentManagement.Services
 
                     var student = new Student
                     {
-                        MSSV = record.MSSV,
-                        HoTen = record.HoTen,
-                        NgaySinh = record.NgaySinh,
-                        GioiTinh = record.GioiTinh,
+                        StudentId = record.StudentId,
+                        FullName = record.FullName,
+                        DateOfBirth = record.DateOfBirth,
+                        Gender = record.Gender,
                         DepartmentId = department.Id,
                         SchoolYearId = schoolYear.Id,
                         StudyProgramId = studyProgram.Id,
                         StatusId = status.Id,
                         Email = record.Email,
-                        QuocTich = record.QuocTich,
-                        SoDienThoai = record.SoDienThoai,
-                        DiaChiNhanThuId = diaChiNhanThu.Id,
-                        DiaChiThuongTruId = diaChiThuongTru?.Id ?? null,
-                        DiaChiTamTruId = diaChiTamTru?.Id ?? null,
+                        Nationality = record.Nationality,
+                        PhoneNumber = record.PhoneNumber,
+                        PermanentAddressId = PermanentAddress.Id,
+                        RegisteredAddressId = RegisteredAddress?.Id ?? null,
+                        TemporaryAddressIdd = TemporaryAddress?.Id ?? null,
                         IdentificationId = identification.Id
                     };
 

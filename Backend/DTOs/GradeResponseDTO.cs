@@ -2,7 +2,7 @@ public class GradeResponseDTO
 {
     public int GradeId { get; set; }
 
-    public string MSSV { get; set; } = string.Empty;
+    public string StudentId { get; set; } = string.Empty;
 
     public string ClassId { get; set; } = string.Empty;
 

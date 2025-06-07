@@ -23,7 +23,7 @@ namespace StudentManagement.Repositories
             if (pageSize < 1) pageSize = 10;
 
             return await _context.Students
-                .OrderBy(s => s.MSSV)
+                .OrderBy(s => s.StudentId)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -36,10 +36,10 @@ namespace StudentManagement.Repositories
                                  .Include(s => s.SchoolYear)
                                  .Include(s => s.StudyProgram)
                                  .Include(s => s.StudentStatus)
-                                 .Include(s => s.DiaChiNhanThu)
-                                 .Include(s => s.DiaChiThuongTru)
-                                 .Include(s => s.DiaChiTamTru)
-                                 .FirstOrDefaultAsync(s => s.MSSV == id);
+                                 .Include(s => s.PermanentAddress)
+                                 .Include(s => s.RegisteredAddress)
+                                 .Include(s => s.TemporaryAddress)
+                                 .FirstOrDefaultAsync(s => s.StudentId == id);
         }
 
         public async Task<int> GetStudentsCount()
@@ -61,22 +61,22 @@ namespace StudentManagement.Repositories
                 .Include(s => s.SchoolYear)
                 .Include(s => s.StudyProgram)
                 .Include(s => s.StudentStatus)
-                .Include(s => s.DiaChiNhanThu)
-                .Include(s => s.DiaChiThuongTru)
-                .Include(s => s.DiaChiTamTru)
+                .Include(s => s.PermanentAddress)
+                .Include(s => s.RegisteredAddress)
+                .Include(s => s.TemporaryAddress)
                 .Include(s => s.Identification)
-                .FirstOrDefaultAsync(s => s.MSSV == student.MSSV);
+                .FirstOrDefaultAsync(s => s.StudentId == student.StudentId);
 
             if (existingStudent == null)
                 return false;
 
             // Update basic properties
-            existingStudent.HoTen = student.HoTen;
-            existingStudent.NgaySinh = student.NgaySinh;
-            existingStudent.GioiTinh = student.GioiTinh;
+            existingStudent.FullName = student.FullName;
+            existingStudent.DateOfBirth = student.DateOfBirth;
+            existingStudent.Gender = student.Gender;
             existingStudent.Email = student.Email;
-            existingStudent.SoDienThoai = student.SoDienThoai;
-            existingStudent.QuocTich = student.QuocTich;
+            existingStudent.PhoneNumber = student.PhoneNumber;
+            existingStudent.Nationality = student.Nationality;
 
             // Update related entities if they are provided
             if (student.Department != null)
@@ -89,12 +89,12 @@ namespace StudentManagement.Repositories
                 existingStudent.StudentStatus = student.StudentStatus;
 
             // Update addresses if they are provided
-            if (student.DiaChiNhanThu != null)
-                existingStudent.DiaChiNhanThu = student.DiaChiNhanThu;
-            if (student.DiaChiThuongTru != null)
-                existingStudent.DiaChiThuongTru = student.DiaChiThuongTru;
-            if (student.DiaChiTamTru != null)
-                existingStudent.DiaChiTamTru = student.DiaChiTamTru;
+            if (student.PermanentAddress != null)
+                existingStudent.PermanentAddress = student.PermanentAddress;
+            if (student.RegisteredAddress != null)
+                existingStudent.RegisteredAddress = student.RegisteredAddress;
+            if (student.TemporaryAddress != null)
+                existingStudent.TemporaryAddress = student.TemporaryAddress;
 
             // Update identification if provided
             if (student.Identification != null)
@@ -114,16 +114,16 @@ namespace StudentManagement.Repositories
             return true;
         }
 
-        public async Task<bool> StudentExistsByPhoneNumber(string phoneNumber, string studentId = null)
+        public async Task<bool> StudentExistsByPhoneNumber(string phoneNumber, string StudentId = null)
         {
             return await _context.Students
-                .AnyAsync(s => s.SoDienThoai == phoneNumber && (studentId == null || s.MSSV != studentId));
+                .AnyAsync(s => s.PhoneNumber == phoneNumber && (StudentId == null || s.StudentId != StudentId));
         }
 
-        public async Task<bool> StudentExistsByEmail(string email, string studentId = null)
+        public async Task<bool> StudentExistsByEmail(string email, string StudentId = null)
         {
             return await _context.Students
-                .AnyAsync(s => s.Email == email && (studentId == null || s.MSSV != studentId));
+                .AnyAsync(s => s.Email == email && (StudentId == null || s.StudentId != StudentId));
         }
 
         public async Task<IEnumerable<Student>> SearchStudents(string keyword, int page, int pageSize)
@@ -132,20 +132,20 @@ namespace StudentManagement.Repositories
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(s => EF.Functions.Collate(
-                        s.HoTen, "Latin1_General_CI_AI").Contains(keyword) ||
-                        s.MSSV.Contains(keyword));
+                        s.FullName, "Latin1_General_CI_AI").Contains(keyword) ||
+                        s.StudentId.Contains(keyword));
             }
 
             return await query
-                .OrderBy(s => s.MSSV)
+                .OrderBy(s => s.StudentId)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
         }
 
-        public async Task<Student?> GetStudentByIdAsync(string studentId)
+        public async Task<Student?> GetStudentByIdAsync(string StudentId)
         {
-            return await _context.Students.FirstOrDefaultAsync(s => s.MSSV == studentId);
+            return await _context.Students.FirstOrDefaultAsync(s => s.StudentId == StudentId);
         }
 
         public async Task<Student?> GetStudentByEmailAsync(string email)

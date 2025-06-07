@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 public class GradeCreateDTO
 {
     [Required]
-    public string MSSV { get; set; } = string.Empty;
+    public string StudentId { get; set; } = string.Empty;
 
     [Required]
     public string ClassId { get; set; } = string.Empty;

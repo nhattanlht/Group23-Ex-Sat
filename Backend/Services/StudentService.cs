@@ -31,13 +31,13 @@ namespace StudentManagement.Services
 
         public async Task<(bool Success, string Message)> CreateStudent(Student student)
         {
-            if (string.IsNullOrWhiteSpace(student.SoDienThoai))
+            if (string.IsNullOrWhiteSpace(student.PhoneNumber))
                 return (false, "Số điện thoại không được để trống.");
 
-            if (!Regex.IsMatch(student.SoDienThoai, @"^(0[2-9]|84[2-9])\d{8,9}$"))
+            if (!Regex.IsMatch(student.PhoneNumber, @"^(0[2-9]|84[2-9])\d{8,9}$"))
                 return (false, "Số điện thoại không hợp lệ.");
 
-            if (await _studentRepository.StudentExistsByPhoneNumber(student.SoDienThoai))
+            if (await _studentRepository.StudentExistsByPhoneNumber(student.PhoneNumber))
                 return (false, "Số điện thoại đã tồn tại trong hệ thống.");
 
             if (string.IsNullOrWhiteSpace(student.Email))
@@ -62,7 +62,7 @@ namespace StudentManagement.Services
 
         public async Task<(bool Success, string Message)> UpdateStudent(Student student)
         {
-            var existingStudent = await _studentRepository.GetStudentById(student.MSSV);
+            var existingStudent = await _studentRepository.GetStudentById(student.StudentId);
 
             if (existingStudent == null)
                 return (false, "Sinh viên không tồn tại.");
@@ -99,13 +99,13 @@ namespace StudentManagement.Services
             }
 
             // Validate phone number and email as before
-            if (string.IsNullOrWhiteSpace(student.SoDienThoai))
+            if (string.IsNullOrWhiteSpace(student.PhoneNumber))
                 return (false, "Số điện thoại không được để trống.");
 
-            if (!Regex.IsMatch(student.SoDienThoai, @"^(0[2-9]|84[2-9])\d{8,9}$"))
+            if (!Regex.IsMatch(student.PhoneNumber, @"^(0[2-9]|84[2-9])\d{8,9}$"))
                 return (false, "Số điện thoại không hợp lệ.");
 
-            if (await _studentRepository.StudentExistsByPhoneNumber(student.SoDienThoai, student.MSSV))
+            if (await _studentRepository.StudentExistsByPhoneNumber(student.PhoneNumber, student.StudentId))
                 return (false, "Số điện thoại đã tồn tại trong hệ thống.");
 
             if (string.IsNullOrWhiteSpace(student.Email))
@@ -114,7 +114,7 @@ namespace StudentManagement.Services
             if (!Regex.IsMatch(student.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
                 return (false, "Email không hợp lệ.");
 
-            if (await _studentRepository.StudentExistsByEmail(student.Email, student.MSSV))
+            if (await _studentRepository.StudentExistsByEmail(student.Email, student.StudentId))
                 return (false, "Email đã tồn tại trong hệ thống.");
 
             try

@@ -21712,3 +21712,23 @@ System.InvalidOperationException: The exception handler configured on ExceptionH
    at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
    at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2025-06-06 22:11:45.053 +07:00 [ERR] Error importing JSON.
+Newtonsoft.Json.JsonReaderException: Unexpected character encountered while parsing value: M. Path '', line 0, position 0.
+   at Newtonsoft.Json.JsonTextReader.ParseValue()
+   at Newtonsoft.Json.JsonTextReader.Read()
+   at Newtonsoft.Json.JsonReader.ReadAndMoveToContent()
+   at Newtonsoft.Json.JsonReader.ReadForType(JsonContract contract, Boolean hasConverter)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at DataController.ImportJson(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\DataController.cs:line 410
+2025-06-06 22:11:45.107 +07:00 [ERR] HTTP POST /api/data/import/json responded 500 in 236.0205 ms
+2025-06-06 22:32:29.667 +07:00 [ERR] Failed executing DbCommand (58ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Grades] DROP CONSTRAINT [FK_Grades_Students_StudentId];
+2025-06-07 22:09:32.518 +07:00 [ERR] Failed executing DbCommand (43ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Grades] DROP CONSTRAINT [FK_Grades_Students_StudentId];
+2025-06-07 22:39:26.952 +07:00 [ERR] Failed executing DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Grades] DROP CONSTRAINT [FK_Grades_Students_StudentId];

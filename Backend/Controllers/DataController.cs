@@ -7,23 +7,23 @@ using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Models;
 using System.ComponentModel.DataAnnotations;
-using StudentManagement.Repositories; // Import the namespace for DataRepository
+using StudentManagement.Repositories;
+
 [ApiController]
 [Route("api/[controller]")]
 public class DataController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
     private readonly ILogger<DataController> _logger;
-    private readonly IDataRepository _dataRepository; // Add this field
+    private readonly IDataRepository _dataRepository;
 
     public DataController(ApplicationDbContext context, ILogger<DataController> logger, IDataRepository dataRepository)
     {
         _context = context;
         _logger = logger;
-        _dataRepository = dataRepository; // Inject DataRepository
+        _dataRepository = dataRepository;
     }
 
-    // 1. Export JSON (Download file)
     [HttpGet("export/json")]
     public IActionResult ExportJson()
     {
@@ -31,48 +31,43 @@ public class DataController : ControllerBase
         try
         {
             var data = _context.Students
-                .Include(s => s.Department) // Lấy thông tin khoa
-                .Include(s => s.SchoolYear) // Lấy thông tin năm học
-                .Include(s => s.StudyProgram) // Lấy thông tin chương trình học
-                .Include(s => s.DiaChiNhanThu) // Lấy địa chỉ nhận thư
-                .Include(s => s.DiaChiThuongTru) // Lấy địa chỉ thường trú
-                .Include(s => s.DiaChiTamTru) // Lấy địa chỉ tạm trú
-                .Include(s => s.StudentStatus) // Lấy trạng thái sinh viên
+                .Include(s => s.Department)
+                .Include(s => s.SchoolYear)
+                .Include(s => s.StudyProgram)
+                .Include(s => s.PermanentAddress)
+                .Include(s => s.RegisteredAddress)
+                .Include(s => s.TemporaryAddress)
+                .Include(s => s.StudentStatus)
                 .Select(s => new
                 {
-                    s.MSSV,
-                    s.HoTen,
-                    s.NgaySinh,
-                    s.GioiTinh,
+                    s.StudentId,
+                    s.FullName,
+                    s.DateOfBirth,
+                    s.Gender,
                     Department = s.Department != null ? s.Department.Name : null,
                     SchoolYear = s.SchoolYear != null ? s.SchoolYear.Name : null,
                     StudyProgram = s.StudyProgram != null ? s.StudyProgram.Name : null,
-
-                    AddressNhanThu_HouseNumber = s.DiaChiNhanThu.HouseNumber,
-                    AddressNhanThu_StreetName = s.DiaChiNhanThu.StreetName,
-                    AddressNhanThu_Ward = s.DiaChiNhanThu.Ward,
-                    AddressNhanThu_District = s.DiaChiNhanThu.District,
-                    AddressNhanThu_Province = s.DiaChiNhanThu.Province,
-                    AddressNhanThu_Country = s.DiaChiNhanThu.Country,
-
-                    AddressThuongTru_HouseNumber = s.DiaChiThuongTru.HouseNumber,
-                    AddressThuongTru_StreetName = s.DiaChiThuongTru.StreetName,
-                    AddressThuongTru_Ward = s.DiaChiThuongTru.Ward,
-                    AddressThuongTru_District = s.DiaChiThuongTru.District,
-                    AddressThuongTru_Province = s.DiaChiThuongTru.Province,
-                    AddressThuongTru_Country = s.DiaChiThuongTru.Country,
-
-                    AddressTamTru_HouseNumber = s.DiaChiTamTru.HouseNumber,
-                    AddressTamTru_StreetName = s.DiaChiTamTru.StreetName,
-                    AddressTamTru_Ward = s.DiaChiTamTru.Ward,
-                    AddressTamTru_District = s.DiaChiTamTru.District,
-                    AddressTamTru_Province = s.DiaChiTamTru.Province,
-                    AddressTamTru_Country = s.DiaChiTamTru.Country,
-
+                    PermanentAddress_HouseNumber = s.PermanentAddress.HouseNumber,
+                    PermanentAddress_StreetName = s.PermanentAddress.StreetName,
+                    PermanentAddress_Ward = s.PermanentAddress.Ward,
+                    PermanentAddress_District = s.PermanentAddress.District,
+                    PermanentAddress_Province = s.PermanentAddress.Province,
+                    PermanentAddress_Country = s.PermanentAddress.Country,
+                    RegisteredAddress_HouseNumber = s.RegisteredAddress.HouseNumber,
+                    RegisteredAddress_StreetName = s.RegisteredAddress.StreetName,
+                    RegisteredAddress_Ward = s.RegisteredAddress.Ward,
+                    RegisteredAddress_District = s.RegisteredAddress.District,
+                    RegisteredAddress_Province = s.RegisteredAddress.Province,
+                    RegisteredAddress_Country = s.RegisteredAddress.Country,
+                    TemporaryAddress_HouseNumber = s.TemporaryAddress.HouseNumber,
+                    TemporaryAddress_StreetName = s.TemporaryAddress.StreetName,
+                    TemporaryAddress_Ward = s.TemporaryAddress.Ward,
+                    TemporaryAddress_District = s.TemporaryAddress.District,
+                    TemporaryAddress_Province = s.TemporaryAddress.Province,
+                    TemporaryAddress_Country = s.TemporaryAddress.Country,
                     s.Email,
-                    s.SoDienThoai,
-                    s.QuocTich,
-
+                    s.PhoneNumber,
+                    s.Nationality,
                     Identification_Type = s.Identification.IdentificationType,
                     Identification_Number = s.Identification.Number,
                     Identification_IssueDate = s.Identification.IssueDate,
@@ -81,10 +76,10 @@ public class DataController : ControllerBase
                     Identification_HasChip = s.Identification.HasChip,
                     Identification_IssuingCountry = s.Identification.IssuingCountry,
                     Identification_Notes = s.Identification.Notes,
-
                     Status = s.StudentStatus.Name
                 })
                 .AsNoTracking().ToList();
+
             var json = JsonConvert.SerializeObject(data, Formatting.Indented);
             var byteArray = Encoding.UTF8.GetBytes(json);
             var stream = new MemoryStream(byteArray);
@@ -99,7 +94,6 @@ public class DataController : ControllerBase
         }
     }
 
-    // 2. Export CSV (Download file)
     [HttpGet("export/csv")]
     public IActionResult ExportCsv()
     {
@@ -110,45 +104,40 @@ public class DataController : ControllerBase
                 .Include(s => s.Department)
                 .Include(s => s.SchoolYear)
                 .Include(s => s.StudyProgram)
-                .Include(s => s.DiaChiNhanThu)
-                .Include(s => s.DiaChiThuongTru)
-                .Include(s => s.DiaChiTamTru)
+                .Include(s => s.PermanentAddress)
+                .Include(s => s.RegisteredAddress)
+                .Include(s => s.TemporaryAddress)
                 .Include(s => s.StudentStatus)
                 .Select(s => new
                 {
-                    s.MSSV,
-                    s.HoTen,
-                    s.NgaySinh,
-                    s.GioiTinh,
+                    s.StudentId,
+                    s.FullName,
+                    s.DateOfBirth,
+                    s.Gender,
                     Department = s.Department != null ? s.Department.Name : null,
                     SchoolYear = s.SchoolYear != null ? s.SchoolYear.Name : null,
                     StudyProgram = s.StudyProgram != null ? s.StudyProgram.Name : null,
-
-                    AddressNhanThu_HouseNumber = s.DiaChiNhanThu.HouseNumber,
-                    AddressNhanThu_StreetName = s.DiaChiNhanThu.StreetName,
-                    AddressNhanThu_Ward = s.DiaChiNhanThu.Ward,
-                    AddressNhanThu_District = s.DiaChiNhanThu.District,
-                    AddressNhanThu_Province = s.DiaChiNhanThu.Province,
-                    AddressNhanThu_Country = s.DiaChiNhanThu.Country,
-
-                    AddressThuongTru_HouseNumber = s.DiaChiThuongTru.HouseNumber,
-                    AddressThuongTru_StreetName = s.DiaChiThuongTru.StreetName,
-                    AddressThuongTru_Ward = s.DiaChiThuongTru.Ward,
-                    AddressThuongTru_District = s.DiaChiThuongTru.District,
-                    AddressThuongTru_Province = s.DiaChiThuongTru.Province,
-                    AddressThuongTru_Country = s.DiaChiThuongTru.Country,
-
-                    AddressTamTru_HouseNumber = s.DiaChiTamTru.HouseNumber,
-                    AddressTamTru_StreetName = s.DiaChiTamTru.StreetName,
-                    AddressTamTru_Ward = s.DiaChiTamTru.Ward,
-                    AddressTamTru_District = s.DiaChiTamTru.District,
-                    AddressTamTru_Province = s.DiaChiTamTru.Province,
-                    AddressTamTru_Country = s.DiaChiTamTru.Country,
-
+                    PermanentAddress_HouseNumber = s.PermanentAddress.HouseNumber,
+                    PermanentAddress_StreetName = s.PermanentAddress.StreetName,
+                    PermanentAddress_Ward = s.PermanentAddress.Ward,
+                    PermanentAddress_District = s.PermanentAddress.District,
+                    PermanentAddress_Province = s.PermanentAddress.Province,
+                    PermanentAddress_Country = s.PermanentAddress.Country,
+                    RegisteredAddress_HouseNumber = s.RegisteredAddress.HouseNumber,
+                    RegisteredAddress_StreetName = s.RegisteredAddress.StreetName,
+                    RegisteredAddress_Ward = s.RegisteredAddress.Ward,
+                    RegisteredAddress_District = s.RegisteredAddress.District,
+                    RegisteredAddress_Province = s.RegisteredAddress.Province,
+                    RegisteredAddress_Country = s.RegisteredAddress.Country,
+                    TemporaryAddress_HouseNumber = s.TemporaryAddress.HouseNumber,
+                    TemporaryAddress_StreetName = s.TemporaryAddress.StreetName,
+                    TemporaryAddress_Ward = s.TemporaryAddress.Ward,
+                    TemporaryAddress_District = s.TemporaryAddress.District,
+                    TemporaryAddress_Province = s.TemporaryAddress.Province,
+                    TemporaryAddress_Country = s.TemporaryAddress.Country,
                     s.Email,
-                    s.SoDienThoai,
-                    s.QuocTich,
-
+                    s.PhoneNumber,
+                    s.Nationality,
                     Identification_Type = s.Identification.IdentificationType,
                     Identification_Number = s.Identification.Number,
                     Identification_IssueDate = s.Identification.IssueDate,
@@ -157,7 +146,6 @@ public class DataController : ControllerBase
                     Identification_HasChip = s.Identification.HasChip,
                     Identification_IssuingCountry = s.Identification.IssuingCountry,
                     Identification_Notes = s.Identification.Notes,
-
                     Status = s.StudentStatus.Name
                 })
                 .AsNoTracking().ToList();
@@ -188,11 +176,8 @@ public class DataController : ControllerBase
         }
     }
 
-
-    // 3. Import CSV (Thêm kiểm tra trùng lặp & Transaction)
     private async Task<Address> FindOrCreateAddressAsync(string houseNumber, string streetName, string ward, string district, string province, string country)
     {
-        // Check if ALL address fields are empty → No address needed
         if (string.IsNullOrWhiteSpace(houseNumber) &&
             string.IsNullOrWhiteSpace(streetName) &&
             string.IsNullOrWhiteSpace(ward) &&
@@ -200,10 +185,9 @@ public class DataController : ControllerBase
             string.IsNullOrWhiteSpace(province) &&
             string.IsNullOrWhiteSpace(country))
         {
-            return null; // No address, student can still be imported
+            return null;
         }
 
-        // Check if SOME fields are missing → This is an error!
         if (string.IsNullOrWhiteSpace(houseNumber) ||
             string.IsNullOrWhiteSpace(streetName) ||
             string.IsNullOrWhiteSpace(ward) ||
@@ -279,40 +263,34 @@ public class DataController : ControllerBase
                     continue;
                 }
 
-                // 🔹 Convert Department Name to ID
                 var department = await _context.Departments.FirstOrDefaultAsync(d => d.Name == record.Department);
                 if (department == null)
                 {
                     return BadRequest(new { message = $"Department not found: {record.Department}" });
                 }
 
-                // 🔹 Convert School Year Name to ID
                 var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(sy => sy.Name == record.SchoolYear);
                 if (schoolYear == null)
                 {
                     return BadRequest(new { message = $"SchoolYear not found: {record.SchoolYear}" });
                 }
 
-                // 🔹 Convert Study Program Name to ID
                 var studyProgram = await _context.StudyPrograms.FirstOrDefaultAsync(sp => sp.Name == record.StudyProgram);
                 if (studyProgram == null)
                 {
                     return BadRequest(new { message = $"StudyProgram not found: {record.StudyProgram}" });
                 }
 
-                // 🔹 Convert Status Name to ID
                 var status = await _context.StudentStatuses.FirstOrDefaultAsync(st => st.Name == record.Status);
                 if (status == null)
                 {
                     return BadRequest(new { message = $"Status not found: {record.Status}" });
                 }
 
-                // 🔹 Find or create Addresses
-                var diaChiNhanThu = await FindOrCreateAddressAsync(record.AddressNhanThu_HouseNumber, record.AddressNhanThu_StreetName, record.AddressNhanThu_Ward, record.AddressNhanThu_District, record.AddressNhanThu_Province, record.AddressNhanThu_Country);
-                var diaChiThuongTru = await FindOrCreateAddressAsync(record.AddressThuongTru_HouseNumber, record.AddressThuongTru_StreetName, record.AddressThuongTru_Ward, record.AddressThuongTru_District, record.AddressThuongTru_Province, record.AddressThuongTru_Country);
-                var diaChiTamTru = await FindOrCreateAddressAsync(record.AddressTamTru_HouseNumber, record.AddressTamTru_StreetName, record.AddressTamTru_Ward, record.AddressTamTru_District, record.AddressTamTru_Province, record.AddressTamTru_Country);
+                var PermanentAddress = await FindOrCreateAddressAsync(record.PermanentAddress_HouseNumber, record.PermanentAddress_StreetName, record.PermanentAddress_Ward, record.PermanentAddress_District, record.PermanentAddress_Province, record.PermanentAddress_Country);
+                var RegisteredAddress = await FindOrCreateAddressAsync(record.RegisteredAddress_HouseNumber, record.RegisteredAddress_StreetName, record.RegisteredAddress_Ward, record.RegisteredAddress_District, record.RegisteredAddress_Province, record.RegisteredAddress_Country);
+                var TemporaryAddress = await FindOrCreateAddressAsync(record.TemporaryAddress_HouseNumber, record.TemporaryAddress_StreetName, record.TemporaryAddress_Ward, record.TemporaryAddress_District, record.TemporaryAddress_Province, record.TemporaryAddress_Country);
 
-                // 🔹 Find or create Identification
                 var identification = await _context.Identifications.FirstOrDefaultAsync(i => i.Number == record.Identification_Number);
                 if (identification == null)
                 {
@@ -331,23 +309,22 @@ public class DataController : ControllerBase
                     await _context.SaveChangesAsync();
                 }
 
-                // 🔹 Create Student object
                 var student = new Student
                 {
-                    MSSV = record.MSSV,
-                    HoTen = record.HoTen,
-                    NgaySinh = record.NgaySinh,
-                    GioiTinh = record.GioiTinh,
+                    StudentId = record.StudentId,
+                    FullName = record.FullName,
+                    DateOfBirth = record.DateOfBirth,
+                    Gender = record.Gender,
                     DepartmentId = department.Id,
                     SchoolYearId = schoolYear.Id,
                     StudyProgramId = studyProgram.Id,
                     StatusId = status.Id,
                     Email = record.Email,
-                    QuocTich = record.QuocTich,
-                    SoDienThoai = record.SoDienThoai,
-                    DiaChiNhanThuId = diaChiNhanThu?.Id ?? 0,
-                    DiaChiThuongTruId = diaChiThuongTru?.Id,
-                    DiaChiTamTruId = diaChiTamTru?.Id,
+                    Nationality = record.Nationality,
+                    PhoneNumber = record.PhoneNumber,
+                    PermanentAddressId = PermanentAddress?.Id ?? 0,
+                    RegisteredAddressId = RegisteredAddress?.Id,
+                    TemporaryAddressIdd = TemporaryAddress?.Id,
                     IdentificationId = identification.Id
                 };
 
@@ -357,16 +334,14 @@ public class DataController : ControllerBase
             if (validationResults.Count > 0)
                 return BadRequest(validationResults);
 
-            // 🔹 Check for duplicates before inserting
-            var existingIds = _context.Students.Select(s => s.MSSV).ToHashSet();
-            var uniqueStudents = newStudents.Where(s => !existingIds.Contains(s.MSSV)).ToList();
+            var existingIds = _context.Students.Select(s => s.StudentId).ToHashSet();
+            var uniqueStudents = newStudents.Where(s => !existingIds.Contains(s.StudentId)).ToList();
 
             if (!uniqueStudents.Any())
             {
                 return BadRequest(new { message = "Tất cả dữ liệu đã tồn tại trong hệ thống!" });
             }
 
-            // 🔹 Use transaction for data integrity
             await using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
@@ -390,7 +365,6 @@ public class DataController : ControllerBase
         }
     }
 
-    // 4. Import JSON (Thêm kiểm tra trùng lặp & Transaction)
     [HttpPost("import/json")]
     public async Task<IActionResult> ImportJson([FromForm] IFormFile file)
     {
@@ -414,11 +388,9 @@ public class DataController : ControllerBase
                 return BadRequest(new { message = "Dữ liệu JSON không hợp lệ." });
             }
 
-            // Danh sách sinh viên để thêm vào DB
             var validationResults = new List<ValidationResult>();
             var newStudents = new List<Student>();
             var serviceProvider = HttpContext.RequestServices;
-
 
             foreach (var item in importedData)
             {
@@ -433,51 +405,47 @@ public class DataController : ControllerBase
 
                 var student = new Student
                 {
-                    MSSV = item.MSSV,
-                    HoTen = item.HoTen,
-                    NgaySinh = item.NgaySinh,
-                    GioiTinh = item.GioiTinh,
+                    StudentId = item.StudentId,
+                    FullName = item.FullName,
+                    DateOfBirth = item.DateOfBirth,
+                    Gender = item.Gender,
                     Email = item.Email,
-                    SoDienThoai = item.SoDienThoai,
-                    QuocTich = item.QuocTich,
+                    PhoneNumber = item.PhoneNumber,
+                    Nationality = item.Nationality,
 
-                    // Liên kết với bảng ngoại
                     Department = _context.Departments.FirstOrDefault(d => d.Name == item.Department),
                     SchoolYear = _context.SchoolYears.FirstOrDefault(y => y.Name == item.SchoolYear),
                     StudyProgram = _context.StudyPrograms.FirstOrDefault(p => p.Name == item.StudyProgram),
                     StudentStatus = _context.StudentStatuses.FirstOrDefault(st => st.Name == item.Status),
 
-
-                    // Địa chỉ
-                    DiaChiNhanThu = new Address
+                    PermanentAddress = new Address
                     {
-                        HouseNumber = item.AddressNhanThu_HouseNumber,
-                        StreetName = item.AddressNhanThu_StreetName,
-                        Ward = item.AddressNhanThu_Ward,
-                        District = item.AddressNhanThu_District,
-                        Province = item.AddressNhanThu_Province,
-                        Country = item.AddressNhanThu_Country
+                        HouseNumber = item.PermanentAddress_HouseNumber,
+                        StreetName = item.PermanentAddress_StreetName,
+                        Ward = item.PermanentAddress_Ward,
+                        District = item.PermanentAddress_District,
+                        Province = item.PermanentAddress_Province,
+                        Country = item.PermanentAddress_Country
                     },
-                    DiaChiThuongTru = item.AddressThuongTru_HouseNumber != null ? new Address
+                    RegisteredAddress = item.RegisteredAddress_HouseNumber != null ? new Address
                     {
-                        HouseNumber = item.AddressThuongTru_HouseNumber,
-                        StreetName = item.AddressThuongTru_StreetName,
-                        Ward = item.AddressThuongTru_Ward,
-                        District = item.AddressThuongTru_District,
-                        Province = item.AddressThuongTru_Province,
-                        Country = item.AddressThuongTru_Country
+                        HouseNumber = item.RegisteredAddress_HouseNumber,
+                        StreetName = item.RegisteredAddress_StreetName,
+                        Ward = item.RegisteredAddress_Ward,
+                        District = item.RegisteredAddress_District,
+                        Province = item.RegisteredAddress_Province,
+                        Country = item.RegisteredAddress_Country
                     } : null,
-                    DiaChiTamTru = item.AddressTamTru_HouseNumber != null ? new Address
+                    TemporaryAddress = item.TemporaryAddress_HouseNumber != null ? new Address
                     {
-                        HouseNumber = item.AddressTamTru_HouseNumber,
-                        StreetName = item.AddressTamTru_StreetName,
-                        Ward = item.AddressTamTru_Ward,
-                        District = item.AddressTamTru_District,
-                        Province = item.AddressTamTru_Province,
-                        Country = item.AddressTamTru_Country
+                        HouseNumber = item.TemporaryAddress_HouseNumber,
+                        StreetName = item.TemporaryAddress_StreetName,
+                        Ward = item.TemporaryAddress_Ward,
+                        District = item.TemporaryAddress_District,
+                        Province = item.TemporaryAddress_Province,
+                        Country = item.TemporaryAddress_Country
                     } : null,
 
-                    // Thông tin định danh
                     Identification = new Identification
                     {
                         IdentificationType = item.Identification_Type,
@@ -497,16 +465,14 @@ public class DataController : ControllerBase
             if (validationResults.Count > 0)
                 return BadRequest(validationResults);
 
-            // Kiểm tra trùng lặp
-            var existingIds = _context.Students.Select(s => s.MSSV).ToHashSet();
-            newStudents = newStudents.Where(s => !existingIds.Contains(s.MSSV)).ToList();
+            var existingIds = _context.Students.Select(s => s.StudentId).ToHashSet();
+            newStudents = newStudents.Where(s => !existingIds.Contains(s.StudentId)).ToList();
 
             if (!newStudents.Any())
             {
                 return BadRequest(new { message = "Tất cả dữ liệu đã tồn tại trong hệ thống!" });
             }
 
-            // Sử dụng transaction để đảm bảo toàn vẹn dữ liệu
             await using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
@@ -538,6 +504,6 @@ public class DataController : ControllerBase
             return NotFound(new { message = "Data not found" });
         }
 
-                return Ok(data);
+        return Ok(data);
     }
-}
+} 

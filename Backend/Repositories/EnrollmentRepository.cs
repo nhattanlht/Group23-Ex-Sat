@@ -24,7 +24,7 @@ namespace StudentManagement.Repositories
                           .Include(e => e.Class)
                           .FirstOrDefaultAsync(e => e.EnrollmentId == enrollmentId);
 
-        public async Task<bool> HasPrerequisiteAsync(string studentId, string classId)
+        public async Task<bool> HasPrerequisiteAsync(string StudentId, string classId)
         {
             var classInfo = await _context.Classes
                                    .Include(c => c.Course)
@@ -38,7 +38,7 @@ namespace StudentManagement.Repositories
 
             var hasCompletedPrerequisite = await _context.Enrollments
                                                         .Include(e => e.Class)
-                                                        .Where(e => e.StudentId == studentId && e.Class.CourseCode == prerequisiteCourseCode)
+                                                        .Where(e => e.StudentId == StudentId && e.Class.CourseCode == prerequisiteCourseCode)
                                                         .AnyAsync();
 
             return hasCompletedPrerequisite;

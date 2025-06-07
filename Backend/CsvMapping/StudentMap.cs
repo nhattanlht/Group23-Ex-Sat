@@ -5,10 +5,10 @@ public sealed class StudentMap : ClassMap<StudentDto>
 {
     public StudentMap()
     {
-        Map(m => m.MSSV).Name("MSSV");
-        Map(m => m.HoTen).Name("HoTen");
-        Map(m => m.NgaySinh).Name("NgaySinh").TypeConverterOption.Format("M/d/yyyy H:mm");
-        Map(m => m.GioiTinh).Name("GioiTinh");
+        Map(m => m.StudentId).Name("StudentId");
+        Map(m => m.FullName).Name("FullName");
+        Map(m => m.DateOfBirth).Name("DateOfBirth").TypeConverterOption.Format("M/d/yyyy H:mm");
+        Map(m => m.Gender).Name("Gender");
 
         Map(m => m.Department).Name("Department");
         Map(m => m.SchoolYear).Name("SchoolYear");
@@ -16,26 +16,26 @@ public sealed class StudentMap : ClassMap<StudentDto>
         Map(m => m.Status).Name("Status");
 
         // Mapping Address
-        Map(m => m.AddressNhanThu_HouseNumber).Name("AddressNhanThu_HouseNumber");
-        Map(m => m.AddressNhanThu_StreetName).Name("AddressNhanThu_StreetName");
-        Map(m => m.AddressNhanThu_Ward).Name("AddressNhanThu_Ward");
-        Map(m => m.AddressNhanThu_District).Name("AddressNhanThu_District");
-        Map(m => m.AddressNhanThu_Province).Name("AddressNhanThu_Province");
-        Map(m => m.AddressNhanThu_Country).Name("AddressNhanThu_Country");
+        Map(m => m.PermanentAddress_HouseNumber).Name("PermanentAddress_HouseNumber");
+        Map(m => m.PermanentAddress_StreetName).Name("PermanentAddress_StreetName");
+        Map(m => m.PermanentAddress_Ward).Name("PermanentAddress_Ward");
+        Map(m => m.PermanentAddress_District).Name("PermanentAddress_District");
+        Map(m => m.PermanentAddress_Province).Name("PermanentAddress_Province");
+        Map(m => m.PermanentAddress_Country).Name("PermanentAddress_Country");
 
-        Map(m => m.AddressThuongTru_HouseNumber).Name("AddressThuongTru_HouseNumber").TypeConverterOption.NullValues("");
-        Map(m => m.AddressThuongTru_StreetName).Name("AddressThuongTru_StreetName").TypeConverterOption.NullValues("");
-        Map(m => m.AddressThuongTru_Ward).Name("AddressThuongTru_Ward").TypeConverterOption.NullValues("");
-        Map(m => m.AddressThuongTru_District).Name("AddressThuongTru_District").TypeConverterOption.NullValues("");
-        Map(m => m.AddressThuongTru_Province).Name("AddressThuongTru_Province").TypeConverterOption.NullValues("");
-        Map(m => m.AddressThuongTru_Country).Name("AddressThuongTru_Country").TypeConverterOption.NullValues("");
+        Map(m => m.RegisteredAddress_HouseNumber).Name("RegisteredAddress_HouseNumber").TypeConverterOption.NullValues("");
+        Map(m => m.RegisteredAddress_StreetName).Name("RegisteredAddress_StreetName").TypeConverterOption.NullValues("");
+        Map(m => m.RegisteredAddress_Ward).Name("RegisteredAddress_Ward").TypeConverterOption.NullValues("");
+        Map(m => m.RegisteredAddress_District).Name("RegisteredAddress_District").TypeConverterOption.NullValues("");
+        Map(m => m.RegisteredAddress_Province).Name("RegisteredAddress_Province").TypeConverterOption.NullValues("");
+        Map(m => m.RegisteredAddress_Country).Name("RegisteredAddress_Country").TypeConverterOption.NullValues("");
 
-        Map(m => m.AddressTamTru_HouseNumber).Name("AddressTamTru_HouseNumber").TypeConverterOption.NullValues("");
-        Map(m => m.AddressTamTru_StreetName).Name("AddressTamTru_StreetName").TypeConverterOption.NullValues("");
-        Map(m => m.AddressTamTru_Ward).Name("AddressTamTru_Ward").TypeConverterOption.NullValues("");
-        Map(m => m.AddressTamTru_District).Name("AddressTamTru_District").TypeConverterOption.NullValues("");
-        Map(m => m.AddressTamTru_Province).Name("AddressTamTru_Province").TypeConverterOption.NullValues("");
-        Map(m => m.AddressTamTru_Country).Name("AddressTamTru_Country").TypeConverterOption.NullValues("");
+        Map(m => m.TemporaryAddress_HouseNumber).Name("TemporaryAddress_HouseNumber").TypeConverterOption.NullValues("");
+        Map(m => m.TemporaryAddress_StreetName).Name("TemporaryAddress_StreetName").TypeConverterOption.NullValues("");
+        Map(m => m.TemporaryAddress_Ward).Name("TemporaryAddress_Ward").TypeConverterOption.NullValues("");
+        Map(m => m.TemporaryAddress_District).Name("TemporaryAddress_District").TypeConverterOption.NullValues("");
+        Map(m => m.TemporaryAddress_Province).Name("TemporaryAddress_Province").TypeConverterOption.NullValues("");
+        Map(m => m.TemporaryAddress_Country).Name("TemporaryAddress_Country").TypeConverterOption.NullValues("");
 
         // Mapping Identification
         Map(m => m.Identification_Type).Name("Identification_Type");
@@ -48,7 +48,7 @@ public sealed class StudentMap : ClassMap<StudentDto>
         Map(m => m.Identification_Notes).Name("Identification_Notes").Optional();
 
         Map(m => m.Email).Name("Email");
-        Map(m => m.QuocTich).Name("QuocTich");
-        Map(m => m.SoDienThoai).Name("SoDienThoai");
+        Map(m => m.Nationality).Name("Nationality");
+        Map(m => m.PhoneNumber).Name("PhoneNumber");
     }
 }

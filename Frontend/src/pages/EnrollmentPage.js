@@ -11,7 +11,7 @@ const CoursePage = () => {
 
     const formFields = [
         { display: 'Lớp Học', accessor: 'classId', type: 'select', options: classes, required: true },
-        { display: 'Sinh Viên', accessor: 'studentId', type: 'select', options: students, required: true },
+        { display: 'Sinh Viên', accessor: 'StudentId', type: 'select', options: students, required: true },
         { display: 'Thời gian đăng ký', accessor: 'registeredAt', type: 'date', required: false, disabled: true },
         { display: 'Hủy', accessor: 'isCancelled', type: 'checkbox', required: false },
         { display: 'Lí do hủy', accessor: 'cancelReason', type: 'text', required: false },
@@ -21,7 +21,7 @@ const CoursePage = () => {
     const tableFields = [
         { display: 'Lớp Học', accessor: 'classId', type: 'select', options: classes },
         { display: 'Khóa Học', accessor: 'courseCode', type: 'text', options: courses },
-        { display: 'Sinh Viên', accessor: 'studentId', type: 'select', options: students },
+        { display: 'Sinh Viên', accessor: 'StudentId', type: 'select', options: students },
         { display: 'Thời gian đăng ký', accessor: 'registeredAt', type: 'date' },
         { display: 'Hủy', accessor: 'isCancelled', type: 'checkbox' },
         { display: 'Lí do hủy', accessor: 'cancelReason', type: 'text' },
@@ -44,8 +44,8 @@ const CoursePage = () => {
             })));
 
             setStudents(studentRes.data.students.map((item) => ({
-                id: item.mssv,
-                name: item.hoTen
+                id: item.StudentId,
+                name: item.FullName
             })));
 
             setCourses(courseRes.data.map((item) => ({
@@ -70,8 +70,8 @@ const CoursePage = () => {
                             item.class?.courseCode || 'N/A';
                         break;
 
-                    case 'studentId':
-                        row[key] = item.student?.hoTen || 'N/A';
+                    case 'StudentId':
+                        row[key] = item.student?.FullName || 'N/A';
                         break;
 
                     case 'cancelDate':

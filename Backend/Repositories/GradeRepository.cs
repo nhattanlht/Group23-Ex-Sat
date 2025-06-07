@@ -19,12 +19,12 @@ namespace StudentManagement.Repositories
                           .ThenInclude(c => c.Course)
                           .ToListAsync();
 
-        public async Task<Grade?> GetByIdAsync(string MSSV, string classId) =>
+        public async Task<Grade?> GetByIdAsync(string StudentId, string classId) =>
             await _context.Grades
                           .Include(g => g.Student)
                           .Include(g => g.Class)
                           .ThenInclude(c => c.Course)
-                          .FirstOrDefaultAsync(g => g.MSSV == MSSV && g.ClassId == classId);
+                          .FirstOrDefaultAsync(g => g.StudentId == StudentId && g.ClassId == classId);
 
         public async Task AddAsync(Grade grade)
         {

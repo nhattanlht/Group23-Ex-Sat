@@ -12,8 +12,8 @@ using StudentManagement.Models;
 namespace StudentManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250418031751_fixStudentId")]
-    partial class fixStudentId
+    [Migration("20250607150606_Rename2")]
+    partial class Rename2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,6 +72,9 @@ namespace StudentManagement.Migrations
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime>("CancelDeadline")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Classroom")
                         .HasMaxLength(50)
@@ -265,12 +268,12 @@ namespace StudentManagement.Migrations
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
+                    b.Property<double>("Score")
+                        .HasColumnType("float");
+
                     b.Property<string>("StudentId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<double>("Score")
-                        .HasColumnType("float");
 
                     b.HasKey("GradeId");
 
@@ -380,6 +383,9 @@ namespace StudentManagement.Migrations
                     b.Property<string>("StudentId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
@@ -398,20 +404,20 @@ namespace StudentManagement.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("IdentificationId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Nationality")
                         .IsRequired()
@@ -419,9 +425,6 @@ namespace StudentManagement.Migrations
 
                     b.Property<int>("SchoolYearId")
                         .HasColumnType("int");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
@@ -445,11 +448,11 @@ namespace StudentManagement.Migrations
 
                     b.HasIndex("IdentificationId");
 
-                    b.HasIndex("SchoolYearId");
-
                     b.HasIndex("PhoneNumber")
                         .IsUnique()
                         .HasFilter("[PhoneNumber] IS NOT NULL");
+
+                    b.HasIndex("SchoolYearId");
 
                     b.HasIndex("StatusId");
 

@@ -21,19 +21,19 @@ namespace StudentManagement.Controllers
         public async Task<IActionResult> GetAll() =>
             Ok(await _service.GetAllAsync());
 
-        [HttpGet("{MSSV}/{classId}")]
-        public async Task<IActionResult> GetById(string MSSV, string classId)
+        [HttpGet("{StudentId}/{classId}")]
+        public async Task<IActionResult> GetById(string StudentId, string classId)
         {
-            var result = await _service.GetByIdAsync(MSSV, classId);
+            var result = await _service.GetByIdAsync(StudentId, classId);
             if (result == null) return NotFound();
             return Ok(result);
         }
 
-        [HttpGet("export/{MSSV}")]
-        public async Task<IActionResult> ExportStudentGrades(string MSSV)
+        [HttpGet("export/{StudentId}")]
+        public async Task<IActionResult> ExportStudentGrades(string StudentId)
         {
             var grades = (await _service.GetAllAsync())
-                         .Where(g => g.MSSV == MSSV)
+                         .Where(g => g.StudentId == StudentId)
                          .ToList();
 
             if (!grades.Any()) return NotFound();
@@ -42,8 +42,8 @@ namespace StudentManagement.Controllers
 
             // Header
             csv.AppendLine("\uFEFFBảng điểm sinh viên");
-            csv.AppendLine($"Mã Sinh Viên: {MSSV}");
-            csv.AppendLine($"Họ Tên: {grades.First().Student.HoTen}");
+            csv.AppendLine($"Mã Sinh Viên: {StudentId}");
+            csv.AppendLine($"Họ Tên: {grades.First().Student.FullName}");
             csv.AppendLine("\uFEFFMôn Học,Số Tín Chỉ,Điểm,Xếp Loại,GPA");
 
             // Rows
@@ -52,7 +52,7 @@ namespace StudentManagement.Controllers
                 csv.AppendLine($"\"{grade.CourseName}\",{grade.Credit},{grade.Score},{grade.GradeLetter},{grade.GPA}");
             }
 
-            var fileName = $"BangDiem_{MSSV}.csv";
+            var fileName = $"BangDiem_{StudentId}.csv";
             var bytes = Encoding.UTF8.GetBytes(csv.ToString());
 
             return File(bytes, "text/csv", fileName);
@@ -64,7 +64,7 @@ namespace StudentManagement.Controllers
         {
             var grade = new Grade
             {
-                MSSV = dto.MSSV,
+                StudentId = dto.StudentId,
                 ClassId = dto.ClassId,
                 Score = dto.Score,
                 GradeLetter = dto.GradeLetter,
@@ -74,12 +74,12 @@ namespace StudentManagement.Controllers
             return Ok();
         }
 
-        [HttpPut("{MSSV}/{classId}")]
-        public async Task<IActionResult> Update(string MSSV, string classId, [FromBody] GradeUpdateDTO dto)
+        [HttpPut("{StudentId}/{classId}")]
+        public async Task<IActionResult> Update(string StudentId, string classId, [FromBody] GradeUpdateDTO dto)
         {
             var grade = new Grade
             {
-                MSSV = MSSV,
+                StudentId = StudentId,
                 ClassId = classId,
                 Score = dto.Score,
                 GradeLetter = dto.GradeLetter,

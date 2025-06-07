@@ -8,7 +8,7 @@ namespace StudentManagement.Repositories
     {
         Task<List<Enrollment>> GetAllAsync();
         Task<Enrollment?> GetByIdAsync(int enrollmentId);
-        Task<bool> HasPrerequisiteAsync(string studentId, string classId);
+        Task<bool> HasPrerequisiteAsync(string StudentId, string classId);
         Task<bool> IsClassFullAsync(string classId);
         Task AddAsync(Enrollment enrollment);
         Task UpdateAsync(Enrollment enrollment);

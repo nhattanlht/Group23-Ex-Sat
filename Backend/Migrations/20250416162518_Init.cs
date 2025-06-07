@@ -150,41 +150,41 @@ namespace StudentManagement.Migrations
                 name: "Students",
                 columns: table => new
                 {
-                    MSSV = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    HoTen = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    NgaySinh = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    GioiTinh = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
                     SchoolYearId = table.Column<int>(type: "int", nullable: false),
                     StudyProgramId = table.Column<int>(type: "int", nullable: false),
-                    DiaChi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    QuocTich = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SoDienThoai = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DiaChiNhanThuId = table.Column<int>(type: "int", nullable: false),
-                    DiaChiThuongTruId = table.Column<int>(type: "int", nullable: true),
-                    DiaChiTamTruId = table.Column<int>(type: "int", nullable: true),
+                    Nationality = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    PermanentAddressId = table.Column<int>(type: "int", nullable: false),
+                    RegisteredAddressId = table.Column<int>(type: "int", nullable: true),
+                    TemporaryAddressIdd = table.Column<int>(type: "int", nullable: true),
                     IdentificationId = table.Column<int>(type: "int", nullable: false),
                     StatusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Students", x => x.MSSV);
+                    table.PrimaryKey("PK_Students", x => x.StudentId);
                     table.ForeignKey(
-                        name: "FK_Students_Addresses_DiaChiNhanThuId",
-                        column: x => x.DiaChiNhanThuId,
+                        name: "FK_Students_Addresses_PermanentAddressId",
+                        column: x => x.PermanentAddressId,
                         principalTable: "Addresses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Students_Addresses_DiaChiTamTruId",
-                        column: x => x.DiaChiTamTruId,
+                        name: "FK_Students_Addresses_TemporaryAddressIdd",
+                        column: x => x.TemporaryAddressIdd,
                         principalTable: "Addresses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Students_Addresses_DiaChiThuongTruId",
-                        column: x => x.DiaChiThuongTruId,
+                        name: "FK_Students_Addresses_RegisteredAddressId",
+                        column: x => x.RegisteredAddressId,
                         principalTable: "Addresses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -270,7 +270,7 @@ namespace StudentManagement.Migrations
                         name: "FK_Enrollments_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
-                        principalColumn: "MSSV",
+                        principalColumn: "StudentId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -299,7 +299,7 @@ namespace StudentManagement.Migrations
                         name: "FK_Grades_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
-                        principalColumn: "MSSV",
+                        principalColumn: "StudentId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -403,19 +403,19 @@ namespace StudentManagement.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_DiaChiNhanThuId",
+                name: "IX_Students_PermanentAddressId",
                 table: "Students",
-                column: "DiaChiNhanThuId");
+                column: "PermanentAddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_DiaChiTamTruId",
+                name: "IX_Students_TemporaryAddressIdd",
                 table: "Students",
-                column: "DiaChiTamTruId");
+                column: "TemporaryAddressIdd");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_DiaChiThuongTruId",
+                name: "IX_Students_RegisteredAddressId",
                 table: "Students",
-                column: "DiaChiThuongTruId");
+                column: "RegisteredAddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_Email",
@@ -435,11 +435,11 @@ namespace StudentManagement.Migrations
                 column: "SchoolYearId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_SoDienThoai",
+                name: "IX_Students_PhoneNumber",
                 table: "Students",
-                column: "SoDienThoai",
+                column: "PhoneNumber",
                 unique: true,
-                filter: "[SoDienThoai] IS NOT NULL");
+                filter: "[PhoneNumber] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_StatusId",

@@ -33,7 +33,7 @@ export const formatDataSetForTable = (dataSet, fields, helpers = {}) => {
                     break;
 
                 case "group":
-                    const id = row[`${key}Id`]; // e.g., row.diaChiNhanThuId
+                    const id = row[`${key}Id`]; // e.g., row.PermanentAddressId
                     if (field.customeType === "identification") {
                         formattedRow[key] = (
                             <ViewIdentificationBtn identification={helpers.identifications?.[id]} />

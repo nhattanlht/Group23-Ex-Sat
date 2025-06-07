@@ -23,15 +23,15 @@ namespace StudentManagement.Tests.Services
         public async Task GetGradesByStudentIdAsync_ShouldReturnGrades_WhenStudentExists()
         {
             // Arrange
-            var mssv = "001";
+            var StudentId = "001";
             var classId = "CS101";
-            var grades = new Grade { GradeId = 1, MSSV = mssv, ClassId = "CS101", Score = 8.5 };
+            var grades = new Grade { GradeId = 1, StudentId = StudentId, ClassId = "CS101", Score = 8.5 };
 
-            _gradeRepositoryMock.Setup(repo => repo.GetByIdAsync(mssv, classId))
+            _gradeRepositoryMock.Setup(repo => repo.GetByIdAsync(StudentId, classId))
                                 .ReturnsAsync(grades);
 
             // Act
-            var result = await _gradeService.GetByIdAsync(mssv, classId);
+            var result = await _gradeService.GetByIdAsync(StudentId, classId);
 
             // Assert
             Assert.NotNull(result);
@@ -43,13 +43,13 @@ namespace StudentManagement.Tests.Services
         public async Task GetGradesByStudentIdAsync_ShouldReturnEmptyList_WhenStudentDoesNotExist()
         {
             // Arrange
-            var mssv = "12345";
+            var StudentId = "12345";
             var classId = "CS101";
-            _gradeRepositoryMock.Setup(repo => repo.GetByIdAsync(mssv, classId))
+            _gradeRepositoryMock.Setup(repo => repo.GetByIdAsync(StudentId, classId))
                                 .ReturnsAsync(new Grade());
 
             // Act
-            var result = await _gradeService.GetByIdAsync(mssv, classId);
+            var result = await _gradeService.GetByIdAsync(StudentId, classId);
 
             // Assert
             Assert.NotNull(result);
@@ -59,7 +59,7 @@ namespace StudentManagement.Tests.Services
         public async Task AddGradeAsync_ShouldAddGrade_WhenValidGradeIsProvided()
         {
             // Arrange
-            var grade = new Grade { GradeId = 1, MSSV = "001", ClassId = "CS101", Score = 9.5 };
+            var grade = new Grade { GradeId = 1, StudentId = "001", ClassId = "CS101", Score = 9.5 };
             _gradeRepositoryMock.Setup(repo => repo.AddAsync(grade))
                                 .Returns(Task.CompletedTask);
 
