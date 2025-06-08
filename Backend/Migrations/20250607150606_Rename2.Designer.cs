@@ -395,7 +395,7 @@ namespace StudentManagement.Migrations
                     b.Property<int>("PermanentAddressId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TemporaryAddressIdd")
+                    b.Property<int?>("TemporaryAddressId")
                         .HasColumnType("int");
 
                     b.Property<int?>("RegisteredAddressId")
@@ -438,7 +438,7 @@ namespace StudentManagement.Migrations
 
                     b.HasIndex("PermanentAddressId");
 
-                    b.HasIndex("TemporaryAddressIdd");
+                    b.HasIndex("TemporaryAddressId");
 
                     b.HasIndex("RegisteredAddressId");
 
@@ -623,7 +623,7 @@ namespace StudentManagement.Migrations
 
                     b.HasOne("Address", "TemporaryAddress")
                         .WithMany()
-                        .HasForeignKey("TemporaryAddressIdd")
+                        .HasForeignKey("TemporaryAddressId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Address", "RegisteredAddress")

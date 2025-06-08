@@ -324,7 +324,7 @@ public class DataController : ControllerBase
                     PhoneNumber = record.PhoneNumber,
                     PermanentAddressId = PermanentAddress?.Id ?? 0,
                     RegisteredAddressId = RegisteredAddress?.Id,
-                    TemporaryAddressIdd = TemporaryAddress?.Id,
+                    TemporaryAddressId = TemporaryAddress?.Id,
                     IdentificationId = identification.Id
                 };
 

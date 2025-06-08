@@ -114,13 +114,13 @@ namespace StudentManagement.Repositories
             return true;
         }
 
-        public async Task<bool> StudentExistsByPhoneNumber(string phoneNumber, string StudentId = null)
+        public async Task<bool> StudentExistsByPhoneNumber(string phoneNumber, string? StudentId = null)
         {
             return await _context.Students
                 .AnyAsync(s => s.PhoneNumber == phoneNumber && (StudentId == null || s.StudentId != StudentId));
         }
 
-        public async Task<bool> StudentExistsByEmail(string email, string StudentId = null)
+        public async Task<bool> StudentExistsByEmail(string email, string? StudentId = null)
         {
             return await _context.Students
                 .AnyAsync(s => s.Email == email && (StudentId == null || s.StudentId != StudentId));

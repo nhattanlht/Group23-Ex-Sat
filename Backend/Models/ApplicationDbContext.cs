@@ -80,7 +80,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
             modelBuilder.Entity<Student>()
                 .HasOne(s => s.TemporaryAddress)
                 .WithMany()
-                .HasForeignKey(s => s.TemporaryAddressIdd)
+                .HasForeignKey(s => s.TemporaryAddressId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Student>()

@@ -88,7 +88,7 @@ const StudentList = () => {
         { display: 'Quốc Gia', accessor: 'country', type: "text" },
       ],
     },
-    { display: 'Địa Chỉ Tạm Trú Id', accessor: 'TemporaryAddressIdd', type: "text", hidden: true },
+    { display: 'Địa Chỉ Tạm Trú Id', accessor: 'TemporaryAddressId', type: "text", hidden: true },
     { display: "Identification Id", accessor: "identificationId", type: "text", hidden: true },
     { display: 'Loại Giấy Tờ', accessor: 'identificationType', type: "select", options: [{ id: "CMND", name: "CMND" }, { id: "CCCD", name: "CCCD" }, { id: "Hộ Chiếu", name: "Hộ Chiếu" }], required: true, customeType: "identificationType" },
     {
@@ -152,8 +152,8 @@ const StudentList = () => {
         if (student.RegisteredAddressId) {
           await getViewAddress(student.RegisteredAddressId);
         }
-        if (student.TemporaryAddressIdd) {
-          await getViewAddress(student.TemporaryAddressIdd);
+        if (student.TemporaryAddressId) {
+          await getViewAddress(student.TemporaryAddressId);
         }
         if (student.identificationId) {
           await getIdentifications(student.identificationId);
@@ -233,14 +233,14 @@ const StudentList = () => {
       if (student.TemporaryAddress) {
         if (student.TemporaryAddress?.houseNumber) {
           const TemporaryAddress = await axios.post(`${config.backendUrl}/api/address`, student.TemporaryAddress);
-          student.TemporaryAddressIdd = TemporaryAddress.data.id;
+          student.TemporaryAddressId = TemporaryAddress.data.id;
           }
         else {
-          student.TemporaryAddressIdd = null;
+          student.TemporaryAddressId = null;
         }
       }
       else {
-        student.TemporaryAddressIdd = null;
+        student.TemporaryAddressId = null;
       }
 
       delete student.TemporaryAddress;
@@ -304,10 +304,10 @@ const StudentList = () => {
         delete student.TemporaryAddress["id"];
 
         const TemporaryAddress = await axios.post(`${config.backendUrl}/api/address`, student.TemporaryAddress);
-        student.TemporaryAddressIdd = TemporaryAddress.data.id;
+        student.TemporaryAddressId = TemporaryAddress.data.id;
       }
       else {
-        student.TemporaryAddressIdd = null;
+        student.TemporaryAddressId = null;
       }
       delete student.TemporaryAddress;
 
@@ -369,9 +369,9 @@ const StudentList = () => {
         }
       }
 
-      if (modalData.TemporaryAddressIdd) {
+      if (modalData.TemporaryAddressId) {
         try {
-          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.TemporaryAddressIdd}`);
+          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.TemporaryAddressId}`);
           initialData.TemporaryAddress = response.data; // Populate address fields
         } catch (error) {
           console.error("Error fetching address:", error);

@@ -163,7 +163,7 @@ namespace StudentManagement.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PermanentAddressId = table.Column<int>(type: "int", nullable: false),
                     RegisteredAddressId = table.Column<int>(type: "int", nullable: true),
-                    TemporaryAddressIdd = table.Column<int>(type: "int", nullable: true),
+                    TemporaryAddressId = table.Column<int>(type: "int", nullable: true),
                     IdentificationId = table.Column<int>(type: "int", nullable: false),
                     StatusId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -177,8 +177,8 @@ namespace StudentManagement.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Students_Addresses_TemporaryAddressIdd",
-                        column: x => x.TemporaryAddressIdd,
+                        name: "FK_Students_Addresses_TemporaryAddressId",
+                        column: x => x.TemporaryAddressId,
                         principalTable: "Addresses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -408,9 +408,9 @@ namespace StudentManagement.Migrations
                 column: "PermanentAddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_TemporaryAddressIdd",
+                name: "IX_Students_TemporaryAddressId",
                 table: "Students",
-                column: "TemporaryAddressIdd");
+                column: "TemporaryAddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_RegisteredAddressId",

@@ -21732,3 +21732,36 @@ ALTER TABLE [Grades] DROP CONSTRAINT [FK_Grades_Students_StudentId];
 ALTER TABLE [Grades] DROP CONSTRAINT [FK_Grades_Students_StudentId];
 2025-06-07 22:39:26.952 +07:00 [ERR] Failed executing DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
 ALTER TABLE [Grades] DROP CONSTRAINT [FK_Grades_Students_StudentId];
+2025-06-08 20:02:19.914 +07:00 [ERR] Error importing CSV.
+CsvHelper.HeaderValidationException: Header with name 'PermanentAddress_HouseNumber'[0] was not found.
+Header with name 'PermanentAddress_StreetName'[0] was not found.
+Header with name 'PermanentAddress_Ward'[0] was not found.
+Header with name 'PermanentAddress_District'[0] was not found.
+Header with name 'PermanentAddress_Province'[0] was not found.
+Header with name 'PermanentAddress_Country'[0] was not found.
+Headers: 'StudentId', 'FullName', 'DateOfBirth', 'Gender', 'Department', 'SchoolYear', 'StudyProgram', 'Status', 'PermanentAddressss_HouseNumbePermanentAddressress_StreetNPermanentAddressddressPermanentAddresstAddress_DPermanentAddressentAddressPermanentAddressanentAddress_Country', 'RegisteredAddress_HouseNumber', 'RegisteredAddress_StreetName', 'RegisteredAddress_Ward', 'RegisteredAddress_District', 'RegisteredAddress_Province', 'RegisteredAddress_Country', 'TemporaryAddress_HouseNumber', 'TemporaryAddress_StreetName', 'TemporaryAddress_Ward', 'TemporaryAddress_District', 'TemporaryAddress_Province', 'TemporaryAddress_Country', 'Identification_Type', 'Identification_Number', 'Identification_IssueDate', 'Identification_ExpiryDate', 'Identification_IssuedBy', 'Identification_HasChip', 'Identification_IssuingCountry', 'Identification_Notes', 'Email', 'Nationality', 'PhoneNumber'
+If you are expecting some headers to be missing and want to ignore this validation, set the configuration HeaderValidated to null. You can also change the functionality to do something else, like logging the issue.
+
+IReader state:
+   ColumnCount: 32
+   CurrentIndex: -1
+   HeaderRecord:
+["StudentId","FullName","DateOfBirth","Gender","Department","SchoolYear","StudyProgram","Status","PermanentAddressss_HouseNumbePermanentAddressress_StreetNPermanentAddressddressPermanentAddresstAddress_DPermanentAddressentAddressPermanentAddressanentAddress_Country","RegisteredAddress_HouseNumber","RegisteredAddress_StreetName","RegisteredAddress_Ward","RegisteredAddress_District","RegisteredAddress_Province","RegisteredAddress_Country","TemporaryAddress_HouseNumber","TemporaryAddress_StreetName","TemporaryAddress_Ward","TemporaryAddress_District","TemporaryAddress_Province","TemporaryAddress_Country","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Email","Nationality","PhoneNumber"]
+IParser state:
+   ByteCount: 0
+   CharCount: 788
+   Row: 1
+   RawRow: 1
+   Count: 32
+   RawRecord:
+StudentId,FullName,DateOfBirth,Gender,Department,SchoolYear,StudyProgram,Status,PermanentAddressss_HouseNumbePermanentAddressress_StreetNPermanentAddressddressPermanentAddresstAddress_DPermanentAddressentAddressPermanentAddressanentAddress_Country,RegisteredAddress_HouseNumber,RegisteredAddress_StreetName,RegisteredAddress_Ward,RegisteredAddress_District,RegisteredAddress_Province,RegisteredAddress_Country,TemporaryAddress_HouseNumber,TemporaryAddress_StreetName,TemporaryAddress_Ward,TemporaryAddress_District,TemporaryAddress_Province,TemporaryAddress_Country,Identification_Type,Identification_Number,Identification_IssueDate,Identification_ExpiryDate,Identification_IssuedBy,Identification_HasChip,Identification_IssuingCountry,Identification_Notes,Email,Nationality,PhoneNumber
+
+
+   at CsvHelper.Configuration.ConfigurationFunctions.HeaderValidated(HeaderValidatedArgs args)
+   at CsvHelper.CsvReader.ValidateHeader(Type type)
+   at CsvHelper.CsvReader.ValidateHeader[T]()
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\DataController.cs:line 244
+2025-06-08 20:02:20.002 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 189.2992 ms
