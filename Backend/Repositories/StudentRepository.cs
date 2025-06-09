@@ -23,6 +23,14 @@ namespace StudentManagement.Repositories
             if (pageSize < 1) pageSize = 10;
 
             return await _context.Students
+                .Include(s => s.Department)
+                .Include(s => s.SchoolYear)
+                .Include(s => s.StudyProgram)
+                .Include(s => s.StudentStatus)
+                .Include(s => s.PermanentAddress)
+                .Include(s => s.RegisteredAddress)
+                .Include(s => s.TemporaryAddress)
+                .Include(s => s.Identification)
                 .OrderBy(s => s.StudentId)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -39,6 +47,7 @@ namespace StudentManagement.Repositories
                                  .Include(s => s.PermanentAddress)
                                  .Include(s => s.RegisteredAddress)
                                  .Include(s => s.TemporaryAddress)
+                                 .Include(s => s.Identification)
                                  .FirstOrDefaultAsync(s => s.StudentId == id);
         }
 
@@ -128,7 +137,17 @@ namespace StudentManagement.Repositories
 
         public async Task<IEnumerable<Student>> SearchStudents(string keyword, int page, int pageSize)
         {
-            var query = _context.Students.AsQueryable();
+            var query = _context.Students
+                .Include(s => s.Department)
+                .Include(s => s.SchoolYear)
+                .Include(s => s.StudyProgram)
+                .Include(s => s.StudentStatus)
+                .Include(s => s.PermanentAddress)
+                .Include(s => s.RegisteredAddress)
+                .Include(s => s.TemporaryAddress)
+                .Include(s => s.Identification)
+                .AsQueryable();
+
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(s => EF.Functions.Collate(

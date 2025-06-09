@@ -21765,3 +21765,54 @@ StudentId,FullName,DateOfBirth,Gender,Department,SchoolYear,StudyProgram,Status,
    at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
    at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\DataController.cs:line 244
 2025-06-08 20:02:20.002 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 189.2992 ms
+2025-06-09 15:16:46.026 +07:00 [ERR] Error importing CSV.
+CsvHelper.HeaderValidationException: Header with name 'StudentId'[0] was not found.
+Header with name 'FullName'[0] was not found.
+Header with name 'DateOfBirth'[0] was not found.
+Header with name 'Gender'[0] was not found.
+Header with name 'PermanentAddress_HouseNumber'[0] was not found.
+Header with name 'PermanentAddress_StreetName'[0] was not found.
+Header with name 'PermanentAddress_Ward'[0] was not found.
+Header with name 'PermanentAddress_District'[0] was not found.
+Header with name 'PermanentAddress_Province'[0] was not found.
+Header with name 'PermanentAddress_Country'[0] was not found.
+Header with name 'RegisteredAddress_HouseNumber'[0] was not found.
+Header with name 'RegisteredAddress_StreetName'[0] was not found.
+Header with name 'RegisteredAddress_Ward'[0] was not found.
+Header with name 'RegisteredAddress_District'[0] was not found.
+Header with name 'RegisteredAddress_Province'[0] was not found.
+Header with name 'RegisteredAddress_Country'[0] was not found.
+Header with name 'TemporaryAddress_HouseNumber'[0] was not found.
+Header with name 'TemporaryAddress_StreetName'[0] was not found.
+Header with name 'TemporaryAddress_Ward'[0] was not found.
+Header with name 'TemporaryAddress_District'[0] was not found.
+Header with name 'TemporaryAddress_Province'[0] was not found.
+Header with name 'TemporaryAddress_Country'[0] was not found.
+Header with name 'Nationality'[0] was not found.
+Header with name 'PhoneNumber'[0] was not found.
+Headers: 'MSSV', 'HoTen', 'NgaySinh', 'GioiTinh', 'Department', 'SchoolYear', 'StudyProgram', 'Status', 'AddressNhanThu_HouseNumber', 'AddressNhanThu_StreetName', 'AddressNhanThu_Ward', 'AddressNhanThu_District', 'AddressNhanThu_Province', 'AddressNhanThu_Country', 'AddressThuongTru_HouseNumber', 'AddressThuongTru_StreetName', 'AddressThuongTru_Ward', 'AddressThuongTru_District', 'AddressThuongTru_Province', 'AddressThuongTru_Country', 'AddressTamTru_HouseNumber', 'AddressTamTru_StreetName', 'AddressTamTru_Ward', 'AddressTamTru_District', 'AddressTamTru_Province', 'AddressTamTru_Country', 'Identification_Type', 'Identification_Number', 'Identification_IssueDate', 'Identification_ExpiryDate', 'Identification_IssuedBy', 'Identification_HasChip', 'Identification_IssuingCountry', 'Identification_Notes', 'Email', 'QuocTich', 'SoDienThoai'
+If you are expecting some headers to be missing and want to ignore this validation, set the configuration HeaderValidated to null. You can also change the functionality to do something else, like logging the issue.
+
+IReader state:
+   ColumnCount: 37
+   CurrentIndex: -1
+   HeaderRecord:
+["MSSV","HoTen","NgaySinh","GioiTinh","Department","SchoolYear","StudyProgram","Status","AddressNhanThu_HouseNumber","AddressNhanThu_StreetName","AddressNhanThu_Ward","AddressNhanThu_District","AddressNhanThu_Province","AddressNhanThu_Country","AddressThuongTru_HouseNumber","AddressThuongTru_StreetName","AddressThuongTru_Ward","AddressThuongTru_District","AddressThuongTru_Province","AddressThuongTru_Country","AddressTamTru_HouseNumber","AddressTamTru_StreetName","AddressTamTru_Ward","AddressTamTru_District","AddressTamTru_Province","AddressTamTru_Country","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Email","QuocTich","SoDienThoai"]
+IParser state:
+   ByteCount: 0
+   CharCount: 728
+   Row: 1
+   RawRow: 1
+   Count: 37
+   RawRecord:
+MSSV,HoTen,NgaySinh,GioiTinh,Department,SchoolYear,StudyProgram,Status,AddressNhanThu_HouseNumber,AddressNhanThu_StreetName,AddressNhanThu_Ward,AddressNhanThu_District,AddressNhanThu_Province,AddressNhanThu_Country,AddressThuongTru_HouseNumber,AddressThuongTru_StreetName,AddressThuongTru_Ward,AddressThuongTru_District,AddressThuongTru_Province,AddressThuongTru_Country,AddressTamTru_HouseNumber,AddressTamTru_StreetName,AddressTamTru_Ward,AddressTamTru_District,AddressTamTru_Province,AddressTamTru_Country,Identification_Type,Identification_Number,Identification_IssueDate,Identification_ExpiryDate,Identification_IssuedBy,Identification_HasChip,Identification_IssuingCountry,Identification_Notes,Email,QuocTich,SoDienThoai
+
+
+   at CsvHelper.Configuration.ConfigurationFunctions.HeaderValidated(HeaderValidatedArgs args)
+   at CsvHelper.CsvReader.ValidateHeader(Type type)
+   at CsvHelper.CsvReader.ValidateHeader[T]()
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\DataController.cs:line 244
+2025-06-09 15:16:46.125 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 187.6702 ms
