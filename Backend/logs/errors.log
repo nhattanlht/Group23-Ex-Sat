@@ -21816,3 +21816,1164 @@ MSSV,HoTen,NgaySinh,GioiTinh,Department,SchoolYear,StudyProgram,Status,AddressNh
    at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
    at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\DataController.cs:line 244
 2025-06-09 15:16:46.125 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 187.6702 ms
+2025-06-10 16:12:43.505 +07:00 [ERR] Failed executing DbCommand (37ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StudentId], [s0].[Address], [s0].[DateOfBirth], [s0].[DepartmentId], [s0].[Email], [s0].[FullName], [s0].[Gender], [s0].[IdentificationId], [s0].[Nationality], [s0].[PermanentAddressId], [s0].[PhoneNumber], [s0].[RegisteredAddressId], [s0].[SchoolYearId], [s0].[StatusId], [s0].[StudyProgramId], [s0].[TemporaryAddressId], [d].[Id], [d].[Name], [s1].[Id], [s1].[Name], [s2].[Id], [s2].[Name], [s3].[Id], [s3].[Name], [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward], [a0].[Id], [a0].[Country], [a0].[District], [a0].[HouseNumber], [a0].[Province], [a0].[StreetName], [a0].[Ward], [a1].[Id], [a1].[Country], [a1].[District], [a1].[HouseNumber], [a1].[Province], [a1].[StreetName], [a1].[Ward], [i].[Id], [i].[ExpiryDate], [i].[HasChip], [i].[IdentificationType], [i].[IssueDate], [i].[IssuedBy], [i].[IssuingCountry], [i].[Notes], [i].[Number]
+FROM (
+    SELECT [s].[StudentId], [s].[Address], [s].[DateOfBirth], [s].[DepartmentId], [s].[Email], [s].[FullName], [s].[Gender], [s].[IdentificationId], [s].[Nationality], [s].[PermanentAddressId], [s].[PhoneNumber], [s].[RegisteredAddressId], [s].[SchoolYearId], [s].[StatusId], [s].[StudyProgramId], [s].[TemporaryAddressId]
+    FROM [Students] AS [s]
+    ORDER BY [s].[StudentId]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Departments] AS [d] ON [s0].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s1] ON [s0].[SchoolYearId] = [s1].[Id]
+INNER JOIN [StudyPrograms] AS [s2] ON [s0].[StudyProgramId] = [s2].[Id]
+INNER JOIN [StudentStatuses] AS [s3] ON [s0].[StatusId] = [s3].[Id]
+INNER JOIN [Addresses] AS [a] ON [s0].[PermanentAddressId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s0].[RegisteredAddressId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s0].[TemporaryAddressId] = [a1].[Id]
+INNER JOIN [Identifications] AS [i] ON [s0].[IdentificationId] = [i].[Id]
+ORDER BY [s0].[StudentId]
+2025-06-10 16:12:43.524 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:8f6b4b6e-beff-4c07-bb96-bbed239c709f
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:8f6b4b6e-beff-4c07-bb96-bbed239c709f
+Error Number:207,State:1,Class:16
+2025-06-10 16:12:43.529 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Repositories.StudentRepository.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Repositories\StudentRepository.cs:line 25
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Services\StudentService.cs:line 22
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\StudentsController.cs:line 30
+ClientConnectionId:8f6b4b6e-beff-4c07-bb96-bbed239c709f
+Error Number:207,State:1,Class:16
+2025-06-10 16:12:43.551 +07:00 [ERR] HTTP GET /api/students responded 500 in 340.7968 ms
+2025-06-10 16:12:43.583 +07:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StudentId], [s0].[Address], [s0].[DateOfBirth], [s0].[DepartmentId], [s0].[Email], [s0].[FullName], [s0].[Gender], [s0].[IdentificationId], [s0].[Nationality], [s0].[PermanentAddressId], [s0].[PhoneNumber], [s0].[RegisteredAddressId], [s0].[SchoolYearId], [s0].[StatusId], [s0].[StudyProgramId], [s0].[TemporaryAddressId], [d].[Id], [d].[Name], [s1].[Id], [s1].[Name], [s2].[Id], [s2].[Name], [s3].[Id], [s3].[Name], [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward], [a0].[Id], [a0].[Country], [a0].[District], [a0].[HouseNumber], [a0].[Province], [a0].[StreetName], [a0].[Ward], [a1].[Id], [a1].[Country], [a1].[District], [a1].[HouseNumber], [a1].[Province], [a1].[StreetName], [a1].[Ward], [i].[Id], [i].[ExpiryDate], [i].[HasChip], [i].[IdentificationType], [i].[IssueDate], [i].[IssuedBy], [i].[IssuingCountry], [i].[Notes], [i].[Number]
+FROM (
+    SELECT [s].[StudentId], [s].[Address], [s].[DateOfBirth], [s].[DepartmentId], [s].[Email], [s].[FullName], [s].[Gender], [s].[IdentificationId], [s].[Nationality], [s].[PermanentAddressId], [s].[PhoneNumber], [s].[RegisteredAddressId], [s].[SchoolYearId], [s].[StatusId], [s].[StudyProgramId], [s].[TemporaryAddressId]
+    FROM [Students] AS [s]
+    ORDER BY [s].[StudentId]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Departments] AS [d] ON [s0].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s1] ON [s0].[SchoolYearId] = [s1].[Id]
+INNER JOIN [StudyPrograms] AS [s2] ON [s0].[StudyProgramId] = [s2].[Id]
+INNER JOIN [StudentStatuses] AS [s3] ON [s0].[StatusId] = [s3].[Id]
+INNER JOIN [Addresses] AS [a] ON [s0].[PermanentAddressId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s0].[RegisteredAddressId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s0].[TemporaryAddressId] = [a1].[Id]
+INNER JOIN [Identifications] AS [i] ON [s0].[IdentificationId] = [i].[Id]
+ORDER BY [s0].[StudentId]
+2025-06-10 16:12:43.586 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:8f6b4b6e-beff-4c07-bb96-bbed239c709f
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:8f6b4b6e-beff-4c07-bb96-bbed239c709f
+Error Number:207,State:1,Class:16
+2025-06-10 16:12:43.591 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Repositories.StudentRepository.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Repositories\StudentRepository.cs:line 25
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Services\StudentService.cs:line 22
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\StudentsController.cs:line 30
+ClientConnectionId:8f6b4b6e-beff-4c07-bb96-bbed239c709f
+Error Number:207,State:1,Class:16
+2025-06-10 16:12:43.603 +07:00 [ERR] HTTP GET /api/students responded 500 in 48.0521 ms
+2025-06-10 16:13:35.795 +07:00 [ERR] Failed executing DbCommand (42ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StudentId], [s0].[Address], [s0].[DateOfBirth], [s0].[DepartmentId], [s0].[Email], [s0].[FullName], [s0].[Gender], [s0].[IdentificationId], [s0].[Nationality], [s0].[PermanentAddressId], [s0].[PhoneNumber], [s0].[RegisteredAddressId], [s0].[SchoolYearId], [s0].[StatusId], [s0].[StudyProgramId], [s0].[TemporaryAddressId], [d].[Id], [d].[Name], [s1].[Id], [s1].[Name], [s2].[Id], [s2].[Name], [s3].[Id], [s3].[Name], [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward], [a0].[Id], [a0].[Country], [a0].[District], [a0].[HouseNumber], [a0].[Province], [a0].[StreetName], [a0].[Ward], [a1].[Id], [a1].[Country], [a1].[District], [a1].[HouseNumber], [a1].[Province], [a1].[StreetName], [a1].[Ward], [i].[Id], [i].[ExpiryDate], [i].[HasChip], [i].[IdentificationType], [i].[IssueDate], [i].[IssuedBy], [i].[IssuingCountry], [i].[Notes], [i].[Number]
+FROM (
+    SELECT [s].[StudentId], [s].[Address], [s].[DateOfBirth], [s].[DepartmentId], [s].[Email], [s].[FullName], [s].[Gender], [s].[IdentificationId], [s].[Nationality], [s].[PermanentAddressId], [s].[PhoneNumber], [s].[RegisteredAddressId], [s].[SchoolYearId], [s].[StatusId], [s].[StudyProgramId], [s].[TemporaryAddressId]
+    FROM [Students] AS [s]
+    ORDER BY [s].[StudentId]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Departments] AS [d] ON [s0].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s1] ON [s0].[SchoolYearId] = [s1].[Id]
+INNER JOIN [StudyPrograms] AS [s2] ON [s0].[StudyProgramId] = [s2].[Id]
+INNER JOIN [StudentStatuses] AS [s3] ON [s0].[StatusId] = [s3].[Id]
+INNER JOIN [Addresses] AS [a] ON [s0].[PermanentAddressId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s0].[RegisteredAddressId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s0].[TemporaryAddressId] = [a1].[Id]
+INNER JOIN [Identifications] AS [i] ON [s0].[IdentificationId] = [i].[Id]
+ORDER BY [s0].[StudentId]
+2025-06-10 16:13:35.871 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:e4146a3b-9417-45d7-886e-ee08372d7df8
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:e4146a3b-9417-45d7-886e-ee08372d7df8
+Error Number:207,State:1,Class:16
+2025-06-10 16:13:36.163 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Repositories.StudentRepository.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Repositories\StudentRepository.cs:line 25
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Services\StudentService.cs:line 22
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\StudentsController.cs:line 30
+ClientConnectionId:e4146a3b-9417-45d7-886e-ee08372d7df8
+Error Number:207,State:1,Class:16
+2025-06-10 16:13:36.258 +07:00 [ERR] HTTP GET /api/students responded 500 in 1348.0021 ms
+2025-06-10 16:13:36.338 +07:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StudentId], [s0].[Address], [s0].[DateOfBirth], [s0].[DepartmentId], [s0].[Email], [s0].[FullName], [s0].[Gender], [s0].[IdentificationId], [s0].[Nationality], [s0].[PermanentAddressId], [s0].[PhoneNumber], [s0].[RegisteredAddressId], [s0].[SchoolYearId], [s0].[StatusId], [s0].[StudyProgramId], [s0].[TemporaryAddressId], [d].[Id], [d].[Name], [s1].[Id], [s1].[Name], [s2].[Id], [s2].[Name], [s3].[Id], [s3].[Name], [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward], [a0].[Id], [a0].[Country], [a0].[District], [a0].[HouseNumber], [a0].[Province], [a0].[StreetName], [a0].[Ward], [a1].[Id], [a1].[Country], [a1].[District], [a1].[HouseNumber], [a1].[Province], [a1].[StreetName], [a1].[Ward], [i].[Id], [i].[ExpiryDate], [i].[HasChip], [i].[IdentificationType], [i].[IssueDate], [i].[IssuedBy], [i].[IssuingCountry], [i].[Notes], [i].[Number]
+FROM (
+    SELECT [s].[StudentId], [s].[Address], [s].[DateOfBirth], [s].[DepartmentId], [s].[Email], [s].[FullName], [s].[Gender], [s].[IdentificationId], [s].[Nationality], [s].[PermanentAddressId], [s].[PhoneNumber], [s].[RegisteredAddressId], [s].[SchoolYearId], [s].[StatusId], [s].[StudyProgramId], [s].[TemporaryAddressId]
+    FROM [Students] AS [s]
+    ORDER BY [s].[StudentId]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Departments] AS [d] ON [s0].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s1] ON [s0].[SchoolYearId] = [s1].[Id]
+INNER JOIN [StudyPrograms] AS [s2] ON [s0].[StudyProgramId] = [s2].[Id]
+INNER JOIN [StudentStatuses] AS [s3] ON [s0].[StatusId] = [s3].[Id]
+INNER JOIN [Addresses] AS [a] ON [s0].[PermanentAddressId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s0].[RegisteredAddressId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s0].[TemporaryAddressId] = [a1].[Id]
+INNER JOIN [Identifications] AS [i] ON [s0].[IdentificationId] = [i].[Id]
+ORDER BY [s0].[StudentId]
+2025-06-10 16:13:36.350 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:dc41346d-ef9d-4c08-a9cf-ba94200bda23
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:dc41346d-ef9d-4c08-a9cf-ba94200bda23
+Error Number:207,State:1,Class:16
+2025-06-10 16:13:36.365 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Repositories.StudentRepository.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Repositories\StudentRepository.cs:line 25
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Services\StudentService.cs:line 22
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\StudentsController.cs:line 30
+ClientConnectionId:dc41346d-ef9d-4c08-a9cf-ba94200bda23
+Error Number:207,State:1,Class:16
+2025-06-10 16:13:36.398 +07:00 [ERR] HTTP GET /api/students responded 500 in 138.4825 ms
+2025-06-10 16:13:44.194 +07:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StudentId], [s0].[Address], [s0].[DateOfBirth], [s0].[DepartmentId], [s0].[Email], [s0].[FullName], [s0].[Gender], [s0].[IdentificationId], [s0].[Nationality], [s0].[PermanentAddressId], [s0].[PhoneNumber], [s0].[RegisteredAddressId], [s0].[SchoolYearId], [s0].[StatusId], [s0].[StudyProgramId], [s0].[TemporaryAddressId], [d].[Id], [d].[Name], [s1].[Id], [s1].[Name], [s2].[Id], [s2].[Name], [s3].[Id], [s3].[Name], [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward], [a0].[Id], [a0].[Country], [a0].[District], [a0].[HouseNumber], [a0].[Province], [a0].[StreetName], [a0].[Ward], [a1].[Id], [a1].[Country], [a1].[District], [a1].[HouseNumber], [a1].[Province], [a1].[StreetName], [a1].[Ward], [i].[Id], [i].[ExpiryDate], [i].[HasChip], [i].[IdentificationType], [i].[IssueDate], [i].[IssuedBy], [i].[IssuingCountry], [i].[Notes], [i].[Number]
+FROM (
+    SELECT [s].[StudentId], [s].[Address], [s].[DateOfBirth], [s].[DepartmentId], [s].[Email], [s].[FullName], [s].[Gender], [s].[IdentificationId], [s].[Nationality], [s].[PermanentAddressId], [s].[PhoneNumber], [s].[RegisteredAddressId], [s].[SchoolYearId], [s].[StatusId], [s].[StudyProgramId], [s].[TemporaryAddressId]
+    FROM [Students] AS [s]
+    ORDER BY [s].[StudentId]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Departments] AS [d] ON [s0].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s1] ON [s0].[SchoolYearId] = [s1].[Id]
+INNER JOIN [StudyPrograms] AS [s2] ON [s0].[StudyProgramId] = [s2].[Id]
+INNER JOIN [StudentStatuses] AS [s3] ON [s0].[StatusId] = [s3].[Id]
+INNER JOIN [Addresses] AS [a] ON [s0].[PermanentAddressId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s0].[RegisteredAddressId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s0].[TemporaryAddressId] = [a1].[Id]
+INNER JOIN [Identifications] AS [i] ON [s0].[IdentificationId] = [i].[Id]
+ORDER BY [s0].[StudentId]
+2025-06-10 16:13:44.214 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:72369a99-2f18-4936-8d19-98c71a0ef282
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:72369a99-2f18-4936-8d19-98c71a0ef282
+Error Number:207,State:1,Class:16
+2025-06-10 16:13:44.616 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Repositories.StudentRepository.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Repositories\StudentRepository.cs:line 25
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Services\StudentService.cs:line 22
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\StudentsController.cs:line 30
+ClientConnectionId:72369a99-2f18-4936-8d19-98c71a0ef282
+Error Number:207,State:1,Class:16
+2025-06-10 16:13:44.727 +07:00 [ERR] HTTP GET /api/students responded 500 in 629.7558 ms
+2025-06-10 16:13:44.769 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StudentId], [s0].[Address], [s0].[DateOfBirth], [s0].[DepartmentId], [s0].[Email], [s0].[FullName], [s0].[Gender], [s0].[IdentificationId], [s0].[Nationality], [s0].[PermanentAddressId], [s0].[PhoneNumber], [s0].[RegisteredAddressId], [s0].[SchoolYearId], [s0].[StatusId], [s0].[StudyProgramId], [s0].[TemporaryAddressId], [d].[Id], [d].[Name], [s1].[Id], [s1].[Name], [s2].[Id], [s2].[Name], [s3].[Id], [s3].[Name], [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward], [a0].[Id], [a0].[Country], [a0].[District], [a0].[HouseNumber], [a0].[Province], [a0].[StreetName], [a0].[Ward], [a1].[Id], [a1].[Country], [a1].[District], [a1].[HouseNumber], [a1].[Province], [a1].[StreetName], [a1].[Ward], [i].[Id], [i].[ExpiryDate], [i].[HasChip], [i].[IdentificationType], [i].[IssueDate], [i].[IssuedBy], [i].[IssuingCountry], [i].[Notes], [i].[Number]
+FROM (
+    SELECT [s].[StudentId], [s].[Address], [s].[DateOfBirth], [s].[DepartmentId], [s].[Email], [s].[FullName], [s].[Gender], [s].[IdentificationId], [s].[Nationality], [s].[PermanentAddressId], [s].[PhoneNumber], [s].[RegisteredAddressId], [s].[SchoolYearId], [s].[StatusId], [s].[StudyProgramId], [s].[TemporaryAddressId]
+    FROM [Students] AS [s]
+    ORDER BY [s].[StudentId]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Departments] AS [d] ON [s0].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s1] ON [s0].[SchoolYearId] = [s1].[Id]
+INNER JOIN [StudyPrograms] AS [s2] ON [s0].[StudyProgramId] = [s2].[Id]
+INNER JOIN [StudentStatuses] AS [s3] ON [s0].[StatusId] = [s3].[Id]
+INNER JOIN [Addresses] AS [a] ON [s0].[PermanentAddressId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s0].[RegisteredAddressId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s0].[TemporaryAddressId] = [a1].[Id]
+INNER JOIN [Identifications] AS [i] ON [s0].[IdentificationId] = [i].[Id]
+ORDER BY [s0].[StudentId]
+2025-06-10 16:13:44.777 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:72369a99-2f18-4936-8d19-98c71a0ef282
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:72369a99-2f18-4936-8d19-98c71a0ef282
+Error Number:207,State:1,Class:16
+2025-06-10 16:13:44.786 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Repositories.StudentRepository.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Repositories\StudentRepository.cs:line 25
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Services\StudentService.cs:line 22
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\StudentsController.cs:line 30
+ClientConnectionId:72369a99-2f18-4936-8d19-98c71a0ef282
+Error Number:207,State:1,Class:16
+2025-06-10 16:13:44.804 +07:00 [ERR] HTTP GET /api/students responded 500 in 83.0148 ms
+2025-06-10 16:14:28.660 +07:00 [ERR] Failed executing DbCommand (11ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StudentId], [s0].[Address], [s0].[DateOfBirth], [s0].[DepartmentId], [s0].[Email], [s0].[FullName], [s0].[Gender], [s0].[IdentificationId], [s0].[Nationality], [s0].[PermanentAddressId], [s0].[PhoneNumber], [s0].[RegisteredAddressId], [s0].[SchoolYearId], [s0].[StatusId], [s0].[StudyProgramId], [s0].[TemporaryAddressId], [d].[Id], [d].[Name], [s1].[Id], [s1].[Name], [s2].[Id], [s2].[Name], [s3].[Id], [s3].[Name], [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward], [a0].[Id], [a0].[Country], [a0].[District], [a0].[HouseNumber], [a0].[Province], [a0].[StreetName], [a0].[Ward], [a1].[Id], [a1].[Country], [a1].[District], [a1].[HouseNumber], [a1].[Province], [a1].[StreetName], [a1].[Ward], [i].[Id], [i].[ExpiryDate], [i].[HasChip], [i].[IdentificationType], [i].[IssueDate], [i].[IssuedBy], [i].[IssuingCountry], [i].[Notes], [i].[Number]
+FROM (
+    SELECT [s].[StudentId], [s].[Address], [s].[DateOfBirth], [s].[DepartmentId], [s].[Email], [s].[FullName], [s].[Gender], [s].[IdentificationId], [s].[Nationality], [s].[PermanentAddressId], [s].[PhoneNumber], [s].[RegisteredAddressId], [s].[SchoolYearId], [s].[StatusId], [s].[StudyProgramId], [s].[TemporaryAddressId]
+    FROM [Students] AS [s]
+    ORDER BY [s].[StudentId]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Departments] AS [d] ON [s0].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s1] ON [s0].[SchoolYearId] = [s1].[Id]
+INNER JOIN [StudyPrograms] AS [s2] ON [s0].[StudyProgramId] = [s2].[Id]
+INNER JOIN [StudentStatuses] AS [s3] ON [s0].[StatusId] = [s3].[Id]
+INNER JOIN [Addresses] AS [a] ON [s0].[PermanentAddressId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s0].[RegisteredAddressId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s0].[TemporaryAddressId] = [a1].[Id]
+INNER JOIN [Identifications] AS [i] ON [s0].[IdentificationId] = [i].[Id]
+ORDER BY [s0].[StudentId]
+2025-06-10 16:14:28.673 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:48932765-23ba-421f-86c6-3cbd03deaf1d
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:48932765-23ba-421f-86c6-3cbd03deaf1d
+Error Number:207,State:1,Class:16
+2025-06-10 16:14:28.681 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Repositories.StudentRepository.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Repositories\StudentRepository.cs:line 25
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Services\StudentService.cs:line 22
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\StudentsController.cs:line 30
+ClientConnectionId:48932765-23ba-421f-86c6-3cbd03deaf1d
+Error Number:207,State:1,Class:16
+2025-06-10 16:14:28.721 +07:00 [ERR] HTTP GET /api/students responded 500 in 405.7623 ms
+2025-06-10 16:14:37.629 +07:00 [ERR] Failed executing DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StudentId], [s0].[Address], [s0].[DateOfBirth], [s0].[DepartmentId], [s0].[Email], [s0].[FullName], [s0].[Gender], [s0].[IdentificationId], [s0].[Nationality], [s0].[PermanentAddressId], [s0].[PhoneNumber], [s0].[RegisteredAddressId], [s0].[SchoolYearId], [s0].[StatusId], [s0].[StudyProgramId], [s0].[TemporaryAddressId], [d].[Id], [d].[Name], [s1].[Id], [s1].[Name], [s2].[Id], [s2].[Name], [s3].[Id], [s3].[Name], [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward], [a0].[Id], [a0].[Country], [a0].[District], [a0].[HouseNumber], [a0].[Province], [a0].[StreetName], [a0].[Ward], [a1].[Id], [a1].[Country], [a1].[District], [a1].[HouseNumber], [a1].[Province], [a1].[StreetName], [a1].[Ward], [i].[Id], [i].[ExpiryDate], [i].[HasChip], [i].[IdentificationType], [i].[IssueDate], [i].[IssuedBy], [i].[IssuingCountry], [i].[Notes], [i].[Number]
+FROM (
+    SELECT [s].[StudentId], [s].[Address], [s].[DateOfBirth], [s].[DepartmentId], [s].[Email], [s].[FullName], [s].[Gender], [s].[IdentificationId], [s].[Nationality], [s].[PermanentAddressId], [s].[PhoneNumber], [s].[RegisteredAddressId], [s].[SchoolYearId], [s].[StatusId], [s].[StudyProgramId], [s].[TemporaryAddressId]
+    FROM [Students] AS [s]
+    ORDER BY [s].[StudentId]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Departments] AS [d] ON [s0].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s1] ON [s0].[SchoolYearId] = [s1].[Id]
+INNER JOIN [StudyPrograms] AS [s2] ON [s0].[StudyProgramId] = [s2].[Id]
+INNER JOIN [StudentStatuses] AS [s3] ON [s0].[StatusId] = [s3].[Id]
+INNER JOIN [Addresses] AS [a] ON [s0].[PermanentAddressId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s0].[RegisteredAddressId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s0].[TemporaryAddressId] = [a1].[Id]
+INNER JOIN [Identifications] AS [i] ON [s0].[IdentificationId] = [i].[Id]
+ORDER BY [s0].[StudentId]
+2025-06-10 16:14:37.631 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:48932765-23ba-421f-86c6-3cbd03deaf1d
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:48932765-23ba-421f-86c6-3cbd03deaf1d
+Error Number:207,State:1,Class:16
+2025-06-10 16:14:37.635 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Repositories.StudentRepository.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Repositories\StudentRepository.cs:line 25
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Services\StudentService.cs:line 22
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\StudentsController.cs:line 30
+ClientConnectionId:48932765-23ba-421f-86c6-3cbd03deaf1d
+Error Number:207,State:1,Class:16
+2025-06-10 16:14:37.647 +07:00 [ERR] HTTP GET /api/students responded 500 in 71.5216 ms
+2025-06-10 16:14:38.280 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StudentId], [s0].[Address], [s0].[DateOfBirth], [s0].[DepartmentId], [s0].[Email], [s0].[FullName], [s0].[Gender], [s0].[IdentificationId], [s0].[Nationality], [s0].[PermanentAddressId], [s0].[PhoneNumber], [s0].[RegisteredAddressId], [s0].[SchoolYearId], [s0].[StatusId], [s0].[StudyProgramId], [s0].[TemporaryAddressId], [d].[Id], [d].[Name], [s1].[Id], [s1].[Name], [s2].[Id], [s2].[Name], [s3].[Id], [s3].[Name], [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward], [a0].[Id], [a0].[Country], [a0].[District], [a0].[HouseNumber], [a0].[Province], [a0].[StreetName], [a0].[Ward], [a1].[Id], [a1].[Country], [a1].[District], [a1].[HouseNumber], [a1].[Province], [a1].[StreetName], [a1].[Ward], [i].[Id], [i].[ExpiryDate], [i].[HasChip], [i].[IdentificationType], [i].[IssueDate], [i].[IssuedBy], [i].[IssuingCountry], [i].[Notes], [i].[Number]
+FROM (
+    SELECT [s].[StudentId], [s].[Address], [s].[DateOfBirth], [s].[DepartmentId], [s].[Email], [s].[FullName], [s].[Gender], [s].[IdentificationId], [s].[Nationality], [s].[PermanentAddressId], [s].[PhoneNumber], [s].[RegisteredAddressId], [s].[SchoolYearId], [s].[StatusId], [s].[StudyProgramId], [s].[TemporaryAddressId]
+    FROM [Students] AS [s]
+    ORDER BY [s].[StudentId]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Departments] AS [d] ON [s0].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s1] ON [s0].[SchoolYearId] = [s1].[Id]
+INNER JOIN [StudyPrograms] AS [s2] ON [s0].[StudyProgramId] = [s2].[Id]
+INNER JOIN [StudentStatuses] AS [s3] ON [s0].[StatusId] = [s3].[Id]
+INNER JOIN [Addresses] AS [a] ON [s0].[PermanentAddressId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s0].[RegisteredAddressId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s0].[TemporaryAddressId] = [a1].[Id]
+INNER JOIN [Identifications] AS [i] ON [s0].[IdentificationId] = [i].[Id]
+ORDER BY [s0].[StudentId]
+2025-06-10 16:14:38.283 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:48932765-23ba-421f-86c6-3cbd03deaf1d
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:48932765-23ba-421f-86c6-3cbd03deaf1d
+Error Number:207,State:1,Class:16
+2025-06-10 16:14:38.289 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Repositories.StudentRepository.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Repositories\StudentRepository.cs:line 25
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Services\StudentService.cs:line 22
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\StudentsController.cs:line 30
+ClientConnectionId:48932765-23ba-421f-86c6-3cbd03deaf1d
+Error Number:207,State:1,Class:16
+2025-06-10 16:14:38.299 +07:00 [ERR] HTTP GET /api/students responded 500 in 36.9079 ms
+2025-06-10 16:14:58.669 +07:00 [ERR] Failed executing DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StudentId], [s0].[Address], [s0].[DateOfBirth], [s0].[DepartmentId], [s0].[Email], [s0].[FullName], [s0].[Gender], [s0].[IdentificationId], [s0].[Nationality], [s0].[PermanentAddressId], [s0].[PhoneNumber], [s0].[RegisteredAddressId], [s0].[SchoolYearId], [s0].[StatusId], [s0].[StudyProgramId], [s0].[TemporaryAddressId], [d].[Id], [d].[Name], [s1].[Id], [s1].[Name], [s2].[Id], [s2].[Name], [s3].[Id], [s3].[Name], [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward], [a0].[Id], [a0].[Country], [a0].[District], [a0].[HouseNumber], [a0].[Province], [a0].[StreetName], [a0].[Ward], [a1].[Id], [a1].[Country], [a1].[District], [a1].[HouseNumber], [a1].[Province], [a1].[StreetName], [a1].[Ward], [i].[Id], [i].[ExpiryDate], [i].[HasChip], [i].[IdentificationType], [i].[IssueDate], [i].[IssuedBy], [i].[IssuingCountry], [i].[Notes], [i].[Number]
+FROM (
+    SELECT [s].[StudentId], [s].[Address], [s].[DateOfBirth], [s].[DepartmentId], [s].[Email], [s].[FullName], [s].[Gender], [s].[IdentificationId], [s].[Nationality], [s].[PermanentAddressId], [s].[PhoneNumber], [s].[RegisteredAddressId], [s].[SchoolYearId], [s].[StatusId], [s].[StudyProgramId], [s].[TemporaryAddressId]
+    FROM [Students] AS [s]
+    ORDER BY [s].[StudentId]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Departments] AS [d] ON [s0].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s1] ON [s0].[SchoolYearId] = [s1].[Id]
+INNER JOIN [StudyPrograms] AS [s2] ON [s0].[StudyProgramId] = [s2].[Id]
+INNER JOIN [StudentStatuses] AS [s3] ON [s0].[StatusId] = [s3].[Id]
+INNER JOIN [Addresses] AS [a] ON [s0].[PermanentAddressId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s0].[RegisteredAddressId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s0].[TemporaryAddressId] = [a1].[Id]
+INNER JOIN [Identifications] AS [i] ON [s0].[IdentificationId] = [i].[Id]
+ORDER BY [s0].[StudentId]
+2025-06-10 16:14:58.671 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:48932765-23ba-421f-86c6-3cbd03deaf1d
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:48932765-23ba-421f-86c6-3cbd03deaf1d
+Error Number:207,State:1,Class:16
+2025-06-10 16:14:58.676 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Repositories.StudentRepository.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Repositories\StudentRepository.cs:line 25
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Services\StudentService.cs:line 22
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\StudentsController.cs:line 30
+ClientConnectionId:48932765-23ba-421f-86c6-3cbd03deaf1d
+Error Number:207,State:1,Class:16
+2025-06-10 16:14:58.687 +07:00 [ERR] HTTP GET /api/students responded 500 in 38.0381 ms
+2025-06-10 16:14:58.706 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StudentId], [s0].[Address], [s0].[DateOfBirth], [s0].[DepartmentId], [s0].[Email], [s0].[FullName], [s0].[Gender], [s0].[IdentificationId], [s0].[Nationality], [s0].[PermanentAddressId], [s0].[PhoneNumber], [s0].[RegisteredAddressId], [s0].[SchoolYearId], [s0].[StatusId], [s0].[StudyProgramId], [s0].[TemporaryAddressId], [d].[Id], [d].[Name], [s1].[Id], [s1].[Name], [s2].[Id], [s2].[Name], [s3].[Id], [s3].[Name], [a].[Id], [a].[Country], [a].[District], [a].[HouseNumber], [a].[Province], [a].[StreetName], [a].[Ward], [a0].[Id], [a0].[Country], [a0].[District], [a0].[HouseNumber], [a0].[Province], [a0].[StreetName], [a0].[Ward], [a1].[Id], [a1].[Country], [a1].[District], [a1].[HouseNumber], [a1].[Province], [a1].[StreetName], [a1].[Ward], [i].[Id], [i].[ExpiryDate], [i].[HasChip], [i].[IdentificationType], [i].[IssueDate], [i].[IssuedBy], [i].[IssuingCountry], [i].[Notes], [i].[Number]
+FROM (
+    SELECT [s].[StudentId], [s].[Address], [s].[DateOfBirth], [s].[DepartmentId], [s].[Email], [s].[FullName], [s].[Gender], [s].[IdentificationId], [s].[Nationality], [s].[PermanentAddressId], [s].[PhoneNumber], [s].[RegisteredAddressId], [s].[SchoolYearId], [s].[StatusId], [s].[StudyProgramId], [s].[TemporaryAddressId]
+    FROM [Students] AS [s]
+    ORDER BY [s].[StudentId]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Departments] AS [d] ON [s0].[DepartmentId] = [d].[Id]
+INNER JOIN [SchoolYears] AS [s1] ON [s0].[SchoolYearId] = [s1].[Id]
+INNER JOIN [StudyPrograms] AS [s2] ON [s0].[StudyProgramId] = [s2].[Id]
+INNER JOIN [StudentStatuses] AS [s3] ON [s0].[StatusId] = [s3].[Id]
+INNER JOIN [Addresses] AS [a] ON [s0].[PermanentAddressId] = [a].[Id]
+LEFT JOIN [Addresses] AS [a0] ON [s0].[RegisteredAddressId] = [a0].[Id]
+LEFT JOIN [Addresses] AS [a1] ON [s0].[TemporaryAddressId] = [a1].[Id]
+INNER JOIN [Identifications] AS [i] ON [s0].[IdentificationId] = [i].[Id]
+ORDER BY [s0].[StudentId]
+2025-06-10 16:14:58.709 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'StudentManagement.Models.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:7f653d60-2dbf-4c6a-a5c7-7d7ca9b05284
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:7f653d60-2dbf-4c6a-a5c7-7d7ca9b05284
+Error Number:207,State:1,Class:16
+2025-06-10 16:14:58.713 +07:00 [ERR] Error while fetching students.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Address'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at StudentManagement.Repositories.StudentRepository.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Repositories\StudentRepository.cs:line 25
+   at StudentManagement.Services.StudentService.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Services\StudentService.cs:line 22
+   at StudentManagement.Controllers.StudentsController.GetStudents(Int32 page, Int32 pageSize) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\backend\Controllers\StudentsController.cs:line 30
+ClientConnectionId:7f653d60-2dbf-4c6a-a5c7-7d7ca9b05284
+Error Number:207,State:1,Class:16
+2025-06-10 16:14:58.728 +07:00 [ERR] HTTP GET /api/students responded 500 in 36.2408 ms
+2025-06-12 13:27:05.609 +07:00 [ERR] HTTP POST /api/identification responded 500 in 33.1054 ms
+Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException: Unexpected end of request content.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1ContentLengthMessageBody.ReadAsyncInternal(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestStream.ReadAsyncInternal(Memory`1 destination, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Text.Json.Serialization.ReadBufferState.ReadFromStreamAsync(Stream utf8Json, CancellationToken cancellationToken, Boolean fillBuffer)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync(Stream utf8Json, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(Stream utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter.ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter.ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinder.BindModelAsync(ModelBindingContext bindingContext)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder.BindModelAsync(ActionContext actionContext, IModelBinder modelBinder, IValueProvider valueProvider, ParameterDescriptor parameter, ModelMetadata metadata, Object value, Object container)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerBinderDelegateProvider.<>c__DisplayClass0_0.<<CreateBinderDelegate>g__Bind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-06-12 13:27:26.221 +07:00 [ERR] HTTP POST /api/identification responded 500 in 9.4357 ms
+Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException: Unexpected end of request content.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1ContentLengthMessageBody.ReadAsyncInternal(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestStream.ReadAsyncInternal(Memory`1 destination, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Text.Json.Serialization.ReadBufferState.ReadFromStreamAsync(Stream utf8Json, CancellationToken cancellationToken, Boolean fillBuffer)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync(Stream utf8Json, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(Stream utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter.ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter.ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinder.BindModelAsync(ModelBindingContext bindingContext)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder.BindModelAsync(ActionContext actionContext, IModelBinder modelBinder, IValueProvider valueProvider, ParameterDescriptor parameter, ModelMetadata metadata, Object value, Object container)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerBinderDelegateProvider.<>c__DisplayClass0_0.<<CreateBinderDelegate>g__Bind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-06-12 13:30:29.518 +07:00 [ERR] HTTP POST /api/identification responded 500 in 9.9655 ms
+Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException: Unexpected end of request content.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1ContentLengthMessageBody.ReadAsyncInternal(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestStream.ReadAsyncInternal(Memory`1 destination, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Text.Json.Serialization.ReadBufferState.ReadFromStreamAsync(Stream utf8Json, CancellationToken cancellationToken, Boolean fillBuffer)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync(Stream utf8Json, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(Stream utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter.ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter.ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinder.BindModelAsync(ModelBindingContext bindingContext)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder.BindModelAsync(ActionContext actionContext, IModelBinder modelBinder, IValueProvider valueProvider, ParameterDescriptor parameter, ModelMetadata metadata, Object value, Object container)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerBinderDelegateProvider.<>c__DisplayClass0_0.<<CreateBinderDelegate>g__Bind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-06-12 16:22:11.129 +07:00 [ERR] Error importing CSV.
+CsvHelper.HeaderValidationException: Header with name 'PermanentAddress_HouseNumber'[0] was not found.
+Header with name 'PermanentAddress_StreetName'[0] was not found.
+Header with name 'PermanentAddress_Ward'[0] was not found.
+Header with name 'PermanentAddress_District'[0] was not found.
+Header with name 'PermanentAddress_Province'[0] was not found.
+Header with name 'PermanentAddress_Country'[0] was not found.
+Headers: 'StudentId', 'FullName', 'DateOfBirth', 'Gender', 'Department', 'SchoolYear', 'StudyProgram', 'Status', 'PermanentAddressss_HouseNumbePermanentAddressress_StreetNPermanentAddressddressPermanentAddresstAddress_DPermanentAddressentAddressPermanentAddressanentAddress_Country', 'RegisteredAddress_HouseNumber', 'RegisteredAddress_StreetName', 'RegisteredAddress_Ward', 'RegisteredAddress_District', 'RegisteredAddress_Province', 'RegisteredAddress_Country', 'TemporaryAddress_HouseNumber', 'TemporaryAddress_StreetName', 'TemporaryAddress_Ward', 'TemporaryAddress_District', 'TemporaryAddress_Province', 'TemporaryAddress_Country', 'Identification_Type', 'Identification_Number', 'Identification_IssueDate', 'Identification_ExpiryDate', 'Identification_IssuedBy', 'Identification_HasChip', 'Identification_IssuingCountry', 'Identification_Notes', 'Email', 'Nationality', 'PhoneNumber'
+If you are expecting some headers to be missing and want to ignore this validation, set the configuration HeaderValidated to null. You can also change the functionality to do something else, like logging the issue.
+
+IReader state:
+   ColumnCount: 32
+   CurrentIndex: -1
+   HeaderRecord:
+["StudentId","FullName","DateOfBirth","Gender","Department","SchoolYear","StudyProgram","Status","PermanentAddressss_HouseNumbePermanentAddressress_StreetNPermanentAddressddressPermanentAddresstAddress_DPermanentAddressentAddressPermanentAddressanentAddress_Country","RegisteredAddress_HouseNumber","RegisteredAddress_StreetName","RegisteredAddress_Ward","RegisteredAddress_District","RegisteredAddress_Province","RegisteredAddress_Country","TemporaryAddress_HouseNumber","TemporaryAddress_StreetName","TemporaryAddress_Ward","TemporaryAddress_District","TemporaryAddress_Province","TemporaryAddress_Country","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Email","Nationality","PhoneNumber"]
+IParser state:
+   ByteCount: 0
+   CharCount: 788
+   Row: 1
+   RawRow: 1
+   Count: 32
+   RawRecord:
+StudentId,FullName,DateOfBirth,Gender,Department,SchoolYear,StudyProgram,Status,PermanentAddressss_HouseNumbePermanentAddressress_StreetNPermanentAddressddressPermanentAddresstAddress_DPermanentAddressentAddressPermanentAddressanentAddress_Country,RegisteredAddress_HouseNumber,RegisteredAddress_StreetName,RegisteredAddress_Ward,RegisteredAddress_District,RegisteredAddress_Province,RegisteredAddress_Country,TemporaryAddress_HouseNumber,TemporaryAddress_StreetName,TemporaryAddress_Ward,TemporaryAddress_District,TemporaryAddress_Province,TemporaryAddress_Country,Identification_Type,Identification_Number,Identification_IssueDate,Identification_ExpiryDate,Identification_IssuedBy,Identification_HasChip,Identification_IssuingCountry,Identification_Notes,Email,Nationality,PhoneNumber
+
+
+   at CsvHelper.Configuration.ConfigurationFunctions.HeaderValidated(HeaderValidatedArgs args)
+   at CsvHelper.CsvReader.ValidateHeader(Type type)
+   at CsvHelper.CsvReader.ValidateHeader[T]()
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 244
+2025-06-12 16:22:11.159 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 68.0973 ms
+2025-06-12 16:32:10.497 +07:00 [ERR] Error importing CSV.
+CsvHelper.TypeConversion.TypeConverterException: The conversion cannot be performed.
+    Text: '03/03/2025 00:00:00'
+    MemberName: DateOfBirth
+    MemberType: System.DateTime
+    TypeConverter: 'CsvHelper.TypeConversion.DateTimeConverter'
+IReader state:
+   ColumnCount: 37
+   CurrentIndex: 2
+   HeaderRecord:
+["StudentId","FullName","DateOfBirth","Gender","Department","SchoolYear","StudyProgram","PermanentAddress_HouseNumber","PermanentAddress_StreetName","PermanentAddress_Ward","PermanentAddress_District","PermanentAddress_Province","PermanentAddress_Country","RegisteredAddress_HouseNumber","RegisteredAddress_StreetName","RegisteredAddress_Ward","RegisteredAddress_District","RegisteredAddress_Province","RegisteredAddress_Country","TemporaryAddress_HouseNumber","TemporaryAddress_StreetName","TemporaryAddress_Ward","TemporaryAddress_District","TemporaryAddress_Province","TemporaryAddress_Country","Email","PhoneNumber","Nationality","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 1091
+   Row: 2
+   RawRow: 2
+   Count: 37
+   RawRecord:
+22170032,Phạm Thu Thanh,03/03/2025 00:00:00,Nữ,Khoa Tiếng Pháp,20,Việt Pháp,3,Đồng Tâm,Tân Phú,Linh Trung,Linh Trung,Vietnam,3,Đường Bạch Đằng,Tân Phú,Linh Trung,Linh Trung,Vietnam,,,,,,,2213564@udent.jap.vn,0529034373,Việt Nam,CMND,0563812384153,02/25/2025 00:00:00,06/20/2028 00:00:00,nha trang,,,,Đã tốt nghiệp
+
+
+   at CsvHelper.TypeConversion.DefaultTypeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at CsvHelper.TypeConversion.DateTimeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at lambda_method1046(Closure)
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 244
+2025-06-12 16:32:10.559 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 152.0315 ms
+2025-06-12 16:34:24.557 +07:00 [ERR] Error importing CSV.
+CsvHelper.TypeConversion.TypeConverterException: The conversion cannot be performed.
+    Text: '03/03/2025 00:00:00'
+    MemberName: DateOfBirth
+    MemberType: System.DateTime
+    TypeConverter: 'CsvHelper.TypeConversion.DateTimeConverter'
+IReader state:
+   ColumnCount: 37
+   CurrentIndex: 2
+   HeaderRecord:
+["StudentId","FullName","DateOfBirth","Gender","Department","SchoolYear","StudyProgram","PermanentAddress_HouseNumber","PermanentAddress_StreetName","PermanentAddress_Ward","PermanentAddress_District","PermanentAddress_Province","PermanentAddress_Country","RegisteredAddress_HouseNumber","RegisteredAddress_StreetName","RegisteredAddress_Ward","RegisteredAddress_District","RegisteredAddress_Province","RegisteredAddress_Country","TemporaryAddress_HouseNumber","TemporaryAddress_StreetName","TemporaryAddress_Ward","TemporaryAddress_District","TemporaryAddress_Province","TemporaryAddress_Country","Email","PhoneNumber","Nationality","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 1091
+   Row: 2
+   RawRow: 2
+   Count: 37
+   RawRecord:
+22170032,Phạm Thu Thanh,03/03/2025 00:00:00,Nữ,Khoa Tiếng Pháp,20,Việt Pháp,3,Đồng Tâm,Tân Phú,Linh Trung,Linh Trung,Vietnam,3,Đường Bạch Đằng,Tân Phú,Linh Trung,Linh Trung,Vietnam,,,,,,,2213564@udent.jap.vn,0529034373,Việt Nam,CMND,0563812384153,02/25/2025 00:00:00,06/20/2028 00:00:00,nha trang,,,,Đã tốt nghiệp
+
+
+   at CsvHelper.TypeConversion.DefaultTypeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at CsvHelper.TypeConversion.DateTimeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at lambda_method365(Closure)
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 244
+2025-06-12 16:34:24.609 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 197.5351 ms
+2025-06-12 16:34:32.231 +07:00 [ERR] Error importing JSON.
+Newtonsoft.Json.JsonSerializationException: Error converting value {null} to type 'System.Boolean'. Path '[0].Identification_HasChip', line 36, position 34.
+ ---> System.InvalidCastException: Null object cannot be converted to a value type.
+   at System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   --- End of inner exception stack trace ---
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.SetPropertyValue(JsonProperty property, JsonConverter propertyConverter, JsonContainerContract containerContract, JsonProperty containerProperty, JsonReader reader, Object target)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateList(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at DataController.ImportJson(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 384
+2025-06-12 16:34:32.256 +07:00 [ERR] HTTP POST /api/data/import/json responded 500 in 163.1611 ms
+2025-06-12 16:35:21.245 +07:00 [ERR] Error importing JSON.
+Newtonsoft.Json.JsonSerializationException: Error converting value {null} to type 'System.Boolean'. Path '[0].Identification_HasChip', line 36, position 34.
+ ---> System.InvalidCastException: Null object cannot be converted to a value type.
+   at System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   --- End of inner exception stack trace ---
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.SetPropertyValue(JsonProperty property, JsonConverter propertyConverter, JsonContainerContract containerContract, JsonProperty containerProperty, JsonReader reader, Object target)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateList(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at DataController.ImportJson(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 384
+2025-06-12 16:35:21.267 +07:00 [ERR] HTTP POST /api/data/import/json responded 500 in 31.6944 ms
+2025-06-12 16:40:58.992 +07:00 [ERR] Error importing JSON.
+Newtonsoft.Json.JsonSerializationException: Error converting value {null} to type 'System.Boolean'. Path '[0].Identification_HasChip', line 36, position 34.
+ ---> System.InvalidCastException: Null object cannot be converted to a value type.
+   at System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   --- End of inner exception stack trace ---
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.SetPropertyValue(JsonProperty property, JsonConverter propertyConverter, JsonContainerContract containerContract, JsonProperty containerProperty, JsonReader reader, Object target)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateList(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at DataController.ImportJson(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 384
+2025-06-12 16:40:59.007 +07:00 [ERR] HTTP POST /api/data/import/json responded 500 in 24.5334 ms
+2025-06-12 16:55:56.029 +07:00 [ERR] Error importing JSON.
+Newtonsoft.Json.JsonSerializationException: Error converting value {null} to type 'System.Boolean'. Path '[0].Identification_HasChip', line 36, position 34.
+ ---> System.InvalidCastException: Null object cannot be converted to a value type.
+   at System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   --- End of inner exception stack trace ---
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.SetPropertyValue(JsonProperty property, JsonConverter propertyConverter, JsonContainerContract containerContract, JsonProperty containerProperty, JsonReader reader, Object target)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateList(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at DataController.ImportJson(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 384
+2025-06-12 16:55:56.036 +07:00 [ERR] HTTP POST /api/data/import/json responded 500 in 11.3355 ms
+2025-06-12 16:58:16.683 +07:00 [ERR] Error importing CSV.
+CsvHelper.TypeConversion.TypeConverterException: The conversion cannot be performed.
+    Text: '03/03/2025 00:00:00'
+    MemberName: DateOfBirth
+    MemberType: System.DateTime
+    TypeConverter: 'CsvHelper.TypeConversion.DateTimeConverter'
+IReader state:
+   ColumnCount: 37
+   CurrentIndex: 2
+   HeaderRecord:
+["StudentId","FullName","DateOfBirth","Gender","Department","SchoolYear","StudyProgram","PermanentAddress_HouseNumber","PermanentAddress_StreetName","PermanentAddress_Ward","PermanentAddress_District","PermanentAddress_Province","PermanentAddress_Country","RegisteredAddress_HouseNumber","RegisteredAddress_StreetName","RegisteredAddress_Ward","RegisteredAddress_District","RegisteredAddress_Province","RegisteredAddress_Country","TemporaryAddress_HouseNumber","TemporaryAddress_StreetName","TemporaryAddress_Ward","TemporaryAddress_District","TemporaryAddress_Province","TemporaryAddress_Country","Email","PhoneNumber","Nationality","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 1096
+   Row: 2
+   RawRow: 2
+   Count: 37
+   RawRecord:
+22170032,Phạm Thu Thanh,03/03/2025 00:00:00,Nữ,Khoa Tiếng Pháp,20,Việt Pháp,3,Đồng Tâm,Tân Phú,Linh Trung,Linh Trung,Vietnam,3,Đường Bạch Đằng,Tân Phú,Linh Trung,Linh Trung,Vietnam,,,,,,,2213564@udent.jap.vn,0529034373,Việt Nam,CMND,0563812384153,02/25/2025 00:00:00,06/20/2028 00:00:00,nha trang,False,,,Đã tốt nghiệp
+
+
+   at CsvHelper.TypeConversion.DefaultTypeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at CsvHelper.TypeConversion.DateTimeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at lambda_method1035(Closure)
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 244
+2025-06-12 16:58:16.765 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 179.5918 ms
+2025-06-12 17:03:41.995 +07:00 [ERR] Error importing CSV.
+CsvHelper.TypeConversion.TypeConverterException: The conversion cannot be performed.
+    Text: '03/03/2025 00:00:00'
+    MemberName: DateOfBirth
+    MemberType: System.DateTime
+    TypeConverter: 'CsvHelper.TypeConversion.DateTimeConverter'
+IReader state:
+   ColumnCount: 37
+   CurrentIndex: 2
+   HeaderRecord:
+["StudentId","FullName","DateOfBirth","Gender","Department","SchoolYear","StudyProgram","PermanentAddress_HouseNumber","PermanentAddress_StreetName","PermanentAddress_Ward","PermanentAddress_District","PermanentAddress_Province","PermanentAddress_Country","RegisteredAddress_HouseNumber","RegisteredAddress_StreetName","RegisteredAddress_Ward","RegisteredAddress_District","RegisteredAddress_Province","RegisteredAddress_Country","TemporaryAddress_HouseNumber","TemporaryAddress_StreetName","TemporaryAddress_Ward","TemporaryAddress_District","TemporaryAddress_Province","TemporaryAddress_Country","Email","PhoneNumber","Nationality","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 1096
+   Row: 2
+   RawRow: 2
+   Count: 37
+   RawRecord:
+22170032,Phạm Thu Thanh,03/03/2025 00:00:00,Nữ,Khoa Tiếng Pháp,20,Việt Pháp,3,Đồng Tâm,Tân Phú,Linh Trung,Linh Trung,Vietnam,3,Đường Bạch Đằng,Tân Phú,Linh Trung,Linh Trung,Vietnam,,,,,,,2213564@udent.jap.vn,0529034373,Việt Nam,CMND,0563812384153,02/25/2025 00:00:00,06/20/2028 00:00:00,nha trang,False,,,Đã tốt nghiệp
+
+
+   at CsvHelper.TypeConversion.DefaultTypeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at CsvHelper.TypeConversion.DateTimeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at lambda_method365(Closure)
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 244
+2025-06-12 17:03:42.080 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 240.8127 ms
+2025-06-12 17:10:44.635 +07:00 [ERR] Error importing CSV.
+CsvHelper.TypeConversion.TypeConverterException: The conversion cannot be performed.
+    Text: '03/03/2025 00:00:00'
+    MemberName: DateOfBirth
+    MemberType: System.DateTime
+    TypeConverter: 'CsvHelper.TypeConversion.DateTimeConverter'
+IReader state:
+   ColumnCount: 37
+   CurrentIndex: 2
+   HeaderRecord:
+["StudentId","FullName","DateOfBirth","Gender","Department","SchoolYear","StudyProgram","PermanentAddress_HouseNumber","PermanentAddress_StreetName","PermanentAddress_Ward","PermanentAddress_District","PermanentAddress_Province","PermanentAddress_Country","RegisteredAddress_HouseNumber","RegisteredAddress_StreetName","RegisteredAddress_Ward","RegisteredAddress_District","RegisteredAddress_Province","RegisteredAddress_Country","TemporaryAddress_HouseNumber","TemporaryAddress_StreetName","TemporaryAddress_Ward","TemporaryAddress_District","TemporaryAddress_Province","TemporaryAddress_Country","Email","PhoneNumber","Nationality","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 1096
+   Row: 2
+   RawRow: 2
+   Count: 37
+   RawRecord:
+22170032,Phạm Thu Thanh,03/03/2025 00:00:00,Nữ,Khoa Tiếng Pháp,20,Việt Pháp,3,Đồng Tâm,Tân Phú,Linh Trung,Linh Trung,Vietnam,3,Đường Bạch Đằng,Tân Phú,Linh Trung,Linh Trung,Vietnam,,,,,,,2213564@udent.jap.vn,0529034373,Việt Nam,CMND,0563812384153,02/25/2025 00:00:00,06/20/2028 00:00:00,nha trang,False,,,Đã tốt nghiệp
+
+
+   at CsvHelper.TypeConversion.DefaultTypeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at CsvHelper.TypeConversion.DateTimeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at lambda_method365(Closure)
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 244
+2025-06-12 17:10:44.705 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 201.0284 ms
+2025-06-12 17:12:48.464 +07:00 [ERR] Error importing CSV.
+CsvHelper.TypeConversion.TypeConverterException: The conversion cannot be performed.
+    Text: '03/03/2025 00:00:00'
+    MemberName: DateOfBirth
+    MemberType: System.DateTime
+    TypeConverter: 'CsvHelper.TypeConversion.DateTimeConverter'
+IReader state:
+   ColumnCount: 37
+   CurrentIndex: 2
+   HeaderRecord:
+["StudentId","FullName","DateOfBirth","Gender","Department","SchoolYear","StudyProgram","PermanentAddress_HouseNumber","PermanentAddress_StreetName","PermanentAddress_Ward","PermanentAddress_District","PermanentAddress_Province","PermanentAddress_Country","RegisteredAddress_HouseNumber","RegisteredAddress_StreetName","RegisteredAddress_Ward","RegisteredAddress_District","RegisteredAddress_Province","RegisteredAddress_Country","TemporaryAddress_HouseNumber","TemporaryAddress_StreetName","TemporaryAddress_Ward","TemporaryAddress_District","TemporaryAddress_Province","TemporaryAddress_Country","Email","PhoneNumber","Nationality","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 1096
+   Row: 2
+   RawRow: 2
+   Count: 37
+   RawRecord:
+22170032,Phạm Thu Thanh,03/03/2025 00:00:00,Nữ,Khoa Tiếng Pháp,20,Việt Pháp,3,Đồng Tâm,Tân Phú,Linh Trung,Linh Trung,Vietnam,3,Đường Bạch Đằng,Tân Phú,Linh Trung,Linh Trung,Vietnam,,,,,,,2213564@udent.jap.vn,0529034373,Việt Nam,CMND,0563812384153,02/25/2025 00:00:00,06/20/2028 00:00:00,nha trang,False,,,Đã tốt nghiệp
+
+
+   at CsvHelper.TypeConversion.DefaultTypeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at CsvHelper.TypeConversion.DateTimeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at lambda_method367(Closure)
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 244
+2025-06-12 17:12:48.471 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 18.9263 ms
+2025-06-12 17:20:37.069 +07:00 [ERR] Error importing CSV.
+CsvHelper.TypeConversion.TypeConverterException: The conversion cannot be performed.
+    Text: '03/03/2025'
+    MemberName: DateOfBirth
+    MemberType: System.DateTime
+    TypeConverter: 'CsvHelper.TypeConversion.DateTimeConverter'
+IReader state:
+   ColumnCount: 37
+   CurrentIndex: 2
+   HeaderRecord:
+["StudentId","FullName","DateOfBirth","Gender","Department","SchoolYear","StudyProgram","PermanentAddress_HouseNumber","PermanentAddress_StreetName","PermanentAddress_Ward","PermanentAddress_District","PermanentAddress_Province","PermanentAddress_Country","RegisteredAddress_HouseNumber","RegisteredAddress_StreetName","RegisteredAddress_Ward","RegisteredAddress_District","RegisteredAddress_Province","RegisteredAddress_Country","TemporaryAddress_HouseNumber","TemporaryAddress_StreetName","TemporaryAddress_Ward","TemporaryAddress_District","TemporaryAddress_Province","TemporaryAddress_Country","Email","PhoneNumber","Nationality","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 1069
+   Row: 2
+   RawRow: 2
+   Count: 37
+   RawRecord:
+22170032,Phạm Thu Thanh,03/03/2025,Nữ,Khoa Tiếng Pháp,20,Việt Pháp,3,Đồng Tâm,Tân Phú,Linh Trung,Linh Trung,Vietnam,3,Đường Bạch Đằng,Tân Phú,Linh Trung,Linh Trung,Vietnam,,,,,,,2213564@udent.jap.vn,0529034373,Việt Nam,CMND,0563812384153,02/25/2025,06/20/2028,nha trang,False,,,Đã tốt nghiệp
+
+
+   at CsvHelper.TypeConversion.DefaultTypeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at CsvHelper.TypeConversion.DateTimeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at lambda_method972(Closure)
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 244
+2025-06-12 17:20:37.102 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 57.4757 ms

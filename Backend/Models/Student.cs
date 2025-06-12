@@ -35,8 +35,6 @@ namespace StudentManagement.Models
         [ForeignKey("StudyProgramId")]
         public virtual StudyProgram? StudyProgram { get; set; }
 
-        public string? Address { get; set; }
-
         [EmailAddress]
         public string? Email { get; set; }
 

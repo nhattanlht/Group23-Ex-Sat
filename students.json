@@ -7,7 +7,6 @@
     "Department": "Khoa Tiếng Pháp",
     "SchoolYear": "20",
     "StudyProgram": "Việt Pháp",
-    "Status": "Đã tốt nghiệp",
     "PermanentAddress_HouseNumber": "3",
     "PermanentAddress_StreetName": "Đồng Tâm",
     "PermanentAddress_Ward": "Tân Phú",
@@ -26,6 +25,9 @@
     "TemporaryAddress_District": null,
     "TemporaryAddress_Province": null,
     "TemporaryAddress_Country": null,
+    "Email": "2213564@udent.jap.vn",
+    "PhoneNumber": "0529034373",
+    "Nationality": "Việt Nam",
     "Identification_Type": "CMND",
     "Identification_Number": "0563812384153",
     "Identification_IssueDate": "2025-02-25T00:00:00",
@@ -34,9 +36,7 @@
     "Identification_HasChip": false,
     "Identification_IssuingCountry": null,
     "Identification_Notes": null,
-    "Email": "2213564@udent.jap.vn",
-    "Nationality": "Việt Nam",
-    "PhoneNumber": "0529034373"
+    "Status": "Đã tốt nghiệp"
   },
   {
     "StudentId": "2217121242",
@@ -46,7 +46,6 @@
     "Department": "Khoa Tiếng Pháp",
     "SchoolYear": "22",
     "StudyProgram": "Việt Pháp",
-    "Status": "Đã tốt nghiệp",
     "PermanentAddress_HouseNumber": "3",
     "PermanentAddress_StreetName": "Đồng Tâm",
     "PermanentAddress_Ward": "Tân Phú",
@@ -65,6 +64,9 @@
     "TemporaryAddress_District": null,
     "TemporaryAddress_Province": null,
     "TemporaryAddress_Country": null,
+    "Email": "2221262@udent.jap.vn",
+    "PhoneNumber": "0529346373",
+    "Nationality": "Việt Nam",
     "Identification_Type": "CMND",
     "Identification_Number": "0563873684153",
     "Identification_IssueDate": "2025-02-25T00:00:00",
@@ -73,8 +75,6 @@
     "Identification_HasChip": false,
     "Identification_IssuingCountry": null,
     "Identification_Notes": null,
-    "Email": "2221262@udent.jap.vn",
-    "Nationality": "Việt Nam",
-    "PhoneNumber": "0529346373"
+    "Status": "Đã tốt nghiệp"
   }
 ]

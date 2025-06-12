@@ -5,67 +5,46 @@ import DataTable from './DataTable';
 import { handleAddRow, handleEditRow, handleDeleteRow, loadDataNoPaging } from '../util/callCRUDApi';
 import DataForm from './DataForm';
 import { formatDataSetForTable } from '../util/formatData';
+import { useLanguage } from '../contexts/LanguageContext';
+import { Plus, Pencil, Trash2 } from 'lucide-react';
 
 const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, formatDataSet = formatDataSetForTable, actions=[] }) => {
+  const { translate } = useLanguage();
   const [dataSet, setDataSet] = useState([]);
   const [options, setOptions] = useState({});
   const [validSelectedOptions, setValidSelectedOptions] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
 
+  const tableFieldsWithOptions = useMemo(() => {
+    return tableFields.filter(field => field.optionsEndpoint || field.options);
+  }, [tableFields]);
+
   const fetchOptions = async () => {
-    const newOptions = {};
-    for (const field of tableFields) {
-      if (field.type === 'select' && field.optionsEndpoint) {
+    const newOptions = { ...options };
+    const newValidSelectedOptions = { ...validSelectedOptions };
+
+    for (const field of tableFieldsWithOptions) {
+      if (field.optionsEndpoint && !options[field.accessor]) {
         try {
           const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}`);
-          newOptions[field.accessor] = response.data.map((item) => ({
-            id: String(item.id),
-            name: item.name,
-          }));
-          field.options = newOptions[field.accessor];
+          newOptions[field.accessor] = response.data;
+          newValidSelectedOptions[field.accessor] = new Set(response.data.map(opt => opt.id));
         } catch (error) {
           console.error(`Error fetching options for ${field.accessor}:`, error);
           newOptions[field.accessor] = [];
+          newValidSelectedOptions[field.accessor] = new Set();
         }
       }
     }
+
     setOptions(newOptions);
-    
-    const newValidSelectedOptions = {};
-    for (const field of formFields) {
-      if (field.type === 'select' && field.optionsEndpoint) {
-        try {
-            const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}`);
-            newValidSelectedOptions[field.accessor] = response.data.map((item) => ({
-              id: String(item.id),
-              name: item.name,
-            }));
-            field.options = newValidSelectedOptions[field.accessor];
-        } catch (error) {
-          console.error(`Error fetching options for ${field.accessor}:`, error);
-          newValidSelectedOptions[field.accessor] = [];
-        }
-      }
-    }
     setValidSelectedOptions(newValidSelectedOptions);
   };
 
-  const tableFieldsWithOptions = useMemo(() => {
-    return tableFields.map((field) => {
-      if (field.type === 'select' && field.optionsEndpoint) {
-        return {
-          ...field,
-          options: options[field.accessor],
-        };
-      }
-      return field;
-    });
-  }, [options, tableFields]);
-
   useEffect(() => {
-    fetchOptions();
     loadListData();
+    fetchOptions();
   }, []);
 
   const loadListData = async () => {
@@ -75,7 +54,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       setDataSet(formattedData || []);
     } catch (error) {
       console.error(`Error loading ${label} list:`, error);
-      alert(`Error loading ${label} list: ${error || 'Lỗi không xác định'}`);
+      alert(translate('common.error'));
     }
   };
 
@@ -84,8 +63,9 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       await handleAddRow(dataName, data);
       setShowModal(false);
       loadListData();
+      alert(translate('common.success'));
     } catch (error) {
-      alert(`Error adding ${label}: ${error || 'Lỗi không xác định'}`);
+      alert(translate('common.error'));
     }
   };
 
@@ -94,53 +74,67 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       await handleEditRow(dataName, data[pk], data);
       setShowModal(false);
       loadListData();
+      alert(translate('common.success'));
     } catch (error) {
-      alert(`Error editing ${label}: ${error || 'Lỗi không xác định'}`);
+      alert(translate('common.error'));
     }
   };
 
-  const handleDeleteData = async (pk) => {
-    try {
-      await handleDeleteRow(dataName, pk);
-      loadListData();
-    } catch (error) {
-      alert(`Error deleting ${label}: ${error || 'Lỗi không xác định'}`);
+  const handleDeleteData = async (id) => {
+    if (window.confirm(translate('common.confirm'))) {
+      try {
+        await handleDeleteRow(dataName, id);
+        loadListData();
+        alert(translate('common.success'));
+      } catch (error) {
+        alert(translate('common.error'));
+      }
     }
   };
 
   const allOptionsReady = tableFieldsWithOptions
-      .filter(field => field.optionsEndpoint && field.type === 'select')
-      .every(field => Array.isArray(options?.[field.accessor]));
+    .filter(field => field.optionsEndpoint && field.type === 'select')
+    .every(field => Array.isArray(options?.[field.accessor]));
   
   if (!allOptionsReady) {
-    return <div>Đang tải dữ liệu lựa chọn...</div>; 
+    return <div>{translate('common.loading')}</div>; 
   }
 
   return (
     <div>
-      <div className="flex mb-3">
-        <button className="btn btn-success me-2" onClick={() => { setModalData(null); setShowModal(true); }}>
-          Thêm {label}
+      <div className="flex justify-between items-center mb-4">
+        <button
+          className="btn bg-green-600 hover:bg-green-700 text-white flex items-center gap-2 px-4 py-2 rounded-md"
+          onClick={() => { setModalData(null); setShowModal(true); }}
+        >
+          <Plus size={20} />
+          {translate('common.add')} {label}
         </button>
       </div>
+
       <DataTable
         fields={tableFields}
         dataSet={dataSet}
-        handleEdit={(data) => { setModalData(data.__original); setShowModal(true); }}
-        handleDelete={(data) => { handleDeleteData(data.__original[pk]); }}
+        handleEdit={(data) => {
+          setModalData(data.__original);
+          setShowModal(true);
+        }}
+        handleDelete={(data) => handleDeleteData(data[pk])}
         actions={actions}
       />
+
       {showModal && (
-        <DataForm
-          fields={formFields.map((field) => ({
-            ...field,
-            options: field.type === 'select' && field.optionsEndpoint ? validSelectedOptions[field.accessor] : field.options,
-          }))}
-          data={modalData}
-          onSave={modalData ? handleEditData : handleAddData}
-          onClose={() => setShowModal(false)}
-          label={label}
-        />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <DataForm
+              fields={formFields}
+              data={modalData}
+              onSave={(data) => modalData ? handleEditData(data) : handleAddData(data)}
+              onClose={() => setShowModal(false)}
+              label={label}
+            />
+          </div>
+        </div>
       )}
     </div>
   );
