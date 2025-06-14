@@ -19,15 +19,37 @@ namespace StudentManagement.Controllers
         public async Task<IActionResult> GetAll()
         {
             var enrollments = await _service.GetAllAsync();
-            return Ok(enrollments);
+            return Ok(
+                new
+                {
+                    data = enrollments,
+                    message = "Lấy danh sách đăng ký thành công.",
+                    status = "Success",
+                }
+            );
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _service.GetByIdAsync(id);
-            if (result == null) return NotFound();
-            return Ok(result);
+            if (result == null)
+                return NotFound(
+                    new
+                    {
+                        data = id,
+                        message = "Đăng ký không tồn tại.",
+                        status = "NotFound",
+                    }
+                );
+            return Ok(
+                new
+                {
+                    data = result,
+                    message = "Lấy thông tin đăng ký thành công.",
+                    status = "Success",
+                }
+            );
         }
 
         [HttpPost]
@@ -36,22 +58,43 @@ namespace StudentManagement.Controllers
             var hasPrerequisite = await _service.HasPrerequisiteAsync(dto.StudentId, dto.ClassId);
             if (!hasPrerequisite)
             {
-                return BadRequest("Student has not completed the prerequisite course.");
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = "Học viên chưa hoàn thành các khóa học tiên quyết.",
+                        status = "Error",
+                    }
+                );
             }
             var isClassFull = await _service.IsClassFullAsync(dto.ClassId);
             if (isClassFull)
             {
-                return BadRequest("The class is already full.");
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = "Lớp học đã đầy.",
+                        status = "Error",
+                    }
+                );
             }
             var enrollment = new Enrollment
             {
                 StudentId = dto.StudentId,
                 ClassId = dto.ClassId,
-                RegisteredAt = DateTime.Now
+                RegisteredAt = DateTime.Now,
             };
 
             await _service.AddAsync(enrollment);
-            return Ok("Enrollment created successfully");
+            return Ok(
+                new
+                {
+                    data = enrollment,
+                    message = "Đăng ký thành công.",
+                    status = "Success",
+                }
+            );
         }
 
         [HttpPut("{id}")]
@@ -59,27 +102,64 @@ namespace StudentManagement.Controllers
         {
             var enrollment = await _service.GetByIdAsync(id);
             if (enrollment == null)
-                return NotFound("Không tìm thấy đăng ký");
+                return NotFound(
+                    new
+                    {
+                        data = id,
+                        message = "Đăng ký không tồn tại.",
+                        status = "NotFound",
+                    }
+                );
 
             if (dto.IsCancelled && !enrollment.IsCancelled)
             {
-                var success = await _service.CancelEnrollmentAsync(id, dto.CancelReason ?? "Không có lý do");
+                var success = await _service.CancelEnrollmentAsync(
+                    id,
+                    dto.CancelReason ?? "Không có lý do"
+                );
                 if (!success)
-                    return BadRequest("Hủy đăng ký không hợp lệ hoặc đã quá hạn.");
+                    return BadRequest(
+                        new
+                        {
+                            data = id,
+                            message = "Không thể hủy đăng ký do đã quá hạn.",
+                            status = "Error",
+                        }
+                    );
 
-                return Ok("Đã hủy đăng ký thành công.");
+                return Ok(
+                    new
+                    {
+                        data = id,
+                        message = "Hủy đăng ký thành công.",
+                        status = "Success",
+                    }
+                );
             }
 
             await _service.UpdateAsync(enrollment);
-            return Ok("Cập nhật đăng ký thành công.");
+            return Ok(
+                new
+                {
+                    data = enrollment,
+                    message = "Cập nhật đăng ký thành công.",
+                    status = "Success",
+                }
+            );
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _service.DeleteAsync(id);
-            return Ok();
+            return Ok(
+                new
+                {
+                    data = id,
+                    message = "Đăng ký đã được xóa thành công.",
+                    status = "Success",
+                }
+            );
         }
     }
-
 }

@@ -19,14 +19,14 @@ const CoursePage = () => {
             const classRes = await axios.get(`${config.backendUrl}/api/class`);
             const studentRes = await axios.get(`${config.backendUrl}/api/students`);
 
-            setClasses(classRes.data.map((item) => ({
+            setClasses(classRes.data.data.map((item) => ({
                 id: item.classId,
                 name: item.classId
             })));
 
-            setStudents(studentRes.data.students.map((item) => ({
-                id: item.StudentId,
-                name: item.StudentId
+            setStudents(studentRes.data.data.students.map((item) => ({
+                id: item.studentId,
+                name: item.studentId
             })));
 
         } catch (error) {
@@ -51,10 +51,6 @@ const CoursePage = () => {
         { display: 'GPA', accessor: 'gpa', type: 'number' },
     ];
 
-    if (classes.length === 0 || students.length === 0) {
-        return <PageLayout title="Danh sách Điểm"><p>Đang tải dữ liệu...</p></PageLayout>;
-    }
-
     function formatDataSetForTable(dataArray, fields, helpers = {}) {
         return dataArray.map((item) => {
             const row = {};
@@ -64,7 +60,7 @@ const CoursePage = () => {
                 switch (field.accessor) {
 
                     case 'student':
-                        row[key] = item.student?.FullName || 'N/A';
+                        row[key] = item.student?.fullName || 'N/A';
                         break;
 
                     // Add more custom fields here

@@ -38,17 +38,17 @@ const CoursePage = () => {
             const studentRes = await axios.get(`${config.backendUrl}/api/students`);
             const courseRes = await axios.get(`${config.backendUrl}/api/course`);
 
-            setClasses(classRes.data.map((item) => ({
+            setClasses(classRes.data.data.map((item) => ({
                 id: item.classId,
                 name: item.classId
             })));
 
-            setStudents(studentRes.data.students.map((item) => ({
-                id: item.StudentId,
-                name: item.FullName
+            setStudents(studentRes.data.data.students.map((item) => ({
+                id: item.studentId,
+                name: item.fullName
             })));
 
-            setCourses(courseRes.data.map((item) => ({
+            setCourses(courseRes.data.data.map((item) => ({
                 id: item.courseCode,
                 name: item.name
             })));
@@ -71,7 +71,7 @@ const CoursePage = () => {
                         break;
 
                     case 'StudentId':
-                        row[key] = item.student?.FullName || 'N/A';
+                        row[key] = item.student?.fullName || 'N/A';
                         break;
 
                     case 'cancelDate':
@@ -102,10 +102,6 @@ const CoursePage = () => {
         });
     }
 
-
-    if (classes.length === 0 || students.length === 0 || courses.length === 0) {
-        return <PageLayout title="Danh sách đăng ký lớp học"><p>Đang tải dữ liệu...</p></PageLayout>;
-    }
 
 
     return (

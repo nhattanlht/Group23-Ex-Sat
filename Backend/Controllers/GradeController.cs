@@ -5,7 +5,6 @@ using System.Text;
 
 namespace StudentManagement.Controllers
 {
-
     [ApiController]
     [Route("api/[controller]")]
     public class GradeController : ControllerBase
@@ -19,24 +18,54 @@ namespace StudentManagement.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAll() =>
-            Ok(await _service.GetAllAsync());
+            Ok(
+                new
+                {
+                    data = await _service.GetAllAsync(),
+                    message = "Lấy danh sách điểm thành công.",
+                    status = "Success",
+                }
+            );
 
         [HttpGet("{StudentId}/{classId}")]
         public async Task<IActionResult> GetById(string StudentId, string classId)
         {
             var result = await _service.GetByIdAsync(StudentId, classId);
-            if (result == null) return NotFound();
-            return Ok(result);
+            if (result == null)
+                return NotFound(
+                    new
+                    {
+                        data = new { StudentId, classId },
+                        message = "Điểm không tồn tại.",
+                        status = "NotFound",
+                    }
+                );
+            return Ok(
+                new
+                {
+                    data = result,
+                    message = "Lấy thông tin điểm thành công.",
+                    status = "Success",
+                }
+            );
         }
 
         [HttpGet("export/{StudentId}")]
         public async Task<IActionResult> ExportStudentGrades(string StudentId)
         {
             var grades = (await _service.GetAllAsync())
-                         .Where(g => g.StudentId == StudentId)
-                         .ToList();
+                .Where(g => g.StudentId == StudentId)
+                .ToList();
 
-            if (!grades.Any()) return NotFound();
+            if (!grades.Any())
+                return NotFound(
+                    new
+                    {
+                        data = StudentId,
+                        message = "Không tìm thấy điểm cho sinh viên này.",
+                        status = "NotFound",
+                    }
+                );
 
             var csv = new StringBuilder();
 
@@ -49,7 +78,9 @@ namespace StudentManagement.Controllers
             // Rows
             foreach (var grade in grades)
             {
-                csv.AppendLine($"\"{grade.CourseName}\",{grade.Credit},{grade.Score},{grade.GradeLetter},{grade.GPA}");
+                csv.AppendLine(
+                    $"\"{grade.CourseName}\",{grade.Credit},{grade.Score},{grade.GradeLetter},{grade.GPA}"
+                );
             }
 
             var fileName = $"BangDiem_{StudentId}.csv";
@@ -57,7 +88,6 @@ namespace StudentManagement.Controllers
 
             return File(bytes, "text/csv", fileName);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Create(GradeCreateDTO dto)
@@ -71,11 +101,22 @@ namespace StudentManagement.Controllers
                 GPA = dto.GPA
             };
             await _service.AddAsync(grade);
-            return Ok();
+            return Ok(
+                new
+                {
+                    data = grade,
+                    message = "Điểm đã được tạo thành công.",
+                    status = "Success",
+                }
+            );
         }
 
         [HttpPut("{StudentId}/{classId}")]
-        public async Task<IActionResult> Update(string StudentId, string classId, [FromBody] GradeUpdateDTO dto)
+        public async Task<IActionResult> Update(
+            string StudentId,
+            string classId,
+            [FromBody] GradeUpdateDTO dto
+        )
         {
             var grade = new Grade
             {
@@ -87,14 +128,28 @@ namespace StudentManagement.Controllers
             };
 
             await _service.UpdateAsync(grade);
-            return Ok();
+            return Ok(
+                new
+                {
+                    data = grade,
+                    message = "Điểm đã được cập nhật thành công.",
+                    status = "Success",
+                }
+            );
         }
 
         [HttpDelete("{gradeId}")]
         public async Task<IActionResult> Delete(int gradeId)
         {
             await _service.DeleteAsync(gradeId);
-            return Ok();
+            return Ok(
+                new
+                {
+                    data = gradeId,
+                    message = "Điểm đã được xóa thành công.",
+                    status = "Success",
+                }
+            );
         }
     }
 

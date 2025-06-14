@@ -35,20 +35,20 @@ const StudentList = () => {
   };
 
   const fields = [
-    { display: 'StudentId', accessor: 'StudentId', type: "text", required: true, disabled: true },
-    { display: 'Họ Tên', accessor: 'FullName', type: "text", required: true },
-    { display: 'Ngày Sinh', accessor: 'DateOfBirth', type: "date", required: true },
-    { display: 'Giới Tính', accessor: 'Gender', type: "select", options: [{ id: "Nam", name: "Nam" }, { id: "Nữ", name: "Nữ" }, { id: "Khác", name: "Khác" }], required: true },
+    { display: 'StudentId', accessor: 'studentId', type: "text", required: true, disabled: true },
+    { display: 'Họ Tên', accessor: 'fullName', type: "text", required: true },
+    { display: 'Ngày Sinh', accessor: 'dateOfBirth', type: "date", required: true },
+    { display: 'Giới Tính', accessor: 'gender', type: "select", options: [{ id: "Nam", name: "Nam" }, { id: "Nữ", name: "Nữ" }, { id: "Khác", name: "Khác" }], required: true },
     { display: 'Khoa', accessor: 'departmentId', type: "select", options: departments, required: true },
     { display: 'Trạng Thái', accessor: 'statusId', type: "select", options: statuses, required: true },
     { display: 'Khóa Học', accessor: 'schoolYearId', type: "select", options: schoolYears, required: true },
     { display: 'Chương Trình', accessor: 'studyProgramId', type: "select", options: studyPrograms, required: true },
     { display: 'Email', accessor: 'email', type: "email", required: true },
-    { display: 'Số Điện Thoại', accessor: 'PhoneNumber', type: "text", required: true },
-    { display: 'Quốc Tịch', accessor: 'Nationality', type: "text", required: true },
+    { display: 'Số Điện Thoại', accessor: 'phoneNumber', type: "text", required: true },
+    { display: 'Quốc Tịch', accessor: 'nationality', type: "text", required: true },
     {
       display: 'Địa Chỉ Nhận Thư',
-      accessor: 'PermanentAddress',
+      accessor: 'permanentAddress',
       type: "group",
       fields: [
         { display: 'Số Nhà', accessor: 'houseNumber', type: "text", required: true },
@@ -60,10 +60,10 @@ const StudentList = () => {
       ],
       required: true,
     },
-    { display: 'Địa Chỉ Nhận Thư Id', accessor: 'PermanentAddressId', type: "text", required: true, hidden: true },
+    { display: 'Địa Chỉ Nhận Thư Id', accessor: 'permanentAddressId', type: "text", required: true, hidden: true },
     {
       display: 'Địa Chỉ Thường Trú',
-      accessor: 'RegisteredAddress',
+      accessor: 'registeredAddress',
       type: "group",
       fields: [
         { display: 'Số Nhà', accessor: 'houseNumber', type: "text" },
@@ -74,10 +74,10 @@ const StudentList = () => {
         { display: 'Quốc Gia', accessor: 'country', type: "text" },
       ],
     },
-    { display: 'Địa Chỉ Thường Trú Id', accessor: 'RegisteredAddressId', type: "text", hidden: true },
+    { display: 'Địa Chỉ Thường Trú Id', accessor: 'registeredAddressId', type: "text", hidden: true },
     {
       display: 'Địa Chỉ Tạm Trú',
-      accessor: 'TemporaryAddress',
+      accessor: 'temporaryAddress',
       type: "group",
       fields: [
         { display: 'Số Nhà', accessor: 'houseNumber', type: "text" },
@@ -88,7 +88,7 @@ const StudentList = () => {
         { display: 'Quốc Gia', accessor: 'country', type: "text" },
       ],
     },
-    { display: 'Địa Chỉ Tạm Trú Id', accessor: 'TemporaryAddressIdd', type: "text", hidden: true },
+    { display: 'Địa Chỉ Tạm Trú Id', accessor: 'temporaryAddressId', type: "text", hidden: true },
     { display: "Identification Id", accessor: "identificationId", type: "text", hidden: true },
     { display: 'Loại Giấy Tờ', accessor: 'identificationType', type: "select", options: [{ id: "CMND", name: "CMND" }, { id: "CCCD", name: "CCCD" }, { id: "Hộ Chiếu", name: "Hộ Chiếu" }], required: true, customeType: "identificationType" },
     {
@@ -114,7 +114,7 @@ const StudentList = () => {
     if (!addresses[id]) { // Avoid duplicate API calls for the same ID
       try {
         const response = await axios.get(`${config.backendUrl}/api/address/${id}`);
-        const formattedAddress = `${response.data.houseNumber} ${response.data.streetName}, ${response.data.ward}, ${response.data.district}, ${response.data.province}, ${response.data.country}`;
+        const formattedAddress = `${response.data.data.houseNumber} ${response.data.data.streetName}, ${response.data.data.ward}, ${response.data.data.district}, ${response.data.data.province}, ${response.data.data.country}`;
         addresses[id] = formattedAddress;
       } catch (error) {
         console.error("Error fetching address:", error);
@@ -128,7 +128,7 @@ const StudentList = () => {
     if (!identifications[id]) { // Avoid duplicate API calls for the same ID
       try {
         const response = await axios.get(`${config.backendUrl}/api/identification/${id}`);
-        identifications[id] = response.data;
+        identifications[id] = response.data.data;
       } catch (error) {
         console.error("Error fetching address:", error);
       }
@@ -152,8 +152,8 @@ const StudentList = () => {
         if (student.RegisteredAddressId) {
           await getViewAddress(student.RegisteredAddressId);
         }
-        if (student.TemporaryAddressIdd) {
-          await getViewAddress(student.TemporaryAddressIdd);
+        if (student.TemporaryAddressId) {
+          await getViewAddress(student.TemporaryAddressId);
         }
         if (student.identificationId) {
           await getIdentifications(student.identificationId);
@@ -182,14 +182,14 @@ const StudentList = () => {
         axios.get(`${config.backendUrl}/api/programs`),
         axios.get(`${config.backendUrl}/api/schoolyears`),
       ]);
-      fields[4].options = depRes.data || [];
-      fields[5].options = statusRes.data || [];
-      fields[6].options = yearRes.data || [];
-      fields[7].options = programRes.data || [];
-      setDepartments(depRes.data || []);
-      setStatuses(statusRes.data || []);
-      setStudyPrograms(programRes.data || []);
-      setSchoolYears(yearRes.data || []);
+      fields[4].options = depRes.data.data || [];
+      fields[5].options = statusRes.data.data || [];
+      fields[6].options = yearRes.data.data || [];
+      fields[7].options = programRes.data.data || [];
+      setDepartments(depRes.data.data || []);
+      setStatuses(statusRes.data.data || []);
+      setStudyPrograms(programRes.data.data || []);
+      setSchoolYears(yearRes.data.data || []);
     } catch (error) {
       console.error('Lỗi khi tải dữ liệu phụ trợ:', error);
     }
@@ -251,7 +251,8 @@ const StudentList = () => {
 
       return response;
     } catch (error) {
-      alert('Lỗi khi thêm sinh viên!', error);
+      alert(`Lỗi khi thêm sinh viên! ${error.response?.data?.message || error.response?.data?.errors || error.message}`);
+      console.error('Error adding student:', error);
       throw error;
     }
   };
@@ -275,7 +276,7 @@ const StudentList = () => {
       delete student.identification["id"];
 
       const identification = await axios.post(`${config.backendUrl}/api/identification`, student.identification);
-      student.identificationId = identification.data.id;
+      student.identificationId = identification.data.data.id;
 
       delete student.identification;
       delete student.identificationType;
@@ -283,7 +284,7 @@ const StudentList = () => {
       delete student.PermanentAddress["id"];
 
       const PermanentAddress = await axios.post(`${config.backendUrl}/api/address`, student.PermanentAddress);
-      student.PermanentAddressId = PermanentAddress.data.id;
+      student.PermanentAddressId = PermanentAddress.data.data.id;
 
       delete student.PermanentAddress;
 
@@ -292,7 +293,7 @@ const StudentList = () => {
         delete student.RegisteredAddress["id"];
 
         const RegisteredAddress = await axios.post(`${config.backendUrl}/api/address`, student.RegisteredAddress);
-        student.RegisteredAddressId = RegisteredAddress.data.id;
+        student.RegisteredAddressId = RegisteredAddress.data.data.id;
       }
       else {
         student.RegisteredAddressId = null;
@@ -304,10 +305,10 @@ const StudentList = () => {
         delete student.TemporaryAddress["id"];
 
         const TemporaryAddress = await axios.post(`${config.backendUrl}/api/address`, student.TemporaryAddress);
-        student.TemporaryAddressIdd = TemporaryAddress.data.id;
+        student.TemporaryAddressId = TemporaryAddress.data.data.id;
       }
       else {
-        student.TemporaryAddressIdd = null;
+        student.TemporaryAddressId = null;
       }
       delete student.TemporaryAddress;
 
@@ -354,7 +355,7 @@ const StudentList = () => {
       if (modalData.PermanentAddressId) {
         try {
           const response = await axios.get(`${config.backendUrl}/api/address/${modalData.PermanentAddressId}`);
-          initialData.PermanentAddress = response.data; // Populate address fields
+          initialData.PermanentAddress = response.data.data; // Populate address fields
         } catch (error) {
           console.error("Error fetching address:", error);
         }
@@ -363,16 +364,16 @@ const StudentList = () => {
       if (modalData.RegisteredAddressId) {
         try {
           const response = await axios.get(`${config.backendUrl}/api/address/${modalData.RegisteredAddressId}`);
-          initialData.RegisteredAddress = response.data; // Populate address fields
+          initialData.RegisteredAddress = response.data.data; // Populate address fields
         } catch (error) {
           console.error("Error fetching address:", error);
         }
       }
 
-      if (modalData.TemporaryAddressIdd) {
+      if (modalData.TemporaryAddressId) {
         try {
-          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.TemporaryAddressIdd}`);
-          initialData.TemporaryAddress = response.data; // Populate address fields
+          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.TemporaryAddressId}`);
+          initialData.TemporaryAddress = response.data.data; // Populate address fields
         } catch (error) {
           console.error("Error fetching address:", error);
         }
@@ -380,7 +381,7 @@ const StudentList = () => {
 
       try {
         const response = await axios.get(`${config.backendUrl}/api/identification/${modalData.identificationId}`);
-        initialData.identification = response.data; // Populate identification fields
+        initialData.identification = response.data.data; // Populate identification fields
         initialData.identification["issueDate"] = initialData.identification["issueDate"].split("T")[0];
         initialData.identification["expiryDate"] = initialData.identification["expiryDate"].split("T")[0];
       } catch (error) {

@@ -13,7 +13,7 @@ const DataManagement = () => {
     // Export dữ liệu
     const handleExport = useCallback((type) => {
         setLoading(true);
-        window.Address.href = `${API_BASE_URL}/api/data/export/${type}`;
+        window.location.href = `${API_BASE_URL}/api/data/export/${type}`;
         setTimeout(() => setLoading(false), 1000);
     }, [API_BASE_URL]);
 

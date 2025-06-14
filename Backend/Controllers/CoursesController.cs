@@ -19,22 +19,51 @@ namespace StudentManagement.Controllers
         public async Task<IActionResult> GetAll()
         {
             var courses = await _service.GetAllCoursesAsync();
-            return Ok(courses);
+            return Ok(
+                new
+                {
+                    data = courses,
+                    message = "Lấy danh sách khóa học thành công.",
+                    status = "Success",
+                }
+            );
         }
 
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveCourses()
         {
             var courses = await _service.GetActiveCoursesAsync();
-            return Ok(courses);
+            return Ok(
+                new
+                {
+                    data = courses,
+                    message = "Lấy danh sách khóa học đang hoạt động thành công.",
+                    status = "Success",
+                }
+            );
         }
 
         [HttpGet("{code}")]
         public async Task<IActionResult> Get(string code)
         {
             var course = await _service.GetCourseByCodeAsync(code);
-            if (course == null) return NotFound();
-            return Ok(course);
+            if (course == null)
+                return NotFound(
+                    new
+                    {
+                        data = code,
+                        message = "Khóa học không tồn tại.",
+                        status = "NotFound",
+                    }
+                );
+            return Ok(
+                new
+                {
+                    data = course,
+                    message = "Lấy thông tin khóa học thành công.",
+                    status = "Success",
+                }
+            );
         }
 
         [HttpPost]
@@ -44,7 +73,7 @@ namespace StudentManagement.Controllers
             {
                 dto.PrerequisiteCourseCode = null;
             }
-            
+
             var course = new Course
             {
                 CourseCode = dto.CourseCode,
@@ -58,34 +87,85 @@ namespace StudentManagement.Controllers
             };
 
             await _service.CreateCourseAsync(course);
-            return Ok("Created");
+            return Ok(
+                new
+                {
+                    data = course,
+                    message = "Khóa học đã được tạo thành công.",
+                    status = "Success",
+                }
+            );
         }
 
         [HttpPut("{code}")]
         public async Task<IActionResult> Update(string code, [FromBody] CourseCreateDto dto)
         {
             var existingCourse = await _service.GetCourseByCodeAsync(code);
-            if (existingCourse == null) return NotFound();
+            if (existingCourse == null)
+                return NotFound(
+                    new
+                    {
+                        data = code,
+                        message = "Khóa học không tồn tại.",
+                        status = "NotFound",
+                    }
+                );
 
             var hasRegistrations = await _service.HasStudentRegistrationsAsync(code);
             if (hasRegistrations && dto.Credits != existingCourse.Credits)
             {
-                return BadRequest("Không thể cập nhật khóa học đã có sinh viên đăng ký");
+                return BadRequest(
+                    new
+                    {
+                        data = code,
+                        message = "Không thể cập nhật số tín chỉ của khóa học đã có sinh viên đăng ký",
+                        status = "Error",
+                    }
+                );
             }
             else if (dto.Credits < 2)
             {
-                return BadRequest("Số tín chỉ không hợp lệ");
+                return BadRequest(
+                    new
+                    {
+                        data = dto.Credits,
+                        message = "Số tín chỉ phải lớn hơn hoặc bằng 2",
+                        status = "Error",
+                    }
+                );
             }
-            else if (!string.IsNullOrEmpty(dto.PrerequisiteCourseCode) && dto.PrerequisiteCourseCode != existingCourse.PrerequisiteCourseCode)
+            else if (
+                !string.IsNullOrEmpty(dto.PrerequisiteCourseCode)
+                && dto.PrerequisiteCourseCode != existingCourse.PrerequisiteCourseCode
+            )
             {
                 var prereqExists = await _service.GetCourseByCodeAsync(dto.PrerequisiteCourseCode);
-                if (prereqExists == null) return BadRequest("Khóa học tiên quyết không tồn tại");
+                if (prereqExists == null)
+                    return BadRequest(
+                        new
+                        {
+                            data = dto.PrerequisiteCourseCode,
+                            message = "Khóa học tiên quyết không tồn tại",
+                            status = "Error",
+                        }
+                    );
             }
-            else if (hasRegistrations && dto.PrerequisiteCourseCode != existingCourse.PrerequisiteCourseCode)
+            else if (
+                hasRegistrations
+                && dto.PrerequisiteCourseCode != existingCourse.PrerequisiteCourseCode
+            )
             {
-                return BadRequest("Không thể cập nhật khóa học đã có sinh viên đăng ký");
+                return BadRequest(
+                    new
+                    {
+                        data = code,
+                        message = "Không thể cập nhật khóa học tiên quyết của khóa học đã có sinh viên đăng ký",
+                        status = "Error",
+                    }
+                );
             }
-            else {
+            else
+            {
                 existingCourse.Credits = dto.Credits;
             }
 
@@ -97,21 +177,59 @@ namespace StudentManagement.Controllers
             existingCourse.IsActive = dto.IsActive;
 
             var success = await _service.UpdateCourseAsync(existingCourse);
-            if (!success) return BadRequest("Cập nhật thất bại");
+            if (!success)
+                return BadRequest(
+                    new
+                    {
+                        data = code,
+                        message = "Cập nhật khóa học thất bại",
+                        status = "Error",
+                    }
+                );
 
-            return Ok("Cập nhật thành công");
+            return Ok(
+                new
+                {
+                    data = existingCourse,
+                    message = "Cập nhật khóa học thành công",
+                    status = "Success",
+                }
+            );
         }
 
         [HttpDelete("{code}")]
         public async Task<IActionResult> Delete(string code)
         {
             var existingCourse = await _service.GetCourseByCodeAsync(code);
-            if (existingCourse == null) return NotFound();
+            if (existingCourse == null)
+                return NotFound(
+                    new
+                    {
+                        data = code,
+                        message = "Khóa học không tồn tại.",
+                        status = "NotFound",
+                    }
+                );
 
             var success = await _service.DeleteCourseAsync(code);
-            if (!success) return BadRequest("Xóa thất bại");
+            if (!success)
+                return BadRequest(
+                    new
+                    {
+                        data = code,
+                        message = "Xóa khóa học thất bại. Vui lòng kiểm tra lại.",
+                        status = "Error",
+                    }
+                );
 
-            return Ok("Xóa thành công");
+            return Ok(
+                new
+                {
+                    data = code,
+                    message = "Khóa học đã được xóa thành công.",
+                    status = "Success",
+                }
+            );
         }
     }
 }

@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using StudentManagement.Models;
-using StudentManagement.Services;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StudentManagement.DTOs;
+using StudentManagement.Models;
+using StudentManagement.Services;
 
 namespace StudentManagement.Controllers
 {
@@ -15,7 +15,10 @@ namespace StudentManagement.Controllers
         private readonly IStudentService _studentService;
         private readonly ILogger<StudentsController> _logger;
 
-        public StudentsController(IStudentService studentService, ILogger<StudentsController> logger)
+        public StudentsController(
+            IStudentService studentService,
+            ILogger<StudentsController> logger
+        )
         {
             _studentService = studentService;
             _logger = logger;
@@ -24,16 +27,46 @@ namespace StudentManagement.Controllers
         [HttpGet]
         public async Task<IActionResult> GetStudents(int page = 1, int pageSize = 10)
         {
-            _logger.LogInformation("Fetching students (Page: {Page}, PageSize: {PageSize})", page, pageSize);
+            _logger.LogInformation(
+                "Fetching students (Page: {Page}, PageSize: {PageSize})",
+                page,
+                pageSize
+            );
             try
             {
-                var (students, totalStudents, totalPages) = await _studentService.GetStudents(page, pageSize);
-                return Ok(new { students, totalStudents, totalPages, currentPage = page, pageSize });
+                var (students, totalStudents, totalPages) = await _studentService.GetStudents(
+                    page,
+                    pageSize
+                );
+                return Ok(
+                    new
+                    {
+                        data = new
+                        {
+                            students,
+                            totalStudents,
+                            totalPages,
+                            currentPage = page,
+                            pageSize,
+                        },
+                        message = "Lấy danh sách sinh viên thành công.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while fetching students.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -46,28 +79,68 @@ namespace StudentManagement.Controllers
                 if (!ModelState.IsValid)
                 {
                     _logger.LogWarning(ModelState.ToString());
-                    return BadRequest(new { errors = ModelState });
+                    return BadRequest(
+                        new
+                        {
+                            data = ModelState,
+                            message = "Dữ liệu không hợp lệ.",
+                            status = "Error",
+                        }
+                    );
                 }
                 if (student == null)
                 {
                     _logger.LogWarning("Invalid student data received.");
-                    return BadRequest(new { message = "Dữ liệu sinh viên không hợp lệ." });
+                    return BadRequest(
+                        new
+                        {
+                            data = student,
+                            message = "Dữ liệu sinh viên không hợp lệ.",
+                            status = "Error",
+                        }
+                    );
                 }
 
                 var (success, message) = await _studentService.CreateStudent(student);
                 if (success)
                 {
-                    _logger.LogInformation("Student created successfully: {StudentId}", student.StudentId);
-                    return Ok(new { message });
+                    _logger.LogInformation(
+                        "Student created successfully: {StudentId}",
+                        student.StudentId
+                    );
+                    return Ok(
+                        new
+                        {
+                            data = student,
+                            message,
+                            status = "Success",
+                        }
+                    );
                 }
 
                 _logger.LogWarning("Failed to create student: {Message}", message);
-                return BadRequest(new { message });
+                return BadRequest(
+                    new
+                    {
+                        data = student,
+                        message,
+                        status = "Error",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while creating student.");
-                return StatusCode(500, new { message = "Lỗi máy chủ nội bộ", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        status = "Error",
+                        errors = ex.Message,
+                    }
+                );
             }
         }
 
@@ -81,15 +154,38 @@ namespace StudentManagement.Controllers
                 if (student == null)
                 {
                     _logger.LogWarning("Student not found: {ID}", id);
-                    return NotFound(new { message = "Student not found." });
+                    return NotFound(
+                        new
+                        {
+                            data = id,
+                            message = "Không tìm thấy sinh viên.",
+                            status = "NotFound",
+                        }
+                    );
                 }
 
-                return Ok(student);
+                return Ok(
+                    new
+                    {
+                        data = student,
+                        message = "Lấy thông tin sinh viên thành công.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while fetching student: {ID}", id);
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -102,29 +198,73 @@ namespace StudentManagement.Controllers
                 if (student == null)
                 {
                     _logger.LogWarning("Invalid student data received.");
-                    return BadRequest(new { message = "Dữ liệu sinh viên không hợp lệ." });
+                    return BadRequest(
+                        new
+                        {
+                            data = student,
+                            message = "Dữ liệu sinh viên không hợp lệ.",
+                            status = "Error",
+                        }
+                    );
                 }
 
                 if (id != student.StudentId)
                 {
-                    _logger.LogWarning("Student ID mismatch. Provided: {ID}, Actual: {StudentId}", id, student.StudentId);
-                    return BadRequest(new { message = "Mã số sinh viên không khớp." });
+                    _logger.LogWarning(
+                        "Student ID mismatch. Provided: {ID}, Actual: {StudentId}",
+                        id,
+                        student.StudentId
+                    );
+                    return BadRequest(
+                        new
+                        {
+                            data = student,
+                            message = "Mã số sinh viên không khớp.",
+                            status = "Error",
+                        }
+                    );
                 }
 
                 var (success, message) = await _studentService.UpdateStudent(student);
                 if (success)
                 {
                     _logger.LogInformation("Student updated successfully: {ID}", id);
-                    return Ok(new { message });
+                    return Ok(
+                        new
+                        {
+                            data = student,
+                            message,
+                            status = "Success",
+                        }
+                    );
                 }
 
-                _logger.LogWarning("Failed to update student: {ID}, Message: {Message}", id, message);
-                return BadRequest(new { message });
+                _logger.LogWarning(
+                    "Failed to update student: {ID}, Message: {Message}",
+                    id,
+                    message
+                );
+                return BadRequest(
+                    new
+                    {
+                        data = student,
+                        message,
+                        status = "Error",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while updating student: {ID}", id);
-                return StatusCode(500, new { message = "Lỗi máy chủ nội bộ", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        message = "Lỗi máy chủ nội bộ",
+                        data = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -138,39 +278,95 @@ namespace StudentManagement.Controllers
                 if (result)
                 {
                     _logger.LogInformation("Student deleted successfully: {ID}", id);
-                    return Ok(new { message = "Student deleted successfully." });
+                    return Ok(
+                        new
+                        {
+                            data = id,
+                            message = "Student deleted successfully.",
+                            status = "Success",
+                        }
+                    );
                 }
 
                 _logger.LogWarning("Failed to delete student: {ID}", id);
-                return BadRequest(new { message = "Failed to delete student." });
+                return BadRequest(
+                    new
+                    {
+                        data = id,
+                        message = "Failed to delete student.",
+                        status = "Error",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while deleting student: {ID}", id);
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        message = "Lỗi máy chủ nội bộ",
+                        data = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery] StudentFilterModel filter, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> Search(
+            [FromQuery] StudentFilterModel filter,
+            int page = 1,
+            int pageSize = 10
+        )
         {
-            _logger.LogInformation("Searching students with keyword: {Keyword}, departmentId: {DepartmentId}, Page: {Page}, PageSize: {PageSize}", filter.Keyword, filter.DepartmentId, page, pageSize);
+            _logger.LogInformation(
+                "Searching students with keyword: {Keyword}, departmentId: {DepartmentId}, Page: {Page}, PageSize: {PageSize}",
+                filter.Keyword,
+                filter.DepartmentId,
+                page,
+                pageSize
+            );
             try
             {
-                var (students, totalStudents, totalPages) = await _studentService.SearchStudents(filter, page, pageSize);
-                return Ok(new
-                {
-                    students,
-                    totalStudents,
-                    totalPages,
-                    currentPage = page,
+                var (students, totalStudents, totalPages) = await _studentService.SearchStudents(
+                    filter,
+                    page,
                     pageSize
-                });
+                );
+                return Ok(
+                    new
+                    {
+                        data = new
+                        {
+                            students,
+                            totalStudents,
+                            totalPages,
+                            currentPage = page,
+                            pageSize,
+                        },
+                        message = "Tìm kiếm sinh viên thành công.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while searching students with keyword: {Keyword}, departmentId: {DepartmentId}", filter.Keyword, filter.DepartmentId);
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                _logger.LogError(
+                    ex,
+                    "Error while searching students with keyword: {Keyword}, departmentId: {DepartmentId}",
+                    filter.Keyword,
+                    filter.DepartmentId
+                );
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        message = "Lỗi máy chủ nội bộ",
+                        data = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
     }

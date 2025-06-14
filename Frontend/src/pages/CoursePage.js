@@ -23,7 +23,7 @@ const CoursePage = () => {
   const loadMetadata = async () => {
     try {
       const courseRes = await axios.get(`${config.backendUrl}/api/course`);
-      const course = courseRes.data.map((item) => ({
+      const course = courseRes.data.data.map((item) => ({
         id: item.courseCode,
         name: item.name
       }));
@@ -32,9 +32,6 @@ const CoursePage = () => {
       console.error('Error loading course metadata:', error);
     }
   };
-  if (courses.length === 0) {
-    return <PageLayout title="Danh sách khóa học"><p>Đang tải dữ liệu...</p></PageLayout>;
-}
 
   return (
     <PageLayout title="Danh sách khóa học">

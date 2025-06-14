@@ -19,7 +19,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       if (field.type === 'select' && field.optionsEndpoint) {
         try {
           const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}`);
-          newOptions[field.accessor] = response.data.map((item) => ({
+          newOptions[field.accessor] = response.data.data.map((item) => ({
             id: String(item.id),
             name: item.name,
           }));
@@ -37,7 +37,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       if (field.type === 'select' && field.optionsEndpoint) {
         try {
             const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}`);
-            newValidSelectedOptions[field.accessor] = response.data.map((item) => ({
+            newValidSelectedOptions[field.accessor] = response.data.data.map((item) => ({
               id: String(item.id),
               name: item.name,
             }));

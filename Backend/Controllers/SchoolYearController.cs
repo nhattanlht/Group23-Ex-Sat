@@ -11,7 +11,10 @@ namespace StudentManagement.Controllers
         private readonly ISchoolYearService _schoolYearService;
         private readonly ILogger<SchoolYearController> _logger;
 
-        public SchoolYearController(ISchoolYearService schoolYearService, ILogger<SchoolYearController> logger)
+        public SchoolYearController(
+            ISchoolYearService schoolYearService,
+            ILogger<SchoolYearController> logger
+        )
         {
             _schoolYearService = schoolYearService;
             _logger = logger;
@@ -23,12 +26,28 @@ namespace StudentManagement.Controllers
             try
             {
                 var schoolYears = await _schoolYearService.GetAllSchoolYearsAsync();
-                return Ok(schoolYears);
+                return Ok(
+                    new
+                    {
+                        data = schoolYears,
+                        message = "Lấy danh sách năm học thành công.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while fetching school years.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -39,14 +58,37 @@ namespace StudentManagement.Controllers
             {
                 var schoolYear = await _schoolYearService.GetSchoolYearByIdAsync(id);
                 if (schoolYear == null)
-                    return NotFound(new { message = "Không tìm thấy năm học." });
+                    return NotFound(
+                        new
+                        {
+                            data = id,
+                            message = "Không tìm thấy năm học.",
+                            status = "NotFound",
+                        }
+                    );
 
-                return Ok(schoolYear);
+                return Ok(
+                    new
+                    {
+                        data = schoolYear,
+                        message = "Lấy thông tin năm học thành công.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while fetching school year: {id}");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -57,13 +99,29 @@ namespace StudentManagement.Controllers
             {
                 var result = await _schoolYearService.CreateSchoolYearAsync(schoolYear);
                 return result == null
-                    ? BadRequest(new { message = "Tên năm học không được để trống." })
+                    ? BadRequest(
+                        new
+                        {
+                            data = schoolYear,
+                            message = "Tên năm học không được để trống.",
+                            status = "Error",
+                        }
+                    )
                     : CreatedAtAction(nameof(GetSchoolYear), new { id = result.Id }, result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while creating school year.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -74,13 +132,36 @@ namespace StudentManagement.Controllers
             {
                 var updated = await _schoolYearService.UpdateSchoolYearAsync(id, schoolYear);
                 return updated
-                    ? NoContent()
-                    : BadRequest(new { message = "ID không hợp lệ hoặc năm học không tồn tại." });
+                    ? Ok(
+                        new
+                        {
+                            data = schoolYear,
+                            message = "Cập nhật năm học thành công.",
+                            status = "Success",
+                        }
+                    )
+                    : BadRequest(
+                        new
+                        {
+                            data = schoolYear,
+                            message = "ID không hợp lệ hoặc năm học không tồn tại.",
+                            status = "Error",
+                        }
+                    );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while updating school year: {id}");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -91,13 +172,36 @@ namespace StudentManagement.Controllers
             {
                 var deleted = await _schoolYearService.DeleteSchoolYearAsync(id);
                 return deleted
-                    ? NoContent()
-                    : BadRequest(new { message = "Năm học không tồn tại." });
+                    ? Ok(
+                        new
+                        {
+                            data = id,
+                            message = "Xóa năm học thành công.",
+                            status = "Success",
+                        }
+                    )
+                    : BadRequest(
+                        new
+                        {
+                            data = id,
+                            message = "Năm học không tồn tại.",
+                            status = "Error",
+                        }
+                    );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while deleting school year: {id}");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
     }
