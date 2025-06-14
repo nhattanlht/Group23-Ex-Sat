@@ -4,7 +4,7 @@ import PageLayout from '../components/PageLayout';
 import axios from 'axios';
 import config from '../config';
 
-const CoursePage = () => {
+const EnrollmentPage = () => {
     const [classes, setClasses] = useState([]);
     const [students, setStudents] = useState([]);
     const [courses, setCourses] = useState([]);
@@ -14,7 +14,7 @@ const CoursePage = () => {
         { display: 'Sinh Viên', accessor: 'StudentId', type: 'select', options: students, required: true },
         { display: 'Thời gian đăng ký', accessor: 'registeredAt', type: 'date', required: false, disabled: true },
         { display: 'Hủy', accessor: 'isCancelled', type: 'checkbox', required: false },
-        { display: 'Lí do hủy', accessor: 'cancelReason', type: 'text', required: false },
+        { display: 'Lí do hủy', accessor: 'cancelReason', type: 'text', required: false, condition: (formData) => formData.isCancelled },
         { display: 'Thời gian hủy', accessor: 'cancelDate', type: 'date', required: false, disabled: true },
     ];
 
@@ -34,23 +34,25 @@ const CoursePage = () => {
 
     const loadMetadata = async () => {
         try {
-            const classRes = await axios.get(`${config.backendUrl}/api/class`);
-            const studentRes = await axios.get(`${config.backendUrl}/api/students`);
-            const courseRes = await axios.get(`${config.backendUrl}/api/course`);
+            const [classRes, studentRes, courseRes] = await Promise.all([
+                axios.get(`${config.backendUrl}/api/class`),
+                axios.get(`${config.backendUrl}/api/students`),
+                axios.get(`${config.backendUrl}/api/course`)
+            ]);
 
             setClasses(classRes.data.data.map((item) => ({
                 id: item.classId,
-                name: item.classId
+                name: `${item.classId} - ${item.courseCode || 'N/A'}`
             })));
 
             setStudents(studentRes.data.data.students.map((item) => ({
                 id: item.studentId,
-                name: item.fullName
+                name: `${item.StudentId} - ${item.FullName}`
             })));
 
             setCourses(courseRes.data.data.map((item) => ({
                 id: item.courseCode,
-                name: item.name
+                name: `${item.courseCode} - ${item.name}`
             })));
 
         } catch (error) {
@@ -66,29 +68,28 @@ const CoursePage = () => {
                 const key = field.accessor;
                 switch (field.accessor) {
                     case 'courseCode':
-                        row[key] =
-                            item.class?.courseCode || 'N/A';
+                        row[key] = item.class?.courseCode ? 
+                            `${item.class.courseCode} - ${item.class.courseName || 'N/A'}` : 'N/A';
                         break;
 
                     case 'StudentId':
-                        row[key] = item.student?.fullName || 'N/A';
+                        row[key] = item.student ? 
+                            `${item.student.StudentId} - ${item.student.FullName}` : 'N/A';
                         break;
 
                     case 'cancelDate':
                         row[key] = item.cancelDate ?
-                            new Date(item.cancelDate).toLocaleDateString() : '';
+                            new Date(item.cancelDate).toLocaleString('vi-VN') : '';
                         break;
 
                     case 'registeredAt':
                         row[key] = item.registeredAt ?
-                            new Date(item.registeredAt).toLocaleDateString() : 'N/A';
+                            new Date(item.registeredAt).toLocaleString('vi-VN') : 'N/A';
                         break;
 
                     case 'isCancelled':
-                        row[key] = item.isCancelled ? 'Hủy' : 'Không';
+                        row[key] = item.isCancelled ? 'Đã hủy' : 'Đang học';
                         break;
-
-                    // Add more custom fields here
 
                     default:
                         row[key] = item[key];
@@ -96,19 +97,22 @@ const CoursePage = () => {
             });
 
             row.__original = item;
-
-
             return row;
         });
     }
 
-
-
     return (
         <PageLayout title="Danh sách đăng ký lớp học">
-            <DataList formFields={formFields} tableFields={tableFields} dataName="enrollment" pk="enrollmentId" label="Đăng Ký Lớp Học" formatDataSet={formatDataSetForTable} />
+            <DataList 
+                formFields={formFields} 
+                tableFields={tableFields} 
+                dataName="enrollment" 
+                pk="enrollmentId" 
+                label="Đăng Ký Lớp Học" 
+                formatDataSet={formatDataSetForTable} 
+            />
         </PageLayout>
     );
 };
 
-export default CoursePage;
+export default EnrollmentPage;

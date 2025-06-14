@@ -209,7 +209,7 @@ namespace StudentManagement.Services
                         PhoneNumber = record.PhoneNumber,
                         PermanentAddressId = PermanentAddress.Id,
                         RegisteredAddressId = RegisteredAddress?.Id ?? null,
-                        TemporaryAddressIdd = TemporaryAddress?.Id ?? null,
+                        TemporaryAddressId = TemporaryAddress?.Id ?? null,
                         IdentificationId = identification.Id
                     };
 
@@ -316,7 +316,7 @@ namespace StudentManagement.Services
                         PhoneNumber = record.PhoneNumber,
                         PermanentAddressId = PermanentAddress.Id,
                         RegisteredAddressId = RegisteredAddress?.Id ?? null,
-                        TemporaryAddressIdd = TemporaryAddress?.Id ?? null,
+                        TemporaryAddressId = TemporaryAddress?.Id ?? null,
                         IdentificationId = identification.Id
                     };
 

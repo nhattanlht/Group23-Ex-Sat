@@ -73,7 +73,7 @@ public class DataController : ControllerBase
                     Identification_IssueDate = s.Identification.IssueDate,
                     Identification_ExpiryDate = s.Identification.ExpiryDate,
                     Identification_IssuedBy = s.Identification.IssuedBy,
-                    Identification_HasChip = s.Identification.HasChip,
+                    Identification_HasChip = s.Identification.HasChip ?? false,
                     Identification_IssuingCountry = s.Identification.IssuingCountry,
                     Identification_Notes = s.Identification.Notes,
                     Status = s.StudentStatus.Name
@@ -143,7 +143,7 @@ public class DataController : ControllerBase
                     Identification_IssueDate = s.Identification.IssueDate,
                     Identification_ExpiryDate = s.Identification.ExpiryDate,
                     Identification_IssuedBy = s.Identification.IssuedBy,
-                    Identification_HasChip = s.Identification.HasChip,
+                    Identification_HasChip = s.Identification.HasChip ?? false,
                     Identification_IssuingCountry = s.Identification.IssuingCountry,
                     Identification_Notes = s.Identification.Notes,
                     Status = s.StudentStatus.Name
@@ -324,7 +324,7 @@ public class DataController : ControllerBase
                     PhoneNumber = record.PhoneNumber,
                     PermanentAddressId = PermanentAddress?.Id ?? 0,
                     RegisteredAddressId = RegisteredAddress?.Id,
-                    TemporaryAddressIdd = TemporaryAddress?.Id,
+                    TemporaryAddressId = TemporaryAddress?.Id,
                     IdentificationId = identification.Id
                 };
 
@@ -453,6 +453,7 @@ public class DataController : ControllerBase
                         IssueDate = item.Identification_IssueDate,
                         ExpiryDate = item.Identification_ExpiryDate,
                         IssuedBy = item.Identification_IssuedBy,
+                        HasChip = item.Identification_HasChip,
                         IssuingCountry = item.Identification_IssuingCountry,
                         Notes = item.Identification_Notes
                     }

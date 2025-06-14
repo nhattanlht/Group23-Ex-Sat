@@ -35,8 +35,6 @@ namespace StudentManagement.Models
         [ForeignKey("StudyProgramId")]
         public virtual StudyProgram? StudyProgram { get; set; }
 
-        public string? Address { get; set; }
-
         [EmailAddress]
         public string? Email { get; set; }
 
@@ -52,7 +50,7 @@ namespace StudentManagement.Models
 
         public int? RegisteredAddressId { get; set; }
         
-        public int? TemporaryAddressIdd { get; set; }
+        public int? TemporaryAddressId { get; set; }
 
         [ForeignKey("PermanentAddressId")]
         public virtual Address? PermanentAddress { get; set; }
@@ -60,7 +58,7 @@ namespace StudentManagement.Models
         [ForeignKey("RegisteredAddressId")]
         public virtual Address? RegisteredAddress { get; set; }
 
-        [ForeignKey("TemporaryAddressIdd")]
+        [ForeignKey("TemporaryAddressId")]
         public virtual Address? TemporaryAddress { get; set; }
 
         [Required]

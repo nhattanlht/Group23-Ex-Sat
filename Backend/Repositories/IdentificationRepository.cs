@@ -12,7 +12,7 @@ namespace StudentManagement.Repositories
             _context = context;
         }
 
-        public async Task<Identification> GetByIdAsync(int id)
+        public async Task<Identification?> GetByIdAsync(int id)
         {
             return await _context.Identifications.FindAsync(id);
         }

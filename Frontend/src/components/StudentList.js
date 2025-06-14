@@ -6,10 +6,12 @@ import config from '../config';
 import DataTable from './DataTable';
 import { loadData, handleAddRow, handleEditRow, handleDeleteRow } from '../util/callCRUDApi';
 import DataForm from './DataForm';
-import { Search } from 'lucide-react';
+import { Search, Plus, FileInput } from 'lucide-react';
 import { formatDataSetForTable } from '../util/formatData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const StudentList = () => {
+  const { translate } = useLanguage();
   const [students, setStudents] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [statuses, setStatuses] = useState([]);
@@ -35,75 +37,92 @@ const StudentList = () => {
   };
 
   const fields = [
-    { display: 'StudentId', accessor: 'studentId', type: "text", required: true, disabled: true },
-    { display: 'Họ Tên', accessor: 'fullName', type: "text", required: true },
-    { display: 'Ngày Sinh', accessor: 'dateOfBirth', type: "date", required: true },
-    { display: 'Giới Tính', accessor: 'gender', type: "select", options: [{ id: "Nam", name: "Nam" }, { id: "Nữ", name: "Nữ" }, { id: "Khác", name: "Khác" }], required: true },
-    { display: 'Khoa', accessor: 'departmentId', type: "select", options: departments, required: true },
-    { display: 'Trạng Thái', accessor: 'statusId', type: "select", options: statuses, required: true },
-    { display: 'Khóa Học', accessor: 'schoolYearId', type: "select", options: schoolYears, required: true },
-    { display: 'Chương Trình', accessor: 'studyProgramId', type: "select", options: studyPrograms, required: true },
-    { display: 'Email', accessor: 'email', type: "email", required: true },
-    { display: 'Số Điện Thoại', accessor: 'phoneNumber', type: "text", required: true },
-    { display: 'Quốc Tịch', accessor: 'nationality', type: "text", required: true },
+    { display: translate('student.fields.student_id'), accessor: 'StudentId', type: "text", required: true},
+    { display: translate('student.fields.full_name'), accessor: 'FullName', type: "text", required: true },
+    { display: translate('student.fields.date_of_birth'), accessor: 'DateOfBirth', type: "date", required: true },
+    { display: translate('student.fields.gender'), accessor: 'Gender', type: "select", 
+      options: [
+        { id: "Nam", name: translate('student.form.gender_options.male') }, 
+        { id: "Nữ", name: translate('student.form.gender_options.female') }, 
+        { id: "Khác", name: translate('student.form.gender_options.other') }
+      ], 
+      required: true 
+    },
+    { display: translate('student.fields.department'), accessor: 'departmentId', type: "select", options: departments, required: true },
+    { display: translate('student.fields.status'), accessor: 'statusId', type: "select", options: statuses, required: true },
+    { display: translate('student.fields.school_year'), accessor: 'schoolYearId', type: "select", options: schoolYears, required: true },
+    { display: translate('student.fields.study_program'), accessor: 'studyProgramId', type: "select", options: studyPrograms, required: true },
+    { display: translate('student.fields.email'), accessor: 'email', type: "email", required: true },
+    { display: translate('student.fields.phone'), accessor: 'PhoneNumber', type: "text", required: true },
+    { display: translate('student.fields.nationality'), accessor: 'Nationality', type: "text", required: true },
     {
-      display: 'Địa Chỉ Nhận Thư',
+      display: translate('student.fields.permanent_address'),
       accessor: 'permanentAddress',
       type: "group",
       fields: [
-        { display: 'Số Nhà', accessor: 'houseNumber', type: "text", required: true },
-        { display: 'Tên Đường', accessor: 'streetName', type: "text", required: true },
-        { display: 'Phường/Xã', accessor: 'ward', type: "text", required: true },
-        { display: 'Quận/Huyện', accessor: 'district', type: "text", required: true },
-        { display: 'Tỉnh/Thành Phố', accessor: 'province', type: "text", required: true },
-        { display: 'Quốc Gia', accessor: 'country', type: "text", required: true },
-      ],
-      required: true,
-    },
-    { display: 'Địa Chỉ Nhận Thư Id', accessor: 'permanentAddressId', type: "text", required: true, hidden: true },
-    {
-      display: 'Địa Chỉ Thường Trú',
-      accessor: 'registeredAddress',
-      type: "group",
-      fields: [
-        { display: 'Số Nhà', accessor: 'houseNumber', type: "text" },
-        { display: 'Tên Đường', accessor: 'streetName', type: "text" },
-        { display: 'Phường/Xã', accessor: 'ward', type: "text" },
-        { display: 'Quận/Huyện', accessor: 'district', type: "text" },
-        { display: 'Tỉnh/Thành Phố', accessor: 'province', type: "text" },
-        { display: 'Quốc Gia', accessor: 'country', type: "text" },
+        { display: translate('student.form.address.house_number'), accessor: 'houseNumber', type: "text", required: true },
+        { display: translate('student.form.address.street_name'), accessor: 'streetName', type: "text", required: true },
+        { display: translate('student.form.address.ward'), accessor: 'ward', type: "text", required: true },
+        { display: translate('student.form.address.district'), accessor: 'district', type: "text", required: true },
+        { display: translate('student.form.address.province'), accessor: 'province', type: "text", required: true },
+        { display: translate('student.form.address.country'), accessor: 'country', type: "text", required: true },
       ],
     },
-    { display: 'Địa Chỉ Thường Trú Id', accessor: 'registeredAddressId', type: "text", hidden: true },
+    { display: translate('student.fields.permanent_address'), accessor: 'permanentAddressId', type: "text", hidden: true },
     {
-      display: 'Địa Chỉ Tạm Trú',
+      display: translate('student.fields.temporary_address'),
       accessor: 'temporaryAddress',
       type: "group",
       fields: [
-        { display: 'Số Nhà', accessor: 'houseNumber', type: "text" },
-        { display: 'Tên Đường', accessor: 'streetName', type: "text" },
-        { display: 'Phường/Xã', accessor: 'ward', type: "text" },
-        { display: 'Quận/Huyện', accessor: 'district', type: "text" },
-        { display: 'Tỉnh/Thành Phố', accessor: 'province', type: "text" },
-        { display: 'Quốc Gia', accessor: 'country', type: "text" },
+        { display: translate('student.form.address.house_number'), accessor: 'houseNumber', type: "text" },
+        { display: translate('student.form.address.street_name'), accessor: 'streetName', type: "text" },
+        { display: translate('student.form.address.ward'), accessor: 'ward', type: "text" },
+        { display: translate('student.form.address.district'), accessor: 'district', type: "text" },
+        { display: translate('student.form.address.province'), accessor: 'province', type: "text" },
+        { display: translate('student.form.address.country'), accessor: 'country', type: "text" },
       ],
     },
-    { display: 'Địa Chỉ Tạm Trú Id', accessor: 'temporaryAddressId', type: "text", hidden: true },
-    { display: "Identification Id", accessor: "identificationId", type: "text", hidden: true },
-    { display: 'Loại Giấy Tờ', accessor: 'identificationType', type: "select", options: [{ id: "CMND", name: "CMND" }, { id: "CCCD", name: "CCCD" }, { id: "Hộ Chiếu", name: "Hộ Chiếu" }], required: true, customeType: "identificationType" },
+    { display: translate('student.fields.temporary_address'), accessor: 'temporaryAddressId', type: "text", hidden: true },
     {
-      display: 'Thông Tin Giấy Tờ',
+      display: translate('student.fields.registered_address'),
+      accessor: 'registeredAddress',
+      type: "group",
+      fields: [
+        { display: translate('student.form.address.house_number'), accessor: 'houseNumber', type: "text" },
+        { display: translate('student.form.address.street_name'), accessor: 'streetName', type: "text" },
+        { display: translate('student.form.address.ward'), accessor: 'ward', type: "text" },
+        { display: translate('student.form.address.district'), accessor: 'district', type: "text" },
+        { display: translate('student.form.address.province'), accessor: 'province', type: "text" },
+        { display: translate('student.form.address.country'), accessor: 'country', type: "text" },
+      ],
+    },
+    { display: translate('student.fields.registered_address'), accessor: 'registeredAddressId', type: "text", hidden: true },
+    { display: "Identification Id", accessor: "identificationId", type: "text", hidden: true },
+    { 
+      display: translate('student.form.identification.type'), 
+      accessor: 'identificationType', 
+      type: "select", 
+      options: [
+        { id: "CMND", name: translate('student.form.identification.types.cmnd') }, 
+        { id: "CCCD", name: translate('student.form.identification.types.cccd') }, 
+        { id: "Hộ Chiếu", name: translate('student.form.identification.types.passport') }
+      ], 
+      required: true, 
+      customeType: "identificationType" 
+    },
+    {
+      display: translate('student.fields.identification'),
       accessor: 'identification',
       type: "group",
       fields: [
-        { display: 'Loại Giấy Tờ', accessor: 'identificationType', type: "text", required: true, hidden: true },
-        { display: 'Số Giấy Tờ', accessor: 'number', type: "text", required: true },
-        { display: 'Ngày Cấp', accessor: 'issueDate', type: "date", required: true },
-        { display: 'Ngày Hết Hạn', accessor: 'expiryDate', type: "date" },
-        { display: 'Nơi Cấp', accessor: 'issuedBy', type: "text", required: true },
-        { display: 'Có Gắn Chip', accessor: 'hasChip', type: "checkbox", condition: (formData) => formData.identificationType === "CCCD" },
-        { display: 'Quốc Gia Cấp', accessor: 'issuingCountry', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
-        { display: 'Ghi Chú', accessor: 'notes', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
+        { display: translate('student.form.identification.type'), accessor: 'identificationType', type: "text", required: true, hidden: true },
+        { display: translate('student.form.identification.number'), accessor: 'number', type: "text", required: true },
+        { display: translate('student.form.identification.issue_date'), accessor: 'issueDate', type: "date", required: true },
+        { display: translate('student.form.identification.expiry_date'), accessor: 'expiryDate', type: "date" },
+        { display: translate('student.form.identification.issued_by'), accessor: 'issuedBy', type: "text", required: true },
+        { display: translate('student.form.identification.has_chip'), accessor: 'hasChip', type: "checkbox", condition: (formData) => formData.identificationType === "CCCD" },
+        { display: translate('student.form.identification.issuing_country'), accessor: 'issuingCountry', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
+        { display: translate('student.form.identification.notes'), accessor: 'notes', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
       ],
       customeType: "identification"
     },
@@ -113,12 +132,14 @@ const StudentList = () => {
   const getViewAddress = async (id) => {
     if (!addresses[id]) { // Avoid duplicate API calls for the same ID
       try {
+        console.log('Fetching address for ID:', id);
         const response = await axios.get(`${config.backendUrl}/api/address/${id}`);
-        const formattedAddress = `${response.data.data.houseNumber} ${response.data.data.streetName}, ${response.data.data.ward}, ${response.data.data.district}, ${response.data.data.province}, ${response.data.data.country}`;
-        addresses[id] = formattedAddress;
+        console.log('Address API response:', response.data);
+        addresses[id] = response.data;
+        console.log('Updated addresses object:', addresses);
       } catch (error) {
         console.error("Error fetching address:", error);
-        addresses[id] = "Chưa có"
+        addresses[id] = null;
       }
     }
   };
@@ -141,29 +162,55 @@ const StudentList = () => {
   }, [currentPage]);
 
   // Gọi API lấy danh sách sinh viên
-  const loadStudents = async (page, filters) => {
+  const loadStudents = async (page, filters = {}) => {
     try {
       const data = await loadData('students', page, filters);
+      console.log('Raw student data with addresses:', data.students);
+      console.log('First student full data:', JSON.stringify(data.students[0], null, 2));
       
-      for (const student of data.students) {
-        if (student.PermanentAddressId) {
-          await getViewAddress(student.PermanentAddressId);
+      // Tạo mảng promises để lấy tất cả địa chỉ và thông tin định danh
+      const promises = data.students.flatMap(student => {
+        const addressPromises = [];
+        console.log('Processing student:', student);
+        
+        // Kiểm tra cả hai dạng tên trường có thể có
+        const permanentId = student.permanentAddressId || student.PermanentAddressId;
+        const temporaryId = student.temporaryAddressId || student.TemporaryAddressId;
+        const registeredId = student.registeredAddressId || student.RegisteredAddressId;
+        
+        console.log('Student address IDs:', {
+          permanentId,
+          temporaryId,
+          registeredId
+        });
+        
+        if (permanentId) {
+          console.log('Adding permanent address promise for ID:', permanentId);
+          addressPromises.push(getViewAddress(permanentId));
         }
-        if (student.RegisteredAddressId) {
-          await getViewAddress(student.RegisteredAddressId);
+        if (registeredId) {
+          console.log('Adding registered address promise for ID:', registeredId);
+          addressPromises.push(getViewAddress(registeredId));
         }
-        if (student.TemporaryAddressId) {
-          await getViewAddress(student.TemporaryAddressId);
+        if (temporaryId) {
+          console.log('Adding temporary address promise for ID:', temporaryId);
+          addressPromises.push(getViewAddress(temporaryId));
         }
         if (student.identificationId) {
-          await getIdentifications(student.identificationId);
+          addressPromises.push(getIdentifications(student.identificationId));
         }
-      }
+        return addressPromises;
+      });
+
+      // Đợi tất cả promises hoàn thành
+      await Promise.all(promises);
       
+      console.log('Final addresses object before formatting:', addresses);
       const formattedData = formatDataSetForTable(data.students, fields, {
         addresses,
         identifications,
       });
+      console.log('Formatted student data:', formattedData);
       setStudents(formattedData);
       setCurrentPage(data.currentPage || 1);
       setTotalPages(data.totalPages || 1);
@@ -195,130 +242,304 @@ const StudentList = () => {
     }
   };
 
-
-
   const handleAddStudent = async (studentForm) => {
-    console.log('add student', studentForm);
-    const student = structuredClone(studentForm);
     try {
-      student.identification["identificationType"] = student.identificationType;
+      console.log('Starting add student with form data:', studentForm);
 
-      const identification = await axios.post(`${config.backendUrl}/api/identification`, student.identification);
-      student.identificationId = identification.data.id;
+      // Normalize the data
+      const normalizedStudent = {
+        ...studentForm,
+        FullName: studentForm.FullName?.trim(),
+        StudentId: studentForm.StudentId,
+        Gender: studentForm.Gender || 'Nam',
+        DateOfBirth: studentForm.DateOfBirth,
+        PhoneNumber: studentForm.PhoneNumber,
+        Nationality: studentForm.Nationality?.trim() || 'Việt Nam',
+        DepartmentId: parseInt(studentForm.departmentId || studentForm.DepartmentId),
+        SchoolYearId: parseInt(studentForm.schoolYearId || studentForm.SchoolYearId),
+        StudyProgramId: parseInt(studentForm.studyProgramId || studentForm.StudyProgramId),
+        StatusId: parseInt(studentForm.statusId || studentForm.StatusId || 1) // Default to "Đang học"
+      };
 
-      delete student.identification;
-      delete student.identificationType;
+      console.log('Normalized student data:', normalizedStudent);
 
-      const PermanentAddress = await axios.post(`${config.backendUrl}/api/address`, student.PermanentAddress);
-      student.PermanentAddressId = PermanentAddress.data.id;
+      // Xử lý giấy tờ tùy thân
+      if (studentForm.identification) {
+        console.log('Processing identification:', studentForm.identification);
+        try {
+          // Chuẩn hóa dữ liệu giấy tờ tùy thân
+          const identificationData = {
+            identificationType: studentForm.identification.identificationType || 'CCCD',
+            number: studentForm.identification.number,
+            issueDate: studentForm.identification.issueDate,
+            expiryDate: studentForm.identification.expiryDate,
+            issuedBy: studentForm.identification.issuedBy,
+            hasChip: studentForm.identification.identificationType === 'CCCD' ? true : null,
+            issuingCountry: studentForm.identification.identificationType === 'Passport' ? studentForm.identification.issuingCountry : null,
+            notes: studentForm.identification.notes
+          };
 
-      delete student.PermanentAddress;
-
-
-      if (student.RegisteredAddress) {
-        if (student.RegisteredAddress?.houseNumber) {
-          const RegisteredAddress = await axios.post(`${config.backendUrl}/api/address`, student.RegisteredAddress);
-          student.RegisteredAddressId = RegisteredAddress.data.id;
+          // Validate required fields
+          if (!identificationData.number) {
+            throw new Error('Số giấy tờ tùy thân không được để trống');
           }
-        else {
-          student.RegisteredAddressId = null;
+          if (!identificationData.issueDate) {
+            throw new Error('Ngày cấp không được để trống');
+          }
+          if (!identificationData.issuedBy) {
+            throw new Error('Nơi cấp không được để trống');
+          }
+
+          console.log('Sending identification data:', identificationData);
+
+          const identification = await axios.post(
+            `${config.backendUrl}/api/identification`,
+            identificationData,
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+          console.log('Identification created:', identification.data);
+          normalizedStudent.identificationId = identification.data.id;
+          delete normalizedStudent.identification;
+        } catch (error) {
+          console.error('Error creating identification:', error.response?.data);
+          if (error.response?.data?.errors) {
+            const errorMessages = Object.values(error.response.data.errors).flat().join('\n');
+            throw new Error(`Lỗi khi tạo thông tin giấy tờ tùy thân:\n${errorMessages}`);
+          }
+          throw new Error(error.message || 'Lỗi khi tạo thông tin giấy tờ tùy thân');
         }
       }
-      else {
-        student.RegisteredAddressId = null;
-      }
 
-      delete student.RegisteredAddress;
-
-      if (student.TemporaryAddress) {
-        if (student.TemporaryAddress?.houseNumber) {
-          const TemporaryAddress = await axios.post(`${config.backendUrl}/api/address`, student.TemporaryAddress);
-          student.TemporaryAddressIdd = TemporaryAddress.data.id;
-          }
-        else {
-          student.TemporaryAddressIdd = null;
+      // Xử lý địa chỉ thường trú
+      if (studentForm.permanentAddress) {
+        console.log('Processing permanent address:', studentForm.permanentAddress);
+        try {
+          const permanentAddress = await axios.post(
+            `${config.backendUrl}/api/address`,
+            studentForm.permanentAddress,
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+          console.log('Permanent address created:', permanentAddress.data);
+          normalizedStudent.permanentAddressId = permanentAddress.data.id;
+          delete normalizedStudent.permanentAddress;
+        } catch (error) {
+          console.error('Error creating permanent address:', error.response?.data);
+          throw new Error('Lỗi khi tạo địa chỉ thường trú');
         }
       }
-      else {
-        student.TemporaryAddressIdd = null;
+
+      // Xử lý địa chỉ tạm trú
+      if (studentForm.temporaryAddress && Object.values(studentForm.temporaryAddress).some(value => value)) {
+        console.log('Processing temporary address:', studentForm.temporaryAddress);
+        try {
+          const temporaryAddress = await axios.post(
+            `${config.backendUrl}/api/address`,
+            studentForm.temporaryAddress,
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+          console.log('Temporary address created:', temporaryAddress.data);
+          normalizedStudent.temporaryAddressId = temporaryAddress.data.id;
+          delete normalizedStudent.temporaryAddress;
+        } catch (error) {
+          console.error('Error creating temporary address:', error.response?.data);
+          throw new Error('Lỗi khi tạo địa chỉ tạm trú');
+        }
       }
 
-      delete student.TemporaryAddress;
+      // Xử lý địa chỉ đăng ký
+      if (studentForm.registeredAddress && Object.values(studentForm.registeredAddress).some(value => value)) {
+        console.log('Processing registered address:', studentForm.registeredAddress);
+        try {
+          const registeredAddress = await axios.post(
+            `${config.backendUrl}/api/address`,
+            studentForm.registeredAddress,
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+          console.log('Registered address created:', registeredAddress.data);
+          normalizedStudent.registeredAddressId = registeredAddress.data.id;
+          delete normalizedStudent.registeredAddress;
+        } catch (error) {
+          console.error('Error creating registered address:', error.response?.data);
+          throw new Error('Lỗi khi tạo địa chỉ đăng ký');
+        }
+      }
 
-      const response = await handleAddRow('students', student);
+      console.log('Sending final student data to API:', normalizedStudent);
 
-      loadStudents(currentPage, filters);
-
-      return response;
+      // Gọi API tạo sinh viên mới
+      const response = await handleAddRow("students", normalizedStudent);
+      console.log('API response:', response);
+      
+      if (response) {
+        setShowModal(false);
+        await loadStudents(currentPage);
+        alert(translate('student.messages.add_success'));
+        return true;
+      }
+      return false;
     } catch (error) {
-      alert(`Lỗi khi thêm sinh viên! ${error.response?.data?.message || error.response?.data?.errors || error.message}`);
-      console.error('Error adding student:', error);
-      throw error;
+      console.error("Error adding student:", error);
+      console.error("Error details:", error.response?.data);
+      alert(error.response?.data?.message || error.message || translate('student.messages.add_error'));
+      return false;
     }
   };
 
-  const handleEditStudent = async (studentForm) => {
-    console.log('edit student', studentForm);
-    const student = structuredClone(studentForm);
+  const handleEditStudent = async (student) => {
     try {
-      student.identification["identificationType"] = student.identificationType;
+      console.log('Starting edit student with data:', student);
 
-      if (!student.identification["hasChip"]) {
-        student.identification["hasChip"] = null;
-      }
-      if (!student.identification["issuingCountry"]) {
-        student.identification["issuingCountry"] = null;
-      }
-      if (!student.identification["notes"]) {
-        student.identification["notes"] = null;
+      // Validate required fields
+      if (!student.FullName || !student.FullName.trim()) {
+        throw new Error(translate('student.messages.required_field'));
       }
 
-      delete student.identification["id"];
-
-      const identification = await axios.post(`${config.backendUrl}/api/identification`, student.identification);
-      student.identificationId = identification.data.data.id;
-
-      delete student.identification;
-      delete student.identificationType;
-      // Handle PermanentAddress
-      delete student.PermanentAddress["id"];
-
-      const PermanentAddress = await axios.post(`${config.backendUrl}/api/address`, student.PermanentAddress);
-      student.PermanentAddressId = PermanentAddress.data.data.id;
-
-      delete student.PermanentAddress;
-
-      // Handle RegisteredAddress
-      if (student.RegisteredAddress) {
-        delete student.RegisteredAddress["id"];
-
-        const RegisteredAddress = await axios.post(`${config.backendUrl}/api/address`, student.RegisteredAddress);
-        student.RegisteredAddressId = RegisteredAddress.data.data.id;
+      if (!student.Nationality || !student.Nationality.trim()) {
+        throw new Error(translate('student.messages.nationality_required'));
       }
-      else {
-        student.RegisteredAddressId = null;
+
+      // Normalize the data
+      const normalizedStudent = {
+        ...student,
+        FullName: student.FullName.trim(),
+        StudentId: student.StudentId || student.studentId,
+        Gender: student.Gender || student.gender,
+        DateOfBirth: student.DateOfBirth || student.dateOfBirth,
+        PhoneNumber: student.PhoneNumber || student.phoneNumber,
+        Nationality: student.Nationality.trim() || student.nationality,
+        DepartmentId: parseInt(student.DepartmentId || student.departmentId),
+        SchoolYearId: parseInt(student.SchoolYearId || student.schoolYearId),
+        StudyProgramId: parseInt(student.StudyProgramId || student.studyProgramId),
+        StatusId: parseInt(student.StatusId || student.statusId)
+      };
+
+      console.log('Normalized student data:', normalizedStudent);
+
+      // Xử lý giấy tờ tùy thân
+      if (student.identification) {
+        console.log('Processing identification:', student.identification);
+        const oldIdentificationId = student.identificationId;
+        delete student.identification["id"];
+
+        const identification = await axios.post(`${config.backendUrl}/api/identification`, student.identification);
+        console.log('Created new identification:', identification.data);
+        normalizedStudent.identificationId = identification.data.id;
+
+        if (oldIdentificationId) {
+          try {
+            await axios.delete(`${config.backendUrl}/api/identification/${oldIdentificationId}`);
+            console.log('Deleted old identification:', oldIdentificationId);
+          } catch (error) {
+            console.error("Error deleting old identification:", error);
+          }
+        }
+
+        delete normalizedStudent.identification;
+        delete normalizedStudent.identificationType;
       }
-      delete student.RegisteredAddress;
 
-      // Handle TemporaryAddress
-      if (student.TemporaryAddress) {
-        delete student.TemporaryAddress["id"];
+      // Xử lý địa chỉ thường trú
+      if (student.permanentAddress) {
+        console.log('Processing permanent address:', student.permanentAddress);
+        const oldPermanentAddressId = student.permanentAddressId;
+        delete student.permanentAddress["id"];
 
-        const TemporaryAddress = await axios.post(`${config.backendUrl}/api/address`, student.TemporaryAddress);
-        student.TemporaryAddressId = TemporaryAddress.data.data.id;
+        const permanentAddress = await axios.post(`${config.backendUrl}/api/address`, student.permanentAddress);
+        console.log('Created new permanent address:', permanentAddress.data);
+        normalizedStudent.permanentAddressId = permanentAddress.data.id;
+
+        if (oldPermanentAddressId) {
+          try {
+            await axios.delete(`${config.backendUrl}/api/address/${oldPermanentAddressId}`);
+            console.log('Deleted old permanent address:', oldPermanentAddressId);
+          } catch (error) {
+            console.error("Error deleting old permanent address:", error);
+          }
+        }
+        delete normalizedStudent.permanentAddress;
       }
-      else {
-        student.TemporaryAddressId = null;
+
+      // Xử lý địa chỉ tạm trú
+      if (student.temporaryAddress && Object.values(student.temporaryAddress).some(value => value)) {
+        console.log('Processing temporary address:', student.temporaryAddress);
+        const oldTemporaryAddressId = student.temporaryAddressId;
+        delete student.temporaryAddress["id"];
+
+        const temporaryAddress = await axios.post(`${config.backendUrl}/api/address`, student.temporaryAddress);
+        console.log('Created new temporary address:', temporaryAddress.data);
+        normalizedStudent.temporaryAddressId = temporaryAddress.data.id;
+
+        if (oldTemporaryAddressId) {
+          try {
+            await axios.delete(`${config.backendUrl}/api/address/${oldTemporaryAddressId}`);
+            console.log('Deleted old temporary address:', oldTemporaryAddressId);
+          } catch (error) {
+            console.error("Error deleting old temporary address:", error);
+          }
+        }
+      } else {
+        normalizedStudent.temporaryAddressId = null;
       }
-      delete student.TemporaryAddress;
+      delete normalizedStudent.temporaryAddress;
 
-      const response = await handleEditRow('students', student.StudentId, student);
-      loadStudents(currentPage, filters);
+      // Xử lý địa chỉ đăng ký
+      if (student.registeredAddress && Object.values(student.registeredAddress).some(value => value)) {
+        console.log('Processing registered address:', student.registeredAddress);
+        const oldRegisteredAddressId = student.registeredAddressId;
+        delete student.registeredAddress["id"];
 
-      return response;
+        const registeredAddress = await axios.post(`${config.backendUrl}/api/address`, student.registeredAddress);
+        console.log('Created new registered address:', registeredAddress.data);
+        normalizedStudent.registeredAddressId = registeredAddress.data.id;
+
+        if (oldRegisteredAddressId) {
+          try {
+            await axios.delete(`${config.backendUrl}/api/address/${oldRegisteredAddressId}`);
+            console.log('Deleted old registered address:', oldRegisteredAddressId);
+          } catch (error) {
+            console.error("Error deleting old registered address:", error);
+          }
+        }
+      } else {
+        normalizedStudent.registeredAddressId = null;
+      }
+      delete normalizedStudent.registeredAddress;
+
+      console.log('Sending update request with data:', normalizedStudent);
+
+      // Gọi API cập nhật thông tin sinh viên
+      const response = await handleEditRow("students", normalizedStudent.StudentId, normalizedStudent);
+      console.log('Update response:', response);
+      
+      // Đóng modal và tải lại dữ liệu chỉ khi API trả về thành công
+      if (response && response.success) {
+        setShowModal(false);
+        await loadStudents(currentPage);
+        alert(translate('student.messages.edit_success'));
+        return true;
+      } else {
+        throw new Error(response?.message || translate('student.messages.edit_error'));
+      }
     } catch (error) {
-      alert('Lỗi khi chỉnh sửa sinh viên!');
-      throw error;
+      console.error("Error updating student:", error);
+      alert(error.message || translate('student.messages.edit_error'));
+      return false;
     }
   };
 
@@ -332,102 +553,195 @@ const StudentList = () => {
   };
 
   const initializeFormData = async (fields, modalData) => {
-    const initialData = fields.reduce((acc, field) => {
-      if (field.type === "group") {
-        // Initialize nested group fields
-        acc[field.accessor] = field.fields.reduce((subAcc, subField) => {
-          subAcc[subField.accessor] = "";
-          return subAcc;
-        }, {});
-      } else {
-        // Initialize flat fields
-        acc[field.accessor] = "";
+    const initialData = {};
+
+    if (!modalData) {
+      // Generate new StudentId
+      try {
+        const response = await axios.get(`${config.backendUrl}/api/students/newid`);
+        initialData['StudentId'] = response.data;
+      } catch (error) {
+        console.error('Error getting new student ID:', error);
       }
-      return acc;
-    }, {});
+      return initialData;
+    }
 
-    // Populate with existing data
-    if (modalData) {
-      Object.keys(modalData).forEach((key) => {
-        initialData[key] = modalData[key];
-      });
+    // Đảm bảo trường StudentId luôn có giá trị
+    initialData['StudentId'] = modalData.studentId || modalData.StudentId || '';
 
-      if (modalData.PermanentAddressId) {
-        try {
-          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.PermanentAddressId}`);
-          initialData.PermanentAddress = response.data.data; // Populate address fields
-        } catch (error) {
-          console.error("Error fetching address:", error);
-        }
+    // Đảm bảo trường FullName luôn có giá trị
+    initialData['FullName'] = modalData.fullName || modalData.FullName || '';
+
+    // Đảm bảo trường Gender luôn có giá trị
+    initialData['Gender'] = modalData.gender || modalData.Gender || '';
+
+    // Đảm bảo trường PhoneNumber luôn có giá trị
+    initialData['PhoneNumber'] = modalData.phoneNumber || modalData.PhoneNumber || '';
+
+    // Đảm bảo trường Nationality luôn có giá trị
+    initialData['Nationality'] = modalData.nationality || modalData.Nationality || '';
+
+    // Đảm bảo trường DateOfBirth luôn có giá trị đúng định dạng
+    if (modalData.dateOfBirth || modalData.DateOfBirth) {
+      const dateValue = modalData.dateOfBirth || modalData.DateOfBirth;
+      const date = new Date(dateValue);
+      if (!isNaN(date)) {
+        initialData['DateOfBirth'] = date.toISOString().split('T')[0];
       }
+    }
 
-      if (modalData.RegisteredAddressId) {
-        try {
-          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.RegisteredAddressId}`);
-          initialData.RegisteredAddress = response.data.data; // Populate address fields
-        } catch (error) {
-          console.error("Error fetching address:", error);
-        }
+    // Đảm bảo các trường khác được sao chép
+    fields.forEach(field => {
+      const fieldName = field.accessor;
+      if (!initialData[fieldName] && modalData[fieldName] !== undefined) {
+        initialData[fieldName] = modalData[fieldName];
       }
+    });
 
-      if (modalData.TemporaryAddressId) {
-        try {
-          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.TemporaryAddressId}`);
-          initialData.TemporaryAddress = response.data.data; // Populate address fields
-        } catch (error) {
-          console.error("Error fetching address:", error);
-        }
+    // Khởi tạo địa chỉ thường trú
+    if (modalData.permanentAddressId) {
+      try {
+        const response = await axios.get(`${config.backendUrl}/api/address/${modalData.permanentAddressId}`);
+        initialData.permanentAddress = response.data;
+      } catch (error) {
+        console.error("Error fetching permanent address:", error);
       }
+    }
 
+    // Khởi tạo địa chỉ tạm trú
+    if (modalData.temporaryAddressId) {
+      try {
+        const response = await axios.get(`${config.backendUrl}/api/address/${modalData.temporaryAddressId}`);
+        initialData.temporaryAddress = response.data;
+      } catch (error) {
+        console.error("Error fetching temporary address:", error);
+      }
+    }
+
+    // Khởi tạo địa chỉ đăng ký
+    if (modalData.registeredAddressId) {
+      try {
+        const response = await axios.get(`${config.backendUrl}/api/address/${modalData.registeredAddressId}`);
+        initialData.registeredAddress = response.data;
+      } catch (error) {
+        console.error("Error fetching registered address:", error);
+      }
+    }
+
+    // Khởi tạo thông tin giấy tờ
+    if (modalData.identificationId) {
       try {
         const response = await axios.get(`${config.backendUrl}/api/identification/${modalData.identificationId}`);
-        initialData.identification = response.data.data; // Populate identification fields
-        initialData.identification["issueDate"] = initialData.identification["issueDate"].split("T")[0];
-        initialData.identification["expiryDate"] = initialData.identification["expiryDate"].split("T")[0];
+        const identificationData = response.data;
+        
+        // Format dates for identification
+        if (identificationData.issueDate) {
+          identificationData.issueDate = new Date(identificationData.issueDate).toISOString().split('T')[0];
+        }
+        if (identificationData.expiryDate) {
+          identificationData.expiryDate = new Date(identificationData.expiryDate).toISOString().split('T')[0];
+        }
+        
+        initialData.identification = identificationData;
+        initialData.identificationType = identificationData.identificationType;
       } catch (error) {
         console.error("Error fetching identification:", error);
       }
-
-      initialData.identificationType = initialData.identification["identificationType"];
     }
 
+    console.log('Initialized form data:', initialData);
     return initialData;
   };
 
   return (
     <div>
-      <div className="flex mb-3">
-        <button className="btn btn-success mb-2 mr-2" onClick={() => { setModalData(null); setShowModal(true); }}>
-          Thêm Sinh Viên
-        </button>
-        <Link to='/data'>
-          <button className='btn btn-primary mb-2'>
-            Import/Export
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+        {/* Left side - Action buttons */}
+        <div className="flex items-center gap-2">
+          <button 
+            className="btn bg-green-600 hover:bg-green-700 text-white flex items-center gap-2 px-4 py-2 rounded-md"
+            onClick={() => { setModalData(null); setShowModal(true); }}
+          >
+            <Plus size={20} />
+            {translate('student.add')}
           </button>
-        </Link>
-        <form id="searchForm" className='flex space-x-2' onSubmit={(e) => { e.preventDefault(); loadStudents(1, filters); }}>
-          <input type="text"
-            id="searchInput"
-            placeholder="Tìm kiếm theo tên, StudentId"
-            name="keyword"
-            value={filters.keyword}
-            onChange={handleChange}
-          />
+          <Link to='/data'>
+            <button className='btn bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 px-4 py-2 rounded-md'>
+              <FileInput size={20} />
+              {translate('student.import_export')}
+            </button>
+          </Link>
+        </div>
 
-          <select id="departmentId" onChange={handleChange} name="departmentId" value={filters.departmentId}>
-            <option value="">Chọn Khoa</option>
+        {/* Right side - Search form */}
+        <form 
+          id="searchForm" 
+          className='flex flex-wrap items-center gap-2 flex-grow justify-end max-w-2xl' 
+          onSubmit={(e) => { e.preventDefault(); loadStudents(1, filters); }}
+        >
+          <div className="flex-grow max-w-md">
+            <input 
+              type="text"
+              id="searchInput"
+              placeholder={translate('student.search.placeholder')}
+              name="keyword"
+              value={filters.keyword}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          
+          <select 
+            id="departmentId" 
+            onChange={handleChange} 
+            name="departmentId" 
+            value={filters.departmentId}
+            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">{translate('student.search.department_placeholder')}</option>
             {departments.map((department) => (
               <option key={department.id} value={department.id}>{department.name}</option>
             ))}
           </select>
 
-          <button type="submit" className='btn btn-primary'><Search size={16} /></button>
+          <button 
+            type="submit" 
+            className='btn bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 px-4 py-2 rounded-md min-w-[120px]'
+          >
+            <Search size={20} />
+            {translate('student.search.button')}
+          </button>
         </form>
-
       </div>
-      <DataTable fields={fields} dataSet={students} handleEdit={(student) => { setModalData(student.__original); setShowModal(true); }} handleDelete={(student) => { handleDeleteStudent(student.StudentId) }}></DataTable>
+
+      <DataTable 
+        fields={[
+          { display: translate('student.fields.student_id'), accessor: 'StudentId' },
+          { display: translate('student.fields.full_name'), accessor: 'FullName', type: "text" },
+          { display: translate('student.fields.date_of_birth'), accessor: 'DateOfBirth' },
+          { display: translate('student.fields.gender'), accessor: 'Gender' },
+          { display: translate('student.fields.department'), accessor: 'departmentId' },
+          { display: translate('student.fields.status'), accessor: 'statusId' },
+          { display: translate('student.fields.school_year'), accessor: 'schoolYearId' },
+          { display: translate('student.fields.study_program'), accessor: 'studyProgramId' },
+          { display: translate('student.fields.email'), accessor: 'email' },
+          { display: translate('student.fields.phone'), accessor: 'PhoneNumber' },
+          { display: translate('student.fields.nationality'), accessor: 'Nationality' },
+          { display: translate('student.fields.permanent_address'), accessor: 'permanentAddress', type: "group" },
+          { display: translate('student.fields.temporary_address'), accessor: 'temporaryAddress', type: "group" },
+          { display: translate('student.fields.registered_address'), accessor: 'registeredAddress', type: "group" },
+          { display: translate('student.fields.identification'), accessor: 'identification', type: "group", customeType: "identification" }
+        ]} 
+        dataSet={students} 
+        handleEdit={(student) => { 
+          console.log('Student being edited:', student);
+          setModalData(student.__original); 
+          setShowModal(true); 
+        }} 
+        handleDelete={(student) => { handleDeleteStudent(student.StudentId) }}
+      />
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-      {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} label='Sinh Viên' initializeFormData={initializeFormData} />}
+      {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} label={translate('student.title')} initializeFormData={initializeFormData} />}
     </div>
   );
 };

@@ -5,7 +5,7 @@
 namespace StudentManagement.Migrations
 {
     /// <inheritdoc />
-    public partial class Rename10 : Migration
+    public partial class RenameField2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

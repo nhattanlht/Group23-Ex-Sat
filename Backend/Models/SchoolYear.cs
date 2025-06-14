@@ -10,7 +10,7 @@ namespace StudentManagement.Models
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         // Khởi tạo danh sách để tránh lỗi NullReferenceException
         public ICollection<Student> Students { get; set; } = new HashSet<Student>();

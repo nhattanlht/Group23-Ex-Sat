@@ -380,9 +380,6 @@ namespace StudentManagement.Migrations
                     b.Property<string>("StudentId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
@@ -426,7 +423,7 @@ namespace StudentManagement.Migrations
                     b.Property<int>("StudyProgramId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TemporaryAddressIdd")
+                    b.Property<int?>("TemporaryAddressId")
                         .HasColumnType("int");
 
                     b.HasKey("StudentId");
@@ -453,7 +450,7 @@ namespace StudentManagement.Migrations
 
                     b.HasIndex("StudyProgramId");
 
-                    b.HasIndex("TemporaryAddressIdd");
+                    b.HasIndex("TemporaryAddressId");
 
                     b.ToTable("Students");
                 });
@@ -649,7 +646,7 @@ namespace StudentManagement.Migrations
 
                     b.HasOne("Address", "TemporaryAddress")
                         .WithMany()
-                        .HasForeignKey("TemporaryAddressIdd")
+                        .HasForeignKey("TemporaryAddressId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Department");
