@@ -7,7 +7,7 @@ public sealed class StudentMap : ClassMap<StudentDto>
     {
         Map(m => m.StudentId).Name("StudentId");
         Map(m => m.FullName).Name("FullName");
-        Map(m => m.DateOfBirth).Name("DateOfBirth").TypeConverterOption.Format("M/d/yyyy H:mm");
+        Map(m => m.DateOfBirth).Name("DateOfBirth").TypeConverterOption.Format(new[] { "M/d/yyyy H:mm", "MM/dd/yyyy HH:mm:ss", "yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss" });
         Map(m => m.Gender).Name("Gender");
 
         Map(m => m.Department).Name("Department");
@@ -40,8 +40,8 @@ public sealed class StudentMap : ClassMap<StudentDto>
         // Mapping Identification
         Map(m => m.Identification_Type).Name("Identification_Type");
         Map(m => m.Identification_Number).Name("Identification_Number");
-        Map(m => m.Identification_IssueDate).Name("Identification_IssueDate").TypeConverterOption.Format("M/d/yyyy H:mm");
-        Map(m => m.Identification_ExpiryDate).Name("Identification_ExpiryDate").TypeConverterOption.Format("M/d/yyyy H:mm").TypeConverterOption.NullValues("");;
+        Map(m => m.Identification_IssueDate).Name("Identification_IssueDate").TypeConverterOption.Format(new[] { "M/d/yyyy H:mm", "MM/dd/yyyy HH:mm:ss", "yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss" });
+        Map(m => m.Identification_ExpiryDate).Name("Identification_ExpiryDate").TypeConverterOption.Format(new[] { "M/d/yyyy H:mm", "MM/dd/yyyy HH:mm:ss", "yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss" }).TypeConverterOption.NullValues("");;
         Map(m => m.Identification_IssuedBy).Name("Identification_IssuedBy");
         Map(m => m.Identification_HasChip).Name("Identification_HasChip").Optional();
         Map(m => m.Identification_IssuingCountry).Name("Identification_IssuingCountry").Optional();
