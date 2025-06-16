@@ -32,9 +32,6 @@ const CoursePage = () => {
       console.error('Error loading course metadata:', error);
     }
   };
-  if (courses.length === 0) {
-    return <PageLayout title="Danh sách khóa học"><p>Đang tải dữ liệu...</p></PageLayout>;
-}
 
   return (
     <PageLayout title="Danh sách khóa học">
