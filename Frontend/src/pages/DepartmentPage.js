@@ -4,18 +4,19 @@ import { useLanguage } from '../contexts/LanguageContext';
 
 const DepartmentPage = () => {
   const { translate } = useLanguage();
+  const dataName = 'departments';
   
   const formFields = [
-    { display: translate('department.fields.name'), accessor: 'name', type: "text", required: true },
+    { display: translate(`${dataName}.fields.name`), accessor: 'name', type: "text", required: true },
   ];
   
   return (
-    <PageLayout title={translate('department.title')}>
+    <PageLayout title={translate(`${dataName}.title`)}>
       <DataList 
         formFields={formFields} 
-        dataName='departments' 
+        dataName={dataName}
         pk='id' 
-        label={translate('department.label')} 
+        label={translate(`${dataName}.label`)} 
       />
     </PageLayout>
   );

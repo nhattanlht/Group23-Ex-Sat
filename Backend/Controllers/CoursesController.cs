@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Models;
 using StudentManagement.Services;
+using Microsoft.Extensions.Localization;
 
 namespace StudentManagement.Controllers
 {
@@ -9,10 +10,14 @@ namespace StudentManagement.Controllers
     public class CourseController : ControllerBase
     {
         private readonly ICourseService _service;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public CourseController(ICourseService service)
+
+
+        public CourseController(ICourseService service, IStringLocalizer<SharedResource> localizer)
         {
             _service = service;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -23,7 +28,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = courses,
-                    message = "Lấy danh sách khóa học thành công.",
+                    message = _localizer["GetAllCoursesSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -37,7 +42,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = courses,
-                    message = "Lấy danh sách khóa học đang hoạt động thành công.",
+                    message = _localizer["GetActiveCoursesSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -91,7 +96,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = course,
-                    message = "Khóa học đã được tạo thành công.",
+                    message = _localizer["CreateCourseSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -106,7 +111,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = code,
-                        message = "Khóa học không tồn tại.",
+                        message = _localizer["CourseNotFound"].Value,
                         status = "NotFound",
                     }
                 );
@@ -118,7 +123,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = code,
-                        message = "Không thể cập nhật số tín chỉ của khóa học đã có sinh viên đăng ký",
+                        message = _localizer["UpdateCourseCreditsError"].Value,
                         status = "Error",
                     }
                 );
@@ -129,7 +134,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = dto.Credits,
-                        message = "Số tín chỉ phải lớn hơn hoặc bằng 2",
+                        message = _localizer["CourseCreditsMinError"].Value,
                         status = "Error",
                     }
                 );
@@ -145,7 +150,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = dto.PrerequisiteCourseCode,
-                            message = "Khóa học tiên quyết không tồn tại",
+                            message = _localizer["PrerequisiteCourseNotFound"].Value,
                             status = "Error",
                         }
                     );
@@ -159,7 +164,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = code,
-                        message = "Không thể cập nhật khóa học tiên quyết của khóa học đã có sinh viên đăng ký",
+                        message = _localizer["UpdatePrerequisiteCourseError"].Value,
                         status = "Error",
                     }
                 );
@@ -182,7 +187,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = code,
-                        message = "Cập nhật khóa học thất bại",
+                        message = _localizer["UpdateCourseError"].Value,
                         status = "Error",
                     }
                 );
@@ -191,7 +196,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = existingCourse,
-                    message = "Cập nhật khóa học thành công",
+                    message = _localizer["UpdateCourseSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -206,7 +211,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = code,
-                        message = "Khóa học không tồn tại.",
+                        message = _localizer["CourseNotFound"].Value,
                         status = "NotFound",
                     }
                 );
@@ -217,7 +222,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = code,
-                        message = "Xóa khóa học thất bại. Vui lòng kiểm tra lại.",
+                        message = _localizer["DeleteCourseError"].Value,
                         status = "Error",
                     }
                 );
@@ -226,7 +231,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = code,
-                    message = "Khóa học đã được xóa thành công.",
+                    message = _localizer["DeleteCourseSuccess"].Value,
                     status = "Success",
                 }
             );

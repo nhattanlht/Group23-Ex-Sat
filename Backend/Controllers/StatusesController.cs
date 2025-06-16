@@ -4,7 +4,7 @@ using StudentManagement.Services;
 
 namespace StudentManagement.Controllers
 {
-    [Route("api/student-statuses")]
+    [Route("api/[controller]")]
     [ApiController]
     public class StudentStatusController : ControllerBase
     {

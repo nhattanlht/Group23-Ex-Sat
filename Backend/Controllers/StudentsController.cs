@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using StudentManagement.DTOs;
 using StudentManagement.Models;
@@ -14,14 +15,17 @@ namespace StudentManagement.Controllers
     {
         private readonly IStudentService _studentService;
         private readonly ILogger<StudentsController> _logger;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
         public StudentsController(
             IStudentService studentService,
-            ILogger<StudentsController> logger
+            ILogger<StudentsController> logger,
+            IStringLocalizer<SharedResource> localizer
         )
         {
             _studentService = studentService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -49,7 +53,7 @@ namespace StudentManagement.Controllers
                             currentPage = page,
                             pageSize,
                         },
-                        message = "Lấy danh sách sinh viên thành công.",
+                        message = _localizer["GetStudentsSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -62,7 +66,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -83,7 +87,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = ModelState,
-                            message = "Dữ liệu không hợp lệ.",
+                            message = _localizer["InvalidModelState"].Value,
                             status = "Error",
                         }
                     );
@@ -95,7 +99,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = student,
-                            message = "Dữ liệu sinh viên không hợp lệ.",
+                            message = _localizer["InvalidStudentData"].Value,
                             status = "Error",
                         }
                     );
@@ -136,7 +140,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         status = "Error",
                         errors = ex.Message,
                     }
@@ -158,7 +162,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "Không tìm thấy sinh viên.",
+                            message = _localizer["StudentNotFound"].Value,
                             status = "NotFound",
                         }
                     );
@@ -168,7 +172,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = student,
-                        message = "Lấy thông tin sinh viên thành công.",
+                        message = _localizer["GetStudentSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -181,7 +185,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -202,7 +206,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = student,
-                            message = "Dữ liệu sinh viên không hợp lệ.",
+                            message = _localizer["InvalidStudentData"].Value,
                             status = "Error",
                         }
                     );
@@ -219,7 +223,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = student,
-                            message = "Mã số sinh viên không khớp.",
+                            message = _localizer["StudentIdMismatch"].Value,
                             status = "Error",
                         }
                     );
@@ -260,7 +264,7 @@ namespace StudentManagement.Controllers
                     500,
                     new
                     {
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         data = ex.Message,
                         status = "Error",
                     }
@@ -282,7 +286,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "Student deleted successfully.",
+                            message = _localizer["DeleteStudentSuccess"].Value,
                             status = "Success",
                         }
                     );
@@ -293,7 +297,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = id,
-                        message = "Failed to delete student.",
+                        message = _localizer["DeleteStudentError"].Value,
                         status = "Error",
                     }
                 );
@@ -305,7 +309,7 @@ namespace StudentManagement.Controllers
                     500,
                     new
                     {
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         data = ex.Message,
                         status = "Error",
                     }
@@ -345,7 +349,7 @@ namespace StudentManagement.Controllers
                             currentPage = page,
                             pageSize,
                         },
-                        message = "Tìm kiếm sinh viên thành công.",
+                        message = _localizer["SearchStudentsSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -362,7 +366,7 @@ namespace StudentManagement.Controllers
                     500,
                     new
                     {
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         data = ex.Message,
                         status = "Error",
                     }

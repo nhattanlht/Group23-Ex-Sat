@@ -64,6 +64,7 @@ export const en = {
     actions: {
       edit: 'Edit',
       delete: 'Delete',
+      add: 'Add',
       view: 'View',
       save: 'Save',
       cancel: 'Cancel'
@@ -148,14 +149,14 @@ export const en = {
     warning: "Warning",
     info: "Information"
   },
-  department: {
+  departments: {
     title: "Department List",
     label: "Department",
     fields: {
       name: "Department Name"
     },
     actions: {
-      add: "Add Department",
+      add: "Add",
       edit: "Edit",
       delete: "Delete"
     },
@@ -169,14 +170,14 @@ export const en = {
       delete_confirm: "Are you sure you want to delete this department?"
     }
   },
-  program: {
+  programs: {
     title: "Program List",
     label: "Study Program",
     fields: {
       name: "Program Name"
     },
     actions: {
-      add: "Add Program",
+      add: "Add",
       edit: "Edit",
       delete: "Delete"
     },
@@ -190,7 +191,7 @@ export const en = {
       delete_confirm: "Are you sure you want to delete this program?"
     }
   },
-  status: {
+  studentstatus: {
     title: "Student Status List",
     label: "Student Status",
     fields: {

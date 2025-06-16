@@ -4,7 +4,7 @@ import axios from 'axios';
 import Pagination from './Pagination';
 import config from '../config';
 import DataTable from './DataTable';
-import { loadData, handleAddRow, handleEditRow, handleDeleteRow } from '../util/callCRUDApi';
+import { loadData, handleAddRow, handleEditRow, handleDeleteRow, loadDataId } from '../util/callCRUDApi';
 import DataForm from './DataForm';
 import { Search, Plus, FileInput } from 'lucide-react';
 import { formatDataSetForTable } from '../util/formatData';
@@ -37,10 +37,10 @@ const StudentList = () => {
   };
 
   const fields = [
-    { display: translate('student.fields.student_id'), accessor: 'StudentId', type: "text", required: true},
-    { display: translate('student.fields.full_name'), accessor: 'FullName', type: "text", required: true },
-    { display: translate('student.fields.date_of_birth'), accessor: 'DateOfBirth', type: "date", required: true },
-    { display: translate('student.fields.gender'), accessor: 'Gender', type: "select", 
+    { display: translate('student.fields.student_id'), accessor: 'studentId', type: "text", required: true, disabled: true },
+    { display: translate('student.fields.full_name'), accessor: 'fullName', type: "text", required: true },
+    { display: translate('student.fields.date_of_birth'), accessor: 'dateOfBirth', type: "date", required: true },
+    { display: translate('student.fields.gender'), accessor: 'gender', type: "select", 
       options: [
         { id: "Nam", name: translate('student.form.gender_options.male') }, 
         { id: "Nữ", name: translate('student.form.gender_options.female') }, 
@@ -53,8 +53,8 @@ const StudentList = () => {
     { display: translate('student.fields.school_year'), accessor: 'schoolYearId', type: "select", options: schoolYears, required: true },
     { display: translate('student.fields.study_program'), accessor: 'studyProgramId', type: "select", options: studyPrograms, required: true },
     { display: translate('student.fields.email'), accessor: 'email', type: "email", required: true },
-    { display: translate('student.fields.phone'), accessor: 'PhoneNumber', type: "text", required: true },
-    { display: translate('student.fields.nationality'), accessor: 'Nationality', type: "text", required: true },
+    { display: translate('student.fields.phone'), accessor: 'phoneNumber', type: "text", required: true },
+    { display: translate('student.fields.nationality'), accessor: 'nationality', type: "text", required: true },
     {
       display: translate('student.fields.permanent_address'),
       accessor: 'permanentAddress',
@@ -98,23 +98,23 @@ const StudentList = () => {
     },
     { display: translate('student.fields.registered_address'), accessor: 'registeredAddressId', type: "text", hidden: true },
     { display: "Identification Id", accessor: "identificationId", type: "text", hidden: true },
-    { 
-      display: translate('student.form.identification.type'), 
-      accessor: 'identificationType', 
-      type: "select", 
-      options: [
-        { id: "CMND", name: translate('student.form.identification.types.cmnd') }, 
-        { id: "CCCD", name: translate('student.form.identification.types.cccd') }, 
-        { id: "Hộ Chiếu", name: translate('student.form.identification.types.passport') }
-      ], 
-      required: true, 
-      customeType: "identificationType" 
-    },
-    {
+        {
       display: translate('student.fields.identification'),
       accessor: 'identification',
       type: "group",
       fields: [
+        { 
+          display: translate('student.form.identification.type'), 
+          accessor: 'identificationType', 
+          type: "select", 
+          options: [
+            { id: "CMND", name: translate('student.form.identification.types.cmnd') }, 
+            { id: "CCCD", name: translate('student.form.identification.types.cccd') }, 
+            { id: "Hộ Chiếu", name: translate('student.form.identification.types.passport') }
+          ], 
+          required: true, 
+          customeType: "identificationType" 
+        },
         { display: translate('student.form.identification.type'), accessor: 'identificationType', type: "text", required: true, hidden: true },
         { display: translate('student.form.identification.number'), accessor: 'number', type: "text", required: true },
         { display: translate('student.form.identification.issue_date'), accessor: 'issueDate', type: "date", required: true },
@@ -133,9 +133,9 @@ const StudentList = () => {
     if (!addresses[id]) { // Avoid duplicate API calls for the same ID
       try {
         console.log('Fetching address for ID:', id);
-        const response = await axios.get(`${config.backendUrl}/api/address/${id}`);
-        console.log('Address API response:', response.data);
-        addresses[id] = response.data;
+        const response = await loadDataId('address', id);
+        console.log('Address API response:', response);
+        addresses[id] = response;
         console.log('Updated addresses object:', addresses);
       } catch (error) {
         console.error("Error fetching address:", error);
@@ -148,8 +148,8 @@ const StudentList = () => {
   const getIdentifications = async (id) => {
     if (!identifications[id]) { // Avoid duplicate API calls for the same ID
       try {
-        const response = await axios.get(`${config.backendUrl}/api/identification/${id}`);
-        identifications[id] = response.data.data;
+        const response = await loadDataId('identification', id);
+        identifications[id] = response;
       } catch (error) {
         console.error("Error fetching address:", error);
       }
@@ -173,10 +173,9 @@ const StudentList = () => {
         const addressPromises = [];
         console.log('Processing student:', student);
         
-        // Kiểm tra cả hai dạng tên trường có thể có
-        const permanentId = student.permanentAddressId || student.PermanentAddressId;
-        const temporaryId = student.temporaryAddressId || student.TemporaryAddressId;
-        const registeredId = student.registeredAddressId || student.RegisteredAddressId;
+        const permanentId = student.permanentAddressId;
+        const temporaryId = student.temporaryAddressId;
+        const registeredId = student.registeredAddressId;
         
         console.log('Student address IDs:', {
           permanentId,
@@ -225,7 +224,7 @@ const StudentList = () => {
     try {
       const [depRes, statusRes, programRes, yearRes] = await Promise.all([
         axios.get(`${config.backendUrl}/api/departments`),
-        axios.get(`${config.backendUrl}/api/student-statuses`),
+        axios.get(`${config.backendUrl}/api/studentstatus`),
         axios.get(`${config.backendUrl}/api/programs`),
         axios.get(`${config.backendUrl}/api/schoolyears`),
       ]);
@@ -245,145 +244,8 @@ const StudentList = () => {
   const handleAddStudent = async (studentForm) => {
     try {
       console.log('Starting add student with form data:', studentForm);
-
-      // Normalize the data
-      const normalizedStudent = {
-        ...studentForm,
-        FullName: studentForm.FullName?.trim(),
-        StudentId: studentForm.StudentId,
-        Gender: studentForm.Gender || 'Nam',
-        DateOfBirth: studentForm.DateOfBirth,
-        PhoneNumber: studentForm.PhoneNumber,
-        Nationality: studentForm.Nationality?.trim() || 'Việt Nam',
-        DepartmentId: parseInt(studentForm.departmentId || studentForm.DepartmentId),
-        SchoolYearId: parseInt(studentForm.schoolYearId || studentForm.SchoolYearId),
-        StudyProgramId: parseInt(studentForm.studyProgramId || studentForm.StudyProgramId),
-        StatusId: parseInt(studentForm.statusId || studentForm.StatusId || 1) // Default to "Đang học"
-      };
-
-      console.log('Normalized student data:', normalizedStudent);
-
-      // Xử lý giấy tờ tùy thân
-      if (studentForm.identification) {
-        console.log('Processing identification:', studentForm.identification);
-        try {
-          // Chuẩn hóa dữ liệu giấy tờ tùy thân
-          const identificationData = {
-            identificationType: studentForm.identification.identificationType || 'CCCD',
-            number: studentForm.identification.number,
-            issueDate: studentForm.identification.issueDate,
-            expiryDate: studentForm.identification.expiryDate,
-            issuedBy: studentForm.identification.issuedBy,
-            hasChip: studentForm.identification.identificationType === 'CCCD' ? true : null,
-            issuingCountry: studentForm.identification.identificationType === 'Passport' ? studentForm.identification.issuingCountry : null,
-            notes: studentForm.identification.notes
-          };
-
-          // Validate required fields
-          if (!identificationData.number) {
-            throw new Error('Số giấy tờ tùy thân không được để trống');
-          }
-          if (!identificationData.issueDate) {
-            throw new Error('Ngày cấp không được để trống');
-          }
-          if (!identificationData.issuedBy) {
-            throw new Error('Nơi cấp không được để trống');
-          }
-
-          console.log('Sending identification data:', identificationData);
-
-          const identification = await axios.post(
-            `${config.backendUrl}/api/identification`,
-            identificationData,
-            {
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            }
-          );
-          console.log('Identification created:', identification.data);
-          normalizedStudent.identificationId = identification.data.id;
-          delete normalizedStudent.identification;
-        } catch (error) {
-          console.error('Error creating identification:', error.response?.data);
-          if (error.response?.data?.errors) {
-            const errorMessages = Object.values(error.response.data.errors).flat().join('\n');
-            throw new Error(`Lỗi khi tạo thông tin giấy tờ tùy thân:\n${errorMessages}`);
-          }
-          throw new Error(error.message || 'Lỗi khi tạo thông tin giấy tờ tùy thân');
-        }
-      }
-
-      // Xử lý địa chỉ thường trú
-      if (studentForm.permanentAddress) {
-        console.log('Processing permanent address:', studentForm.permanentAddress);
-        try {
-          const permanentAddress = await axios.post(
-            `${config.backendUrl}/api/address`,
-            studentForm.permanentAddress,
-            {
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            }
-          );
-          console.log('Permanent address created:', permanentAddress.data);
-          normalizedStudent.permanentAddressId = permanentAddress.data.id;
-          delete normalizedStudent.permanentAddress;
-        } catch (error) {
-          console.error('Error creating permanent address:', error.response?.data);
-          throw new Error('Lỗi khi tạo địa chỉ thường trú');
-        }
-      }
-
-      // Xử lý địa chỉ tạm trú
-      if (studentForm.temporaryAddress && Object.values(studentForm.temporaryAddress).some(value => value)) {
-        console.log('Processing temporary address:', studentForm.temporaryAddress);
-        try {
-          const temporaryAddress = await axios.post(
-            `${config.backendUrl}/api/address`,
-            studentForm.temporaryAddress,
-            {
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            }
-          );
-          console.log('Temporary address created:', temporaryAddress.data);
-          normalizedStudent.temporaryAddressId = temporaryAddress.data.id;
-          delete normalizedStudent.temporaryAddress;
-        } catch (error) {
-          console.error('Error creating temporary address:', error.response?.data);
-          throw new Error('Lỗi khi tạo địa chỉ tạm trú');
-        }
-      }
-
-      // Xử lý địa chỉ đăng ký
-      if (studentForm.registeredAddress && Object.values(studentForm.registeredAddress).some(value => value)) {
-        console.log('Processing registered address:', studentForm.registeredAddress);
-        try {
-          const registeredAddress = await axios.post(
-            `${config.backendUrl}/api/address`,
-            studentForm.registeredAddress,
-            {
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            }
-          );
-          console.log('Registered address created:', registeredAddress.data);
-          normalizedStudent.registeredAddressId = registeredAddress.data.id;
-          delete normalizedStudent.registeredAddress;
-        } catch (error) {
-          console.error('Error creating registered address:', error.response?.data);
-          throw new Error('Lỗi khi tạo địa chỉ đăng ký');
-        }
-      }
-
-      console.log('Sending final student data to API:', normalizedStudent);
-
       // Gọi API tạo sinh viên mới
-      const response = await handleAddRow("students", normalizedStudent);
+      const response = await handleAddRow("students", studentForm);
       console.log('API response:', response);
       
       if (response) {
@@ -395,8 +257,8 @@ const StudentList = () => {
       return false;
     } catch (error) {
       console.error("Error adding student:", error);
-      console.error("Error details:", error.response?.data);
-      alert(error.response?.data?.message || error.message || translate('student.messages.add_error'));
+      console.error("Error details:", error.response?.data?.message); 
+      alert(error || translate('student.messages.add_error'));
       return false;
     }
   };
@@ -405,126 +267,8 @@ const StudentList = () => {
     try {
       console.log('Starting edit student with data:', student);
 
-      // Validate required fields
-      if (!student.FullName || !student.FullName.trim()) {
-        throw new Error(translate('student.messages.required_field'));
-      }
-
-      if (!student.Nationality || !student.Nationality.trim()) {
-        throw new Error(translate('student.messages.nationality_required'));
-      }
-
-      // Normalize the data
-      const normalizedStudent = {
-        ...student,
-        FullName: student.FullName.trim(),
-        StudentId: student.StudentId || student.studentId,
-        Gender: student.Gender || student.gender,
-        DateOfBirth: student.DateOfBirth || student.dateOfBirth,
-        PhoneNumber: student.PhoneNumber || student.phoneNumber,
-        Nationality: student.Nationality.trim() || student.nationality,
-        DepartmentId: parseInt(student.DepartmentId || student.departmentId),
-        SchoolYearId: parseInt(student.SchoolYearId || student.schoolYearId),
-        StudyProgramId: parseInt(student.StudyProgramId || student.studyProgramId),
-        StatusId: parseInt(student.StatusId || student.statusId)
-      };
-
-      console.log('Normalized student data:', normalizedStudent);
-
-      // Xử lý giấy tờ tùy thân
-      if (student.identification) {
-        console.log('Processing identification:', student.identification);
-        const oldIdentificationId = student.identificationId;
-        delete student.identification["id"];
-
-        const identification = await axios.post(`${config.backendUrl}/api/identification`, student.identification);
-        console.log('Created new identification:', identification.data);
-        normalizedStudent.identificationId = identification.data.id;
-
-        if (oldIdentificationId) {
-          try {
-            await axios.delete(`${config.backendUrl}/api/identification/${oldIdentificationId}`);
-            console.log('Deleted old identification:', oldIdentificationId);
-          } catch (error) {
-            console.error("Error deleting old identification:", error);
-          }
-        }
-
-        delete normalizedStudent.identification;
-        delete normalizedStudent.identificationType;
-      }
-
-      // Xử lý địa chỉ thường trú
-      if (student.permanentAddress) {
-        console.log('Processing permanent address:', student.permanentAddress);
-        const oldPermanentAddressId = student.permanentAddressId;
-        delete student.permanentAddress["id"];
-
-        const permanentAddress = await axios.post(`${config.backendUrl}/api/address`, student.permanentAddress);
-        console.log('Created new permanent address:', permanentAddress.data);
-        normalizedStudent.permanentAddressId = permanentAddress.data.id;
-
-        if (oldPermanentAddressId) {
-          try {
-            await axios.delete(`${config.backendUrl}/api/address/${oldPermanentAddressId}`);
-            console.log('Deleted old permanent address:', oldPermanentAddressId);
-          } catch (error) {
-            console.error("Error deleting old permanent address:", error);
-          }
-        }
-        delete normalizedStudent.permanentAddress;
-      }
-
-      // Xử lý địa chỉ tạm trú
-      if (student.temporaryAddress && Object.values(student.temporaryAddress).some(value => value)) {
-        console.log('Processing temporary address:', student.temporaryAddress);
-        const oldTemporaryAddressId = student.temporaryAddressId;
-        delete student.temporaryAddress["id"];
-
-        const temporaryAddress = await axios.post(`${config.backendUrl}/api/address`, student.temporaryAddress);
-        console.log('Created new temporary address:', temporaryAddress.data);
-        normalizedStudent.temporaryAddressId = temporaryAddress.data.id;
-
-        if (oldTemporaryAddressId) {
-          try {
-            await axios.delete(`${config.backendUrl}/api/address/${oldTemporaryAddressId}`);
-            console.log('Deleted old temporary address:', oldTemporaryAddressId);
-          } catch (error) {
-            console.error("Error deleting old temporary address:", error);
-          }
-        }
-      } else {
-        normalizedStudent.temporaryAddressId = null;
-      }
-      delete normalizedStudent.temporaryAddress;
-
-      // Xử lý địa chỉ đăng ký
-      if (student.registeredAddress && Object.values(student.registeredAddress).some(value => value)) {
-        console.log('Processing registered address:', student.registeredAddress);
-        const oldRegisteredAddressId = student.registeredAddressId;
-        delete student.registeredAddress["id"];
-
-        const registeredAddress = await axios.post(`${config.backendUrl}/api/address`, student.registeredAddress);
-        console.log('Created new registered address:', registeredAddress.data);
-        normalizedStudent.registeredAddressId = registeredAddress.data.id;
-
-        if (oldRegisteredAddressId) {
-          try {
-            await axios.delete(`${config.backendUrl}/api/address/${oldRegisteredAddressId}`);
-            console.log('Deleted old registered address:', oldRegisteredAddressId);
-          } catch (error) {
-            console.error("Error deleting old registered address:", error);
-          }
-        }
-      } else {
-        normalizedStudent.registeredAddressId = null;
-      }
-      delete normalizedStudent.registeredAddress;
-
-      console.log('Sending update request with data:', normalizedStudent);
-
       // Gọi API cập nhật thông tin sinh viên
-      const response = await handleEditRow("students", normalizedStudent.StudentId, normalizedStudent);
+      const response = await handleEditRow("students", student.studentId, student);
       console.log('Update response:', response);
       
       // Đóng modal và tải lại dữ liệu chỉ khi API trả về thành công
@@ -554,40 +298,8 @@ const StudentList = () => {
 
   const initializeFormData = async (fields, modalData) => {
     const initialData = {};
-
     if (!modalData) {
-      // Generate new StudentId
-      try {
-        const response = await axios.get(`${config.backendUrl}/api/students/newid`);
-        initialData['StudentId'] = response.data;
-      } catch (error) {
-        console.error('Error getting new student ID:', error);
-      }
       return initialData;
-    }
-
-    // Đảm bảo trường StudentId luôn có giá trị
-    initialData['StudentId'] = modalData.studentId || modalData.StudentId || '';
-
-    // Đảm bảo trường FullName luôn có giá trị
-    initialData['FullName'] = modalData.fullName || modalData.FullName || '';
-
-    // Đảm bảo trường Gender luôn có giá trị
-    initialData['Gender'] = modalData.gender || modalData.Gender || '';
-
-    // Đảm bảo trường PhoneNumber luôn có giá trị
-    initialData['PhoneNumber'] = modalData.phoneNumber || modalData.PhoneNumber || '';
-
-    // Đảm bảo trường Nationality luôn có giá trị
-    initialData['Nationality'] = modalData.nationality || modalData.Nationality || '';
-
-    // Đảm bảo trường DateOfBirth luôn có giá trị đúng định dạng
-    if (modalData.dateOfBirth || modalData.DateOfBirth) {
-      const dateValue = modalData.dateOfBirth || modalData.DateOfBirth;
-      const date = new Date(dateValue);
-      if (!isNaN(date)) {
-        initialData['DateOfBirth'] = date.toISOString().split('T')[0];
-      }
     }
 
     // Đảm bảo các trường khác được sao chép
@@ -601,8 +313,8 @@ const StudentList = () => {
     // Khởi tạo địa chỉ thường trú
     if (modalData.permanentAddressId) {
       try {
-        const response = await axios.get(`${config.backendUrl}/api/address/${modalData.permanentAddressId}`);
-        initialData.permanentAddress = response.data;
+        const response = await loadDataId('address', modalData.permanentAddressId);
+        initialData.permanentAddress = response;
       } catch (error) {
         console.error("Error fetching permanent address:", error);
       }
@@ -611,8 +323,8 @@ const StudentList = () => {
     // Khởi tạo địa chỉ tạm trú
     if (modalData.temporaryAddressId) {
       try {
-        const response = await axios.get(`${config.backendUrl}/api/address/${modalData.temporaryAddressId}`);
-        initialData.temporaryAddress = response.data;
+        const response = await loadDataId('address', modalData.temporaryAddressId);
+        initialData.temporaryAddress = response;
       } catch (error) {
         console.error("Error fetching temporary address:", error);
       }
@@ -621,8 +333,8 @@ const StudentList = () => {
     // Khởi tạo địa chỉ đăng ký
     if (modalData.registeredAddressId) {
       try {
-        const response = await axios.get(`${config.backendUrl}/api/address/${modalData.registeredAddressId}`);
-        initialData.registeredAddress = response.data;
+        const response = await loadDataId('address', modalData.registeredAddressId);
+        initialData.registeredAddress = response;
       } catch (error) {
         console.error("Error fetching registered address:", error);
       }
@@ -631,8 +343,8 @@ const StudentList = () => {
     // Khởi tạo thông tin giấy tờ
     if (modalData.identificationId) {
       try {
-        const response = await axios.get(`${config.backendUrl}/api/identification/${modalData.identificationId}`);
-        const identificationData = response.data;
+        const response = await loadDataId('identification', modalData.identificationId);
+        const identificationData = response;
         
         // Format dates for identification
         if (identificationData.issueDate) {
@@ -643,7 +355,7 @@ const StudentList = () => {
         }
         
         initialData.identification = identificationData;
-        initialData.identificationType = identificationData.identificationType;
+        initialData.identification['identificationType'] = identificationData.identificationType;
       } catch (error) {
         console.error("Error fetching identification:", error);
       }
@@ -716,17 +428,17 @@ const StudentList = () => {
 
       <DataTable 
         fields={[
-          { display: translate('student.fields.student_id'), accessor: 'StudentId' },
-          { display: translate('student.fields.full_name'), accessor: 'FullName', type: "text" },
-          { display: translate('student.fields.date_of_birth'), accessor: 'DateOfBirth' },
-          { display: translate('student.fields.gender'), accessor: 'Gender' },
+          { display: translate('student.fields.student_id'), accessor: 'studentId' },
+          { display: translate('student.fields.full_name'), accessor: 'fullName', type: "text" },
+          { display: translate('student.fields.date_of_birth'), accessor: 'dateOfBirth' },
+          { display: translate('student.fields.gender'), accessor: 'gender' },
           { display: translate('student.fields.department'), accessor: 'departmentId' },
           { display: translate('student.fields.status'), accessor: 'statusId' },
           { display: translate('student.fields.school_year'), accessor: 'schoolYearId' },
           { display: translate('student.fields.study_program'), accessor: 'studyProgramId' },
           { display: translate('student.fields.email'), accessor: 'email' },
-          { display: translate('student.fields.phone'), accessor: 'PhoneNumber' },
-          { display: translate('student.fields.nationality'), accessor: 'Nationality' },
+          { display: translate('student.fields.phone'), accessor: 'phoneNumber' },
+          { display: translate('student.fields.nationality'), accessor: 'nationality' },
           { display: translate('student.fields.permanent_address'), accessor: 'permanentAddress', type: "group" },
           { display: translate('student.fields.temporary_address'), accessor: 'temporaryAddress', type: "group" },
           { display: translate('student.fields.registered_address'), accessor: 'registeredAddress', type: "group" },
@@ -741,7 +453,7 @@ const StudentList = () => {
         handleDelete={(student) => { handleDeleteStudent(student.StudentId) }}
       />
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-      {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} label={translate('student.title')} initializeFormData={initializeFormData} />}
+      {showModal && <DataForm fields={fields} data={modalData} dataName={'student'} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} label={translate('student.title')} initializeFormData={initializeFormData} />}
     </div>
   );
 };

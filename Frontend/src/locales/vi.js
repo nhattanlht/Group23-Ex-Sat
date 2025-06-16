@@ -64,6 +64,7 @@ export const vi = {
     actions: {
       edit: 'Sửa',
       delete: 'Xóa',
+      add: 'Thêm',
       view: 'Xem',
       save: 'Lưu',
       cancel: 'Hủy'
@@ -148,14 +149,14 @@ export const vi = {
     warning: "Cảnh báo",
     info: "Thông tin"
   },
-  department: {
+  departments: {
     title: "Danh sách khoa",
     label: "Khoa",
     fields: {
       name: "Tên khoa"
     },
     actions: {
-      add: "Thêm khoa",
+      add: "Thêm",
       edit: "Sửa",
       delete: "Xóa"
     },
@@ -169,14 +170,14 @@ export const vi = {
       delete_confirm: "Bạn có chắc chắn muốn xóa khoa này?"
     }
   },
-  program: {
+  programs: {
     title: "Danh sách chương trình",
     label: "Chương trình đào tạo",
     fields: {
       name: "Tên chương trình"
     },
     actions: {
-      add: "Thêm chương trình",
+      add: "Thêm",
       edit: "Sửa",
       delete: "Xóa"
     },
@@ -190,14 +191,14 @@ export const vi = {
       delete_confirm: "Bạn có chắc chắn muốn xóa chương trình này?"
     }
   },
-  status: {
+  studentstatus: {
     title: "Danh sách tình trạng sinh viên",
     label: "Tình trạng sinh viên",
     fields: {
       name: "Tình trạng"
     },
     actions: {
-      add: "Thêm tình trạng sinh viên",
+      add: "Thêm",
       edit: "Sửa",
       delete: "Xóa"
     },

@@ -1,7 +1,7 @@
+using System.Text.RegularExpressions;
+using StudentManagement.DTOs;
 using StudentManagement.Models;
 using StudentManagement.Repositories;
-using StudentManagement.DTOs;
-using System.Text.RegularExpressions;
 
 namespace StudentManagement.Services
 {
@@ -70,10 +70,22 @@ namespace StudentManagement.Services
             // Add the status transition validation here
             var validStatusTransitions = new Dictionary<int, HashSet<int>>
             {
-                { 1, new HashSet<int> { 2, 3, 4 } }, // "Đang học" → "Bảo lưu", "Tốt nghiệp", "Đình chỉ"
-                { 2, new HashSet<int> { } }, // "Đã tốt nghiệp" → Không thể thay đổi
-                { 3, new HashSet<int> { } }, // "Đã thôi học" Không thể thay đổi
-                { 4, new HashSet<int> { 1, 4 } }   // "Tạm dừng học" → "Đang học", "Đã thôi học"
+                {
+                    1,
+                    new HashSet<int> { 2, 3, 4 }
+                }, // "Đang học" → "Bảo lưu", "Tốt nghiệp", "Đình chỉ"
+                {
+                    2,
+                    new HashSet<int> { }
+                }, // "Đã tốt nghiệp" → Không thể thay đổi
+                {
+                    3,
+                    new HashSet<int> { }
+                }, // "Đã thôi học" Không thể thay đổi
+                {
+                    4,
+                    new HashSet<int> { 1, 4 }
+                }, // "Tạm dừng học" → "Đang học", "Đã thôi học"
             };
 
             // Define status names for better readability in error messages
@@ -82,19 +94,30 @@ namespace StudentManagement.Services
                 { 1, "Đang học" },
                 { 2, "Đã tốt nghiệp" },
                 { 3, "Đã thôi học" },
-                { 4, "Tạm dừng học" }
+                { 4, "Tạm dừng học" },
             };
 
             // Validate the status transition
             if (existingStudent.StatusId != student.StatusId)
             {
-                if (!validStatusTransitions.TryGetValue(existingStudent.StatusId, out var allowedTransitions) ||
-                    !allowedTransitions.Contains(student.StatusId))
+                if (
+                    !validStatusTransitions.TryGetValue(
+                        existingStudent.StatusId,
+                        out var allowedTransitions
+                    ) || !allowedTransitions.Contains(student.StatusId)
+                )
                 {
-                    string oldStatus = statusNames.ContainsKey(existingStudent.StatusId) ? statusNames[existingStudent.StatusId] : "Không xác định";
-                    string newStatus = statusNames.ContainsKey(student.StatusId) ? statusNames[student.StatusId] : "Không xác định";
+                    string oldStatus = statusNames.ContainsKey(existingStudent.StatusId)
+                        ? statusNames[existingStudent.StatusId]
+                        : "Không xác định";
+                    string newStatus = statusNames.ContainsKey(student.StatusId)
+                        ? statusNames[student.StatusId]
+                        : "Không xác định";
 
-                    return (false, $"Không thể chuyển đổi trạng thái sinh viên từ '{oldStatus}' sang '{newStatus}'.");
+                    return (
+                        false,
+                        $"Không thể chuyển đổi trạng thái sinh viên từ '{oldStatus}' sang '{newStatus}'."
+                    );
                 }
             }
 
@@ -105,7 +128,12 @@ namespace StudentManagement.Services
             if (!Regex.IsMatch(student.PhoneNumber, @"^(0[2-9]|84[2-9])\d{8,9}$"))
                 return (false, "Số điện thoại không hợp lệ.");
 
-            if (await _studentRepository.StudentExistsByPhoneNumber(student.PhoneNumber, student.StudentId))
+            if (
+                await _studentRepository.StudentExistsByPhoneNumber(
+                    student.PhoneNumber,
+                    student.StudentId
+                )
+            )
                 return (false, "Số điện thoại đã tồn tại trong hệ thống.");
 
             if (string.IsNullOrWhiteSpace(student.Email))
@@ -122,9 +150,9 @@ namespace StudentManagement.Services
                 await _studentRepository.UpdateStudent(student);
                 return (true, "Cập nhật thông tin sinh viên thành công.");
             }
-            catch
+            catch (Exception ex)
             {
-                return (false, "Đã xảy ra lỗi khi cập nhật sinh viên.");
+                return (false, ex.Message);
             }
         }
 
@@ -133,7 +161,11 @@ namespace StudentManagement.Services
             return await _studentRepository.DeleteStudent(id);
         }
 
-        public async Task<(IEnumerable<Student>, int, int)> SearchStudents(StudentFilterModel filters, int page, int pageSize)
+        public async Task<(IEnumerable<Student>, int, int)> SearchStudents(
+            StudentFilterModel filters,
+            int page,
+            int pageSize
+        )
         {
             var students = await _studentRepository.SearchStudents(filters.Keyword, page, pageSize);
             var totalStudents = await _studentRepository.GetStudentsCount();

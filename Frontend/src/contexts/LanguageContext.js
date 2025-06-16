@@ -13,11 +13,13 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider = ({ children }) => {
-  const [currentLanguage, setCurrentLanguage] = useState('vi');
+  const storedLanguage = localStorage.getItem('language') || 'vi';
+  const [currentLanguage, setCurrentLanguage] = useState(storedLanguage);
   const translations = { en, vi };
 
   const translate = (key) => {
     const keys = key.split('.');
+
     let translation = translations[currentLanguage];
     
     for (const k of keys) {
@@ -29,7 +31,11 @@ export const LanguageProvider = ({ children }) => {
   };
 
   const toggleLanguage = () => {
-    setCurrentLanguage(prev => prev === 'vi' ? 'en' : 'vi');
+    setCurrentLanguage(prev => {
+      const newLang = prev === 'vi' ? 'en' : 'vi';
+      localStorage.setItem('language', newLang);
+      return newLang;
+    });
   };
 
   return (

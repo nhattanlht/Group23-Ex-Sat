@@ -1,16 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Models;
 using StudentManagement.Services;
+using StudentManagement;
+using Microsoft.Extensions.Localization;
 
 [Route("api/[controller]")]
 [ApiController]
 public class IdentificationController : ControllerBase
 {
     private readonly IIdentificationService _service;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public IdentificationController(IIdentificationService service)
+    public IdentificationController(IIdentificationService service, IStringLocalizer<SharedResource> localizer)
     {
         _service = service;
+        _localizer = localizer;
     }
 
     [HttpPost]
@@ -21,7 +25,7 @@ public class IdentificationController : ControllerBase
                 new
                 {
                     data = ModelState,
-                    message = "Dữ liệu CMND/CCCD không hợp lệ.",
+                    message = _localizer["InvalidIdentificationData"].Value,
                     status = "Error",
                 }
             );
@@ -32,7 +36,7 @@ public class IdentificationController : ControllerBase
                 new
                 {
                     data = result,
-                    message = "CMND/CCCD đã được tạo thành công.",
+                    message = _localizer["CreateIdentificationSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -44,8 +48,8 @@ public class IdentificationController : ControllerBase
                 new
                 {
                     data = new { },
-                    message = "Lỗi khi tạo CMND/CCCD.",
-                    errors = ex.Message,
+                    message = _localizer["CreateIdentificationError"].Value,
+                    // errors = ex.Message,
                     status = "Error",
                 }
             );
@@ -61,7 +65,7 @@ public class IdentificationController : ControllerBase
                 new
                 {
                     data = id,
-                    message = "Không tìm thấy CMND/CCCD!",
+                    message = _localizer["IdentificationNotFound"].Value,
                     status = "NotFound",
                 }
             );
@@ -70,7 +74,7 @@ public class IdentificationController : ControllerBase
             new
             {
                 data = result,
-                message = "Lấy thông tin CMND/CCCD thành công.",
+                message = _localizer["GetIdentificationSuccess"].Value,
                 status = "Success",
             }
         );

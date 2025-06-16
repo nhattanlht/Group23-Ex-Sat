@@ -1,7 +1,7 @@
 import axios from "axios";
 import config from '../config';
 
-export const loadData = async (dataName, page, filters = {}) => {
+export const loadData = async (dataName, page, filters = {}, language = localStorage.getItem('language')) => {
     try {
         console.log('Calling API with:', { dataName, page, filters });
         const queryString = buildQueryString(filters);
@@ -9,7 +9,13 @@ export const loadData = async (dataName, page, filters = {}) => {
             ? `${config.backendUrl}/api/${dataName}/search?${queryString}&page=${page}&pageSize=10`
             : `${config.backendUrl}/api/${dataName}?page=${page}&pageSize=10`;
         console.log('Making request to URL:', url);
-        const response = await axios.get(url);
+        const response = await axios.get(url, 
+            {
+                headers: {
+                    'Accept-Language': language || 'vi'
+                }
+            }
+        );
         console.log('API response data:', response.data.data);
         return response.data.data;
     } catch (error) {
@@ -18,9 +24,16 @@ export const loadData = async (dataName, page, filters = {}) => {
     }
 }
 
-export const loadDataNoPaging = async (endpoint) => {
+export const loadDataNoPaging = async (endpoint,  language = localStorage.getItem('language')) => {
     try {
-        const response = await axios.get(`${config.backendUrl}/api/${endpoint}`);
+        const response = await axios.get(`${config.backendUrl}/api/${endpoint}`, 
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept-Language': language || 'vi'
+                }
+            }
+        );
         return response.data.data;
     } catch (error) {
         console.error(`Error loading data from ${endpoint}:`, error);
@@ -28,11 +41,27 @@ export const loadDataNoPaging = async (endpoint) => {
     }
 }
 
-export const handleAddRow = async (dataName, data) => {
+export const loadDataId = async (dataName, id, language = localStorage.getItem('language')) => {
+    try {
+        const response = await axios.get(`${config.backendUrl}/api/${dataName}/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept-Language': language || 'vi'
+            }
+        });
+        return response.data.data;
+    } catch (error) {
+        console.error(`Error loading data with ID ${id} from ${dataName}:`, error);
+        throw error.response?.data.message || error.response?.data.errors;
+    }
+}
+
+export const handleAddRow = async (dataName, data, language = localStorage.getItem('language')) => {
     try {
         const response = await axios.post(`${config.backendUrl}/api/${dataName}`, data, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept-Language': language || 'vi'
             }
         });
         return response.data.data;
@@ -42,11 +71,12 @@ export const handleAddRow = async (dataName, data) => {
     }
 }
 
-export const handleEditRow = async (dataName, id, data) => {
+export const handleEditRow = async (dataName, id, data, language = localStorage.getItem('language')) => {
     try {
         const response = await axios.put(`${config.backendUrl}/api/${dataName}/${id}`, data, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept-Language': language || 'vi'
             }
         });
         return {
@@ -64,12 +94,13 @@ export const handleEditRow = async (dataName, id, data) => {
     }
 }
 
-export const handleDeleteRow = async (dataName, id) => {
+export const handleDeleteRow = async (dataName, id, language = localStorage.getItem('language')) => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa dòng này không?')) return;
     try {
         const response = await axios.delete(`${config.backendUrl}/api/${dataName}/${id}`, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept-Language': language || 'vi'
             }
         });
         return response.data.data;

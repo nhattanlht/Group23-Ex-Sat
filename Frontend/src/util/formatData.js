@@ -12,6 +12,7 @@ import { useLanguage } from '../contexts/LanguageContext';
  */
 export const formatDataSetForTable = (dataSet, fields, helpers = {}) => {
     console.log('formatDataSetForTable received helpers:', helpers);
+    console.log('formatDataSetForTable received dataSet:', dataSet);
     return dataSet.map((row) => {
         const formattedRow = {};
 
@@ -68,12 +69,7 @@ export const formatDataSetForTable = (dataSet, fields, helpers = {}) => {
                     break;
 
                 case "date":
-                    if (key === 'DateOfBirth') {
-                        formattedRow[key] = row.dateOfBirth ? new Date(row.dateOfBirth).toLocaleDateString() : 
-                                          row.DateOfBirth ? new Date(row.DateOfBirth).toLocaleDateString() : 'N/A';
-                    } else {
-                        formattedRow[key] = value ? new Date(value).toLocaleDateString() : "";
-                    }
+                    formattedRow[key] = value ? new Date(value).toLocaleDateString() : "";
                     break;
 
                 case "checkbox":
@@ -81,17 +77,7 @@ export const formatDataSetForTable = (dataSet, fields, helpers = {}) => {
                     break;
 
                 default:
-                    if (key === 'FullName') {
-                        formattedRow[key] = row.fullName || row.FullName || 'N/A';
-                    } else if (key === 'StudentId') {
-                        formattedRow[key] = row.studentId || row.StudentId || 'N/A';
-                    } else if (key === 'PhoneNumber') {
-                        formattedRow[key] = row.phoneNumber || row.PhoneNumber || 'N/A';
-                    } else if (key === 'Nationality') {
-                        formattedRow[key] = row.nationality || row.Nationality || 'N/A';
-                    } else {
-                        formattedRow[key] = value || 'N/A';
-                    }
+                    formattedRow[key] = value || 'N/A';
             }
         });
 
