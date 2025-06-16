@@ -51,10 +51,6 @@ const CoursePage = () => {
         { display: 'GPA', accessor: 'gpa', type: 'number' },
     ];
 
-    if (classes.length === 0 || students.length === 0) {
-        return <PageLayout title="Danh sách Điểm"><p>Đang tải dữ liệu...</p></PageLayout>;
-    }
-
     function formatDataSetForTable(dataArray, fields, helpers = {}) {
         return dataArray.map((item) => {
             const row = {};
