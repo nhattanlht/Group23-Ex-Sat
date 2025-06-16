@@ -58,9 +58,6 @@ const ClassPage = () => {
     }
 
   };
-  if (courses.length === 0 || activeCourses.length === 0) {
-    return <PageLayout title="Danh sách lớp học"><p>Đang tải dữ liệu...</p></PageLayout>;
-  }
 
   return (
     <PageLayout title="Danh sách lớp học">

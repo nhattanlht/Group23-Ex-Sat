@@ -101,10 +101,6 @@ const EnrollmentPage = () => {
         });
     }
 
-    if (classes.length === 0 || students.length === 0 || courses.length === 0) {
-        return <PageLayout title="Danh sách đăng ký lớp học"><p>Đang tải dữ liệu...</p></PageLayout>;
-    }
-
     return (
         <PageLayout title="Danh sách đăng ký lớp học">
             <DataList 
