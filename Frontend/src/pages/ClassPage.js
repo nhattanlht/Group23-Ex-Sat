@@ -3,6 +3,7 @@ import DataList from '../components/DataList';
 import PageLayout from '../components/PageLayout';
 import axios from 'axios';
 import config from '../config';
+import { loadData, loadDataNoPaging } from '../util/callCRUDApi';
 
 const ClassPage = () => {
   const [courses, setCourses] = useState([]);
@@ -38,15 +39,16 @@ const ClassPage = () => {
 
   const loadMetadata = async () => {
     try {
-      const courseRes = await axios.get(`${config.backendUrl}/api/course`);
-      const course = courseRes.data.data.map((item) => ({
+      const courseRes = await loadDataNoPaging('course');
+      const course = courseRes.map((item) => ({
         id: item.courseCode,
         name: item.name
       }));
+      tableFields[1].options = course;
       setCourses(course);
 
-      const activeCourseRes = await axios.get(`${config.backendUrl}/api/course/active`);
-      const activeCourse = activeCourseRes.data.data.map((item) => ({
+      const activeCourseRes = await loadDataNoPaging('course/active');
+      const activeCourse = activeCourseRes.map((item) => ({
         id: item.courseCode,
         name: item.name
       }));

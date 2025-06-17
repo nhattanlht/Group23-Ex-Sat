@@ -50,10 +50,7 @@ const DataForm = ({ fields, data, dataName, onSave, onClose, label, initializeFo
             if (type === 'checkbox') {
                 updatedFormData[name] = e.target.checked
             }
-            if (name === "identificationType") {
-                updatedFormData.identification = {}; // Clear existing identification fields
-            }
-
+            
             return updatedFormData;
         });
         console.log('formData', formData);
@@ -62,6 +59,14 @@ const DataForm = ({ fields, data, dataName, onSave, onClose, label, initializeFo
     const handleGroupChange = (groupAccessor, subFieldAccessor, value, type) => {
         setFormData((prev) => {
             let newValue = value;
+
+            const updatedFormData = {
+                ...prev,
+                [groupAccessor]: {
+                    ...prev[groupAccessor],
+                    [subFieldAccessor]: newValue,
+                },
+            };
             
             // Handle date fields
             if (type === 'date') {
@@ -73,15 +78,14 @@ const DataForm = ({ fields, data, dataName, onSave, onClose, label, initializeFo
                     }
                 }
             }
-
-            return {
-                ...prev,
-                [groupAccessor]: {
-                    ...prev[groupAccessor],
-                    [subFieldAccessor]: newValue,
-                },
-            };
+ 
+            if (subFieldAccessor === "identificationType") {
+                updatedFormData[groupAccessor] = {[subFieldAccessor]: newValue}; // Clear existing identification fields
+            }
+            
+            return updatedFormData;
         });
+        console.log('formData', formData);
     };
 
     const formatDateValue = (value) => {
@@ -98,14 +102,6 @@ const DataForm = ({ fields, data, dataName, onSave, onClose, label, initializeFo
         try {
             // Validate form data
             const validationErrors = {};
-            
-            // if (!formData.FullName || !formData.FullName.trim()) {
-            //     validationErrors.FullName = translate('student.messages.required_field');
-            // }
-
-            // if (!formData.Nationality || !formData.Nationality.trim()) {
-            //     validationErrors.Nationality = translate('student.messages.nationality_required');
-            // }
 
             // Check if there are any validation errors
             if (Object.keys(validationErrors).length > 0) {

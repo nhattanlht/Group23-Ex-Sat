@@ -115,14 +115,13 @@ const StudentList = () => {
           required: true, 
           customeType: "identificationType" 
         },
-        { display: translate('student.form.identification.type'), accessor: 'identificationType', type: "text", required: true, hidden: true },
         { display: translate('student.form.identification.number'), accessor: 'number', type: "text", required: true },
         { display: translate('student.form.identification.issue_date'), accessor: 'issueDate', type: "date", required: true },
         { display: translate('student.form.identification.expiry_date'), accessor: 'expiryDate', type: "date" },
         { display: translate('student.form.identification.issued_by'), accessor: 'issuedBy', type: "text", required: true },
-        { display: translate('student.form.identification.has_chip'), accessor: 'hasChip', type: "checkbox", condition: (formData) => formData.identificationType === "CCCD" },
-        { display: translate('student.form.identification.issuing_country'), accessor: 'issuingCountry', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
-        { display: translate('student.form.identification.notes'), accessor: 'notes', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
+        { display: translate('student.form.identification.has_chip'), accessor: 'hasChip', type: "checkbox", condition: (formData) => formData.identification?.identificationType === "CCCD" },
+        { display: translate('student.form.identification.issuing_country'), accessor: 'issuingCountry', type: "text", condition: (formData) => formData.identification?.identificationType === "Hộ Chiếu" },
+        { display: translate('student.form.identification.notes'), accessor: 'notes', type: "text", condition: (formData) => formData.identification?.identificationType === "Hộ Chiếu" },
       ],
       customeType: "identification"
     },
@@ -297,72 +296,8 @@ const StudentList = () => {
   };
 
   const initializeFormData = async (fields, modalData) => {
-    const initialData = {};
-    if (!modalData) {
-      return initialData;
-    }
-
-    // Đảm bảo các trường khác được sao chép
-    fields.forEach(field => {
-      const fieldName = field.accessor;
-      if (!initialData[fieldName] && modalData[fieldName] !== undefined) {
-        initialData[fieldName] = modalData[fieldName];
-      }
-    });
-
-    // Khởi tạo địa chỉ thường trú
-    if (modalData.permanentAddressId) {
-      try {
-        const response = await loadDataId('address', modalData.permanentAddressId);
-        initialData.permanentAddress = response;
-      } catch (error) {
-        console.error("Error fetching permanent address:", error);
-      }
-    }
-
-    // Khởi tạo địa chỉ tạm trú
-    if (modalData.temporaryAddressId) {
-      try {
-        const response = await loadDataId('address', modalData.temporaryAddressId);
-        initialData.temporaryAddress = response;
-      } catch (error) {
-        console.error("Error fetching temporary address:", error);
-      }
-    }
-
-    // Khởi tạo địa chỉ đăng ký
-    if (modalData.registeredAddressId) {
-      try {
-        const response = await loadDataId('address', modalData.registeredAddressId);
-        initialData.registeredAddress = response;
-      } catch (error) {
-        console.error("Error fetching registered address:", error);
-      }
-    }
-
-    // Khởi tạo thông tin giấy tờ
-    if (modalData.identificationId) {
-      try {
-        const response = await loadDataId('identification', modalData.identificationId);
-        const identificationData = response;
-        
-        // Format dates for identification
-        if (identificationData.issueDate) {
-          identificationData.issueDate = new Date(identificationData.issueDate).toISOString().split('T')[0];
-        }
-        if (identificationData.expiryDate) {
-          identificationData.expiryDate = new Date(identificationData.expiryDate).toISOString().split('T')[0];
-        }
-        
-        initialData.identification = identificationData;
-        initialData.identification['identificationType'] = identificationData.identificationType;
-      } catch (error) {
-        console.error("Error fetching identification:", error);
-      }
-    }
-
-    console.log('Initialized form data:', initialData);
-    return initialData;
+  
+    return modalData;
   };
 
   return (
