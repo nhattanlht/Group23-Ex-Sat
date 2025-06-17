@@ -11,7 +11,10 @@ namespace StudentManagement.Controllers
         private readonly IDepartmentService _service;
         private readonly ILogger<DepartmentsController> _logger;
 
-        public DepartmentsController(IDepartmentService service, ILogger<DepartmentsController> logger)
+        public DepartmentsController(
+            IDepartmentService service,
+            ILogger<DepartmentsController> logger
+        )
         {
             _service = service;
             _logger = logger;
@@ -23,12 +26,28 @@ namespace StudentManagement.Controllers
             try
             {
                 var departments = await _service.GetAllDepartmentsAsync();
-                return Ok(departments);
+                return Ok(
+                    new
+                    {
+                        data = departments,
+                        message = "Lấy danh sách khoa thành công.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error fetching departments.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Internal server error",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -39,14 +58,37 @@ namespace StudentManagement.Controllers
             {
                 var department = await _service.GetDepartmentByIdAsync(id);
                 if (department == null)
-                    return NotFound(new { message = "Không tìm thấy khoa!" });
+                    return NotFound(
+                        new
+                        {
+                            data = id,
+                            message = "Không tìm thấy khoa!",
+                            status = "NotFound",
+                        }
+                    );
 
-                return Ok(department);
+                return Ok(
+                    new
+                    {
+                        data = department,
+                        message = "Lấy thông tin khoa thành công.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error fetching department.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -65,7 +107,16 @@ namespace StudentManagement.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating department.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -86,7 +137,16 @@ namespace StudentManagement.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating department.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -104,7 +164,16 @@ namespace StudentManagement.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting department.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
     }

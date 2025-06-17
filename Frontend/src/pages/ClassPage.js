@@ -39,14 +39,14 @@ const ClassPage = () => {
   const loadMetadata = async () => {
     try {
       const courseRes = await axios.get(`${config.backendUrl}/api/course`);
-      const course = courseRes.data.map((item) => ({
+      const course = courseRes.data.data.map((item) => ({
         id: item.courseCode,
         name: item.name
       }));
       setCourses(course);
 
       const activeCourseRes = await axios.get(`${config.backendUrl}/api/course/active`);
-      const activeCourse = activeCourseRes.data.map((item) => ({
+      const activeCourse = activeCourseRes.data.data.map((item) => ({
         id: item.courseCode,
         name: item.name
       }));

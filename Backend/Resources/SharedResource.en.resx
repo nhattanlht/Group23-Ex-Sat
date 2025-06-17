@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+<data name="GetAllCoursesSuccess" xml:space="preserve">
+    <value>Course list retrieved successfully.</value>
+</data>
+<data name="GetStudentsSuccess" xml:space="preserve">
+    <value>Students retrieved successfully.</value>
+</data>
+<data name="InvalidStudentData" xml:space="preserve">
+    <value>Invalid student data.</value>
+</data>
+<data name="CreateStudentSuccess" xml:space="preserve">
+    <value>Student created successfully.</value>
+</data>
+<data name="CreateStudentError" xml:space="preserve">
+    <value>Failed to create student.</value>
+</data>
+<data name="StudentNotFound" xml:space="preserve">
+    <value>Student not found.</value>
+</data>
+<data name="GetStudentSuccess" xml:space="preserve">
+    <value>Student information retrieved successfully.</value>
+</data>
+<data name="UpdateStudentSuccess" xml:space="preserve">
+    <value>Student updated successfully.</value>
+</data>
+<data name="UpdateStudentError" xml:space="preserve">
+    <value>Failed to update student.</value>
+</data>
+<data name="DeleteStudentSuccess" xml:space="preserve">
+    <value>Student deleted successfully.</value>
+</data>
+<data name="DeleteStudentError" xml:space="preserve">
+    <value>Failed to delete student.</value>
+</data>
+<data name="StudentIdMismatch" xml:space="preserve">
+    <value>Student ID does not match.</value>
+</data>
+<data name="SearchStudentsSuccess" xml:space="preserve">
+    <value>Students search successful.</value>
+</data>
+<data name="InternalServerError" xml:space="preserve">
+    <value>Internal server error.</value>
+</data>
+<data name="InvalidModelState" xml:space="preserve">
+    <value>Invalid data.</value>
+</data>
+<data name="InvalidStudentId" xml:space="preserve">
+    <value>Invalid student ID.</value>
+</data>
+<data name="StudentDataRequired" xml:space="preserve">
+    <value>Student data is required.</value>
+</data>
+<data name="StudentSearchError" xml:space="preserve">
+    <value>Error occurred while searching students.</value>
+</data>
+<data name="GetActiveCoursesSuccess" xml:space="preserve">
+    <value>Active courses retrieved successfully.</value>
+</data>
+<data name="CourseNotFound" xml:space="preserve">
+    <value>Course not found.</value>
+</data>
+<data name="GetCourseSuccess" xml:space="preserve">
+    <value>Course information retrieved successfully.</value>
+</data>
+<data name="CreateCourseSuccess" xml:space="preserve">
+    <value>Course created successfully.</value>
+</data>
+<data name="UpdateCourseCreditsError" xml:space="preserve">
+    <value>Cannot update course credits for courses with registered students.</value>
+</data>
+<data name="CourseCreditsMinError" xml:space="preserve">
+    <value>Credits must be greater than or equal to 2.</value>
+</data>
+<data name="PrerequisiteCourseNotFound" xml:space="preserve">
+    <value>Prerequisite course not found.</value>
+</data>
+<data name="UpdatePrerequisiteCourseError" xml:space="preserve">
+    <value>Cannot update prerequisite course for courses with registered students.</value>
+</data>
+<data name="UpdateCourseError" xml:space="preserve">
+    <value>Failed to update course.</value>
+</data>
+<data name="UpdateCourseSuccess" xml:space="preserve">
+    <value>Course updated successfully.</value>
+</data>
+<data name="DeleteCourseError" xml:space="preserve">
+    <value>Failed to delete course. Please check again.</value>
+</data>
+<data name="DeleteCourseSuccess" xml:space="preserve">
+    <value>Course deleted successfully.</value>
+</data>
+  <data name="InvalidIdentificationData" xml:space="preserve">
+    <value>Invalid identification data.</value>
+  </data>
+  <data name="CreateIdentificationSuccess" xml:space="preserve">
+    <value>Identification created successfully.</value>
+  </data>
+  <data name="CreateIdentificationError" xml:space="preserve">
+    <value>An error occurred while creating identification.</value>
+  </data>
+  <data name="IdentificationNotFound" xml:space="preserve">
+    <value>Identification not found!</value>
+  </data>
+  <data name="GetIdentificationSuccess" xml:space="preserve">
+    <value>Identification information retrieved successfully.</value>
+  </data>
+</root>

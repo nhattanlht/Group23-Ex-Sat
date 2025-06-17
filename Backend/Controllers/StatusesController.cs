@@ -4,14 +4,17 @@ using StudentManagement.Services;
 
 namespace StudentManagement.Controllers
 {
-    [Route("api/student-statuses")]
+    [Route("api/[controller]")]
     [ApiController]
     public class StudentStatusController : ControllerBase
     {
         private readonly IStudentStatusService _studentStatusService;
         private readonly ILogger<StudentStatusController> _logger;
 
-        public StudentStatusController(IStudentStatusService studentStatusService, ILogger<StudentStatusController> logger)
+        public StudentStatusController(
+            IStudentStatusService studentStatusService,
+            ILogger<StudentStatusController> logger
+        )
         {
             _studentStatusService = studentStatusService;
             _logger = logger;
@@ -23,12 +26,28 @@ namespace StudentManagement.Controllers
             try
             {
                 var statuses = await _studentStatusService.GetAllStudentStatusesAsync();
-                return Ok(statuses);
+                return Ok(
+                    new
+                    {
+                        data = statuses,
+                        message = "Lấy danh sách tình trạng sinh viên thành công.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while fetching student statuses.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -39,14 +58,37 @@ namespace StudentManagement.Controllers
             {
                 var status = await _studentStatusService.GetStudentStatusByIdAsync(id);
                 if (status == null)
-                    return NotFound(new { message = "Không tìm thấy tình trạng sinh viên!" });
+                    return NotFound(
+                        new
+                        {
+                            data = id,
+                            message = "Không tìm thấy tình trạng sinh viên!",
+                            status = "NotFound",
+                        }
+                    );
 
-                return Ok(status);
+                return Ok(
+                    new
+                    {
+                        data = status,
+                        message = "Tình trạng sinh viên đã được tìm thấy.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while fetching student status: {id}");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -55,16 +97,38 @@ namespace StudentManagement.Controllers
         {
             try
             {
-                var createdStatus = await _studentStatusService.CreateStudentStatusAsync(studentStatus);
+                var createdStatus = await _studentStatusService.CreateStudentStatusAsync(
+                    studentStatus
+                );
                 if (createdStatus == null)
-                    return BadRequest(new { message = "Tình trạng sinh viên đã tồn tại!" });
+                    return BadRequest(
+                        new
+                        {
+                            data = studentStatus,
+                            message = "Tình trạng sinh viên đã tồn tại!",
+                            status = "Error",
+                        }
+                    );
 
-                return CreatedAtAction(nameof(GetStudentStatus), new { id = createdStatus.Id }, createdStatus);
+                return CreatedAtAction(
+                    nameof(GetStudentStatus),
+                    new { id = createdStatus.Id },
+                    createdStatus
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while creating student status.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -73,16 +137,42 @@ namespace StudentManagement.Controllers
         {
             try
             {
-                var updated = await _studentStatusService.UpdateStudentStatusAsync(id, studentStatus);
+                var updated = await _studentStatusService.UpdateStudentStatusAsync(
+                    id,
+                    studentStatus
+                );
                 if (!updated)
-                    return BadRequest(new { message = "ID không khớp hoặc tình trạng sinh viên không tồn tại!" });
+                    return BadRequest(
+                        new
+                        {
+                            data = studentStatus,
+                            message = "ID không khớp hoặc tình trạng sinh viên không tồn tại!",
+                            status = "Error",
+                        }
+                    );
 
-                return NoContent();
+                return Ok(
+                    new
+                    {
+                        data = studentStatus,
+                        message = "Tình trạng sinh viên đã được cập nhật thành công.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while updating student status: {id}");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -93,14 +183,37 @@ namespace StudentManagement.Controllers
             {
                 var deleted = await _studentStatusService.DeleteStudentStatusAsync(id);
                 if (!deleted)
-                    return BadRequest(new { message = "Tình trạng sinh viên không tồn tại hoặc có sinh viên đang sử dụng tình trạng này!" });
+                    return BadRequest(
+                        new
+                        {
+                            data = id,
+                            message = "Tình trạng sinh viên không tồn tại hoặc có sinh viên đang sử dụng tình trạng này!",
+                            status = "Error",
+                        }
+                    );
 
-                return NoContent();
+                return Ok(
+                    new
+                    {
+                        data = id,
+                        message = "Tình trạng sinh viên đã được xóa thành công.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while deleting student status: {id}");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
     }

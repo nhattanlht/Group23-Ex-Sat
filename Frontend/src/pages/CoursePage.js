@@ -23,7 +23,7 @@ const CoursePage = () => {
   const loadMetadata = async () => {
     try {
       const courseRes = await axios.get(`${config.backendUrl}/api/course`);
-      const course = courseRes.data.map((item) => ({
+      const course = courseRes.data.data.map((item) => ({
         id: item.courseCode,
         name: item.name
       }));

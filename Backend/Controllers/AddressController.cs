@@ -23,19 +23,42 @@ public class AddressController : ControllerBase
         if (!ModelState.IsValid)
         {
             _logger.LogWarning("Invalid address data received.");
-            return BadRequest(ModelState);
+            return BadRequest(
+                new
+                {
+                    data = ModelState,
+                    message = "Địa chỉ không hợp lệ.",
+                    status = "Error",
+                }
+            );
         }
 
         try
         {
             await _service.CreateAddressAsync(address);
             _logger.LogInformation("Address created successfully with ID {Id}.", address.Id);
-            return Ok(address);
+            return Ok(
+                new
+                {
+                    data = address,
+                    message = "Địa chỉ đã được tạo thành công.",
+                    status = "Success",
+                }
+            );
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred while creating address.");
-            return StatusCode(500, "Internal Server Error");
+            return StatusCode(
+                500,
+                new
+                {
+                    data = new { },
+                    errors = ex.Message,
+                    message = "Lỗi máy chủ cục bộ.",
+                    status = "Error",
+                }
+            );
         }
     }
 
@@ -48,10 +71,24 @@ public class AddressController : ControllerBase
         if (address == null)
         {
             _logger.LogWarning("Address with ID {Id} not found.", id);
-            return NotFound();
+            return NotFound(
+                new
+                {
+                    data = id,
+                    message = "Địa chỉ không tồn tại.",
+                    status = "NotFound",
+                }
+            );
         }
 
         _logger.LogInformation("Address with ID {Id} retrieved successfully.", id);
-        return Ok(address);
+        return Ok(
+            new
+            {
+                data = address,
+                message = "Địa chỉ đã được tìm thấy.",
+                status = "Success",
+            }
+        );
     }
 }

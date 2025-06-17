@@ -23,12 +23,28 @@ namespace StudentManagement.Controllers
             try
             {
                 var programs = await _programService.GetAllProgramsAsync();
-                return Ok(programs);
+                return Ok(
+                    new
+                    {
+                        data = programs,
+                        message = "Lấy danh sách chương trình đào tạo thành công.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while fetching study programs.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -41,12 +57,28 @@ namespace StudentManagement.Controllers
                 if (program == null)
                     return NotFound(new { message = "Không tìm thấy chương trình đào tạo!" });
 
-                return Ok(program);
+                return Ok(
+                    new
+                    {
+                        data = program,
+                        message = "Lấy thông tin chương trình đào tạo thành công.",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while fetching study program: {id}");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -57,13 +89,29 @@ namespace StudentManagement.Controllers
             {
                 var result = await _programService.CreateProgramAsync(program);
                 return result == null
-                    ? BadRequest(new { message = "Chương trình đào tạo đã tồn tại!" })
+                    ? BadRequest(
+                        new
+                        {
+                            data = program,
+                            message = "Chương trình đào tạo đã tồn tại!",
+                            status = "Error",
+                        }
+                    )
                     : CreatedAtAction(nameof(GetProgram), new { id = result.Id }, result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while creating study program.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -74,13 +122,36 @@ namespace StudentManagement.Controllers
             {
                 var updated = await _programService.UpdateProgramAsync(id, program);
                 return updated
-                    ? NoContent()
-                    : BadRequest(new { message = "ID không khớp hoặc chương trình không tồn tại!" });
+                    ? Ok(
+                        new
+                        {
+                            data = program,
+                            message = "Chương trình đào tạo đã được cập nhật thành công.",
+                            status = "Success",
+                        }
+                    )
+                    : BadRequest(
+                        new
+                        {
+                            data = id,
+                            message = "ID không khớp hoặc chương trình không tồn tại!",
+                            status = "Error",
+                        }
+                    );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while updating study program: {id}");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -91,13 +162,36 @@ namespace StudentManagement.Controllers
             {
                 var deleted = await _programService.DeleteProgramAsync(id);
                 return deleted
-                    ? NoContent()
-                    : BadRequest(new { message = "Không thể xóa vì có sinh viên thuộc chương trình này hoặc không tìm thấy chương trình!" });
+                    ? Ok(
+                        new
+                        {
+                            data = id,
+                            message = "Chương trình đào tạo đã được xóa thành công.",
+                            status = "Success",
+                        }
+                    )
+                    : BadRequest(
+                        new
+                        {
+                            data = id,
+                            message = "Không thể xóa vì có sinh viên thuộc chương trình này hoặc không tìm thấy chương trình!",
+                            status = "Error",
+                        }
+                    );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while deleting study program: {id}");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = "Lỗi máy chủ nội bộ",
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
     }

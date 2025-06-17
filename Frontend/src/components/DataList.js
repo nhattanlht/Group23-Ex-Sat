@@ -27,9 +27,11 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
     for (const field of tableFieldsWithOptions) {
       if (field.optionsEndpoint && !options[field.accessor]) {
         try {
-          const response = await axios.get(`${config.backendUrl}/api/${field.optionsEndpoint}`);
-          newOptions[field.accessor] = response.data;
-          newValidSelectedOptions[field.accessor] = new Set(response.data.map(opt => opt.id));
+          const data = await loadDataNoPaging(field.optionsEndpoint);
+          console.log(`Fetched options for ${field.accessor}:`, data);
+          newOptions[field.accessor] = data;
+          newValidSelectedOptions[field.accessor] = data;
+          field.options = newOptions[field.accessor];
         } catch (error) {
           console.error(`Error fetching options for ${field.accessor}:`, error);
           newOptions[field.accessor] = [];
@@ -50,11 +52,13 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
   const loadListData = async () => {
     try {
       const data = await loadDataNoPaging(dataName);
-      const formattedData = formatDataSet(data, tableFields);
+      console.log(`Loaded ${label} data:`, data);
+      const formattedData = formatDataSet(data, tableFields, {translate});
+      console.log(`Loaded and formatted ${label} data:`, formattedData);
       setDataSet(formattedData || []);
     } catch (error) {
       console.error(`Error loading ${label} list:`, error);
-      alert(translate('common.error'));
+      alert(translate('common.error'), error);
     }
   };
 
@@ -65,7 +69,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       loadListData();
       alert(translate('common.success'));
     } catch (error) {
-      alert(translate('common.error'));
+      alert(translate('common.error'), error);
     }
   };
 
@@ -76,7 +80,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       loadListData();
       alert(translate('common.success'));
     } catch (error) {
-      alert(translate('common.error'));
+      alert(translate('common.error'), error);
     }
   };
 
@@ -87,7 +91,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
         loadListData();
         alert(translate('common.success'));
       } catch (error) {
-        alert(translate('common.error'));
+        alert(translate('common.error'), error);
       }
     }
   };
@@ -127,8 +131,12 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <DataForm
-              fields={formFields}
+              fields={formFields.map((field) => ({
+                ...field,
+                options: field.type === 'select' && field.optionsEndpoint ? validSelectedOptions[field.accessor] : field.options,
+              }))}
               data={modalData}
+              dataName={dataName}
               onSave={(data) => modalData ? handleEditData(data) : handleAddData(data)}
               onClose={() => setShowModal(false)}
               label={label}

@@ -40,17 +40,17 @@ const EnrollmentPage = () => {
                 axios.get(`${config.backendUrl}/api/course`)
             ]);
 
-            setClasses(classRes.data.map((item) => ({
+            setClasses(classRes.data.data.map((item) => ({
                 id: item.classId,
                 name: `${item.classId} - ${item.courseCode || 'N/A'}`
             })));
 
-            setStudents(studentRes.data.students.map((item) => ({
-                id: item.StudentId,
+            setStudents(studentRes.data.data.students.map((item) => ({
+                id: item.studentId,
                 name: `${item.StudentId} - ${item.FullName}`
             })));
 
-            setCourses(courseRes.data.map((item) => ({
+            setCourses(courseRes.data.data.map((item) => ({
                 id: item.courseCode,
                 name: `${item.courseCode} - ${item.name}`
             })));

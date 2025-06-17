@@ -3,21 +3,29 @@ import SelectInput from "./Input/SelectInput";
 import EmailInput from "./Input/EmailInput";
 import config from "../config";
 import { useLanguage } from "../contexts/LanguageContext";
-
-const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = null, customInput = [] }) => {
+import { X } from "lucide-react";
+const DataForm = ({ fields, data, dataName, onSave, onClose, label, initializeFormData = null, customInput = [] }) => {
     const { translate } = useLanguage();
     const ALLOWED_EMAIL_ENDING = config.ALLOWED_EMAIL_ENDING;
     const [formData, setFormData] = useState({});
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
+        console.log('Initializing form data with fields:', fields, 'and data:', data);
         handleInitializeFormData(fields, data);
     }, [data, fields]);
 
     const defaultInitializeFormData = () => {
-        setFormData(
-            data || fields.reduce((acc, field) => ({ ...acc, [field.accessor]: "" }), {})
-        );
+        const initialData = fields.reduce((acc, field) => {
+            if (field.type === 'checkbox') {
+              acc[field.accessor] = false;
+            } else {
+              acc[field.accessor] = "";
+            }
+            return acc;
+          }, {});
+        
+          setFormData(data || initialData);
     }
 
     const handleInitializeFormData = async (fields, data) => {
@@ -91,13 +99,13 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
             // Validate form data
             const validationErrors = {};
             
-            if (!formData.FullName || !formData.FullName.trim()) {
-                validationErrors.FullName = translate('student.messages.required_field');
-            }
+            // if (!formData.FullName || !formData.FullName.trim()) {
+            //     validationErrors.FullName = translate('student.messages.required_field');
+            // }
 
-            if (!formData.Nationality || !formData.Nationality.trim()) {
-                validationErrors.Nationality = translate('student.messages.nationality_required');
-            }
+            // if (!formData.Nationality || !formData.Nationality.trim()) {
+            //     validationErrors.Nationality = translate('student.messages.nationality_required');
+            // }
 
             // Check if there are any validation errors
             if (Object.keys(validationErrors).length > 0) {
@@ -135,14 +143,14 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
             <div className="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-bold">
-                        {data ? translate('student.form.title') : translate('student.add')}
+                        {data ? translate(`${dataName}.actions.edit`) : translate(`${dataName}.actions.add`)} {translate(label)}
                     </h2>
                     <button 
                         type="button" 
                         className="text-gray-500 hover:text-gray-700"
                         onClick={onClose}
                     >
-                        ×
+                        <X size={24} />
                     </button>
                 </div>
 
@@ -163,7 +171,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                         value={formData[field.accessor] || ""}
                                         required={field.required}
                                         onChange={handleChange}
-                                        disabled={field.disabled}
+                                        disabled={field.disabled && data}
                                     />
                                 ) : field.type === "group" ? (
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -180,6 +188,24 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                     <label className="block text-sm font-medium text-gray-700 mb-1">
                                                         {subField.display}
                                                     </label>
+                                                    {subField.type === "select" ? (
+                                                        <SelectInput
+                                                            options={subField.options}
+                                                            id={subField.accessor}
+                                                            name={subField.accessor}
+                                                            value={formData[field.accessor]?.[subField.accessor] || ""}
+                                                            required={subField.required}
+                                                            onChange={(e) =>
+                                                                handleGroupChange(
+                                                                    field.accessor,
+                                                                    subField.accessor,
+                                                                    e.target.value,
+                                                                    subField.type
+                                                                )
+                                                            }
+                                                            disabled={subField.disabled && data}
+                                                        />
+                                                    ) : (
                                                     <input
                                                         type={subField.type || "text"}
                                                         value={
@@ -197,7 +223,9 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                                         }
                                                         className="w-full border rounded-md p-2"
                                                         required={subField.required}
+                                                        
                                                     />
+                                                    )}
                                                 </div>
                                             );
                                         })}
@@ -208,7 +236,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                         name={field.accessor}
                                         value={formData[field.accessor] || ""}
                                         required={field.required}
-                                        disabled={field.disabled}
+                                        disabled={field.disabled && data}
                                         onChange={handleChange}
                                         ALLOWED_EMAIL_ENDING={ALLOWED_EMAIL_ENDING}
                                     />
@@ -234,7 +262,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                                         }
                                         onChange={handleChange}
                                         required={field.required}
-                                        disabled={field.disabled}
+                                        disabled={field.disabled && data}
                                         className="w-full border rounded-md p-2"
                                     />
                                 )}
