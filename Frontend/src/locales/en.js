@@ -233,5 +233,52 @@ export const en = {
       success: "Import successful!",
       error: "Error importing data!"
     }
+  },
+  course: {
+    title: 'Course List',
+    add: 'Add Course',
+    label: 'Course',
+    fields: {
+      courseCode: 'Course Code',
+      name: 'Course Name',
+      credits: 'Credits',
+      department: 'Department',
+      description: 'Description',
+      prerequisiteCourse: 'Prerequisite Course',
+      isActive: 'Active',
+      actions: 'Actions'
+    }
+  },
+  class: {
+    title: 'Class List',
+    add: 'Add Class',
+    label: 'Class',
+    fields: {
+      classId: 'Class ID',
+      courseCode: 'Course Name',
+      academicYear: 'Academic Year',
+      semester: 'Semester',
+      teacher: 'Teacher',
+      maxStudents: 'Max Students',
+      schedule: 'Schedule',
+      room: 'Room',
+      cancelDeadline: 'Cancel Deadline',
+      actions: 'Actions'
+    }
+  },
+  enrollment: {
+    title: 'Enrollment List',
+    add: 'Add Enrollment',
+    label: 'Enrollment',
+    fields: {
+      classId: 'Class',
+      courseCode: 'Course',
+      StudentId: 'Student',
+      registeredAt: 'Registration Time',
+      isCancelled: 'Cancelled',
+      cancelReason: 'Cancel Reason',
+      cancelDate: 'Cancel Time',
+      actions: 'Actions'
+    }
   }
 }; 

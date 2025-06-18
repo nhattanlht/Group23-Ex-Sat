@@ -22977,3 +22977,32 @@ IParser state:
    at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
    at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 244
 2025-06-12 17:20:37.102 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 57.4757 ms
+2025-06-17 19:03:53.164 +07:00 [ERR] Error importing CSV.
+CsvHelper.TypeConversion.TypeConverterException: The conversion cannot be performed.
+    Text: '03/03/2025'
+    MemberName: DateOfBirth
+    MemberType: System.DateTime
+    TypeConverter: 'CsvHelper.TypeConversion.DateTimeConverter'
+IReader state:
+   ColumnCount: 37
+   CurrentIndex: 2
+   HeaderRecord:
+["StudentId","FullName","DateOfBirth","Gender","Department","SchoolYear","StudyProgram","PermanentAddress_HouseNumber","PermanentAddress_StreetName","PermanentAddress_Ward","PermanentAddress_District","PermanentAddress_Province","PermanentAddress_Country","RegisteredAddress_HouseNumber","RegisteredAddress_StreetName","RegisteredAddress_Ward","RegisteredAddress_District","RegisteredAddress_Province","RegisteredAddress_Country","TemporaryAddress_HouseNumber","TemporaryAddress_StreetName","TemporaryAddress_Ward","TemporaryAddress_District","TemporaryAddress_Province","TemporaryAddress_Country","Email","PhoneNumber","Nationality","Identification_Type","Identification_Number","Identification_IssueDate","Identification_ExpiryDate","Identification_IssuedBy","Identification_HasChip","Identification_IssuingCountry","Identification_Notes","Status"]
+IParser state:
+   ByteCount: 0
+   CharCount: 1069
+   Row: 2
+   RawRow: 2
+   Count: 37
+   RawRecord:
+22170032,Phạm Thu Thanh,03/03/2025,Nữ,Khoa Tiếng Pháp,20,Việt Pháp,3,Đồng Tâm,Tân Phú,Linh Trung,Linh Trung,Vietnam,3,Đường Bạch Đằng,Tân Phú,Linh Trung,Linh Trung,Vietnam,,,,,,,2213564@udent.jap.vn,0529034373,Việt Nam,CMND,0563812384153,02/25/2025,06/20/2028,nha trang,False,,,Đã tốt nghiệp
+
+
+   at CsvHelper.TypeConversion.DefaultTypeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at CsvHelper.TypeConversion.DateTimeConverter.ConvertFromString(String text, IReaderRow row, MemberMapData memberMapData)
+   at lambda_method655(Closure)
+   at CsvHelper.CsvReader.GetRecords[T]()+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at DataController.ImportCsv(IFormFile file) in C:\Users\admin\Desktop\Project Software Design\Group23-Ex-Sat\Backend\Controllers\DataController.cs:line 244
+2025-06-17 19:03:53.194 +07:00 [ERR] HTTP POST /api/data/import/csv responded 500 in 74.4379 ms

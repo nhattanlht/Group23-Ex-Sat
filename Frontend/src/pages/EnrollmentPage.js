@@ -3,29 +3,31 @@ import DataList from '../components/DataList';
 import PageLayout from '../components/PageLayout';
 import axios from 'axios';
 import config from '../config';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const EnrollmentPage = () => {
+    const { translate } = useLanguage();
     const [classes, setClasses] = useState([]);
     const [students, setStudents] = useState([]);
     const [courses, setCourses] = useState([]);
 
     const formFields = [
-        { display: 'Lớp Học', accessor: 'classId', type: 'select', options: classes, required: true },
-        { display: 'Sinh Viên', accessor: 'StudentId', type: 'select', options: students, required: true },
-        { display: 'Thời gian đăng ký', accessor: 'registeredAt', type: 'date', required: false, disabled: true },
-        { display: 'Hủy', accessor: 'isCancelled', type: 'checkbox', required: false },
-        { display: 'Lí do hủy', accessor: 'cancelReason', type: 'text', required: false, condition: (formData) => formData.isCancelled },
-        { display: 'Thời gian hủy', accessor: 'cancelDate', type: 'date', required: false, disabled: true },
+        { display: translate('enrollment.fields.classId'), accessor: 'classId', type: 'select', options: classes, required: true },
+        { display: translate('enrollment.fields.StudentId'), accessor: 'StudentId', type: 'select', options: students, required: true },
+        { display: translate('enrollment.fields.registeredAt'), accessor: 'registeredAt', type: 'date', required: false, disabled: true },
+        { display: translate('enrollment.fields.isCancelled'), accessor: 'isCancelled', type: 'checkbox', required: false },
+        { display: translate('enrollment.fields.cancelReason'), accessor: 'cancelReason', type: 'text', required: false, condition: (formData) => formData.isCancelled },
+        { display: translate('enrollment.fields.cancelDate'), accessor: 'cancelDate', type: 'date', required: false, disabled: true },
     ];
 
     const tableFields = [
-        { display: 'Lớp Học', accessor: 'classId', type: 'select', options: classes },
-        { display: 'Khóa Học', accessor: 'courseCode', type: 'text', options: courses },
-        { display: 'Sinh Viên', accessor: 'StudentId', type: 'select', options: students },
-        { display: 'Thời gian đăng ký', accessor: 'registeredAt', type: 'date' },
-        { display: 'Hủy', accessor: 'isCancelled', type: 'checkbox' },
-        { display: 'Lí do hủy', accessor: 'cancelReason', type: 'text' },
-        { display: 'Thời gian hủy', accessor: 'cancelDate', type: 'date' },
+        { display: translate('enrollment.fields.classId'), accessor: 'classId', type: 'select', options: classes },
+        { display: translate('enrollment.fields.courseCode'), accessor: 'courseCode', type: 'text', options: courses },
+        { display: translate('enrollment.fields.StudentId'), accessor: 'StudentId', type: 'select', options: students },
+        { display: translate('enrollment.fields.registeredAt'), accessor: 'registeredAt', type: 'date' },
+        { display: translate('enrollment.fields.isCancelled'), accessor: 'isCancelled', type: 'checkbox' },
+        { display: translate('enrollment.fields.cancelReason'), accessor: 'cancelReason', type: 'text' },
+        { display: translate('enrollment.fields.cancelDate'), accessor: 'cancelDate', type: 'date' },
     ];
 
     useEffect(() => {
@@ -88,7 +90,7 @@ const EnrollmentPage = () => {
                         break;
 
                     case 'isCancelled':
-                        row[key] = item.isCancelled ? 'Đã hủy' : 'Đang học';
+                        row[key] = item.isCancelled ? translate('common.yes') : translate('common.no');
                         break;
 
                     default:
@@ -102,13 +104,13 @@ const EnrollmentPage = () => {
     }
 
     return (
-        <PageLayout title="Danh sách đăng ký lớp học">
+        <PageLayout title={translate('enrollment.title')}>
             <DataList 
                 formFields={formFields} 
                 tableFields={tableFields} 
                 dataName="enrollment" 
                 pk="enrollmentId" 
-                label="Đăng Ký Lớp Học" 
+                label={translate('enrollment.label')} 
                 formatDataSet={formatDataSetForTable} 
             />
         </PageLayout>
