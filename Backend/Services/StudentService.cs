@@ -2,16 +2,19 @@ using System.Text.RegularExpressions;
 using StudentManagement.DTOs;
 using StudentManagement.Models;
 using StudentManagement.Repositories;
+using Microsoft.Extensions.Localization;
 
 namespace StudentManagement.Services
 {
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public StudentService(IStudentRepository studentRepository)
+        public StudentService(IStudentRepository studentRepository, IStringLocalizer<SharedResource> localizer)
         {
             _studentRepository = studentRepository;
+            _localizer = localizer;
         }
 
         public async Task<(IEnumerable<Student>, int, int)> GetStudents(int page, int pageSize)
@@ -32,31 +35,28 @@ namespace StudentManagement.Services
         public async Task<(bool Success, string Message)> CreateStudent(Student student)
         {
             if (string.IsNullOrWhiteSpace(student.PhoneNumber))
-                return (false, "Số điện thoại không được để trống.");
-
-            if (!Regex.IsMatch(student.PhoneNumber, @"^(0[2-9]|84[2-9])\d{8,9}$"))
-                return (false, "Số điện thoại không hợp lệ.");
+                return (false, _localizer["PhoneNumberRequired"].Value);
 
             if (await _studentRepository.StudentExistsByPhoneNumber(student.PhoneNumber))
-                return (false, "Số điện thoại đã tồn tại trong hệ thống.");
+                return (false, _localizer["PhoneNumberExists"].Value);
 
             if (string.IsNullOrWhiteSpace(student.Email))
-                return (false, "Email không được để trống.");
+                return (false, _localizer["EmailRequired"].Value);
 
             if (!Regex.IsMatch(student.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-                return (false, "Email không hợp lệ.");
+                return (false, _localizer["EmailInvalid"].Value);
 
             if (await _studentRepository.StudentExistsByEmail(student.Email))
-                return (false, "Email đã tồn tại trong hệ thống.");
+                return (false, _localizer["EmailExists"].Value);
 
             try
             {
                 await _studentRepository.CreateStudent(student);
-                return (true, "Sinh viên được tạo thành công.");
+                return (true, _localizer["CreateStudentSuccess"].Value);
             }
             catch
             {
-                return (false, "Đã xảy ra lỗi khi tạo sinh viên.");
+                return (false, _localizer["CreateStudentError"].Value);
             }
         }
 
@@ -65,7 +65,7 @@ namespace StudentManagement.Services
             var existingStudent = await _studentRepository.GetStudentById(student.StudentId);
 
             if (existingStudent == null)
-                return (false, "Sinh viên không tồn tại.");
+                return (false, _localizer["StudentNotFound"].Value);
 
             // Add the status transition validation here
             var validStatusTransitions = new Dictionary<int, HashSet<int>>
@@ -123,10 +123,7 @@ namespace StudentManagement.Services
 
             // Validate phone number and email as before
             if (string.IsNullOrWhiteSpace(student.PhoneNumber))
-                return (false, "Số điện thoại không được để trống.");
-
-            if (!Regex.IsMatch(student.PhoneNumber, @"^(0[2-9]|84[2-9])\d{8,9}$"))
-                return (false, "Số điện thoại không hợp lệ.");
+                return (false, _localizer["PhoneNumberRequired"].Value);
 
             if (
                 await _studentRepository.StudentExistsByPhoneNumber(
@@ -134,21 +131,21 @@ namespace StudentManagement.Services
                     student.StudentId
                 )
             )
-                return (false, "Số điện thoại đã tồn tại trong hệ thống.");
+                return (false, _localizer["PhoneNumberExists"].Value);
 
             if (string.IsNullOrWhiteSpace(student.Email))
-                return (false, "Email không được để trống.");
+                return (false, _localizer["EmailRequired"].Value);
 
             if (!Regex.IsMatch(student.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-                return (false, "Email không hợp lệ.");
+                return (false, _localizer["EmailInvalid"].Value);
 
             if (await _studentRepository.StudentExistsByEmail(student.Email, student.StudentId))
-                return (false, "Email đã tồn tại trong hệ thống.");
+                return (false, _localizer["EmailExists"].Value);
 
             try
             {
                 await _studentRepository.UpdateStudent(student);
-                return (true, "Cập nhật thông tin sinh viên thành công.");
+                return (true, _localizer["UpdateStudentSuccess"].Value);
             }
             catch (Exception ex)
             {
@@ -167,7 +164,7 @@ namespace StudentManagement.Services
             int pageSize
         )
         {
-            var students = await _studentRepository.SearchStudents(filters.Keyword, page, pageSize);
+            var students = await _studentRepository.SearchStudents(filters, page, pageSize);
             var totalStudents = await _studentRepository.GetStudentsCount();
             var totalPages = (int)Math.Ceiling((double)totalStudents / pageSize);
 

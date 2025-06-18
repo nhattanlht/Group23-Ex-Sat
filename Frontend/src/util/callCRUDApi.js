@@ -17,7 +17,11 @@ export const loadData = async (dataName, page, filters = {}, language = localSto
             }
         );
         console.log('API response data:', response.data.data);
-        return response.data.data;
+        return {
+            success: true,
+            message: response.data.message,
+            data: response.data.data
+        };
     } catch (error) {
         console.error(`Error loading ${dataName}:`, error);
         throw error.response?.data.message || error.response?.data.errors || "Lỗi không xác định khi tải dữ liệu.";
@@ -34,10 +38,18 @@ export const loadDataNoPaging = async (endpoint,  language = localStorage.getIte
                 }
             }
         );
-        return response.data.data;
+        return {
+            success: true,
+            message: response.data.message,
+            data: response.data.data
+        };
     } catch (error) {
         console.error(`Error loading data from ${endpoint}:`, error);
-        throw error.response?.data.message || error.response?.data.errors;
+        throw {
+            success: false,
+            message: error.response?.data?.message || error.message,
+            error: error.response?.data.errors || error
+        };
     }
 }
 
@@ -49,10 +61,18 @@ export const loadDataId = async (dataName, id, language = localStorage.getItem('
                 'Accept-Language': language || 'vi'
             }
         });
-        return response.data.data;
+        return {
+            success: true,
+            message: response.data.message,
+            data: response.data.data
+        };
     } catch (error) {
         console.error(`Error loading data with ID ${id} from ${dataName}:`, error);
-        throw error.response?.data.message || error.response?.data.errors;
+        throw {
+            success: false,
+            message: error.response?.data?.message || error.message,
+            error: error.response?.data.errors || error
+        };
     }
 }
 
@@ -64,10 +84,18 @@ export const handleAddRow = async (dataName, data, language = localStorage.getIt
                 'Accept-Language': language || 'vi'
             }
         });
-        return response.data.data;
+        return {
+            success: true,
+            message: response.data.message,
+            data: response.data.data
+        };
     } catch (error) {
         console.error("Lỗi khi thêm dữ liệu:", error);
-        throw error.response?.data.message || error.response?.data.errors;
+        throw {
+            success: false,
+            message: error.response?.data?.message || error.message,
+            error: error.response?.data.errors || error
+        };
     }
 }
 
@@ -103,10 +131,18 @@ export const handleDeleteRow = async (dataName, id, language = localStorage.getI
                 'Accept-Language': language || 'vi'
             }
         });
-        return response.data.data;
+        return {
+            success: true,
+            message: response.data.message,
+            data: response.data.data
+        };
     } catch (error) {
         console.error("Lỗi khi xóa dữ liệu:", error);
-        throw error.response?.data.message || error.response?.data.errors;
+        throw {
+            success: false,
+            message: error.response?.data?.message || error.message,
+            error: error.response?.data.errors || error
+        };
     }
 }
 

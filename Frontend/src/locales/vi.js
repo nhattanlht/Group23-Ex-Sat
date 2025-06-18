@@ -280,5 +280,27 @@ export const vi = {
       cancelDate: 'Thời gian hủy',
       actions: 'Thao Tác'
     }
+  },
+  grade: {
+    title: 'Danh sách điểm',
+    add: 'Thêm Điểm',
+    label: 'Điểm',
+    fields: {
+      classId: 'Lớp Học',
+      studentId: 'MSSV',
+      student: 'Họ Tên Sinh Viên',
+      score: 'Điểm',
+      gradeLetter: 'Điểm Chữ',
+      gpa: 'GPA',
+      actions: 'Thao Tác'
+    },
+    export: {
+      title: 'Xuất Bảng Điểm',
+      guide: 'Nhập Mã Số Sinh Viên để xuất bảng điểm',
+      button: 'Xuất Bảng Điểm',
+      success: 'Xuất bảng điểm thành công!',
+      error: 'Lỗi khi xuất bảng điểm!',
+      file_name: 'BangDiem'
+    }
   }
 }; 

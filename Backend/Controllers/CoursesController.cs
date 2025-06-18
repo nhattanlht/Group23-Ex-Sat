@@ -12,8 +12,6 @@ namespace StudentManagement.Controllers
         private readonly ICourseService _service;
         private readonly IStringLocalizer<SharedResource> _localizer;
 
-
-
         public CourseController(ICourseService service, IStringLocalizer<SharedResource> localizer)
         {
             _service = service;
@@ -57,7 +55,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = code,
-                        message = "Khóa học không tồn tại.",
+                        message = _localizer["CourseNotFound"].Value,
                         status = "NotFound",
                     }
                 );
@@ -65,7 +63,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = course,
-                    message = "Lấy thông tin khóa học thành công.",
+                    message = _localizer["GetCourseSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -74,10 +72,31 @@ namespace StudentManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CourseCreateDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.PrerequisiteCourseCode))
+            if (!ModelState.IsValid)
             {
-                dto.PrerequisiteCourseCode = null;
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = _localizer["InvalidCourseData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
             }
+            if (string.IsNullOrWhiteSpace(dto.PrerequisiteCourseCode))
+                {
+                    dto.PrerequisiteCourseCode = null;
+                }
 
             var course = new Course
             {
@@ -105,6 +124,27 @@ namespace StudentManagement.Controllers
         [HttpPut("{code}")]
         public async Task<IActionResult> Update(string code, [FromBody] CourseCreateDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = _localizer["InvalidCourseData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             var existingCourse = await _service.GetCourseByCodeAsync(code);
             if (existingCourse == null)
                 return NotFound(

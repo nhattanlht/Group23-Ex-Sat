@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+<!-- student -->
 <data name="GetStudentsSuccess" xml:space="preserve">
     <value>Lấy danh sách sinh viên thành công.</value>
 </data>
@@ -42,45 +43,50 @@
 <data name="InternalServerError" xml:space="preserve">
     <value>Lỗi máy chủ nội bộ</value>
 </data>
-    <data name="GetAllCoursesSuccess" xml:space="preserve">
-        <value>Lấy danh sách khóa học thành công.</value>
-    </data>
-    <data name="GetActiveCoursesSuccess" xml:space="preserve">
-        <value>Lấy danh sách khóa học đang hoạt động thành công.</value>
-    </data>
-    <data name="CourseNotFound" xml:space="preserve">
-        <value>Khóa học không tồn tại.</value>
-    </data>
-    <data name="GetCourseSuccess" xml:space="preserve">
-        <value>Lấy thông tin khóa học thành công.</value>
-    </data>
-    <data name="CreateCourseSuccess" xml:space="preserve">
-        <value>Khóa học đã được tạo thành công.</value>
-    </data>
-    <data name="UpdateCourseCreditsError" xml:space="preserve">
-        <value>Không thể cập nhật số tín chỉ của khóa học đã có sinh viên đăng ký</value>
-    </data>
-    <data name="CourseCreditsMinError" xml:space="preserve">
-        <value>Số tín chỉ phải lớn hơn hoặc bằng 2</value>
-    </data>
-    <data name="PrerequisiteCourseNotFound" xml:space="preserve">
-        <value>Khóa học tiên quyết không tồn tại</value>
-    </data>
-    <data name="UpdatePrerequisiteCourseError" xml:space="preserve">
-        <value>Không thể cập nhật khóa học tiên quyết của khóa học đã có sinh viên đăng ký</value>
-    </data>
-    <data name="UpdateCourseError" xml:space="preserve">
-        <value>Cập nhật khóa học thất bại</value>
-    </data>
-    <data name="UpdateCourseSuccess" xml:space="preserve">
-        <value>Cập nhật khóa học thành công</value>
-    </data>
-    <data name="DeleteCourseError" xml:space="preserve">
-        <value>Xóa khóa học thất bại. Vui lòng kiểm tra lại.</value>
-    </data>
-    <data name="DeleteCourseSuccess" xml:space="preserve">
-        <value>Khóa học đã được xóa thành công.</value>
-    </data>
+<!-- course -->
+<data name="GetAllCoursesSuccess" xml:space="preserve">
+    <value>Lấy danh sách khóa học thành công.</value>
+</data>
+<data name="GetActiveCoursesSuccess" xml:space="preserve">
+    <value>Lấy danh sách khóa học đang hoạt động thành công.</value>
+</data>
+<data name="CourseNotFound" xml:space="preserve">
+    <value>Khóa học không tồn tại.</value>
+</data>
+<data name="GetCourseSuccess" xml:space="preserve">
+    <value>Lấy thông tin khóa học thành công.</value>
+</data>
+<data name="CreateCourseSuccess" xml:space="preserve">
+    <value>Khóa học đã được tạo thành công.</value>
+</data>
+<data name="UpdateCourseCreditsError" xml:space="preserve">
+    <value>Không thể cập nhật số tín chỉ của khóa học đã có sinh viên đăng ký</value>
+</data>
+<data name="CourseCreditsMinError" xml:space="preserve">
+    <value>Số tín chỉ phải lớn hơn hoặc bằng 2</value>
+</data>
+<data name="PrerequisiteCourseNotFound" xml:space="preserve">
+    <value>Khóa học tiên quyết không tồn tại</value>
+</data>
+<data name="UpdatePrerequisiteCourseError" xml:space="preserve">
+    <value>Không thể cập nhật khóa học tiên quyết của khóa học đã có sinh viên đăng ký</value>
+</data>
+<data name="UpdateCourseError" xml:space="preserve">
+    <value>Cập nhật khóa học thất bại</value>
+</data>
+<data name="UpdateCourseSuccess" xml:space="preserve">
+    <value>Cập nhật khóa học thành công</value>
+</data>
+<data name="DeleteCourseError" xml:space="preserve">
+    <value>Xóa khóa học thất bại. Vui lòng kiểm tra lại.</value>
+</data>
+<data name="DeleteCourseSuccess" xml:space="preserve">
+    <value>Khóa học đã được xóa thành công.</value>
+</data>
+<data name="InvalidCourseData" xml:space="preserve">
+    <value>Dữ liệu khóa học không hợp lệ.</value>
+</data>
+<!-- identification -->
   <data name="InvalidIdentificationData" xml:space="preserve">
     <value>Dữ liệu CMND/CCCD không hợp lệ.</value>
   </data>
@@ -95,5 +101,108 @@
 </data>
 <data name="GetIdentificationSuccess" xml:space="preserve">
     <value>Lấy thông tin CMND/CCCD thành công.</value>
+</data>
+<!-- class -->
+<data name="GetAllClassesSuccess" xml:space="preserve">
+    <value>Lấy danh sách lớp học thành công.</value>
+</data>
+<data name="ClassNotFound" xml:space="preserve">
+    <value>Lớp học không tồn tại.</value>
+</data>
+<data name="GetClassSuccess" xml:space="preserve">
+    <value>Lấy thông tin lớp học thành công.</value>
+</data>
+<data name="CreateClassSuccess" xml:space="preserve">
+    <value>Lớp học đã được tạo thành công.</value>
+</data>
+<data name="UpdateClassIdMismatch" xml:space="preserve">
+    <value>ID lớp học không khớp.</value>
+</data>
+<data name="UpdateClassSuccess" xml:space="preserve">
+    <value>Lớp học đã được cập nhật thành công.</value>
+</data>
+<data name="DeleteClassSuccess" xml:space="preserve">
+    <value>Lớp học đã được xóa thành công.</value>
+</data>
+<data name="InvalidClassData" xml:space="preserve">
+    <value>Dữ liệu không hợp lệ.</value>
+</data>
+<!-- enrollment -->
+<data name="GetAllEnrollmentsSuccess" xml:space="preserve">
+    <value>Lấy danh sách đăng ký thành công.</value>
+</data>
+<data name="EnrollmentNotFound" xml:space="preserve">
+    <value>Đăng ký không tồn tại.</value>
+</data>
+<data name="GetEnrollmentSuccess" xml:space="preserve">
+    <value>Lấy thông tin đăng ký thành công.</value>
+</data>
+<data name="PrerequisiteNotCompletedError" xml:space="preserve">
+    <value>Học viên chưa hoàn thành các khóa học tiên quyết.</value>
+</data>
+<data name="ClassFullError" xml:space="preserve">
+    <value>Lớp học đã đầy.</value>
+</data>
+<data name="CreateEnrollmentSuccess" xml:space="preserve">
+    <value>Đăng ký thành công.</value>
+</data>
+<data name="CancelEnrollmentDeadlineError" xml:space="preserve">
+    <value>Không thể hủy đăng ký do đã quá hạn.</value>
+</data>
+<data name="CancelEnrollmentSuccess" xml:space="preserve">
+    <value>Hủy đăng ký thành công.</value>
+</data>
+<data name="UpdateEnrollmentSuccess" xml:space="preserve">
+    <value>Cập nhật đăng ký thành công.</value>
+</data>
+<data name="DeleteEnrollmentSuccess" xml:space="preserve">
+    <value>Đăng ký đã được xóa thành công.</value>
+</data>
+<!-- grade -->
+<data name="GetAllGradesSuccess" xml:space="preserve">
+    <value>Lấy danh sách điểm thành công.</value>
+</data>
+<data name="GradeNotFound" xml:space="preserve">
+    <value>Điểm không tồn tại.</value>
+</data>
+<data name="GetGradeSuccess" xml:space="preserve">
+    <value>Lấy thông tin điểm thành công.</value>
+</data>
+<data name="StudentGradesNotFound" xml:space="preserve">
+    <value>Không tìm thấy điểm cho sinh viên này.</value>
+</data>
+<data name="CreateGradeSuccess" xml:space="preserve">
+    <value>Điểm đã được tạo thành công.</value>
+</data>
+<data name="UpdateGradeSuccess" xml:space="preserve">
+    <value>Điểm đã được cập nhật thành công.</value>
+</data>
+<data name="DeleteGradeSuccess" xml:space="preserve">
+    <value>Điểm đã được xóa thành công.</value>
+</data>
+<!-- student validation messages -->
+<data name="PhoneNumberRequired" xml:space="preserve">
+    <value>Số điện thoại không được để trống.</value>
+</data>
+<data name="PhoneNumberInvalid" xml:space="preserve">
+    <value>Số điện thoại không hợp lệ.</value>
+</data>
+<data name="PhoneNumberExists" xml:space="preserve">
+    <value>Số điện thoại đã tồn tại trong hệ thống.</value>
+</data>
+<data name="EmailRequired" xml:space="preserve">
+    <value>Email không được để trống.</value>
+</data>
+<data name="EmailInvalid" xml:space="preserve">
+    <value>Email không hợp lệ.</value>
+</data>
+<data name="EmailExists" xml:space="preserve">
+    <value>Email đã tồn tại trong hệ thống.</value>
+</data>
+<data name="StudentNotExist" xml:space="preserve">
+    <value>Sinh viên không tồn tại.</value>
+</data>
+<data name="StudentStatusTransitionError" xml:space="preserve">
+    <value>Không thể chuyển đổi trạng thái sinh viên từ '{0}' sang '{1}'.</value>
 </data>
 </root>

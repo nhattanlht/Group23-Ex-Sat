@@ -4,7 +4,7 @@ import EmailInput from "./Input/EmailInput";
 import config from "../config";
 import { useLanguage } from "../contexts/LanguageContext";
 import { X } from "lucide-react";
-const DataForm = ({ fields, data, dataName, onSave, onClose, label, initializeFormData = null, customInput = [] }) => {
+const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = null, customInput = [] }) => {
     const { translate } = useLanguage();
     const ALLOWED_EMAIL_ENDING = config.ALLOWED_EMAIL_ENDING;
     const [formData, setFormData] = useState({});
@@ -126,7 +126,10 @@ const DataForm = ({ fields, data, dataName, onSave, onClose, label, initializeFo
             }
         } catch (error) {
             console.error("Error saving form:", error);
-            alert(error.message || translate('student.messages.save_error'));
+            if (error.error) {
+                setErrors(error.error);
+                console.log("Validation errors:", errors);
+            }
         }
     };
 
@@ -139,7 +142,7 @@ const DataForm = ({ fields, data, dataName, onSave, onClose, label, initializeFo
             <div className="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-bold">
-                        {data ? translate(`${dataName}.actions.edit`) : translate(`${dataName}.actions.add`)} {translate(label)}
+                        {data ? translate(`common.edit`) : translate(`common.add`)} {translate(label)}
                     </h2>
                     <button 
                         type="button" 
@@ -265,7 +268,8 @@ const DataForm = ({ fields, data, dataName, onSave, onClose, label, initializeFo
 
                                 {errors[capitalize(field.accessor)] && (
                                     <p className="text-red-600 text-sm mt-1">
-                                        {errors[capitalize(field.accessor)][0]}
+                                        {errors[capitalize(field.accessor)].map((error, index) => (
+                                            <span key={index}>{error}</span>))}
                                     </p>
                                 )}
                             </div>

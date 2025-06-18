@@ -107,7 +107,14 @@ namespace StudentManagement.Controllers
                             status = "Error",
                         }
                     )
-                    : CreatedAtAction(nameof(GetSchoolYear), new { id = result.Id }, result);
+                    : CreatedAtAction(nameof(GetSchoolYear), new { id = result.Id }, 
+                        new
+                        {
+                            data = result,
+                            message = "Năm học đã được tạo thành công.",
+                            status = "Success",
+                        }
+                    );
             }
             catch (Exception ex)
             {

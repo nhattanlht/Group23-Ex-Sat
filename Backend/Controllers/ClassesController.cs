@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Localization;
 using StudentManagement.Models;
 using StudentManagement.Services;
 
@@ -9,10 +11,12 @@ namespace StudentManagement.Controllers
     public class ClassController : ControllerBase
     {
         private readonly IClassService _service;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public ClassController(IClassService service)
+        public ClassController(IClassService service, IStringLocalizer<SharedResource> localizer)
         {
             _service = service;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -21,7 +25,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = await _service.GetAllAsync(),
-                    message = "Lấy danh sách lớp học thành công.",
+                    message = _localizer["GetAllClassesSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -35,7 +39,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = classId,
-                        message = "Lớp học không tồn tại.",
+                        message = _localizer["ClassNotFound"].Value,
                         status = "NotFound",
                     }
                 );
@@ -43,7 +47,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = result,
-                    message = "Lấy thông tin lớp học thành công.",
+                    message = _localizer["GetClassSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -54,12 +58,22 @@ namespace StudentManagement.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
                 return BadRequest(
                     new
                     {
-                        data = ModelState,
-                        message = "Dữ liệu không hợp lệ.",
+                        data = dto,
+                        message = _localizer["InvalidClassData"].Value,
                         status = "Error",
+                        errors,
                     }
                 ); // Nếu dữ liệu không hợp lệ, trả về lỗi 400
             }
@@ -74,7 +88,7 @@ namespace StudentManagement.Controllers
                 MaxStudents = dto.MaxStudents,
                 Schedule = dto.Schedule,
                 Classroom = dto.Classroom,
-                CancelDeadline = dto.CancelDeadline
+                CancelDeadline = dto.CancelDeadline,
             };
 
             await _service.AddAsync(classEntity);
@@ -82,7 +96,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = classEntity,
-                    message = "Lớp học đã được tạo thành công.",
+                    message = _localizer["CreateClassSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -91,12 +105,33 @@ namespace StudentManagement.Controllers
         [HttpPut("{classId}")]
         public async Task<IActionResult> Update(string classId, [FromBody] ClassCreateDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = _localizer["InvalidClassData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             if (classId != dto.ClassId)
                 return BadRequest(
                     new
                     {
                         data = classId,
-                        message = "ID lớp học không khớp.",
+                        message = _localizer["ClassIdMismatch"].Value,
                         status = "Error",
                     }
                 );
@@ -112,7 +147,7 @@ namespace StudentManagement.Controllers
                 MaxStudents = dto.MaxStudents,
                 Schedule = dto.Schedule,
                 Classroom = dto.Classroom,
-                CancelDeadline = dto.CancelDeadline
+                CancelDeadline = dto.CancelDeadline,
             };
 
             // Gọi service để cập nhật
@@ -121,7 +156,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = classEntity,
-                    message = "Lớp học đã được cập nhật thành công.",
+                    message = _localizer["UpdateClassSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -136,7 +171,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = classId,
-                        message = "Lớp học không tồn tại.",
+                        message = _localizer["ClassNotFound"].Value,
                         status = "NotFound",
                     }
                 );
@@ -146,7 +181,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = classId,
-                    message = "Lớp học đã được xóa thành công.",
+                    message = _localizer["DeleteClassSuccess"].Value,
                     status = "Success",
                 }
             );

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-<data name="GetAllCoursesSuccess" xml:space="preserve">
-    <value>Course list retrieved successfully.</value>
-</data>
+<!-- student -->
 <data name="GetStudentsSuccess" xml:space="preserve">
     <value>Students retrieved successfully.</value>
 </data>
@@ -54,6 +52,10 @@
 <data name="StudentSearchError" xml:space="preserve">
     <value>Error occurred while searching students.</value>
 </data>
+<!-- course -->
+<data name="GetAllCoursesSuccess" xml:space="preserve">
+    <value>Course list retrieved successfully.</value>
+</data>
 <data name="GetActiveCoursesSuccess" xml:space="preserve">
     <value>Active courses retrieved successfully.</value>
 </data>
@@ -90,6 +92,7 @@
 <data name="DeleteCourseSuccess" xml:space="preserve">
     <value>Course deleted successfully.</value>
 </data>
+<!-- identification -->
   <data name="InvalidIdentificationData" xml:space="preserve">
     <value>Invalid identification data.</value>
   </data>
@@ -105,4 +108,107 @@
   <data name="GetIdentificationSuccess" xml:space="preserve">
     <value>Identification information retrieved successfully.</value>
   </data>
+  <!-- class -->
+  <data name="GetAllClassesSuccess" xml:space="preserve">
+    <value>Class list retrieved successfully.</value>
+</data>
+<data name="ClassNotFound" xml:space="preserve">
+    <value>Class not found.</value>
+</data>
+<data name="GetClassSuccess" xml:space="preserve">
+    <value>Class information retrieved successfully.</value>
+</data>
+<data name="CreateClassSuccess" xml:space="preserve">
+    <value>Class created successfully.</value>
+</data>
+<data name="ClassIdMismatch" xml:space="preserve">
+    <value>Class ID does not match.</value>
+</data>
+<data name="UpdateClassSuccess" xml:space="preserve">
+    <value>Class updated successfully.</value>
+</data>
+<data name="DeleteClassSuccess" xml:space="preserve">
+    <value>Class deleted successfully.</value>
+</data>
+<data name="InvalidClassData" xml:space="preserve">
+    <value>Invalid class data.</value>
+</data>
+<!-- enrollment -->
+<data name="GetAllEnrollmentsSuccess" xml:space="preserve">
+    <value>Enrollments retrieved successfully.</value>
+</data>
+<data name="EnrollmentNotFound" xml:space="preserve">
+    <value>Enrollment not found.</value>
+</data>
+<data name="GetEnrollmentSuccess" xml:space="preserve">
+    <value>Enrollment information retrieved successfully.</value>
+</data>
+<data name="PrerequisiteNotCompletedError" xml:space="preserve">
+    <value>The student has not completed the prerequisite courses.</value>
+</data>
+<data name="ClassFullError" xml:space="preserve">
+    <value>The class is full.</value>
+</data>
+<data name="CreateEnrollmentSuccess" xml:space="preserve">
+    <value>Enrollment created successfully.</value>
+</data>
+<data name="CancelEnrollmentDeadlineError" xml:space="preserve">
+    <value>Cannot cancel enrollment because the deadline has passed.</value>
+</data>
+<data name="CancelEnrollmentSuccess" xml:space="preserve">
+    <value>Enrollment cancelled successfully.</value>
+</data>
+<data name="UpdateEnrollmentSuccess" xml:space="preserve">
+    <value>Enrollment updated successfully.</value>
+</data>
+<data name="DeleteEnrollmentSuccess" xml:space="preserve">
+    <value>Enrollment deleted successfully.</value>
+</data>
+<!-- grade -->
+<data name="GetAllGradesSuccess" xml:space="preserve">
+    <value>Grades retrieved successfully.</value>
+</data>
+<data name="GradeNotFound" xml:space="preserve">
+    <value>Grade not found.</value>
+</data>
+<data name="GetGradeSuccess" xml:space="preserve">
+    <value>Grade information retrieved successfully.</value>
+</data>
+<data name="ExportStudentGradesNotFound" xml:space="preserve">
+    <value>No grades found for this student.</value>
+</data>
+<data name="CreateGradeSuccess" xml:space="preserve">
+    <value>Grade created successfully.</value>
+</data>
+<data name="UpdateGradeSuccess" xml:space="preserve">
+    <value>Grade updated successfully.</value>
+</data>
+<data name="DeleteGradeSuccess" xml:space="preserve">
+    <value>Grade deleted successfully.</value>
+</data>
+<!-- student validation messages -->
+<data name="PhoneNumberRequired" xml:space="preserve">
+    <value>Phone number is required.</value>
+</data>
+<data name="PhoneNumberInvalid" xml:space="preserve">
+    <value>Invalid phone number.</value>
+</data>
+<data name="PhoneNumberExists" xml:space="preserve">
+    <value>Phone number already exists in the system.</value>
+</data>
+<data name="EmailRequired" xml:space="preserve">
+    <value>Email is required.</value>
+</data>
+<data name="EmailInvalid" xml:space="preserve">
+    <value>Invalid email.</value>
+</data>
+<data name="EmailExists" xml:space="preserve">
+    <value>Email already exists in the system.</value>
+</data>
+<data name="StudentNotExist" xml:space="preserve">
+    <value>Student does not exist.</value>
+</data>
+<data name="StudentStatusTransitionInvalid" xml:space="preserve">
+    <value>Cannot change student status from '{0}' to '{1}'.</value>
+</data>
 </root>

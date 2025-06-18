@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Models;
 using StudentManagement.Services;
+using Microsoft.Extensions.Localization;
 
 namespace StudentManagement.Controllers
 {
@@ -9,10 +10,13 @@ namespace StudentManagement.Controllers
     public class EnrollmentController : ControllerBase
     {
         private readonly IEnrollmentService _service;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public EnrollmentController(IEnrollmentService service)
+
+        public EnrollmentController(IEnrollmentService service, IStringLocalizer<SharedResource> localizer)
         {
             _service = service;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -23,7 +27,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = enrollments,
-                    message = "Lấy danh sách đăng ký thành công.",
+                    message = _localizer["GetAllEnrollmentsSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -38,7 +42,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = id,
-                        message = "Đăng ký không tồn tại.",
+                        message = _localizer["EnrollmentNotFound"].Value,
                         status = "NotFound",
                     }
                 );
@@ -46,7 +50,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = result,
-                    message = "Lấy thông tin đăng ký thành công.",
+                    message = _localizer["GetEnrollmentSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -62,7 +66,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = dto,
-                        message = "Học viên chưa hoàn thành các khóa học tiên quyết.",
+                        message = _localizer["PrerequisiteNotCompletedError"].Value,
                         status = "Error",
                     }
                 );
@@ -74,7 +78,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = dto,
-                        message = "Lớp học đã đầy.",
+                        message = _localizer["ClassFullError"].Value,
                         status = "Error",
                     }
                 );
@@ -91,7 +95,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = enrollment,
-                    message = "Đăng ký thành công.",
+                    message = _localizer["CreateEnrollmentSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -106,7 +110,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = id,
-                        message = "Đăng ký không tồn tại.",
+                        message = _localizer["EnrollmentNotFound"].Value,
                         status = "NotFound",
                     }
                 );
@@ -122,7 +126,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "Không thể hủy đăng ký do đã quá hạn.",
+                            message = _localizer["CancelEnrollmentDeadlineError"].Value,
                             status = "Error",
                         }
                     );
@@ -131,7 +135,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = id,
-                        message = "Hủy đăng ký thành công.",
+                        message = _localizer["CancelEnrollmentSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -142,7 +146,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = enrollment,
-                    message = "Cập nhật đăng ký thành công.",
+                    message = _localizer["UpdateEnrollmentSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -156,7 +160,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = id,
-                    message = "Đăng ký đã được xóa thành công.",
+                    message = _localizer["DeleteEnrollmentSuccess"].Value,
                     status = "Success",
                 }
             );

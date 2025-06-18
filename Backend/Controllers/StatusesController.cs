@@ -113,7 +113,12 @@ namespace StudentManagement.Controllers
                 return CreatedAtAction(
                     nameof(GetStudentStatus),
                     new { id = createdStatus.Id },
-                    createdStatus
+                    new
+                    {
+                        data = createdStatus,
+                        message = "Tình trạng sinh viên đã được tạo thành công.",
+                        status = "Success",
+                    }
                 );
             }
             catch (Exception ex)

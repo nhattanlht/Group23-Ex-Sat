@@ -102,7 +102,16 @@ namespace StudentManagement.Controllers
                     return BadRequest(new { message });
 
                 var created = await _service.CreateAsync(department);
-                return CreatedAtAction(nameof(GetDepartment), new { id = created.Id }, created);
+                return CreatedAtAction(
+                    nameof(GetDepartment),
+                    new { id = created.Id },
+                    new
+                    {
+                        data = created,
+                        message = "Tạo mới thành công",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
@@ -132,7 +141,14 @@ namespace StudentManagement.Controllers
                 if (!updated)
                     return NotFound(new { message = "Không tìm thấy khoa!" });
 
-                return NoContent();
+                return Ok(
+                    new
+                    {
+                        data = department,
+                        message = "Cập nhật thành công",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
@@ -157,9 +173,23 @@ namespace StudentManagement.Controllers
             {
                 var deleted = await _service.DeleteAsync(id);
                 if (!deleted)
-                    return NotFound(new { message = "Không tìm thấy khoa!" });
+                    return NotFound(
+                        new
+                        {
+                            data = id,
+                            message = "Không tìm thấy khoa để xóa!",
+                            status = "NotFound",
+                        }
+                    );
 
-                return NoContent();
+                return Ok(
+                    new
+                    {
+                        data = id,
+                        message = "Xóa khoa thành công",
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {

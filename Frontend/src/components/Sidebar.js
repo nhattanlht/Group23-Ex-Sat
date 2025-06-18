@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
-import { ChevronLeft, ChevronRight, Users, BookOpen, GraduationCap, FileSpreadsheet, School, ClipboardList, FileInput } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Users, BookOpen, GraduationCap, FileSpreadsheet, School, ClipboardList, FileInput, Notebook } from 'lucide-react';
 
 const Sidebar = ({ isCollapsed, onToggle }) => {
   const location = useLocation();
@@ -15,6 +15,7 @@ const Sidebar = ({ isCollapsed, onToggle }) => {
     { path: '/courses', icon: <GraduationCap size={20} />, label: translate('menu.courses') },
     { path: '/classes', icon: <FileSpreadsheet size={20} />, label: translate('menu.classes') },
     { path: '/enrollment', icon: <ClipboardList size={20} />, label: translate('menu.enrollment') },
+    { path: '/grade', icon: <Notebook size={20} />, label: translate('menu.grades') },
     { path: '/data', icon: <FileInput size={20} />, label: translate('menu.import_export') }
   ];
 

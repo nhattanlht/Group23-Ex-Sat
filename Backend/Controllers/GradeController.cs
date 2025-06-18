@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Models;
 using StudentManagement.Services;
 using System.Text;
+using Microsoft.Extensions.Localization;
 
 namespace StudentManagement.Controllers
 {
@@ -10,10 +11,12 @@ namespace StudentManagement.Controllers
     public class GradeController : ControllerBase
     {
         private readonly IGradeService _service;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public GradeController(IGradeService service)
+        public GradeController(IGradeService service, IStringLocalizer<SharedResource> localizer)
         {
             _service = service;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -22,7 +25,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = await _service.GetAllAsync(),
-                    message = "Lấy danh sách điểm thành công.",
+                    message = _localizer["GetAllGradesSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -36,7 +39,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { StudentId, classId },
-                        message = "Điểm không tồn tại.",
+                        message = _localizer["GradeNotFound"].Value,
                         status = "NotFound",
                     }
                 );
@@ -44,7 +47,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = result,
-                    message = "Lấy thông tin điểm thành công.",
+                    message = _localizer["GetGradeSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -62,7 +65,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = StudentId,
-                        message = "Không tìm thấy điểm cho sinh viên này.",
+                        message = _localizer["GradesNotFound", StudentId].Value,
                         status = "NotFound",
                     }
                 );
@@ -104,8 +107,8 @@ namespace StudentManagement.Controllers
             return Ok(
                 new
                 {
-                    data = grade,
-                    message = "Điểm đã được tạo thành công.",
+                    data = dto,
+                    message = _localizer["CreateGradeSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -132,7 +135,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = grade,
-                    message = "Điểm đã được cập nhật thành công.",
+                    message = _localizer["UpdateGradeSuccess"].Value,
                     status = "Success",
                 }
             );
@@ -146,7 +149,7 @@ namespace StudentManagement.Controllers
                 new
                 {
                     data = gradeId,
-                    message = "Điểm đã được xóa thành công.",
+                    message = _localizer["DeleteGradeSuccess"].Value,
                     status = "Success",
                 }
             );

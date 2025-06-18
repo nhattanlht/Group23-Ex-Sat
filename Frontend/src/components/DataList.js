@@ -27,7 +27,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
     for (const field of tableFieldsWithOptions) {
       if (field.optionsEndpoint && !options[field.accessor]) {
         try {
-          const data = await loadDataNoPaging(field.optionsEndpoint);
+          const { data } = await loadDataNoPaging(field.optionsEndpoint);
           console.log(`Fetched options for ${field.accessor}:`, data);
           newOptions[field.accessor] = data;
           newValidSelectedOptions[field.accessor] = data;
@@ -51,7 +51,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
 
   const loadListData = async () => {
     try {
-      const data = await loadDataNoPaging(dataName);
+      const { data } = await loadDataNoPaging(dataName);
       console.log(`Loaded ${label} data:`, data);
       const formattedData = formatDataSet(data, tableFields, {translate});
       console.log(`Loaded and formatted ${label} data:`, formattedData);
@@ -69,7 +69,8 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       loadListData();
       alert(translate('common.success'));
     } catch (error) {
-      alert(translate('common.error'), error);
+      alert(translate('common.error'), error.message);
+      throw error;
     }
   };
 
@@ -80,7 +81,8 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       loadListData();
       alert(translate('common.success'));
     } catch (error) {
-      alert(translate('common.error'), error);
+      alert(translate('common.error'), error.message);
+      throw error;
     }
   };
 
@@ -91,7 +93,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
         loadListData();
         alert(translate('common.success'));
       } catch (error) {
-        alert(translate('common.error'), error);
+        alert(translate('common.error'), error.message);
       }
     }
   };
@@ -136,7 +138,6 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
                 options: field.type === 'select' && field.optionsEndpoint ? validSelectedOptions[field.accessor] : field.options,
               }))}
               data={modalData}
-              dataName={dataName}
               onSave={(data) => modalData ? handleEditData(data) : handleAddData(data)}
               onClose={() => setShowModal(false)}
               label={label}

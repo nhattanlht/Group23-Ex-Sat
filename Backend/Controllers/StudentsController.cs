@@ -82,13 +82,23 @@ namespace StudentManagement.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    var errors = ModelState
+                        .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                        .ToDictionary(
+                            kvp => kvp.Key,
+                            kvp =>
+                                kvp.Value != null
+                                    ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                    : Array.Empty<string>()
+                        );
                     _logger.LogWarning(ModelState.ToString());
                     return BadRequest(
                         new
                         {
-                            data = ModelState,
-                            message = _localizer["InvalidModelState"].Value,
+                            data = student,
+                            message = _localizer["InvalidStudentData"].Value,
                             status = "Error",
+                            errors,
                         }
                     );
                 }
@@ -199,6 +209,29 @@ namespace StudentManagement.Controllers
             _logger.LogInformation("Updating student: {ID}, Data: {@Student}", id, student);
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState
+                        .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                        .ToDictionary(
+                            kvp => kvp.Key,
+                            kvp =>
+                                kvp.Value != null
+                                    ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                    : Array.Empty<string>()
+                        );
+                    _logger.LogWarning(ModelState.ToString());
+                    return BadRequest(
+                        new
+                        {
+                            data = student,
+                            message = _localizer["InvalidStudentData"].Value,
+                            status = "Error",
+                            errors,
+                        }
+                    );
+                }
+
                 if (student == null)
                 {
                     _logger.LogWarning("Invalid student data received.");

@@ -6,7 +6,7 @@ using StudentManagement.Models;
 using StudentManagement.Services;
 using StudentManagement.Repositories;
 using Microsoft.OpenApi.Models;
-
+using StudentManagement;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -98,6 +98,19 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    })
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+    })
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.SuppressModelStateInvalidFilter = true;
+    })
+    .AddDataAnnotationsLocalization(options =>
+    {
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+            factory.Create(typeof(ValidationMessages));
     });
 
 
@@ -107,7 +120,7 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     var supportedCultures = new[] { "en", "vi" };
-    options.SetDefaultCulture("en");
+    options.SetDefaultCulture("vi");
     options.AddSupportedCultures(supportedCultures);
     options.AddSupportedUICultures(supportedCultures);
 });
@@ -138,14 +151,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-// Configure localization
-var supportedCultures = new[] { "en", "vi" };
-var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture("vi")
-    .AddSupportedCultures(supportedCultures)
-    .AddSupportedUICultures(supportedCultures);
-
-app.UseRequestLocalization(localizationOptions);
+app.UseRequestLocalization();
 
 app.UseHttpsRedirection();
 app.UseRouting();

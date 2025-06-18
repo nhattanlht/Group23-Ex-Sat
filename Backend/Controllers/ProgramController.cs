@@ -97,7 +97,14 @@ namespace StudentManagement.Controllers
                             status = "Error",
                         }
                     )
-                    : CreatedAtAction(nameof(GetProgram), new { id = result.Id }, result);
+                    : CreatedAtAction(nameof(GetProgram), new { id = result.Id }, 
+                        new
+                        {
+                            data = result,
+                            message = "Chương trình đào tạo đã được tạo thành công.",
+                            status = "Success",
+                        }
+                    );
             }
             catch (Exception ex)
             {

@@ -49,7 +49,7 @@ public class IdentificationController : ControllerBase
                 {
                     data = new { },
                     message = _localizer["CreateIdentificationError"].Value,
-                    // errors = ex.Message,
+                    errors = ex.Message,
                     status = "Error",
                 }
             );

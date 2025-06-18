@@ -280,5 +280,28 @@ export const en = {
       cancelDate: 'Cancel Time',
       actions: 'Actions'
     }
+  },
+  grade: {
+    title: 'Grade List',
+    add: 'Add Grade',
+    label: 'Grade',
+    fields: {
+      classId: 'Class',
+      courseCode: 'Course',
+      studentId: 'Student ID',
+      student: 'Student Name',
+      score: 'Score',
+      gradeLetter: 'Grade Letter',
+      gpa: 'GPA',
+      actions: 'Actions'
+    },
+    export: {
+      title: 'Export Grade Sheet',
+      guide: 'Enter Student ID to export grade sheet',
+      button: 'Export Grade Sheet',
+      success: 'Grade sheet exported successfully',
+      error: 'Error exporting grade sheet',
+      file_name: 'GradeSheet',
+    }
   }
 }; 

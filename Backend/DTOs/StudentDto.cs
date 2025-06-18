@@ -23,17 +23,17 @@ public class StudentDto
     public string Status { get; set; } = string.Empty;
 
     // Address fields from CSV
-    [Required(ErrorMessage = "Địa chỉ nhận thư không được để trống")]
+    [Required(ErrorMessage = "Số nhà Địa chỉ nhận thư không được để trống")]
     public string PermanentAddress_HouseNumber { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Địa chỉ nhận thư không được để trống")]
+    [Required(ErrorMessage = "Tên đường Địa chỉ nhận thư không được để trống")]
     public string PermanentAddress_StreetName { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Địa chỉ nhận thư không được để trống")]
+    [Required(ErrorMessage = "Phường Địa chỉ nhận thư không được để trống")]
     public string PermanentAddress_Ward { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Địa chỉ nhận thư không được để trống")]
+    [Required(ErrorMessage = "Quận Địa chỉ nhận thư không được để trống")]
     public string PermanentAddress_District { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Địa chỉ nhận thư không được để trống")]
+    [Required(ErrorMessage = "Tỉnh của Địa chỉ nhận thư không được để trống")]
     public string PermanentAddress_Province { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Địa chỉ nhận thư không được để trống")]
+    [Required(ErrorMessage = "Quốc gia của Địa chỉ nhận thư không được để trống")]
     public string PermanentAddress_Country { get; set; } = string.Empty;
 
     public string? RegisteredAddress_HouseNumber { get; set; }

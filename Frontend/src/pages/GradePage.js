@@ -4,8 +4,10 @@ import PageLayout from '../components/PageLayout';
 import axios from 'axios';
 import config from '../config';
 import { Download } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const CoursePage = () => {
+    const { translate } = useLanguage();
     const [classes, setClasses] = useState([]);
     const [students, setStudents] = useState([]);
     const [StudentId, setStudentId] = useState('');
@@ -33,23 +35,25 @@ const CoursePage = () => {
             console.error('Lỗi khi tải dữ liệu phụ trợ:', error);
         }
     };
-
+    
+    const dataName = 'grade';
     const formFields = [
-        { display: 'Lớp Học', accessor: 'classId', type: 'select', options: classes, required: true },
-        { display: 'StudentId', accessor: 'StudentId', type: 'select', options: students, required: true },
-        { display: 'Điểm', accessor: 'score', type: 'number', required: true },
-        { display: 'Điểm chữ', accessor: 'gradeLetter', type: 'text', required: false },
-        { display: 'GPA', accessor: 'gpa', type: 'number', required: true },
+        { display: translate(`${dataName}.fields.classId`), accessor: 'classId', type: 'select', options: classes, required: true },
+        { display: translate(`${dataName}.fields.studentId`), accessor: 'studentId', type: 'select', options: students, required: true },
+        { display: translate(`${dataName}.fields.score`), accessor: 'score', type: 'number', required: true },
+        { display: translate(`${dataName}.fields.gradeLetter`), accessor: 'gradeLetter', type: 'text', required: false },
+        { display: translate(`${dataName}.fields.gpa`), accessor: 'gpa', type: 'number', required: true },
     ];
 
     const tableFields = [
-        { display: 'Lớp Học', accessor: 'classId', type: 'select', options: classes },
-        { display: 'StudentId', accessor: 'StudentId', type: 'select', options: students },
-        { display: 'Họ tên Sinh viên', accessor: 'student', type: 'select', options: students },
-        { display: 'Điểm', accessor: 'score', type: 'number' },
-        { display: 'Điểm chữ', accessor: 'gradeLetter', type: 'text' },
-        { display: 'GPA', accessor: 'gpa', type: 'number' },
+        { display: translate(`${dataName}.fields.classId`), accessor: 'classId', type: 'select', options: classes },
+        { display: translate(`${dataName}.fields.studentId`), accessor: 'studentId', type: 'select', options: students },
+        { display: translate(`${dataName}.fields.student`), accessor: 'student', type: 'select', options: students },
+        { display: translate(`${dataName}.fields.score`), accessor: 'score', type: 'number' },
+        { display: translate(`${dataName}.fields.gradeLetter`), accessor: 'gradeLetter', type: 'text' },
+        { display: translate(`${dataName}.fields.gpa`), accessor: 'gpa', type: 'number' },
     ];
+
 
     function formatDataSetForTable(dataArray, fields, helpers = {}) {
         return dataArray.map((item) => {
@@ -77,10 +81,10 @@ const CoursePage = () => {
         });
     }
 
-    const exportGrade = async (StudentId) => {
-        console.log('Exporting grade for:', StudentId);
+    const exportGrade = async (studentId) => {
+        console.log('Exporting grade for:', studentId);
         try {
-            const response = await axios.get(`${config.backendUrl}/api/grade/export/${StudentId}`, {
+            const response = await axios.get(`${config.backendUrl}/api/grade/export/${studentId}`, {
                 responseType: 'blob'
             });
             const blob = new Blob([response.data], { type: "text/csv" });
@@ -88,38 +92,38 @@ const CoursePage = () => {
 
             const a = document.createElement("a");
             a.href = url;
-            a.download = `BangDiem_${StudentId}.csv`;
+            a.download = `${translate(`${dataName}.export.file_name`)}_${studentId}.csv`;
             a.click();
 
             window.URL.revokeObjectURL(url);
         } catch (error) {
             console.error("Error exporting transcript:", error);
-            alert("Lỗi khi xuất bảng điểm.");
+            alert(translate(`${dataName}.export.error`), error.message);
         }
     }
 
     const actions = [
         {
-            label: 'Chi tiết',
+            label: translate(`${dataName}.export.button`),
             icon: <Download size={16} />,
-            onClick: (row) => exportGrade(row.__original.StudentId),
+            onClick: (row) => exportGrade(row.__original.studentId),
             className: 'btn bg-green-600 text-white',
         }
     ];
 
 
     return (
-        <PageLayout title="Danh sách Điểm">
+        <PageLayout title={translate(`${dataName}.title`)}>
             <div>
-                <button className="btn btn-primary mb-2 disabled:opacity-50" disabled={!StudentId} onClick={() => exportGrade(StudentId)}>Xuất điểm</button>
+                <button className="btn btn-primary mb-2 disabled:opacity-50" disabled={!StudentId} onClick={() => exportGrade(StudentId)}>{translate(`${dataName}.export.button`)}</button>
                 <input
                     type="text"
                     value={StudentId}
                     onChange={(e) => setStudentId(e.target.value)}
-                    placeholder="Nhập StudentId để xuất bảng điểm"
+                    placeholder={translate(`${dataName}.export.guide`)}
                     className="form-control mb-2" />
             </div>
-            <DataList formFields={formFields} tableFields={tableFields} dataName="grade" pk="gradeId" label="điểm" actions={actions} formatDataSet={formatDataSetForTable} />
+            <DataList formFields={formFields} tableFields={tableFields} dataName={dataName} pk="gradeId" label={translate(`${dataName}.label`)} actions={actions} formatDataSet={formatDataSetForTable} />
         </PageLayout>
     );
 };

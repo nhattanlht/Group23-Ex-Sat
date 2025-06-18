@@ -134,7 +134,7 @@ const StudentList = () => {
         console.log('Fetching address for ID:', id);
         const response = await loadDataId('address', id);
         console.log('Address API response:', response);
-        addresses[id] = response;
+        addresses[id] = response.data;
         console.log('Updated addresses object:', addresses);
       } catch (error) {
         console.error("Error fetching address:", error);
@@ -148,7 +148,7 @@ const StudentList = () => {
     if (!identifications[id]) { // Avoid duplicate API calls for the same ID
       try {
         const response = await loadDataId('identification', id);
-        identifications[id] = response;
+        identifications[id] = response.data;
       } catch (error) {
         console.error("Error fetching address:", error);
       }
@@ -163,7 +163,7 @@ const StudentList = () => {
   // Gọi API lấy danh sách sinh viên
   const loadStudents = async (page, filters = {}) => {
     try {
-      const data = await loadData('students', page, filters);
+      const { data } = await loadData('students', page, filters);
       console.log('Raw student data with addresses:', data.students);
       console.log('First student full data:', JSON.stringify(data.students[0], null, 2));
       
@@ -214,7 +214,7 @@ const StudentList = () => {
       setTotalPages(data.totalPages || 1);
     } catch (error) {
       console.error("Lỗi khi tải danh sách sinh viên:", error);
-      alert('Lỗi khi tải danh sách sinh viên!');
+      alert(error.message || translate('student.messages.load_error'));
     }
   };
 
@@ -256,9 +256,9 @@ const StudentList = () => {
       return false;
     } catch (error) {
       console.error("Error adding student:", error);
-      console.error("Error details:", error.response?.data?.message); 
-      alert(error || translate('student.messages.add_error'));
-      return false;
+      console.error("Error details:", error.message); 
+      alert(error.message || translate('student.messages.add_error'));
+      throw error;
     }
   };
 
@@ -282,7 +282,7 @@ const StudentList = () => {
     } catch (error) {
       console.error("Error updating student:", error);
       alert(error.message || translate('student.messages.edit_error'));
-      return false;
+      throw error;
     }
   };
 
@@ -291,7 +291,7 @@ const StudentList = () => {
       await handleDeleteRow('students', StudentId);
       loadStudents(currentPage, filters);
     } catch (error) {
-      alert('Lỗi khi xóa sinh viên!');
+      alert(error.message || translate('student.messages.delete_error'));
     }
   };
 

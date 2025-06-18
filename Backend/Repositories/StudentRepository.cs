@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using StudentManagement.DTOs;
 using StudentManagement.Models;
 
 namespace StudentManagement.Repositories
@@ -105,8 +106,12 @@ namespace StudentManagement.Repositories
                 existingStudent.Identification.IssueDate = student.Identification.IssueDate;
                 existingStudent.Identification.IssuedBy = student.Identification.IssuedBy;
                 existingStudent.Identification.ExpiryDate = student.Identification.ExpiryDate;
-                existingStudent.Identification.IdentificationType = student.Identification.IdentificationType;
-                existingStudent.Identification.IssuingCountry = student.Identification.IssuingCountry;
+                existingStudent.Identification.IdentificationType = student
+                    .Identification
+                    .IdentificationType;
+                existingStudent.Identification.IssuingCountry = student
+                    .Identification
+                    .IssuingCountry;
                 existingStudent.Identification.HasChip = student.Identification.HasChip;
                 existingStudent.Identification.Notes = student.Identification.Notes;
             }
@@ -121,9 +126,11 @@ namespace StudentManagement.Repositories
                 existingStudent.PermanentAddress.Province = student.PermanentAddress.Province;
                 existingStudent.PermanentAddress.Country = student.PermanentAddress.Country;
             }
-            if( existingStudent.RegisteredAddress != null && student.RegisteredAddress != null)
+            if (existingStudent.RegisteredAddress != null && student.RegisteredAddress != null)
             {
-                existingStudent.RegisteredAddress.HouseNumber = student.RegisteredAddress.HouseNumber;
+                existingStudent.RegisteredAddress.HouseNumber = student
+                    .RegisteredAddress
+                    .HouseNumber;
                 existingStudent.RegisteredAddress.StreetName = student.RegisteredAddress.StreetName;
                 existingStudent.RegisteredAddress.Ward = student.RegisteredAddress.Ward;
                 existingStudent.RegisteredAddress.District = student.RegisteredAddress.District;
@@ -173,7 +180,7 @@ namespace StudentManagement.Repositories
         }
 
         public async Task<IEnumerable<Student>> SearchStudents(
-            string keyword,
+            StudentFilterModel filter,
             int page,
             int pageSize
         )
@@ -189,12 +196,17 @@ namespace StudentManagement.Repositories
                 .Include(s => s.Identification)
                 .AsQueryable();
 
-            if (!string.IsNullOrEmpty(keyword))
+            if (!string.IsNullOrEmpty(filter.Keyword))
             {
                 query = query.Where(s =>
-                    EF.Functions.Collate(s.FullName, "Latin1_General_CI_AI").Contains(keyword)
-                    || s.StudentId.Contains(keyword)
+                    EF.Functions.Collate(s.FullName, "Latin1_General_CI_AI")
+                        .Contains(filter.Keyword) || s.StudentId.Contains(filter.Keyword)
                 );
+            }
+
+            if (filter.DepartmentId != null)
+            {
+                query = query.Where(s => s.DepartmentId == filter.DepartmentId);
             }
 
             return await query
