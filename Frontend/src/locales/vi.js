@@ -233,5 +233,52 @@ export const vi = {
       success: "Import thành công!",
       error: "Lỗi khi import dữ liệu!"
     }
+  },
+  course: {
+    title: 'Danh sách khóa học',
+    add: 'Thêm Khóa Học',
+    label: 'Khóa Học',
+    fields: {
+      courseCode: 'Mã Khóa Học',
+      name: 'Tên Khóa Học',
+      credits: 'Số Tín Chỉ',
+      department: 'Khoa',
+      description: 'Mô Tả',
+      prerequisiteCourse: 'Môn Tiên Quyết',
+      isActive: 'Hoạt Động',
+      actions: 'Thao Tác'
+    }
+  },
+  class: {
+    title: 'Danh sách lớp học',
+    add: 'Thêm Lớp Học',
+    label: 'Lớp Học',
+    fields: {
+      classId: 'Mã Lớp Học',
+      courseCode: 'Tên Khóa Học',
+      academicYear: 'Năm Học',
+      semester: 'Học Kỳ',
+      teacher: 'Giảng Viên',
+      maxStudents: 'Số Lượng Tối Đa',
+      schedule: 'Lịch Học',
+      room: 'Phòng Học',
+      cancelDeadline: 'Thời gian hủy đăng ký',
+      actions: 'Thao Tác'
+    }
+  },
+  enrollment: {
+    title: 'Danh sách đăng ký lớp học',
+    add: 'Thêm Đăng Ký Lớp Học',
+    label: 'Đăng Ký Lớp Học',
+    fields: {
+      classId: 'Lớp Học',
+      courseCode: 'Khóa Học',
+      StudentId: 'Sinh Viên',
+      registeredAt: 'Thời gian đăng ký',
+      isCancelled: 'Hủy',
+      cancelReason: 'Lí do hủy',
+      cancelDate: 'Thời gian hủy',
+      actions: 'Thao Tác'
+    }
   }
 }; 
