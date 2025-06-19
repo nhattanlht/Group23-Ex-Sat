@@ -59,6 +59,27 @@ namespace StudentManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> Enroll([FromBody] EnrollmentCreateDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = _localizer["InvalidCourseData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             var hasPrerequisite = await _service.HasPrerequisiteAsync(dto.StudentId, dto.ClassId);
             if (!hasPrerequisite)
             {
@@ -104,6 +125,27 @@ namespace StudentManagement.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] EnrollmentUpdateDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = _localizer["InvalidCourseData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             var enrollment = await _service.GetByIdAsync(id);
             if (enrollment == null)
                 return NotFound(

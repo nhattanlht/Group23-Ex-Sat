@@ -1,7 +1,7 @@
 import axios from "axios";
 import config from '../config';
 
-export const loadData = async (dataName, page, filters = {}, language = localStorage.getItem('language')) => {
+export const loadData = async (dataName, page, filters = {}) => {
     try {
         console.log('Calling API with:', { dataName, page, filters });
         const queryString = buildQueryString(filters);
@@ -12,7 +12,7 @@ export const loadData = async (dataName, page, filters = {}, language = localSto
         const response = await axios.get(url, 
             {
                 headers: {
-                    'Accept-Language': language || 'vi'
+                    'Accept-Language': localStorage.getItem('language') || 'vi'
                 }
             }
         );
@@ -28,13 +28,13 @@ export const loadData = async (dataName, page, filters = {}, language = localSto
     }
 }
 
-export const loadDataNoPaging = async (endpoint,  language = localStorage.getItem('language')) => {
+export const loadDataNoPaging = async (endpoint) => {
     try {
         const response = await axios.get(`${config.backendUrl}/api/${endpoint}`, 
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept-Language': language || 'vi'
+                    'Accept-Language': localStorage.getItem('language') || 'vi'
                 }
             }
         );
@@ -53,12 +53,12 @@ export const loadDataNoPaging = async (endpoint,  language = localStorage.getIte
     }
 }
 
-export const loadDataId = async (dataName, id, language = localStorage.getItem('language')) => {
+export const loadDataId = async (dataName, id) => {
     try {
         const response = await axios.get(`${config.backendUrl}/api/${dataName}/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Accept-Language': language || 'vi'
+                'Accept-Language': localStorage.getItem('language') || 'vi'
             }
         });
         return {
@@ -76,12 +76,12 @@ export const loadDataId = async (dataName, id, language = localStorage.getItem('
     }
 }
 
-export const handleAddRow = async (dataName, data, language = localStorage.getItem('language')) => {
+export const handleAddRow = async (dataName, data) => {
     try {
         const response = await axios.post(`${config.backendUrl}/api/${dataName}`, data, {
             headers: {
                 'Content-Type': 'application/json',
-                'Accept-Language': language || 'vi'
+                'Accept-Language': localStorage.getItem('language') || 'vi'
             }
         });
         return {
@@ -99,36 +99,39 @@ export const handleAddRow = async (dataName, data, language = localStorage.getIt
     }
 }
 
-export const handleEditRow = async (dataName, id, data, language = localStorage.getItem('language')) => {
-    try {
-        const response = await axios.put(`${config.backendUrl}/api/${dataName}/${id}`, data, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept-Language': language || 'vi'
-            }
-        });
-        return {
-            success: response.status === 200,
-            message: response.data.message,
-            data: response.data.data
-        };
-    } catch (error) {
-        console.error("Lỗi khi cập nhật dữ liệu:", error);
-        throw {
-            success: false,
-            message: error.response?.data?.message || error.message,
-            error: error.response?.data.errors || error
-        };
+export const handleEditRow = async (dataName, id, data, routeGenerator = null) => {
+    let url = `${config.backendUrl}/api/${dataName}/${id}`;
+    if (routeGenerator) {
+      url = `${config.backendUrl}/api/${dataName}/${routeGenerator(data)}`;
     }
-}
+  try {
+    const response = await axios.put(url, data, {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept-Language": localStorage.getItem("language") || "vi",
+      },
+    });
+    return {
+      success: response.status === 200,
+      message: response.data.message,
+      data: response.data.data,
+    };
+  } catch (error) {
+    console.error("Lỗi khi cập nhật dữ liệu:", error);
+    throw {
+      success: false,
+      message: error.response?.data?.message || error.message,
+      error: error.response?.data.errors || error,
+    };
+  }
+};
 
-export const handleDeleteRow = async (dataName, id, language = localStorage.getItem('language')) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa dòng này không?')) return;
+export const handleDeleteRow = async (dataName, id) => {
     try {
         const response = await axios.delete(`${config.backendUrl}/api/${dataName}/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Accept-Language': language || 'vi'
+                'Accept-Language': localStorage.getItem('language') || 'vi'
             }
         });
         return {

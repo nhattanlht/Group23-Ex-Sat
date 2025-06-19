@@ -95,6 +95,27 @@ namespace StudentManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(GradeCreateDTO dto)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = _localizer["InvalidCourseData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             var grade = new Grade
             {
                 StudentId = dto.StudentId,
@@ -114,27 +135,55 @@ namespace StudentManagement.Controllers
             );
         }
 
-        [HttpPut("{StudentId}/{classId}")]
+        [HttpPut("student/{StudentId}/class/{classId}")]
         public async Task<IActionResult> Update(
             string StudentId,
             string classId,
             [FromBody] GradeUpdateDTO dto
         )
         {
-            var grade = new Grade
+            if (!ModelState.IsValid)
             {
-                StudentId = StudentId,
-                ClassId = classId,
-                Score = dto.Score,
-                GradeLetter = dto.GradeLetter,
-                GPA = dto.GPA
-            };
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = _localizer["InvalidCourseData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
+            var existingGrade = await _service.GetByIdAsync(StudentId, classId);
+            if (existingGrade == null)
+            {
+                return NotFound(
+                    new
+                    {
+                        data = new { StudentId, classId },
+                        message = _localizer["GradeNotFound"].Value,
+                        status = "NotFound",
+                    }
+                );
+            }
+            existingGrade.Score = dto.Score;
+            existingGrade.GradeLetter = dto.GradeLetter;
+            existingGrade.GPA = dto.GPA;
 
-            await _service.UpdateAsync(grade);
+            await _service.UpdateAsync(existingGrade);
             return Ok(
                 new
                 {
-                    data = grade,
+                    data = dto,
                     message = _localizer["UpdateGradeSuccess"].Value,
                     status = "Success",
                 }

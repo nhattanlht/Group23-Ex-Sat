@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using StudentManagement.Models;
 using StudentManagement.Services;
 
@@ -10,11 +11,17 @@ namespace StudentManagement.Controllers
     {
         private readonly IProgramService _programService;
         private readonly ILogger<ProgramController> _logger;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public ProgramController(IProgramService programService, ILogger<ProgramController> logger)
+        public ProgramController(
+            IProgramService programService,
+            ILogger<ProgramController> logger,
+            IStringLocalizer<SharedResource> localizer
+        )
         {
             _programService = programService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -27,7 +34,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = programs,
-                        message = "Lấy danh sách chương trình đào tạo thành công.",
+                        message = _localizer["GetAllProgramsSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -40,7 +47,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -55,13 +62,20 @@ namespace StudentManagement.Controllers
             {
                 var program = await _programService.GetProgramByIdAsync(id);
                 if (program == null)
-                    return NotFound(new { message = "Không tìm thấy chương trình đào tạo!" });
+                    return NotFound(
+                        new
+                        {
+                            data = id,
+                            message = _localizer["ProgramNotFound"].Value,
+                            status = "NotFound",
+                        }
+                    );
 
                 return Ok(
                     new
                     {
                         data = program,
-                        message = "Lấy thông tin chương trình đào tạo thành công.",
+                        message = _localizer["GetProgramSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -74,7 +88,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -85,6 +99,27 @@ namespace StudentManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProgram(StudyProgram program)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = program,
+                        message = _localizer["InvalidProgramData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             try
             {
                 var result = await _programService.CreateProgramAsync(program);
@@ -93,15 +128,17 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = program,
-                            message = "Chương trình đào tạo đã tồn tại!",
+                            message = _localizer["CreateProgramExists"].Value,
                             status = "Error",
                         }
                     )
-                    : CreatedAtAction(nameof(GetProgram), new { id = result.Id }, 
+                    : CreatedAtAction(
+                        nameof(GetProgram),
+                        new { id = result.Id },
                         new
                         {
                             data = result,
-                            message = "Chương trình đào tạo đã được tạo thành công.",
+                            message = _localizer["CreateProgramSuccess"].Value,
                             status = "Success",
                         }
                     );
@@ -114,7 +151,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -125,6 +162,27 @@ namespace StudentManagement.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProgram(int id, StudyProgram program)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = program,
+                        message = _localizer["InvalidProgramData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             try
             {
                 var updated = await _programService.UpdateProgramAsync(id, program);
@@ -133,7 +191,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = program,
-                            message = "Chương trình đào tạo đã được cập nhật thành công.",
+                            message = _localizer["UpdateProgramSuccess"].Value,
                             status = "Success",
                         }
                     )
@@ -141,7 +199,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "ID không khớp hoặc chương trình không tồn tại!",
+                            message = _localizer["UpdateProgramIdMismatch"].Value,
                             status = "Error",
                         }
                     );
@@ -154,7 +212,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -173,7 +231,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "Chương trình đào tạo đã được xóa thành công.",
+                            message = _localizer["DeleteProgramSuccess"].Value,
                             status = "Success",
                         }
                     )
@@ -181,7 +239,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "Không thể xóa vì có sinh viên thuộc chương trình này hoặc không tìm thấy chương trình!",
+                            message = _localizer["DeleteProgramError"].Value,
                             status = "Error",
                         }
                     );
@@ -194,7 +252,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }

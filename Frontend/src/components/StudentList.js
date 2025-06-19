@@ -385,7 +385,7 @@ const StudentList = () => {
           setModalData(student.__original); 
           setShowModal(true); 
         }} 
-        handleDelete={(student) => { handleDeleteStudent(student.StudentId) }}
+        handleDelete={(student) => { handleDeleteStudent(student.studentId) }}
       />
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
       {showModal && <DataForm fields={fields} data={modalData} dataName={'student'} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} label={translate('student.title')} initializeFormData={initializeFormData} />}

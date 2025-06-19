@@ -1,22 +1,24 @@
 using StudentManagement.Models;
-using StudentManagement.DTOs;
 using StudentManagement.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using CsvHelper;
 using CsvHelper.Configuration;
 using System.Globalization;
 using System.Text;
+using Microsoft.Extensions.Localization;
 
 namespace StudentManagement.Services
 {
     public class DataService: IDataService
     {
         private readonly IDataRepository _repository;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public DataService(IDataRepository repository)
+
+        public DataService(IDataRepository repository, IStringLocalizer<SharedResource> localizer)
         {
             _repository = repository;
+            _localizer = localizer;
         }
 
         public async Task<List<StudentDto>> GetAllStudentsAsync()
@@ -26,12 +28,7 @@ namespace StudentManagement.Services
 
         public async Task<Address> FindOrCreateAddressAsync(string? houseNumber, string? streetName, string? ward, string? district, string? province, string? country)
         {
-            if (string.IsNullOrEmpty(houseNumber) || string.IsNullOrEmpty(streetName) || string.IsNullOrEmpty(ward) ||
-                string.IsNullOrEmpty(district) || string.IsNullOrEmpty(province) || string.IsNullOrEmpty(country))
-            {
-                throw new ArgumentNullException("Address fields cannot be null or empty.");
-            }
-
+            
             // Case 1: All fields are empty → No address needed
             if (string.IsNullOrWhiteSpace(houseNumber) &&
                 string.IsNullOrWhiteSpace(streetName) &&
@@ -51,7 +48,8 @@ namespace StudentManagement.Services
                 string.IsNullOrWhiteSpace(province) ||
                 string.IsNullOrWhiteSpace(country))
             {
-                throw new Exception("Địa chỉ không hợp lệ, cần điền tất cả các trường hoặc bỏ trống tất cả.");
+                throw new Exception(
+                    _localizer["InvalidAddressData"].Value);
             }
 
             // Case 3: Find or create the address
@@ -71,7 +69,7 @@ namespace StudentManagement.Services
             var department = await _repository.GetDepartmentByNameAsync(departmentName);
             if (department == null)
             {
-                throw new Exception($"Department not found: {departmentName}");
+                throw new Exception(_localizer["DepartmentNotFound", departmentName].Value);
             }
             return department;
         }
@@ -81,7 +79,7 @@ namespace StudentManagement.Services
             var schoolYear = await _repository.GetSchoolYearByNameAsync(schoolYearName);
             if (schoolYear == null)
             {
-                throw new Exception($"SchoolYear not found: {schoolYearName}");
+                throw new Exception(_localizer["SchoolYearNotFound", schoolYearName].Value);
             }
             return schoolYear;
         }
@@ -91,7 +89,7 @@ namespace StudentManagement.Services
             var studyProgram = await _repository.GetStudyProgramByNameAsync(studyProgramName);
             if (studyProgram == null)
             {
-                throw new Exception($"StudyProgram not found: {studyProgramName}");
+                throw new Exception(_localizer["StudyProgramNotFound", studyProgramName].Value);
             }
             return studyProgram;
         }
@@ -101,7 +99,7 @@ namespace StudentManagement.Services
             var status = await _repository.GetStudentStatusByNameAsync(statusName);
             if (status == null)
             {
-                throw new Exception($"Status not found: {statusName}");
+                throw new Exception(_localizer["StatusNotFound", statusName].Value);
             }
             return status;
         }
@@ -134,7 +132,7 @@ namespace StudentManagement.Services
         {
             if (file == null || file.Length == 0)
             {
-                return (false, "File không hợp lệ.", 0);
+                return (false, _localizer["InvalidFile"].Value, 0);
             }
 
             try
@@ -146,7 +144,7 @@ namespace StudentManagement.Services
                 var records = JsonConvert.DeserializeObject<List<StudentDto>>(json);
                 if (records == null || !records.Any())
                 {
-                    return (false, "Dữ liệu JSON không hợp lệ.", 0);
+                    return (false, _localizer["InvalidJsonData"], 0);
                 }
 
                 var newStudents = new List<Student>();
@@ -220,18 +218,18 @@ namespace StudentManagement.Services
 
                 if (!uniqueStudents.Any())
                 {
-                    return (false, "Tất cả dữ liệu đã tồn tại trong hệ thống!", 0);
+                    return (false, _localizer["AllDataExists"].Value, 0);
                 }
 
                 await ImportStudentsAsync(uniqueStudents);
                 logger.LogInformation("JSON import successful.");
 
-                return (true, "Import JSON thành công", uniqueStudents.Count);
+                return (true, _localizer["ImportJsonSuccess", uniqueStudents.Count], uniqueStudents.Count);
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error importing JSON.");
-                return (false, $"Lỗi khi import JSON: {ex.Message}", 0);
+                return (false, _localizer["ImportJsonError", ex.Message].Value, 0);
             }
         }
 
@@ -239,7 +237,7 @@ namespace StudentManagement.Services
         {
             if (file == null || file.Length == 0)
             {
-                return (false, "File không hợp lệ.", 0);
+                return (false, _localizer["InvalidFile"].Value, 0);
             }
 
             try
@@ -253,7 +251,7 @@ namespace StudentManagement.Services
 
                 if (!records.Any())
                 {
-                    return (false, "Dữ liệu CSV không hợp lệ.", 0);
+                    return (false, _localizer["InvalidCsvData"].Value, 0);
                 }
 
                 var newStudents = new List<Student>();
@@ -327,18 +325,18 @@ namespace StudentManagement.Services
 
                 if (!uniqueStudents.Any())
                 {
-                    return (false, "Tất cả dữ liệu đã tồn tại trong hệ thống!", 0);
+                    return (false, _localizer["AllDataExists"].Value, 0);
                 }
 
                 await ImportStudentsAsync(uniqueStudents);
                 logger.LogInformation("CSV import successful.");
 
-                return (true, "Import CSV thành công.", uniqueStudents.Count);
+                return (true, _localizer["ImportCsvSuccess", uniqueStudents.Count].Value, uniqueStudents.Count);
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error importing CSV.");
-                return (false, $"Lỗi khi import CSV: {ex.Message}", 0);
+                return (false, _localizer["ImportCsvError", ex.Message].Value, 0);
             }
         }
     }

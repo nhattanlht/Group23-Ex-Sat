@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Localization;
 using StudentManagement.DTOs;
 using StudentManagement.Models;
 using StudentManagement.Repositories;
-using Microsoft.Extensions.Localization;
 
 namespace StudentManagement.Services
 {
@@ -11,7 +11,10 @@ namespace StudentManagement.Services
         private readonly IStudentRepository _studentRepository;
         private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public StudentService(IStudentRepository studentRepository, IStringLocalizer<SharedResource> localizer)
+        public StudentService(
+            IStudentRepository studentRepository,
+            IStringLocalizer<SharedResource> localizer
+        )
         {
             _studentRepository = studentRepository;
             _localizer = localizer;
@@ -116,7 +119,7 @@ namespace StudentManagement.Services
 
                     return (
                         false,
-                        $"Không thể chuyển đổi trạng thái sinh viên từ '{oldStatus}' sang '{newStatus}'."
+                        _localizer["InvalidStatusTransition", oldStatus, newStatus].Value
                     );
                 }
             }

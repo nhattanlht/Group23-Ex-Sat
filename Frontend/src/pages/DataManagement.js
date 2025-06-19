@@ -53,7 +53,9 @@ const DataManagement = () => {
             const response = await axios.post(
                 `${API_BASE_URL}/api/data/import/${fileType}`,
                 formData,
-                { headers: { "Content-Type": "multipart/form-data" } }
+                { headers: { "Content-Type": "multipart/form-data",
+                    'Accept-Language': localStorage.getItem('language') || 'vi'
+                 } }
             );
             alert(response.data.message || translate('data_management.import.success'));
         } catch (error) {

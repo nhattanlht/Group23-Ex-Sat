@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Models;
 using StudentManagement.Services;
+using Microsoft.Extensions.Localization;
 
 namespace StudentManagement.Controllers
 {
@@ -10,14 +11,17 @@ namespace StudentManagement.Controllers
     {
         private readonly ISchoolYearService _schoolYearService;
         private readonly ILogger<SchoolYearController> _logger;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
         public SchoolYearController(
             ISchoolYearService schoolYearService,
-            ILogger<SchoolYearController> logger
+            ILogger<SchoolYearController> logger,
+            IStringLocalizer<SharedResource> localizer
         )
         {
             _schoolYearService = schoolYearService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -30,7 +34,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = schoolYears,
-                        message = "Lấy danh sách năm học thành công.",
+                        message = _localizer["GetAllSchoolYearsSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -43,7 +47,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -62,7 +66,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "Không tìm thấy năm học.",
+                            message = _localizer["SchoolYearNotFound"].Value,
                             status = "NotFound",
                         }
                     );
@@ -71,7 +75,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = schoolYear,
-                        message = "Lấy thông tin năm học thành công.",
+                        message = _localizer["GetSchoolYearSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -84,7 +88,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -95,6 +99,27 @@ namespace StudentManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSchoolYear(SchoolYear schoolYear)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = schoolYear,
+                        message = _localizer["InvalidSchoolYearData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             try
             {
                 var result = await _schoolYearService.CreateSchoolYearAsync(schoolYear);
@@ -103,15 +128,15 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = schoolYear,
-                            message = "Tên năm học không được để trống.",
+                            message = _localizer["SchoolYearNameRequired"].Value,
                             status = "Error",
                         }
                     )
-                    : CreatedAtAction(nameof(GetSchoolYear), new { id = result.Id }, 
+                    : CreatedAtAction(nameof(GetSchoolYear), new { id = result.Id },
                         new
                         {
                             data = result,
-                            message = "Năm học đã được tạo thành công.",
+                            message = _localizer["CreateSchoolYearSuccess"].Value,
                             status = "Success",
                         }
                     );
@@ -124,7 +149,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -135,6 +160,27 @@ namespace StudentManagement.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSchoolYear(int id, SchoolYear schoolYear)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = schoolYear,
+                        message = _localizer["InvalidSchoolYearData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             try
             {
                 var updated = await _schoolYearService.UpdateSchoolYearAsync(id, schoolYear);
@@ -143,7 +189,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = schoolYear,
-                            message = "Cập nhật năm học thành công.",
+                            message = _localizer["UpdateSchoolYearSuccess"].Value,
                             status = "Success",
                         }
                     )
@@ -151,7 +197,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = schoolYear,
-                            message = "ID không hợp lệ hoặc năm học không tồn tại.",
+                            message = _localizer["InvalidSchoolYearId"].Value,
                             status = "Error",
                         }
                     );
@@ -164,7 +210,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -183,7 +229,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "Xóa năm học thành công.",
+                            message = _localizer["DeleteSchoolYearSuccess"].Value,
                             status = "Success",
                         }
                     )
@@ -191,7 +237,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "Năm học không tồn tại.",
+                            message = _localizer["InvalidSchoolYearId"].Value,
                             status = "Error",
                         }
                     );
@@ -204,7 +250,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }

@@ -208,7 +208,160 @@
 <data name="StudentNotExist" xml:space="preserve">
     <value>Student does not exist.</value>
 </data>
-<data name="StudentStatusTransitionInvalid" xml:space="preserve">
+<data name="InvalidStatusTransition" xml:space="preserve">
     <value>Cannot change student status from '{0}' to '{1}'.</value>
+</data>
+<!-- address -->
+<data name="InvalidAddressData" xml:space="preserve">
+    <value>Invalid address data. Please fill in all fields or leave all blank.</value>
+</data>
+<!-- import validation -->
+<data name="InvalidFile" xml:space="preserve">
+    <value>Invalid file.</value>
+</data>
+<data name="InvalidCsvData" xml:space="preserve">
+    <value>Invalid CSV data.</value>
+</data>
+<data name="DepartmentNotFound" xml:space="preserve">
+    <value>Department not found: {0}</value>
+</data>
+<data name="SchoolYearNotFound" xml:space="preserve">
+    <value>SchoolYear not found: {0}</value>
+</data>
+<data name="StudyProgramNotFound" xml:space="preserve">
+    <value>StudyProgram not found: {0}</value>
+</data>
+<data name="StatusNotFound" xml:space="preserve">
+    <value>Status not found: {0}</value>
+</data>
+<data name="AllDataExists" xml:space="preserve">
+    <value>All data already exists in the system!</value>
+</data>
+<data name="ImportCsvSuccess" xml:space="preserve">
+    <value>CSV import successful ({0} new records).</value>
+</data>
+<data name="ImportCsvError" xml:space="preserve">
+    <value>Error occurred while importing CSV: {0}</value>
+</data>
+<data name="InvalidJsonData" xml:space="preserve">
+    <value>Invalid JSON data.</value>
+</data>
+<data name="ImportJsonSuccess" xml:space="preserve">
+    <value>JSON import successful ({0} new records).</value>
+</data>
+<data name="ImportJsonError" xml:space="preserve">
+    <value>Error occurred while importing JSON: {0}</value>
+</data>
+<!-- department -->
+<data name="InvalidDepartmentData" xml:space="preserve">
+    <value>Invalid department data.</value>
+</data>
+<data name="GetAllDepartmentsSuccess" xml:space="preserve">
+    <value>Department list retrieved successfully.</value>
+</data>
+<data name="GetDepartmentSuccess" xml:space="preserve">
+    <value>Department information retrieved successfully.</value>
+</data>
+<data name="CreateDepartmentSuccess" xml:space="preserve">
+    <value>Department created successfully.</value>
+</data>
+<data name="UpdateDepartmentSuccess" xml:space="preserve">
+    <value>Department updated successfully.</value>
+</data>
+<data name="DeleteDepartmentSuccess" xml:space="preserve">
+    <value>Department deleted successfully.</value>
+</data>
+<data name="DeleteDepartmentNotFound" xml:space="preserve">
+    <value>Department to delete not found!</value>
+</data>
+<data name="DepartmentIdMismatch" xml:space="preserve">
+    <value>Department ID does not match!</value>
+</data>
+<!-- study program -->
+<data name="InvalidProgramData" xml:space="preserve">
+    <value>Invalid program data.</value>
+</data>
+<data name="GetAllProgramsSuccess" xml:space="preserve">
+    <value>Program list retrieved successfully.</value>
+</data>
+<data name="GetProgramSuccess" xml:space="preserve">
+    <value>Program information retrieved successfully.</value>
+</data>
+<data name="CreateProgramSuccess" xml:space="preserve">
+    <value>Program created successfully.</value>
+</data>
+<data name="CreateProgramExists" xml:space="preserve">
+    <value>Program already exists!</value>
+</data>
+<data name="UpdateProgramSuccess" xml:space="preserve">
+    <value>Program updated successfully.</value>
+</data>
+<data name="UpdateProgramIdMismatch" xml:space="preserve">
+    <value>ID does not match or program does not exist!</value>
+</data>
+<data name="DeleteProgramSuccess" xml:space="preserve">
+    <value>Program deleted successfully.</value>
+</data>
+<data name="DeleteProgramError" xml:space="preserve">
+    <value>Cannot delete because there are students in this program or the program was not found!</value>
+</data>
+<data name="ProgramNotFound" xml:space="preserve">
+    <value>Program not found!</value>
+</data>
+<!-- school year -->
+<data name="InvalidSchoolYearData" xml:space="preserve">
+    <value>Invalid school year data.</value>
+</data>
+<data name="GetAllSchoolYearsSuccess" xml:space="preserve">
+    <value>School year list retrieved successfully.</value>
+</data>
+<data name="GetSchoolYearSuccess" xml:space="preserve">
+    <value>School year information retrieved successfully.</value>
+</data>
+<data name="CreateSchoolYearSuccess" xml:space="preserve">
+    <value>School year created successfully.</value>
+</data>
+<data name="UpdateSchoolYearSuccess" xml:space="preserve">
+    <value>School year updated successfully.</value>
+</data>
+<data name="DeleteSchoolYearSuccess" xml:space="preserve">
+    <value>School year deleted successfully.</value>
+</data>
+<data name="InvalidSchoolYearId" xml:space="preserve">
+    <value>Invalid ID or school year does not exist.</value>
+</data>
+<data name="SchoolYearNameRequired" xml:space="preserve">
+    <value>School year name is required.</value>
+</data>
+<!-- student status -->
+<data name="InvalidStudentStatusData" xml:space="preserve">
+    <value>Invalid student status data.</value>
+</data>
+<data name="GetAllStudentStatusesSuccess" xml:space="preserve">
+    <value>Student status list retrieved successfully.</value>
+</data>
+<data name="GetStudentStatusSuccess" xml:space="preserve">
+    <value>Student status found.</value>
+</data>
+<data name="StudentStatusNotFound" xml:space="preserve">
+    <value>Student status not found!</value>
+</data>
+<data name="CreateStudentStatusExists" xml:space="preserve">
+    <value>Student status already exists!</value>
+</data>
+<data name="CreateStudentStatusSuccess" xml:space="preserve">
+    <value>Student status created successfully.</value>
+</data>
+<data name="UpdateStudentStatusIdMismatch" xml:space="preserve">
+    <value>ID does not match or student status does not exist!</value>
+</data>
+<data name="UpdateStudentStatusSuccess" xml:space="preserve">
+    <value>Student status updated successfully.</value>
+</data>
+<data name="DeleteStudentStatusError" xml:space="preserve">
+    <value>Student status does not exist or is currently in use by students!</value>
+</data>
+<data name="DeleteStudentStatusSuccess" xml:space="preserve">
+    <value>Student status deleted successfully.</value>
 </data>
 </root>

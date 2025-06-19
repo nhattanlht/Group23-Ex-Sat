@@ -8,7 +8,7 @@ import { formatDataSetForTable } from '../util/formatData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 
-const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, formatDataSet = formatDataSetForTable, actions=[] }) => {
+const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, formatDataSet = formatDataSetForTable, actions=[], customRoute = null }) => {
   const { translate } = useLanguage();
   const [dataSet, setDataSet] = useState([]);
   const [options, setOptions] = useState({});
@@ -58,16 +58,16 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       setDataSet(formattedData || []);
     } catch (error) {
       console.error(`Error loading ${label} list:`, error);
-      alert(translate('common.error'), error);
+      alert(error.message || translate('common.error'), error);
     }
   };
 
   const handleAddData = async (data) => {
     try {
-      await handleAddRow(dataName, data);
+      const response = await handleAddRow(dataName, data);
       setShowModal(false);
       loadListData();
-      alert(translate('common.success'));
+      alert(response.message || translate('common.success'));
     } catch (error) {
       alert(translate('common.error'), error.message);
       throw error;
@@ -76,10 +76,10 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
 
   const handleEditData = async (data) => {
     try {
-      await handleEditRow(dataName, data[pk], data);
+      const response = await handleEditRow(dataName, data[pk], data, customRoute?.edit);
       setShowModal(false);
       loadListData();
-      alert(translate('common.success'));
+      alert(response.message || translate('common.success'));
     } catch (error) {
       alert(translate('common.error'), error.message);
       throw error;
@@ -89,9 +89,9 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
   const handleDeleteData = async (id) => {
     if (window.confirm(translate('common.confirm'))) {
       try {
-        await handleDeleteRow(dataName, id);
+        const response = await handleDeleteRow(dataName, id);
         loadListData();
-        alert(translate('common.success'));
+        alert(response.message || translate('common.success'));
       } catch (error) {
         alert(translate('common.error'), error.message);
       }

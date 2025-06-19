@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using StudentManagement.Models;
 using StudentManagement.Services;
 
@@ -10,14 +11,17 @@ namespace StudentManagement.Controllers
     {
         private readonly IDepartmentService _service;
         private readonly ILogger<DepartmentsController> _logger;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
         public DepartmentsController(
             IDepartmentService service,
-            ILogger<DepartmentsController> logger
+            ILogger<DepartmentsController> logger,
+            IStringLocalizer<SharedResource> localizer
         )
         {
             _service = service;
             _logger = logger;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -30,7 +34,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = departments,
-                        message = "Lấy danh sách khoa thành công.",
+                        message = _localizer["GetAllDepartmentsSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -43,7 +47,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Internal server error",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -62,7 +66,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "Không tìm thấy khoa!",
+                            message = _localizer["DepartmentNotFound"].Value,
                             status = "NotFound",
                         }
                     );
@@ -71,7 +75,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = department,
-                        message = "Lấy thông tin khoa thành công.",
+                        message = _localizer["GetDepartmentSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -84,7 +88,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -95,6 +99,27 @@ namespace StudentManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateDepartment(Department department)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = department,
+                        message = _localizer["InvalidDepartmentData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             try
             {
                 var (exists, message) = await _service.CheckDuplicateAsync(department.Name);
@@ -108,7 +133,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = created,
-                        message = "Tạo mới thành công",
+                        message = _localizer["CreateDepartmentSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -121,7 +146,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -132,20 +157,55 @@ namespace StudentManagement.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDepartment(int id, Department department)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = department,
+                        message = _localizer["InvalidDepartmentData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             try
             {
                 if (id != department.Id)
-                    return BadRequest(new { message = "ID không khớp!" });
+                    return BadRequest(
+                        new
+                        {
+                            data = new { id, department },
+                            message = _localizer["DepartmentIdMismatch"].Value,
+                            status = "Error",
+                        }
+                    );
 
                 var updated = await _service.UpdateAsync(id, department);
                 if (!updated)
-                    return NotFound(new { message = "Không tìm thấy khoa!" });
+                    return NotFound(
+                        new
+                        {
+                            data = id,
+                            message = _localizer["DepartmentNotFound"].Value,
+                            status = "NotFound",
+                        }
+                    );
 
                 return Ok(
                     new
                     {
                         data = department,
-                        message = "Cập nhật thành công",
+                        message = _localizer["UpdateDepartmentSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -158,7 +218,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -177,7 +237,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "Không tìm thấy khoa để xóa!",
+                            message = _localizer["DepartmentNotFound"].Value,
                             status = "NotFound",
                         }
                     );
@@ -186,7 +246,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = id,
-                        message = "Xóa khoa thành công",
+                        message = _localizer["DeleteDepartmentSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -199,7 +259,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }

@@ -202,7 +202,160 @@
 <data name="StudentNotExist" xml:space="preserve">
     <value>Sinh viên không tồn tại.</value>
 </data>
-<data name="StudentStatusTransitionError" xml:space="preserve">
+<data name="InvalidStatusTransition" xml:space="preserve">
     <value>Không thể chuyển đổi trạng thái sinh viên từ '{0}' sang '{1}'.</value>
+</data>
+<!-- address -->
+<data name="InvalidAddressData" xml:space="preserve">
+    <value>Địa chỉ không hợp lệ, cần điền tất cả các trường hoặc bỏ trống tất cả.</value>
+</data>
+<!-- file import -->
+<data name="InvalidFile" xml:space="preserve">
+    <value>File không hợp lệ.</value>
+</data>
+<data name="InvalidCsvData" xml:space="preserve">
+    <value>Dữ liệu CSV không hợp lệ.</value>
+</data>
+<data name="DepartmentNotFound" xml:space="preserve">
+    <value>Không tìm thấy khoa: {0}</value>
+</data>
+<data name="SchoolYearNotFound" xml:space="preserve">
+    <value>Không tìm thấy niên khóa: {0}</value>
+</data>
+<data name="StudyProgramNotFound" xml:space="preserve">
+    <value>Không tìm thấy chương trình học: {0}</value>
+</data>
+<data name="StatusNotFound" xml:space="preserve">
+    <value>Không tìm thấy trạng thái: {0}</value>
+</data>
+<data name="AllDataExists" xml:space="preserve">
+    <value>Tất cả dữ liệu đã tồn tại trong hệ thống!</value>
+</data>
+<data name="ImportCsvSuccess" xml:space="preserve">
+    <value>Import CSV thành công ({0} bản ghi mới).</value>
+</data>
+<data name="ImportCsvError" xml:space="preserve">
+    <value>Lỗi khi import CSV: {0}</value>
+</data>
+<data name="InvalidJsonData" xml:space="preserve">
+    <value>Dữ liệu JSON không hợp lệ.</value>
+</data>
+<data name="ImportJsonSuccess" xml:space="preserve">
+    <value>Import JSON thành công ({0} bản ghi mới).</value>
+</data>
+<data name="ImportJsonError" xml:space="preserve">
+    <value>Lỗi khi import JSON: {0}</value>
+</data>
+<!-- department -->
+<data name="InvalidDepartmentData" xml:space="preserve">
+    <value>Dữ liệu khoa không hợp lệ.</value>
+</data>
+<data name="GetAllDepartmentsSuccess" xml:space="preserve">
+    <value>Lấy danh sách khoa thành công.</value>
+</data>
+<data name="GetDepartmentSuccess" xml:space="preserve">
+    <value>Lấy thông tin khoa thành công.</value>
+</data>
+<data name="CreateDepartmentSuccess" xml:space="preserve">
+    <value>Tạo mới thành công</value>
+</data>
+<data name="UpdateDepartmentSuccess" xml:space="preserve">
+    <value>Cập nhật thành công</value>
+</data>
+<data name="DeleteDepartmentSuccess" xml:space="preserve">
+    <value>Xóa khoa thành công</value>
+</data>
+<data name="DeleteDepartmentNotFound" xml:space="preserve">
+    <value>Không tìm thấy khoa để xóa!</value>
+</data>
+<data name="DepartmentIdMismatch" xml:space="preserve">
+    <value>ID không khớp!</value>
+</data>
+<!-- study program -->
+<data name="InvalidProgramData" xml:space="preserve">
+    <value>Dữ liệu chương trình đào tạo không hợp lệ.</value>
+</data>
+<data name="GetAllProgramsSuccess" xml:space="preserve">
+    <value>Lấy danh sách chương trình đào tạo thành công.</value>
+</data>
+<data name="GetProgramSuccess" xml:space="preserve">
+    <value>Lấy thông tin chương trình đào tạo thành công.</value>
+</data>
+<data name="CreateProgramSuccess" xml:space="preserve">
+    <value>Chương trình đào tạo đã được tạo thành công.</value>
+</data>
+<data name="CreateProgramExists" xml:space="preserve">
+    <value>Chương trình đào tạo đã tồn tại!</value>
+</data>
+<data name="UpdateProgramSuccess" xml:space="preserve">
+    <value>Chương trình đào tạo đã được cập nhật thành công.</value>
+</data>
+<data name="UpdateProgramIdMismatch" xml:space="preserve">
+    <value>ID không khớp hoặc chương trình không tồn tại!</value>
+</data>
+<data name="DeleteProgramSuccess" xml:space="preserve">
+    <value>Chương trình đào tạo đã được xóa thành công.</value>
+</data>
+<data name="DeleteProgramError" xml:space="preserve">
+    <value>Không thể xóa vì có sinh viên thuộc chương trình này hoặc không tìm thấy chương trình!</value>
+</data>
+<data name="ProgramNotFound" xml:space="preserve">
+    <value>Không tìm thấy chương trình đào tạo!</value>
+</data>
+<!-- school year -->
+<data name="InvalidSchoolYearData" xml:space="preserve">
+    <value>Dữ liệu năm học không hợp lệ.</value>
+</data>
+<data name="GetAllSchoolYearsSuccess" xml:space="preserve">
+    <value>Lấy danh sách năm học thành công.</value>
+</data>
+<data name="GetSchoolYearSuccess" xml:space="preserve">
+    <value>Lấy thông tin năm học thành công.</value>
+</data>
+<data name="CreateSchoolYearSuccess" xml:space="preserve">
+    <value>Năm học đã được tạo thành công.</value>
+</data>
+<data name="UpdateSchoolYearSuccess" xml:space="preserve">
+    <value>Cập nhật năm học thành công.</value>
+</data>
+<data name="DeleteSchoolYearSuccess" xml:space="preserve">
+    <value>Xóa năm học thành công.</value>
+</data>
+<data name="InvalidSchoolYearId" xml:space="preserve">
+    <value>ID không hợp lệ hoặc năm học không tồn tại.</value>
+</data>
+<data name="SchoolYearNameRequired" xml:space="preserve">
+    <value>Tên năm học không được để trống.</value>
+</data>
+<!-- student status -->
+<data name="InvalidStudentStatusData" xml:space="preserve">
+    <value>Dữ liệu tình trạng sinh viên không hợp lệ.</value>
+</data>
+<data name="GetAllStudentStatusesSuccess" xml:space="preserve">
+    <value>Lấy danh sách tình trạng sinh viên thành công.</value>
+</data>
+<data name="GetStudentStatusSuccess" xml:space="preserve">
+    <value>Tình trạng sinh viên đã được tìm thấy.</value>
+</data>
+<data name="StudentStatusNotFound" xml:space="preserve">
+    <value>Không tìm thấy tình trạng sinh viên!</value>
+</data>
+<data name="CreateStudentStatusExists" xml:space="preserve">
+    <value>Tình trạng sinh viên đã tồn tại!</value>
+</data>
+<data name="CreateStudentStatusSuccess" xml:space="preserve">
+    <value>Tình trạng sinh viên đã được tạo thành công.</value>
+</data>
+<data name="UpdateStudentStatusIdMismatch" xml:space="preserve">
+    <value>ID không khớp hoặc tình trạng sinh viên không tồn tại!</value>
+</data>
+<data name="UpdateStudentStatusSuccess" xml:space="preserve">
+    <value>Tình trạng sinh viên đã được cập nhật thành công.</value>
+</data>
+<data name="DeleteStudentStatusError" xml:space="preserve">
+    <value>Tình trạng sinh viên không tồn tại hoặc có sinh viên đang sử dụng tình trạng này!</value>
+</data>
+<data name="DeleteStudentStatusSuccess" xml:space="preserve">
+    <value>Tình trạng sinh viên đã được xóa thành công.</value>
 </data>
 </root>

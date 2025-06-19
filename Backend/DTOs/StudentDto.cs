@@ -1,39 +1,38 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
 public class StudentDto
 {
-    [Required(ErrorMessage = "StudentId không được để trống")]
+    [Required(ErrorMessage = "StudentId_Required")]
     public string StudentId { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Họ và tên không được để trống")]
-    [StringLength(100, ErrorMessage = "Họ và tên không được vượt quá 100 ký tự")]
+    [Required(ErrorMessage = "FullName_Required")]
+    [StringLength(100, ErrorMessage = "FullName_StringLength")]
     public string FullName { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Ngày sinh không được để trống")]
+    [Required(ErrorMessage = "DateOfBirth_Required")]
     public DateTime DateOfBirth { get; set; }
     public string Gender { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Khoa không được để trống")]
+    [Required(ErrorMessage = "Department_Required")]
     public string Department { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Khóa học không được để trống")]
+    [Required(ErrorMessage = "SchoolYear_Required")]
     public string SchoolYear { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Chương trình học không được để trống")]
+    [Required(ErrorMessage = "StudyProgram_Required")]
     public string StudyProgram { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Tình trạng không được để trống")]
+    [Required(ErrorMessage = "Status_Required")]
     public string Status { get; set; } = string.Empty;
 
     // Address fields from CSV
-    [Required(ErrorMessage = "Số nhà Địa chỉ nhận thư không được để trống")]
+    [Required(ErrorMessage = "PermanentAddress_HouseNumber_Required")]
     public string PermanentAddress_HouseNumber { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Tên đường Địa chỉ nhận thư không được để trống")]
+    [Required(ErrorMessage = "PermanentAddress_StreetName_Required")]
     public string PermanentAddress_StreetName { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Phường Địa chỉ nhận thư không được để trống")]
+    [Required(ErrorMessage = "PermanentAddress_Ward_Required")]
     public string PermanentAddress_Ward { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Quận Địa chỉ nhận thư không được để trống")]
+    [Required(ErrorMessage = "PermanentAddress_District_Required")]
     public string PermanentAddress_District { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Tỉnh của Địa chỉ nhận thư không được để trống")]
+    [Required(ErrorMessage = "PermanentAddress_Province_Required")]
     public string PermanentAddress_Province { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Quốc gia của Địa chỉ nhận thư không được để trống")]
+    [Required(ErrorMessage = "PermanentAddress_Country_Required")]
     public string PermanentAddress_Country { get; set; } = string.Empty;
 
     public string? RegisteredAddress_HouseNumber { get; set; }
@@ -60,13 +59,13 @@ public class StudentDto
     public string Identification_IssuingCountry { get; set; } = string.Empty;
     public string Identification_Notes { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Email không được để trống")]
-    [EmailAddress(ErrorMessage = "Email không hợp lệ")]
+    [Required(ErrorMessage = "Email_Required")]
+    [EmailAddress(ErrorMessage = "Email_Invalid")]
     public string Email { get; set; } = string.Empty;
 
     public string Nationality { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Số điện thoại không được để trống")]
+    [Required(ErrorMessage = "PhoneNumber_Required")]
     [Phone]
     [PhoneNumber("VN")]
     public string PhoneNumber { get; set; } = string.Empty;

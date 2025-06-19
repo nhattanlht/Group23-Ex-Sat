@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Models;
 using StudentManagement.Services;
+using Microsoft.Extensions.Localization;
 
 namespace StudentManagement.Controllers
 {
@@ -10,14 +11,17 @@ namespace StudentManagement.Controllers
     {
         private readonly IStudentStatusService _studentStatusService;
         private readonly ILogger<StudentStatusController> _logger;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
         public StudentStatusController(
             IStudentStatusService studentStatusService,
-            ILogger<StudentStatusController> logger
+            ILogger<StudentStatusController> logger,
+            IStringLocalizer<SharedResource> localizer
         )
         {
             _studentStatusService = studentStatusService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -30,7 +34,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = statuses,
-                        message = "Lấy danh sách tình trạng sinh viên thành công.",
+                        message = _localizer["GetAllStudentStatusesSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -43,7 +47,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -62,7 +66,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "Không tìm thấy tình trạng sinh viên!",
+                            message = _localizer["StudentStatusNotFound"].Value,
                             status = "NotFound",
                         }
                     );
@@ -71,7 +75,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = status,
-                        message = "Tình trạng sinh viên đã được tìm thấy.",
+                        message = _localizer["GetStudentStatusSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -84,7 +88,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -95,6 +99,27 @@ namespace StudentManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateStudentStatus(StudentStatus studentStatus)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = studentStatus,
+                        message = _localizer["InvalidStudentStatusData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             try
             {
                 var createdStatus = await _studentStatusService.CreateStudentStatusAsync(
@@ -105,7 +130,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = studentStatus,
-                            message = "Tình trạng sinh viên đã tồn tại!",
+                            message = _localizer["CreateStudentStatusExists"].Value,
                             status = "Error",
                         }
                     );
@@ -116,7 +141,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = createdStatus,
-                        message = "Tình trạng sinh viên đã được tạo thành công.",
+                        message = _localizer["CreateStudentStatusSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -129,7 +154,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -140,6 +165,27 @@ namespace StudentManagement.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStudentStatus(int id, StudentStatus studentStatus)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = studentStatus,
+                        message = _localizer["InvalidStudentStatusData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             try
             {
                 var updated = await _studentStatusService.UpdateStudentStatusAsync(
@@ -151,7 +197,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = studentStatus,
-                            message = "ID không khớp hoặc tình trạng sinh viên không tồn tại!",
+                            message = _localizer["StudentStatusNotFound"].Value,
                             status = "Error",
                         }
                     );
@@ -160,7 +206,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = studentStatus,
-                        message = "Tình trạng sinh viên đã được cập nhật thành công.",
+                        message = _localizer["UpdateStudentStatusSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -173,7 +219,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }
@@ -192,7 +238,7 @@ namespace StudentManagement.Controllers
                         new
                         {
                             data = id,
-                            message = "Tình trạng sinh viên không tồn tại hoặc có sinh viên đang sử dụng tình trạng này!",
+                            message = _localizer["DeleteStudentStatusError"].Value,
                             status = "Error",
                         }
                     );
@@ -201,7 +247,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = id,
-                        message = "Tình trạng sinh viên đã được xóa thành công.",
+                        message = _localizer["DeleteStudentStatusSuccess"].Value,
                         status = "Success",
                     }
                 );
@@ -214,7 +260,7 @@ namespace StudentManagement.Controllers
                     new
                     {
                         data = new { },
-                        message = "Lỗi máy chủ nội bộ",
+                        message = _localizer["InternalServerError"].Value,
                         errors = ex.Message,
                         status = "Error",
                     }

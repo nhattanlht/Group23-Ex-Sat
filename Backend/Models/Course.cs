@@ -17,7 +17,7 @@ namespace StudentManagement.Models
         public string? Description { get; set; }
 
         [Required]
-        [Range(2, 10, ErrorMessage = "Số tín chỉ phải từ 2 đến 10")]
+        [Range(2, 10, ErrorMessage = "CreditCount_Range")]
         public int Credits { get; set; }
 
         // Môn tiên quyết - nullable FK đến chính nó
