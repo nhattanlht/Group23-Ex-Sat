@@ -6,7 +6,7 @@ export const ViewAddressBtn = ({ address }) => {
     
     const formatAddress = (address) => {
       if (!address) return translate('student.address.not_available');
-      console.log('Formatting address:', address);
+      
       const parts = [];
       if (address.houseNumber || address.HouseNumber) parts.push(address.houseNumber || address.HouseNumber);
       if (address.streetName || address.StreetName) parts.push(address.streetName || address.StreetName);
@@ -15,11 +15,11 @@ export const ViewAddressBtn = ({ address }) => {
       if (address.province || address.Province) parts.push(address.province || address.Province);
       if (address.country || address.Country) parts.push(address.country || address.Country);
       const formattedAddress = parts.join(", ") || translate('student.address.not_available');
-      console.log('Formatted address result:', formattedAddress);
+      
       return formattedAddress;
     };
   
-    console.log('ViewAddressBtn received address:', address);
+    
     if (!address) return translate('student.address.not_available');
     const formattedAddress = formatAddress(address);
     

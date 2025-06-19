@@ -168,7 +168,7 @@
 <data name="GetGradeSuccess" xml:space="preserve">
     <value>Lấy thông tin điểm thành công.</value>
 </data>
-<data name="StudentGradesNotFound" xml:space="preserve">
+<data name="GradesNotFound" xml:space="preserve">
     <value>Không tìm thấy điểm cho sinh viên này.</value>
 </data>
 <data name="CreateGradeSuccess" xml:space="preserve">

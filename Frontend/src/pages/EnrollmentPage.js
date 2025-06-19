@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import DataList from '../components/DataList';
 import PageLayout from '../components/PageLayout';
-import axios from 'axios';
-import config from '../config';
 import { useLanguage } from '../contexts/LanguageContext';
+import { loadDataNoPaging } from '../util/callCRUDApi';
 
 const EnrollmentPage = () => {
     const { translate } = useLanguage();
@@ -13,7 +12,7 @@ const EnrollmentPage = () => {
 
     const formFields = [
         { display: translate('enrollment.fields.classId'), accessor: 'classId', type: 'select', options: classes, required: true },
-        { display: translate('enrollment.fields.StudentId'), accessor: 'StudentId', type: 'select', options: students, required: true },
+        { display: translate('enrollment.fields.StudentId'), accessor: 'studentId', type: 'select', options: students, required: true },
         { display: translate('enrollment.fields.registeredAt'), accessor: 'registeredAt', type: 'date', required: false, disabled: true },
         { display: translate('enrollment.fields.isCancelled'), accessor: 'isCancelled', type: 'checkbox', required: false },
         { display: translate('enrollment.fields.cancelReason'), accessor: 'cancelReason', type: 'text', required: false, condition: (formData) => formData.isCancelled },
@@ -23,7 +22,7 @@ const EnrollmentPage = () => {
     const tableFields = [
         { display: translate('enrollment.fields.classId'), accessor: 'classId', type: 'select', options: classes },
         { display: translate('enrollment.fields.courseCode'), accessor: 'courseCode', type: 'text', options: courses },
-        { display: translate('enrollment.fields.StudentId'), accessor: 'StudentId', type: 'select', options: students },
+        { display: translate('enrollment.fields.StudentId'), accessor: 'studentId', type: 'select', options: students },
         { display: translate('enrollment.fields.registeredAt'), accessor: 'registeredAt', type: 'date' },
         { display: translate('enrollment.fields.isCancelled'), accessor: 'isCancelled', type: 'checkbox' },
         { display: translate('enrollment.fields.cancelReason'), accessor: 'cancelReason', type: 'text' },
@@ -37,22 +36,22 @@ const EnrollmentPage = () => {
     const loadMetadata = async () => {
         try {
             const [classRes, studentRes, courseRes] = await Promise.all([
-                axios.get(`${config.backendUrl}/api/class`),
-                axios.get(`${config.backendUrl}/api/students`),
-                axios.get(`${config.backendUrl}/api/course`)
+                loadDataNoPaging('class'),
+                loadDataNoPaging('students'),
+                loadDataNoPaging('course')
             ]);
 
-            setClasses(classRes.data.data.map((item) => ({
+            setClasses(classRes.data.map((item) => ({
                 id: item.classId,
                 name: `${item.classId} - ${item.courseCode || 'N/A'}`
             })));
 
-            setStudents(studentRes.data.data.students.map((item) => ({
+            setStudents(studentRes.data.students.map((item) => ({
                 id: item.studentId,
-                name: `${item.StudentId} - ${item.FullName}`
+                name: `${item.studentId} - ${item.fullName}`
             })));
 
-            setCourses(courseRes.data.data.map((item) => ({
+            setCourses(courseRes.data.map((item) => ({
                 id: item.courseCode,
                 name: `${item.courseCode} - ${item.name}`
             })));
@@ -71,12 +70,12 @@ const EnrollmentPage = () => {
                 switch (field.accessor) {
                     case 'courseCode':
                         row[key] = item.class?.courseCode ? 
-                            `${item.class.courseCode} - ${item.class.courseName || 'N/A'}` : 'N/A';
+                            item.class.courseCode : 'N/A';
                         break;
 
-                    case 'StudentId':
+                    case 'studentId':
                         row[key] = item.student ? 
-                            `${item.student.StudentId} - ${item.student.FullName}` : 'N/A';
+                            `${item.student.studentId} - ${item.student.fullName}` : 'N/A';
                         break;
 
                     case 'cancelDate':

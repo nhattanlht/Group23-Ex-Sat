@@ -298,7 +298,7 @@ export const en = {
     export: {
       title: 'Export Grade Sheet',
       guide: 'Enter Student ID to export grade sheet',
-      button: 'Export Grade Sheet',
+      button: 'Export',
       success: 'Grade sheet exported successfully',
       error: 'Error exporting grade sheet',
       file_name: 'GradeSheet',

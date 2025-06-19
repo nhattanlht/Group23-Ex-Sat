@@ -131,11 +131,11 @@ const StudentList = () => {
   const getViewAddress = async (id) => {
     if (!addresses[id]) { // Avoid duplicate API calls for the same ID
       try {
-        console.log('Fetching address for ID:', id);
+        
         const response = await loadDataId('address', id);
-        console.log('Address API response:', response);
+        
         addresses[id] = response.data;
-        console.log('Updated addresses object:', addresses);
+        
       } catch (error) {
         console.error("Error fetching address:", error);
         addresses[id] = null;
@@ -164,34 +164,22 @@ const StudentList = () => {
   const loadStudents = async (page, filters = {}) => {
     try {
       const { data } = await loadData('students', page, filters);
-      console.log('Raw student data with addresses:', data.students);
-      console.log('First student full data:', JSON.stringify(data.students[0], null, 2));
       
       // Tạo mảng promises để lấy tất cả địa chỉ và thông tin định danh
       const promises = data.students.flatMap(student => {
         const addressPromises = [];
-        console.log('Processing student:', student);
         
         const permanentId = student.permanentAddressId;
         const temporaryId = student.temporaryAddressId;
         const registeredId = student.registeredAddressId;
         
-        console.log('Student address IDs:', {
-          permanentId,
-          temporaryId,
-          registeredId
-        });
-        
         if (permanentId) {
-          console.log('Adding permanent address promise for ID:', permanentId);
           addressPromises.push(getViewAddress(permanentId));
         }
         if (registeredId) {
-          console.log('Adding registered address promise for ID:', registeredId);
           addressPromises.push(getViewAddress(registeredId));
         }
         if (temporaryId) {
-          console.log('Adding temporary address promise for ID:', temporaryId);
           addressPromises.push(getViewAddress(temporaryId));
         }
         if (student.identificationId) {
@@ -203,12 +191,11 @@ const StudentList = () => {
       // Đợi tất cả promises hoàn thành
       await Promise.all(promises);
       
-      console.log('Final addresses object before formatting:', addresses);
       const formattedData = formatDataSetForTable(data.students, fields, {
         addresses,
         identifications,
       });
-      console.log('Formatted student data:', formattedData);
+      
       setStudents(formattedData);
       setCurrentPage(data.currentPage || 1);
       setTotalPages(data.totalPages || 1);

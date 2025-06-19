@@ -92,6 +92,9 @@
 <data name="DeleteCourseSuccess" xml:space="preserve">
     <value>Course deleted successfully.</value>
 </data>
+<data name="InvalidCourseData" xml:space="preserve">
+    <value>Invalid Course Data.</value>
+</data>
 <!-- identification -->
   <data name="InvalidIdentificationData" xml:space="preserve">
     <value>Invalid identification data.</value>
@@ -174,7 +177,7 @@
 <data name="GetGradeSuccess" xml:space="preserve">
     <value>Grade information retrieved successfully.</value>
 </data>
-<data name="ExportStudentGradesNotFound" xml:space="preserve">
+<data name="GradesNotFound" xml:space="preserve">
     <value>No grades found for this student.</value>
 </data>
 <data name="CreateGradeSuccess" xml:space="preserve">

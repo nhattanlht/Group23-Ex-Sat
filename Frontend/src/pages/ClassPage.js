@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import DataList from '../components/DataList';
 import PageLayout from '../components/PageLayout';
-import axios from 'axios';
-import config from '../config';
-import { loadData, loadDataNoPaging } from '../util/callCRUDApi';
+import { loadDataNoPaging } from '../util/callCRUDApi';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const ClassPage = () => {
@@ -42,15 +40,16 @@ const ClassPage = () => {
   const loadMetadata = async () => {
     try {
       const courseRes = await loadDataNoPaging('course');
-      const course = courseRes.map((item) => ({
+      const course = courseRes.data.map((item) => ({
         id: item.courseCode,
         name: item.name
       }));
       tableFields[1].options = course;
+      console.log('course', course);
       setCourses(course);
 
       const activeCourseRes = await loadDataNoPaging('course/active');
-      const activeCourse = activeCourseRes.map((item) => ({
+      const activeCourse = activeCourseRes.data.map((item) => ({
         id: item.courseCode,
         name: item.name
       }));

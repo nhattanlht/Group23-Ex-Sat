@@ -3,12 +3,11 @@ import config from '../config';
 
 export const loadData = async (dataName, page, filters = {}) => {
     try {
-        console.log('Calling API with:', { dataName, page, filters });
         const queryString = buildQueryString(filters);
         const url = queryString
             ? `${config.backendUrl}/api/${dataName}/search?${queryString}&page=${page}&pageSize=10`
             : `${config.backendUrl}/api/${dataName}?page=${page}&pageSize=10`;
-        console.log('Making request to URL:', url);
+        
         const response = await axios.get(url, 
             {
                 headers: {
@@ -16,7 +15,7 @@ export const loadData = async (dataName, page, filters = {}) => {
                 }
             }
         );
-        console.log('API response data:', response.data.data);
+
         return {
             success: true,
             message: response.data.message,

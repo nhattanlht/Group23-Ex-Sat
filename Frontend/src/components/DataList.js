@@ -69,7 +69,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       loadListData();
       alert(response.message || translate('common.success'));
     } catch (error) {
-      alert(translate('common.error'), error.message);
+      alert(error.message || translate("common.error"));
       throw error;
     }
   };
@@ -81,7 +81,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
       loadListData();
       alert(response.message || translate('common.success'));
     } catch (error) {
-      alert(translate('common.error'), error.message);
+      alert(error.message || translate("common.error"));
       throw error;
     }
   };
@@ -93,7 +93,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
         loadListData();
         alert(response.message || translate('common.success'));
       } catch (error) {
-        alert(translate('common.error'), error.message);
+        alert(error.message|| translate("common.error"));
       }
     }
   };

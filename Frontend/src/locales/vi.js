@@ -297,7 +297,7 @@ export const vi = {
     export: {
       title: 'Xuất Bảng Điểm',
       guide: 'Nhập Mã Số Sinh Viên để xuất bảng điểm',
-      button: 'Xuất Bảng Điểm',
+      button: 'Xuất',
       success: 'Xuất bảng điểm thành công!',
       error: 'Lỗi khi xuất bảng điểm!',
       file_name: 'BangDiem'

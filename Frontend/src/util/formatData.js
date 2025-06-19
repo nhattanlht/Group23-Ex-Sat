@@ -29,21 +29,21 @@ export const formatDataSetForTable = (dataSet, fields, helpers = {}) => {
                         );
                     } else if (key === 'permanentAddress') {
                         const addressId = row.permanentAddressId || row.PermanentAddressId;
-                        console.log('Processing permanentAddress, ID:', addressId);
+                        
                         const address = addressId ? helpers.addresses?.[addressId] : null;
-                        console.log('Found address:', address);
+                        
                         formattedRow[key] = <ViewAddressBtn address={address} />;
                     } else if (key === 'temporaryAddress') {
                         const addressId = row.temporaryAddressId || row.TemporaryAddressId;
-                        console.log('Processing temporaryAddress, ID:', addressId);
+                        
                         const address = addressId ? helpers.addresses?.[addressId] : null;
-                        console.log('Found address:', address);
+                        
                         formattedRow[key] = <ViewAddressBtn address={address} />;
                     } else if (key === 'registeredAddress') {
                         const addressId = row.registeredAddressId || row.RegisteredAddressId;
-                        console.log('Processing registeredAddress, ID:', addressId);
+                        
                         const address = addressId ? helpers.addresses?.[addressId] : null;
-                        console.log('Found address:', address);
+                        
                         formattedRow[key] = <ViewAddressBtn address={address} />;
                     }
                     break;

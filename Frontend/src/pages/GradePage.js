@@ -5,6 +5,7 @@ import axios from "axios";
 import config from "../config";
 import { Download } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
+import { loadDataNoPaging } from "../util/callCRUDApi";
 
 const CoursePage = () => {
   const { translate } = useLanguage();
@@ -18,18 +19,18 @@ const CoursePage = () => {
 
   const loadMetadata = async () => {
     try {
-      const classRes = await axios.get(`${config.backendUrl}/api/class`);
-      const studentRes = await axios.get(`${config.backendUrl}/api/students`);
+      const classRes = await loadDataNoPaging("class");
+      const studentRes = await loadDataNoPaging("students");
 
       setClasses(
-        classRes.data.data.map((item) => ({
+        classRes.data.map((item) => ({
           id: item.classId,
           name: item.classId,
         }))
       );
 
       setStudents(
-        studentRes.data.data.students.map((item) => ({
+        studentRes.data.students.map((item) => ({
           id: item.studentId,
           name: item.studentId,
         }))
@@ -163,7 +164,7 @@ const CoursePage = () => {
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error exporting transcript:", error);
-      alert(translate(`${dataName}.export.error`), error.message);
+      alert(error.message || translate(`${dataName}.export.error`));
     }
   };
 
@@ -188,7 +189,7 @@ const CoursePage = () => {
           disabled={!StudentId}
           onClick={() => exportGrade(StudentId)}
         >
-          {translate(`${dataName}.export.button`)}
+          {translate(`${dataName}.export.title`)}
         </button>
         <input
           type="text"

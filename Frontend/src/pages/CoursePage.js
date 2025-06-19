@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import DataList from '../components/DataList';
 import PageLayout from '../components/PageLayout';
-import config from '../config';
-import axios from 'axios';
 import { useLanguage } from '../contexts/LanguageContext';
+import { loadDataNoPaging } from '../util/callCRUDApi';
 
 const CoursePage = () => {
   const { translate } = useLanguage();
@@ -25,12 +24,13 @@ const CoursePage = () => {
 
   const loadMetadata = async () => {
     try {
-      const courseRes = await axios.get(`${config.backendUrl}/api/course`);
-      const course = courseRes.data.data.map((item) => ({
+      const courseRes = await loadDataNoPaging('course');
+      const course = courseRes.data.map((item) => ({
         id: item.courseCode,
         name: item.name
       }));
       setCourses(course);
+      formFields[5].options = course;
     } catch (error) {
       console.error('Error loading course metadata:', error);
     }
