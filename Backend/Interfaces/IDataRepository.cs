@@ -17,6 +17,5 @@ namespace StudentManagement.Repositories
         Task<HashSet<string>> GetExistingStudentIdsAsync();
         Task AddStudentsAsync(List<Student> students);
         Task ExecuteInTransactionAsync(Func<Task> action);
-        Task<BinaryData?> GetDataByIdAsync(int id);
     }
 }

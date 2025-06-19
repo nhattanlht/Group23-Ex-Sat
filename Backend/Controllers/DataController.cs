@@ -101,8 +101,9 @@ public class DataController : ControllerBase
     }
 
     [HttpPost("import/csv")]
-    public async Task<IActionResult> ImportCsv([FromForm] IFormFile file)
+    public async Task<IActionResult> ImportCsv([FromForm] ImportRequest request)
     {
+        var file = request.File;
         _logger.LogInformation("Importing CSV file.");
         if (file == null || file.Length == 0)
         {
@@ -195,8 +196,9 @@ public class DataController : ControllerBase
     }
 
     [HttpPost("import/json")]
-    public async Task<IActionResult> ImportJson([FromForm] IFormFile file)
+    public async Task<IActionResult> ImportJson([FromForm] ImportRequest request)
     {
+        var file = request.File;
         _logger.LogInformation("Importing JSON file.");
         if (file == null || file.Length == 0)
         {
@@ -283,16 +285,5 @@ public class DataController : ControllerBase
                 }
             );
         }
-    }
-
-    public async Task<IActionResult> GetData(int id)
-    {
-        var data = await _dataRepository.GetDataByIdAsync(id);
-        if (data == null)
-        {
-            return NotFound(new { message = "Data not found" });
-        }
-
-        return Ok(data);
     }
 }

@@ -2,11 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
+using StudentManagement;
 using StudentManagement.Models;
 using StudentManagement.Services;
 using StudentManagement.Repositories;
 using Microsoft.OpenApi.Models;
-using StudentManagement;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

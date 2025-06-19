@@ -147,10 +147,5 @@ namespace StudentManagement.Repositories
             }
         }
 
-        public async Task<BinaryData?> GetDataByIdAsync(int id)
-        {
-            var data = await _context.Data.FindAsync(id);
-            return data != null ? new BinaryData(data) : null; // Convert to BinaryData
-        }
     }
 }
