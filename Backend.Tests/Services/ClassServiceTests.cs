@@ -8,113 +8,116 @@ using Xunit;
 
 namespace StudentManagement.Tests.Services
 {
-    public class ClassServiceTests
+    public class GradeServiceTests
     {
-        private readonly Mock<IClassRepository> _mockRepository;
-        private readonly ClassService _service;
+        private readonly Mock<IGradeRepository> _mockClassRepository;
+        private readonly GradeService _classService;
 
-        public ClassServiceTests()
+        public GradeServiceTests()
         {
-            _mockRepository = new Mock<IClassRepository>();
-            _service = new ClassService(_mockRepository.Object);
+            _mockClassRepository = new Mock<IGradeRepository>();
+            _classService = new GradeService(_mockClassRepository.Object);
         }
 
         [Fact]
-        public async Task GetAllAsync_ShouldReturnAllClasses()
+        public async Task GetAllAsync_ShouldReturnAllGrades()
         {
             // Arrange
-            var expectedClasses = new List<Class>
+            var expectedGrades = new List<Grade>
             {
-                new Class { ClassId = "CS101", CourseCode = "CS101", Teacher = "John Doe" },
-                new Class { ClassId = "CS102", CourseCode = "CS102", Teacher = "Jane Smith" }
+                new Grade { GradeId = 1, StudentId = "S1", ClassId = "C1", Score = 9.0 },
+                new Grade { GradeId = 2, StudentId = "S2", ClassId = "C2", Score = 8.5 }
             };
-            _mockRepository.Setup(repo => repo.GetAllAsync())
-                .ReturnsAsync(expectedClasses);
+            _mockClassRepository.Setup(repo => repo.GetAllAsync())
+                .ReturnsAsync(expectedGrades);
 
             // Act
-            var result = await _service.GetAllAsync();
+            var result = await _classService.GetAllAsync();
 
             // Assert
-            Assert.Equal(expectedClasses, result);
-            _mockRepository.Verify(repo => repo.GetAllAsync(), Times.Once);
+            Assert.Equal(expectedGrades, result);
+            _mockClassRepository.Verify(repo => repo.GetAllAsync(), Times.Once);
         }
 
         [Fact]
-        public async Task GetByIdAsync_WhenClassExists_ShouldReturnClass()
+        public async Task GetByIdAsync_WhenGradeExists_ShouldReturnGrade()
         {
             // Arrange
-            var classId = "CS101";
-            var expectedClass = new Class { ClassId = classId, CourseCode = "CS101", Teacher = "John Doe" };
-            _mockRepository.Setup(repo => repo.GetByIdAsync(classId))
-                .ReturnsAsync(expectedClass);
+            var studentId = "S1";
+            var classId = "C1";
+            var expectedGrade = new Grade { GradeId = 1, StudentId = studentId, ClassId = classId, Score = 9.0 };
+            _mockClassRepository.Setup(repo => repo.GetByIdAsync(studentId, classId))
+                .ReturnsAsync(expectedGrade);
 
             // Act
-            var result = await _service.GetByIdAsync(classId);
+            var result = await _classService.GetByIdAsync(studentId, classId);
 
             // Assert
-            Assert.Equal(expectedClass, result);
-            _mockRepository.Verify(repo => repo.GetByIdAsync(classId), Times.Once);
+            Assert.Equal(expectedGrade, result);
+            _mockClassRepository.Verify(repo => repo.GetByIdAsync(studentId, classId), Times.Once);
         }
 
         [Fact]
-        public async Task GetByIdAsync_WhenClassDoesNotExist_ShouldReturnNull()
+        public async Task GetByIdAsync_WhenGradeDoesNotExist_ShouldReturnNull()
         {
             // Arrange
-            var classId = "CS999";
-            _mockRepository.Setup(repo => repo.GetByIdAsync(classId))
-                .ReturnsAsync((Class?)null);
+            var studentId = "S1";
+            var classId = "C1";
+            var expectedGrade = (Grade)null;
+            _mockClassRepository.Setup(repo => repo.GetByIdAsync(studentId, classId))
+                .ReturnsAsync(expectedGrade);
 
             // Act
-            var result = await _service.GetByIdAsync(classId);
+            var result = await _classService.GetByIdAsync(studentId, classId);
 
             // Assert
             Assert.Null(result);
-            _mockRepository.Verify(repo => repo.GetByIdAsync(classId), Times.Once);
+            _mockClassRepository.Verify(repo => repo.GetByIdAsync(studentId, classId), Times.Once);
         }
 
         [Fact]
         public async Task AddAsync_ShouldCallRepositoryAdd()
         {
             // Arrange
-            var newClass = new Class { ClassId = "CS101", CourseCode = "CS101", Teacher = "John Doe" };
-            _mockRepository.Setup(repo => repo.AddAsync(newClass))
+            var newGrade = new Grade { GradeId = 1, StudentId = "S1", ClassId = "C1", Score = 9.0 };
+            _mockClassRepository.Setup(repo => repo.AddAsync(newGrade))
                 .Returns(Task.CompletedTask);
 
             // Act
-            await _service.AddAsync(newClass);
+            await _classService.AddAsync(newGrade);
 
             // Assert
-            _mockRepository.Verify(repo => repo.AddAsync(newClass), Times.Once);
+            _mockClassRepository.Verify(repo => repo.AddAsync(newGrade), Times.Once);
         }
 
         [Fact]
         public async Task UpdateAsync_ShouldCallRepositoryUpdate()
         {
             // Arrange
-            var existingClass = new Class { ClassId = "CS101", CourseCode = "CS101", Teacher = "John Doe" };
-            _mockRepository.Setup(repo => repo.UpdateAsync(existingClass))
+            var existingGrade = new Grade { GradeId = 1, StudentId = "S1", ClassId = "C1", Score = 9.0 };
+            _mockClassRepository.Setup(repo => repo.UpdateAsync(existingGrade))
                 .Returns(Task.CompletedTask);
 
             // Act
-            await _service.UpdateAsync(existingClass);
+            await _classService.UpdateAsync(existingGrade);
 
             // Assert
-            _mockRepository.Verify(repo => repo.UpdateAsync(existingClass), Times.Once);
+            _mockClassRepository.Verify(repo => repo.UpdateAsync(existingGrade), Times.Once);
         }
 
         [Fact]
         public async Task DeleteAsync_ShouldCallRepositoryDelete()
         {
             // Arrange
-            var classId = "CS101";
-            _mockRepository.Setup(repo => repo.DeleteAsync(classId))
+            var gradeId = 1;
+            _mockClassRepository.Setup(repo => repo.DeleteAsync(gradeId))
                 .Returns(Task.CompletedTask);
 
             // Act
-            await _service.DeleteAsync(classId);
+            await _classService.DeleteAsync(gradeId);
 
             // Assert
-            _mockRepository.Verify(repo => repo.DeleteAsync(classId), Times.Once);
+            _mockClassRepository.Verify(repo => repo.DeleteAsync(gradeId), Times.Once);
         }
     }
-} 
+}

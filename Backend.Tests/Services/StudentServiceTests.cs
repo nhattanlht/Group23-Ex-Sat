@@ -4,6 +4,7 @@ using StudentManagement.Services;
 using StudentManagement.Repositories;
 using StudentManagement.Models;
 using StudentManagement.DTOs;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,12 +14,19 @@ namespace StudentManagement.Tests.Services
     public class StudentServiceTests
     {
         private readonly Mock<IStudentRepository> _mockStudentRepository;
-        private readonly IStudentService _studentService;
+        private readonly Mock<IStringLocalizer<SharedResource>> _mockLocalizer;
+        private readonly StudentService _studentService;
 
         public StudentServiceTests()
         {
             _mockStudentRepository = new Mock<IStudentRepository>();
-            _studentService = new StudentService(_mockStudentRepository.Object);
+            _mockLocalizer = new Mock<IStringLocalizer<SharedResource>>();
+
+            // Setup localizer to return the key as the value for any string
+            _mockLocalizer.Setup(l => l[It.IsAny<string>()])
+                .Returns((string key) => new LocalizedString(key, key));
+
+            _studentService = new StudentService(_mockStudentRepository.Object, _mockLocalizer.Object);
         }
 
         [Fact]
@@ -98,7 +106,7 @@ namespace StudentManagement.Tests.Services
 
             // Assert
             Assert.True(success);
-            Assert.Equal("Sinh viên được tạo thành công.", message);
+            Assert.Equal("CreateStudentSuccess", message);
         }
 
         [Fact]
@@ -141,7 +149,7 @@ namespace StudentManagement.Tests.Services
 
             // Assert
             Assert.False(success);
-            Assert.Equal("Số điện thoại đã tồn tại trong hệ thống.", message);
+            Assert.Equal("PhoneNumberExists", message);
         }
 
         [Fact]
@@ -161,7 +169,7 @@ namespace StudentManagement.Tests.Services
 
             // Assert
             Assert.False(success);
-            Assert.Equal("Email không hợp lệ.", message);
+            Assert.Equal("EmailInvalid", message);
         }
 
         [Fact]
@@ -186,7 +194,7 @@ namespace StudentManagement.Tests.Services
 
             // Assert
             Assert.False(success);
-            Assert.Equal("Email đã tồn tại trong hệ thống.", message);
+            Assert.Equal("EmailExists", message);
         }
 
         [Fact]
@@ -223,7 +231,7 @@ namespace StudentManagement.Tests.Services
 
             // Assert
             Assert.True(success);
-            Assert.Equal("Cập nhật thông tin sinh viên thành công.", message);
+            Assert.Equal("UpdateStudentSuccess", message);
         }
 
         [Fact]
@@ -277,7 +285,7 @@ namespace StudentManagement.Tests.Services
 
             // Assert
             Assert.False(success);
-            Assert.Equal("Sinh viên không tồn tại.", message);
+            Assert.Equal("StudentNotFound", message);
         }
 
         [Fact]
@@ -308,7 +316,7 @@ namespace StudentManagement.Tests.Services
                 new Student { StudentId = "SV002", FullName = "Nguyen Van B" }
             };
 
-            _mockStudentRepository.Setup(repo => repo.SearchStudents(filters.Keyword, page, pageSize))
+            _mockStudentRepository.Setup(repo => repo.SearchStudents(filters, page, pageSize))
                 .ReturnsAsync(expectedStudents);
             _mockStudentRepository.Setup(repo => repo.GetStudentsCount())
                 .ReturnsAsync(2);
@@ -325,4 +333,4 @@ namespace StudentManagement.Tests.Services
             Assert.Equal(1, totalPages);
         }
     }
-} 
+}
