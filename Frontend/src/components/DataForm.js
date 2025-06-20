@@ -4,11 +4,12 @@ import EmailInput from "./Input/EmailInput";
 import config from "../config";
 import { useLanguage } from "../contexts/LanguageContext";
 import { X } from "lucide-react";
-const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = null, customInput = [] }) => {
+const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = null }) => {
     const { translate } = useLanguage();
     const ALLOWED_EMAIL_ENDING = config.ALLOWED_EMAIL_ENDING;
     const [formData, setFormData] = useState({});
     const [errors, setErrors] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         console.log('Initializing form data with fields:', fields, 'and data:', data);
@@ -98,6 +99,7 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
         if (e) {
             e.preventDefault();
         }
+        setIsLoading(true);
         
         try {
             // Validate form data
@@ -130,7 +132,10 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                 setErrors(error.error);
                 console.log("Validation errors:", errors);
             }
+        }finally {
+            setIsLoading(false);
         }
+        
     };
 
     function capitalize(string) {
@@ -285,7 +290,8 @@ const DataForm = ({ fields, data, onSave, onClose, label, initializeFormData = n
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                            disabled={isLoading}
                         >
                             {translate('student.form.buttons.save')}
                         </button>
