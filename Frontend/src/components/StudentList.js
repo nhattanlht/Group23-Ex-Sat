@@ -274,12 +274,13 @@ const StudentList = () => {
   };
 
   const handleDeleteStudent = async (StudentId) => {
-    try {
-      await handleDeleteRow('students', StudentId);
-      loadStudents(currentPage, filters);
-    } catch (error) {
-      alert(error.message || translate('student.messages.delete_error'));
-    }
+    if (window.confirm(translate("common.confirm_delete")))
+      try {
+        await handleDeleteRow("students", StudentId);
+        loadStudents(currentPage, filters);
+      } catch (error) {
+        alert(error.message || translate("student.messages.delete_error"));
+      }
   };
 
   const initializeFormData = async (fields, modalData) => {

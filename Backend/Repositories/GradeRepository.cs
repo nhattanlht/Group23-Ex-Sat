@@ -43,9 +43,13 @@ namespace StudentManagement.Repositories
             var grade = await _context.Grades.FindAsync(gradeId);
             if (grade != null)
             {
-            _context.Grades.Remove(grade);
-            await _context.SaveChangesAsync();
+                _context.Grades.Remove(grade);
+                await _context.SaveChangesAsync();
             }
+        }
+        public async Task<bool> HasGradeForClassAsync(string classId)
+        {
+            return await _context.Grades.AnyAsync(g => g.ClassId == classId);
         }
     }
 

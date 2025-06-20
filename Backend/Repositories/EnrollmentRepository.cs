@@ -30,7 +30,7 @@ namespace StudentManagement.Repositories
                                    .Include(c => c.Course)
                                    .FirstOrDefaultAsync(c => c.ClassId == classId);
 
-            if (classInfo == null) return false; 
+            if (classInfo == null) return false;
 
             var prerequisiteCourseCode = classInfo.Course.PrerequisiteCourseCode;
 
@@ -50,7 +50,7 @@ namespace StudentManagement.Repositories
                                    .Include(c => c.Enrollments)
                                    .FirstOrDefaultAsync(c => c.ClassId == classId);
 
-            if (classInfo == null) return false; 
+            if (classInfo == null) return false;
             var numStudent = await _context.Enrollments.CountAsync(e => e.ClassId == classId);
 
             return numStudent >= classInfo.MaxStudents;
@@ -76,6 +76,11 @@ namespace StudentManagement.Repositories
                 _context.Enrollments.Remove(existing);
                 await _context.SaveChangesAsync();
             }
+        }
+        
+        public async Task<bool> HasEnrollmentForClassAsync(string classId)
+        {
+            return await _context.Enrollments.AnyAsync(e => e.ClassId == classId);
         }
     }
 }

@@ -87,7 +87,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
   };
 
   const handleDeleteData = async (id) => {
-    if (window.confirm(translate('common.confirm'))) {
+    if (window.confirm(translate('common.confirm_delete'))) {
       try {
         const response = await handleDeleteRow(dataName, id);
         loadListData();
@@ -125,7 +125,7 @@ const DataList = ({ formFields, tableFields=formFields, dataName, pk, label, for
           setModalData(data.__original);
           setShowModal(true);
         }}
-        handleDelete={(data) => handleDeleteData(data[pk])}
+        handleDelete={(data) => handleDeleteData(data.__original[pk])}
         actions={actions}
       />
 

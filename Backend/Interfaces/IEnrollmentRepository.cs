@@ -13,5 +13,6 @@ namespace StudentManagement.Repositories
         Task AddAsync(Enrollment enrollment);
         Task UpdateAsync(Enrollment enrollment);
         Task DeleteAsync(int enrollmentId);
+        Task<bool> HasEnrollmentForClassAsync(string classId);
     }
 } 

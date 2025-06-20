@@ -90,16 +90,30 @@ namespace StudentManagement.Controllers
                 Classroom = dto.Classroom,
                 CancelDeadline = dto.CancelDeadline,
             };
-
-            await _service.AddAsync(classEntity);
-            return Ok(
-                new
-                {
-                    data = classEntity,
-                    message = _localizer["CreateClassSuccess"].Value,
-                    status = "Success",
-                }
-            );
+            try
+            {
+                await _service.AddAsync(classEntity);
+                return Ok(
+                    new
+                    {
+                        data = classEntity,
+                        message = _localizer["CreateClassSuccess"].Value,
+                        status = "Success",
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = ex.Message,
+                        status = "Error",
+                        error = ex.Message,
+                    }
+                );
+            }
         }
 
         [HttpPut("{classId}")]
@@ -175,16 +189,30 @@ namespace StudentManagement.Controllers
                         status = "NotFound",
                     }
                 );
-
-            await _service.DeleteAsync(classId);
-            return Ok(
-                new
-                {
-                    data = classId,
-                    message = _localizer["DeleteClassSuccess"].Value,
-                    status = "Success",
-                }
-            );
+            try
+            {
+                await _service.DeleteAsync(classId);
+                return Ok(
+                    new
+                    {
+                        data = classId,
+                        message = _localizer["DeleteClassSuccess"].Value,
+                        status = "Success",
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(
+                    new
+                    {
+                        data = classId,
+                        message = ex.Message,
+                        status = "Error",
+                        error = ex.Message,
+                    }
+                );
+            }
         }
     }
 }

@@ -147,7 +147,8 @@ export const vi = {
     success: "Thành công",
     error: "Lỗi",
     warning: "Cảnh báo",
-    info: "Thông tin"
+    info: "Thông tin",
+    confirm_delete: "Bạn có chắc chắn muốn xóa mục này?",
   },
   departments: {
     title: "Danh sách khoa",
