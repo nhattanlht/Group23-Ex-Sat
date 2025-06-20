@@ -28,7 +28,14 @@ namespace StudentManagement.Services
 
         public Task<Class?> GetByIdAsync(string classId) => _classRepository.GetByIdAsync(classId);
 
-        public Task AddAsync(Class classEntity) => _classRepository.AddAsync(classEntity);
+        public async Task AddAsync(Class classEntity)
+        {
+            var existingClass = await _classRepository.GetByIdAsync(classEntity.ClassId);
+            if (existingClass != null)
+                throw new InvalidOperationException(_localizer["ClassCodeExists"].Value);
+
+            _classRepository.AddAsync(classEntity);
+        }
 
         public Task UpdateAsync(Class classEntity) => _classRepository.UpdateAsync(classEntity);
 

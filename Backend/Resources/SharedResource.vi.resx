@@ -130,6 +130,9 @@
 <data name="InvalidClassData" xml:space="preserve">
     <value>Dữ liệu không hợp lệ.</value>
 </data>
+<data name="ClassCodeExists" xml:space="preserve">
+    <value>Mã lớp đã tồn tại.</value>
+</data>
 <!-- enrollment -->
 <data name="GetAllEnrollmentsSuccess" xml:space="preserve">
     <value>Lấy danh sách đăng ký thành công.</value>

@@ -139,6 +139,9 @@
 <data name="InvalidClassData" xml:space="preserve">
     <value>Invalid class data.</value>
 </data>
+<data name="ClassCodeExists" xml:space="preserve">
+    <value>Class Code already exists</value>
+</data>
 <!-- enrollment -->
 <data name="GetAllEnrollmentsSuccess" xml:space="preserve">
     <value>Enrollments retrieved successfully.</value>

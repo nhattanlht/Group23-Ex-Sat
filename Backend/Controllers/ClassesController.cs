@@ -90,16 +90,30 @@ namespace StudentManagement.Controllers
                 Classroom = dto.Classroom,
                 CancelDeadline = dto.CancelDeadline,
             };
-
-            await _service.AddAsync(classEntity);
-            return Ok(
-                new
-                {
-                    data = classEntity,
-                    message = _localizer["CreateClassSuccess"].Value,
-                    status = "Success",
-                }
-            );
+            try
+            {
+                await _service.AddAsync(classEntity);
+                return Ok(
+                    new
+                    {
+                        data = classEntity,
+                        message = _localizer["CreateClassSuccess"].Value,
+                        status = "Success",
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = ex.Message,
+                        status = "Error",
+                        error = ex.Message,
+                    }
+                );
+            }
         }
 
         [HttpPut("{classId}")]
