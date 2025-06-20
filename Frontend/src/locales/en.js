@@ -147,7 +147,8 @@ export const en = {
     success: "Success",
     error: "Error",
     warning: "Warning",
-    info: "Information"
+    info: "Information",
+    confirm_delete: "Are you sure you want to delete this item?",
   },
   departments: {
     title: "Department List",

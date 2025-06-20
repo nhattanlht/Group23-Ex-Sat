@@ -133,6 +133,9 @@
 <data name="DeleteClassSuccess" xml:space="preserve">
     <value>Class deleted successfully.</value>
 </data>
+<data name="DeleteClassError" xml:space="preserve">
+    <value>Cannot delete class. There are enrollments or grades associated with this class.</value>
+</data>
 <data name="InvalidClassData" xml:space="preserve">
     <value>Invalid class data.</value>
 </data>

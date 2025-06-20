@@ -124,6 +124,9 @@
 <data name="DeleteClassSuccess" xml:space="preserve">
     <value>Lớp học đã được xóa thành công.</value>
 </data>
+<data name="DeleteClassError" xml:space="preserve">
+    <value>Không thể xóa lớp học. Có đăng ký hoặc điểm liên quan đến lớp học này.</value>
+</data>
 <data name="InvalidClassData" xml:space="preserve">
     <value>Dữ liệu không hợp lệ.</value>
 </data>

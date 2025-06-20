@@ -11,6 +11,7 @@ namespace StudentManagement.Repositories
         public Task AddAsync(Grade grade);
         public Task UpdateAsync(Grade grade);
         public Task DeleteAsync(int gradeId);
+        public Task<bool> HasGradeForClassAsync(string classId);
     }
 
 }

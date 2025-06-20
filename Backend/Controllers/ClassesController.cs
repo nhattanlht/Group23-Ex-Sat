@@ -175,16 +175,30 @@ namespace StudentManagement.Controllers
                         status = "NotFound",
                     }
                 );
-
-            await _service.DeleteAsync(classId);
-            return Ok(
-                new
-                {
-                    data = classId,
-                    message = _localizer["DeleteClassSuccess"].Value,
-                    status = "Success",
-                }
-            );
+            try
+            {
+                await _service.DeleteAsync(classId);
+                return Ok(
+                    new
+                    {
+                        data = classId,
+                        message = _localizer["DeleteClassSuccess"].Value,
+                        status = "Success",
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(
+                    new
+                    {
+                        data = classId,
+                        message = ex.Message,
+                        status = "Error",
+                        error = ex.Message,
+                    }
+                );
+            }
         }
     }
 }
