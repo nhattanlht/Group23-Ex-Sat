@@ -1,45 +1,60 @@
-import { useState } from "react";
-import { Menu } from "lucide-react";
-import { DynamicIcon } from 'lucide-react/dynamic';
-import { Link } from "react-router-dom";
-const Sidebar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const pages = [
-        { name: "Sinh viên", href: "/students", icon: 'circle-user-round' },
-        { name: "Nhập/xuất file", href: '/data', icon: 'file-spreadsheet' },
-        { name: "Khoa", href: "/departments", icon: 'building-2' },
-        { name: "Chương trình", href: "/programs", icon: 'book-open' },
-        { name: "Tình trạng", href: "/statuses", icon: 'user-round-check' },
-        { name: "Khóa học", href: "/courses", icon: 'book' },
-        { name: "Lớp học", href: "/classes", icon: 'presentation' },
-        { name: "Đăng ký Lớp học", href: "/enrollment", icon: 'clipboard-pen' },
-        { name: "Điểm", href: "/grade", icon: 'notebook' }
-    ];
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
+import { ChevronLeft, ChevronRight, Users, BookOpen, GraduationCap, FileSpreadsheet, School, ClipboardList, FileInput, Notebook } from 'lucide-react';
 
-    return (
-        <div className="h-auto flex items-center">
-            {/* Sidebar */}
-            <div
-                className={`h-full bg-gray-900 text-white ${isOpen ? "w-48" : "w-16"} p-4 shadow-lg transition-all duration-300 flex flex-col items-center`}
-                onMouseEnter={() => setIsOpen(true)}
-                onMouseLeave={() => setIsOpen(false)}
-            >
-                <ul className="w-full">
-                    <li className="block pointer mb-4 hover:bg-gray-700 py-2 rounded flex items-center gap-2"><Menu size={24} /></li>
-                    {pages.map((page, index) => (
-                        <li key={index} className="block mb-4 hover:bg-gray-700 py-2 rounded flex items-center gap-2">
-                            <Link to={page.href}>
-                                <div className="flex space-x-2 items-center">
-                                    <DynamicIcon name={page.icon} size={24} />
-                                    {isOpen && <span> {page.name}</span>}
-                                </div>
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </div>
-    );
+const Sidebar = ({ isCollapsed, onToggle }) => {
+  const location = useLocation();
+  const { translate } = useLanguage();
+
+  const menuItems = [
+    { path: '/students', icon: <Users size={20} />, label: translate('menu.students') },
+    { path: '/departments', icon: <School size={20} />, label: translate('menu.departments') },
+    { path: '/programs', icon: <BookOpen size={20} />, label: translate('menu.programs') },
+    { path: '/statuses', icon: <ClipboardList size={20} />, label: translate('menu.statuses') },
+    { path: '/courses', icon: <GraduationCap size={20} />, label: translate('menu.courses') },
+    { path: '/classes', icon: <FileSpreadsheet size={20} />, label: translate('menu.classes') },
+    { path: '/enrollment', icon: <ClipboardList size={20} />, label: translate('menu.enrollment') },
+    { path: '/grade', icon: <Notebook size={20} />, label: translate('menu.grades') },
+    { path: '/data', icon: <FileInput size={20} />, label: translate('menu.import_export') }
+  ];
+
+  return (
+    <div 
+      className={`bg-gray-800 text-white transition-all duration-300 ease-in-out flex flex-col fixed h-screen ${
+        isCollapsed ? 'w-16' : 'w-64'
+      }`}
+    >
+      <div className="p-2 flex items-center justify-end border-b border-gray-700">
+        <button
+          onClick={() => onToggle(!isCollapsed)}
+          className="p-1 hover:bg-gray-700 rounded-full transition-colors"
+          title={isCollapsed ? translate('menu.expand') : translate('menu.collapse')}
+        >
+          {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+        </button>
+      </div>
+
+      <nav className="flex-1 overflow-y-auto">
+        <ul className="py-4">
+          {menuItems.map((item) => (
+            <li key={item.path}>
+              <Link
+                to={item.path}
+                className={`flex items-center px-4 py-3 hover:bg-gray-700 transition-colors ${
+                  location.pathname === item.path ? 'bg-gray-700' : ''
+                }`}
+                title={isCollapsed ? item.label : ''}
+              >
+                <span className="flex items-center justify-center w-6">{item.icon}</span>
+                {!isCollapsed && <span className="ml-3 truncate">{item.label}</span>}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  );
 };
 
 export default Sidebar;

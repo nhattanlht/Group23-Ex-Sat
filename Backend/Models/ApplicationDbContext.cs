@@ -61,26 +61,26 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
                 .IsUnique();
 
             modelBuilder.Entity<Student>()
-                .HasIndex(s => s.SoDienThoai)
+                .HasIndex(s => s.PhoneNumber)
                 .IsUnique();
 
             // Cấu hình quan hệ khóa ngoại cho Student
             modelBuilder.Entity<Student>()
-                .HasOne(s => s.DiaChiNhanThu)
+                .HasOne(s => s.PermanentAddress)
                 .WithMany()
-                .HasForeignKey(s => s.DiaChiNhanThuId)
+                .HasForeignKey(s => s.PermanentAddressId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Student>()
-                .HasOne(s => s.DiaChiThuongTru)
+                .HasOne(s => s.RegisteredAddress)
                 .WithMany()
-                .HasForeignKey(s => s.DiaChiThuongTruId)
+                .HasForeignKey(s => s.RegisteredAddressId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Student>()
-                .HasOne(s => s.DiaChiTamTru)
+                .HasOne(s => s.TemporaryAddress)
                 .WithMany()
-                .HasForeignKey(s => s.DiaChiTamTruId)
+                .HasForeignKey(s => s.TemporaryAddressId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Student>()
@@ -113,7 +113,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
             _ = modelBuilder.Entity<Grade>()
                 .HasOne(g => g.Student)
                 .WithMany(s => s.Grades)
-                .HasForeignKey(g => g.MSSV)
+                .HasForeignKey(g => g.StudentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Grade>()

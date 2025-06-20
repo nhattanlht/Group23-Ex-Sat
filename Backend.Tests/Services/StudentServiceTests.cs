@@ -30,8 +30,8 @@ namespace StudentManagement.Tests.Services
             var totalStudents = 25;
             var expectedStudents = new List<Student>
             {
-                new Student { MSSV = "SV001", HoTen = "Nguyen Van A" },
-                new Student { MSSV = "SV002", HoTen = "Tran Van B" }
+                new Student { StudentId = "SV001", FullName = "Nguyen Van A" },
+                new Student { StudentId = "SV002", FullName = "Tran Van B" }
             };
 
             _mockStudentRepository.Setup(repo => repo.GetStudentsCount())
@@ -55,20 +55,20 @@ namespace StudentManagement.Tests.Services
         public async Task GetStudentById_ExistingStudent_ShouldReturnStudent()
         {
             // Arrange
-            var studentId = "SV001";
+            var StudentId = "SV001";
             var expectedStudent = new Student
             {
-                MSSV = studentId,
-                HoTen = "Nguyen Van A",
+                StudentId = StudentId,
+                FullName = "Nguyen Van A",
                 Email = "nguyenvana@example.com",
-                SoDienThoai = "0987654321"
+                PhoneNumber = "0987654321"
             };
 
-            _mockStudentRepository.Setup(repo => repo.GetStudentById(studentId))
+            _mockStudentRepository.Setup(repo => repo.GetStudentById(StudentId))
                 .ReturnsAsync(expectedStudent);
 
             // Act
-            var result = await _studentService.GetStudentById(studentId);
+            var result = await _studentService.GetStudentById(StudentId);
 
             // Assert
             Assert.Equal(expectedStudent, result);
@@ -80,13 +80,13 @@ namespace StudentManagement.Tests.Services
             // Arrange
             var student = new Student
             {
-                MSSV = "SV001",
-                HoTen = "Nguyen Van A",
+                StudentId = "SV001",
+                FullName = "Nguyen Van A",
                 Email = "nguyenvana@example.com",
-                SoDienThoai = "0987654321"
+                PhoneNumber = "0987654321"
             };
 
-            _mockStudentRepository.Setup(repo => repo.StudentExistsByPhoneNumber(student.SoDienThoai, null))
+            _mockStudentRepository.Setup(repo => repo.StudentExistsByPhoneNumber(student.PhoneNumber, null))
                 .ReturnsAsync(false);
             _mockStudentRepository.Setup(repo => repo.StudentExistsByEmail(student.Email, null))
                 .ReturnsAsync(false);
@@ -107,10 +107,10 @@ namespace StudentManagement.Tests.Services
             // Arrange
             var student = new Student
             {
-                MSSV = "SV001",
-                HoTen = "Nguyen Van A",
+                StudentId = "SV001",
+                FullName = "Nguyen Van A",
                 Email = "nguyenvana@example.com",
-                SoDienThoai = "123" // Invalid phone number
+                PhoneNumber = "123" // Invalid phone number
             };
 
             // Act
@@ -127,13 +127,13 @@ namespace StudentManagement.Tests.Services
             // Arrange
             var student = new Student
             {
-                MSSV = "SV001",
-                HoTen = "Nguyen Van A",
+                StudentId = "SV001",
+                FullName = "Nguyen Van A",
                 Email = "nguyenvana@example.com",
-                SoDienThoai = "0987654321"
+                PhoneNumber = "0987654321"
             };
 
-            _mockStudentRepository.Setup(repo => repo.StudentExistsByPhoneNumber(student.SoDienThoai, null))
+            _mockStudentRepository.Setup(repo => repo.StudentExistsByPhoneNumber(student.PhoneNumber, null))
                 .ReturnsAsync(true);
 
             // Act
@@ -150,10 +150,10 @@ namespace StudentManagement.Tests.Services
             // Arrange
             var student = new Student
             {
-                MSSV = "SV001",
-                HoTen = "Nguyen Van A",
+                StudentId = "SV001",
+                FullName = "Nguyen Van A",
                 Email = "invalid-email",
-                SoDienThoai = "0987654321"
+                PhoneNumber = "0987654321"
             };
 
             // Act
@@ -170,13 +170,13 @@ namespace StudentManagement.Tests.Services
             // Arrange
             var student = new Student
             {
-                MSSV = "SV001",
-                HoTen = "Nguyen Van A",
+                StudentId = "SV001",
+                FullName = "Nguyen Van A",
                 Email = "nguyenvana@example.com",
-                SoDienThoai = "0987654321"
+                PhoneNumber = "0987654321"
             };
 
-            _mockStudentRepository.Setup(repo => repo.StudentExistsByPhoneNumber(student.SoDienThoai, null))
+            _mockStudentRepository.Setup(repo => repo.StudentExistsByPhoneNumber(student.PhoneNumber, null))
                 .ReturnsAsync(false);
             _mockStudentRepository.Setup(repo => repo.StudentExistsByEmail(student.Email, null))
                 .ReturnsAsync(true);
@@ -195,25 +195,25 @@ namespace StudentManagement.Tests.Services
             // Arrange
             var existingStudent = new Student
             {
-                MSSV = "SV001",
+                StudentId = "SV001",
                 StatusId = 1, // Đang học
                 Email = "nguyenvana@example.com",
-                SoDienThoai = "0987654321"
+                PhoneNumber = "0987654321"
             };
 
             var updatedStudent = new Student
             {
-                MSSV = "SV001",
+                StudentId = "SV001",
                 StatusId = 4, // Tạm dừng học
                 Email = "nguyenvana@example.com",
-                SoDienThoai = "0987654321"
+                PhoneNumber = "0987654321"
             };
 
-            _mockStudentRepository.Setup(repo => repo.GetStudentById(updatedStudent.MSSV))
+            _mockStudentRepository.Setup(repo => repo.GetStudentById(updatedStudent.StudentId))
                 .ReturnsAsync(existingStudent);
-            _mockStudentRepository.Setup(repo => repo.StudentExistsByPhoneNumber(updatedStudent.SoDienThoai, updatedStudent.MSSV))
+            _mockStudentRepository.Setup(repo => repo.StudentExistsByPhoneNumber(updatedStudent.PhoneNumber, updatedStudent.StudentId))
                 .ReturnsAsync(false);
-            _mockStudentRepository.Setup(repo => repo.StudentExistsByEmail(updatedStudent.Email, updatedStudent.MSSV))
+            _mockStudentRepository.Setup(repo => repo.StudentExistsByEmail(updatedStudent.Email, updatedStudent.StudentId))
                 .ReturnsAsync(false);
             _mockStudentRepository.Setup(repo => repo.UpdateStudent(updatedStudent))
                 .ReturnsAsync(true);
@@ -232,21 +232,21 @@ namespace StudentManagement.Tests.Services
             // Arrange
             var existingStudent = new Student
             {
-                MSSV = "SV001",
+                StudentId = "SV001",
                 StatusId = 2, // Đã tốt nghiệp
                 Email = "nguyenvana@example.com",
-                SoDienThoai = "0987654321"
+                PhoneNumber = "0987654321"
             };
 
             var updatedStudent = new Student
             {
-                MSSV = "SV001",
+                StudentId = "SV001",
                 StatusId = 1, // Đang học
                 Email = "nguyenvana@example.com",
-                SoDienThoai = "0987654321"
+                PhoneNumber = "0987654321"
             };
 
-            _mockStudentRepository.Setup(repo => repo.GetStudentById(updatedStudent.MSSV))
+            _mockStudentRepository.Setup(repo => repo.GetStudentById(updatedStudent.StudentId))
                 .ReturnsAsync(existingStudent);
 
             // Act
@@ -263,13 +263,13 @@ namespace StudentManagement.Tests.Services
             // Arrange
             var student = new Student
             {
-                MSSV = "SV001",
-                HoTen = "Nguyen Van A",
+                StudentId = "SV001",
+                FullName = "Nguyen Van A",
                 Email = "nguyenvana@example.com",
-                SoDienThoai = "0987654321"
+                PhoneNumber = "0987654321"
             };
 
-            _mockStudentRepository.Setup(repo => repo.GetStudentById(student.MSSV))
+            _mockStudentRepository.Setup(repo => repo.GetStudentById(student.StudentId))
                 .ReturnsAsync((Student)null);
 
             // Act
@@ -284,12 +284,12 @@ namespace StudentManagement.Tests.Services
         public async Task DeleteStudent_ExistingStudent_ShouldSucceed()
         {
             // Arrange
-            var studentId = "SV001";
-            _mockStudentRepository.Setup(repo => repo.DeleteStudent(studentId))
+            var StudentId = "SV001";
+            _mockStudentRepository.Setup(repo => repo.DeleteStudent(StudentId))
                 .ReturnsAsync(true);
 
             // Act
-            var result = await _studentService.DeleteStudent(studentId);
+            var result = await _studentService.DeleteStudent(StudentId);
 
             // Assert
             Assert.True(result);
@@ -304,8 +304,8 @@ namespace StudentManagement.Tests.Services
             var pageSize = 10;
             var expectedStudents = new List<Student>
             {
-                new Student { MSSV = "SV001", HoTen = "Nguyen Van A" },
-                new Student { MSSV = "SV002", HoTen = "Nguyen Van B" }
+                new Student { StudentId = "SV001", FullName = "Nguyen Van A" },
+                new Student { StudentId = "SV002", FullName = "Nguyen Van B" }
             };
 
             _mockStudentRepository.Setup(repo => repo.SearchStudents(filters.Keyword, page, pageSize))

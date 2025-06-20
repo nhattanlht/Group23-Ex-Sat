@@ -19,40 +19,40 @@ namespace StudentManagement.Repositories
                 .Include(s => s.Department)
                 .Include(s => s.SchoolYear)
                 .Include(s => s.StudyProgram)
-                .Include(s => s.DiaChiNhanThu)
-                .Include(s => s.DiaChiThuongTru)
-                .Include(s => s.DiaChiTamTru)
+                .Include(s => s.PermanentAddress)
+                .Include(s => s.RegisteredAddress)
+                .Include(s => s.TemporaryAddress)
                 .Include(s => s.StudentStatus)
                 .Select(s => new StudentDto
                 {
-                    MSSV = s.MSSV,
-                    HoTen = s.HoTen,
-                    NgaySinh = s.NgaySinh,
-                    GioiTinh = s.GioiTinh,
+                    StudentId = s.StudentId,
+                    FullName = s.FullName,
+                    DateOfBirth = s.DateOfBirth,
+                    Gender = s.Gender,
                     Department = s.Department != null ? s.Department.Name : null,
                     SchoolYear = s.SchoolYear != null ? s.SchoolYear.Name : null,
                     StudyProgram = s.StudyProgram != null ? s.StudyProgram.Name : null,
-                    AddressNhanThu_HouseNumber = s.DiaChiNhanThu.HouseNumber,
-                    AddressNhanThu_StreetName = s.DiaChiNhanThu.StreetName,
-                    AddressNhanThu_Ward = s.DiaChiNhanThu.Ward,
-                    AddressNhanThu_District = s.DiaChiNhanThu.District,
-                    AddressNhanThu_Province = s.DiaChiNhanThu.Province,
-                    AddressNhanThu_Country = s.DiaChiNhanThu.Country,
-                    AddressThuongTru_HouseNumber = s.DiaChiThuongTru.HouseNumber,
-                    AddressThuongTru_StreetName = s.DiaChiThuongTru.StreetName,
-                    AddressThuongTru_Ward = s.DiaChiThuongTru.Ward,
-                    AddressThuongTru_District = s.DiaChiThuongTru.District,
-                    AddressThuongTru_Province = s.DiaChiThuongTru.Province,
-                    AddressThuongTru_Country = s.DiaChiThuongTru.Country,
-                    AddressTamTru_HouseNumber = s.DiaChiTamTru.HouseNumber,
-                    AddressTamTru_StreetName = s.DiaChiTamTru.StreetName,
-                    AddressTamTru_Ward = s.DiaChiTamTru.Ward,
-                    AddressTamTru_District = s.DiaChiTamTru.District,
-                    AddressTamTru_Province = s.DiaChiTamTru.Province,
-                    AddressTamTru_Country = s.DiaChiTamTru.Country,
+                    PermanentAddress_HouseNumber = s.PermanentAddress.HouseNumber,
+                    PermanentAddress_StreetName = s.PermanentAddress.StreetName,
+                    PermanentAddress_Ward = s.PermanentAddress.Ward,
+                    PermanentAddress_District = s.PermanentAddress.District,
+                    PermanentAddress_Province = s.PermanentAddress.Province,
+                    PermanentAddress_Country = s.PermanentAddress.Country,
+                    RegisteredAddress_HouseNumber = s.RegisteredAddress.HouseNumber,
+                    RegisteredAddress_StreetName = s.RegisteredAddress.StreetName,
+                    RegisteredAddress_Ward = s.RegisteredAddress.Ward,
+                    RegisteredAddress_District = s.RegisteredAddress.District,
+                    RegisteredAddress_Province = s.RegisteredAddress.Province,
+                    RegisteredAddress_Country = s.RegisteredAddress.Country,
+                    TemporaryAddress_HouseNumber = s.TemporaryAddress.HouseNumber,
+                    TemporaryAddress_StreetName = s.TemporaryAddress.StreetName,
+                    TemporaryAddress_Ward = s.TemporaryAddress.Ward,
+                    TemporaryAddress_District = s.TemporaryAddress.District,
+                    TemporaryAddress_Province = s.TemporaryAddress.Province,
+                    TemporaryAddress_Country = s.TemporaryAddress.Country,
                     Email = s.Email,
-                    SoDienThoai = s.SoDienThoai,
-                    QuocTich = s.QuocTich,
+                    PhoneNumber = s.PhoneNumber,
+                    Nationality = s.Nationality,
                     Identification_Type = s.Identification.IdentificationType,
                     Identification_Number = s.Identification.Number,
                     Identification_IssueDate = s.Identification.IssueDate,
@@ -123,7 +123,7 @@ namespace StudentManagement.Repositories
 
         public async Task<HashSet<string>> GetExistingStudentIdsAsync()
         {
-            return await _context.Students.Select(s => s.MSSV).ToHashSetAsync();
+            return await _context.Students.Select(s => s.StudentId).ToHashSetAsync();
         }
 
         public async Task AddStudentsAsync(List<Student> students)
@@ -147,10 +147,5 @@ namespace StudentManagement.Repositories
             }
         }
 
-        public async Task<BinaryData?> GetDataByIdAsync(int id)
-        {
-            var data = await _context.Data.FindAsync(id);
-            return data != null ? new BinaryData(data) : null; // Convert to BinaryData
-        }
     }
 }

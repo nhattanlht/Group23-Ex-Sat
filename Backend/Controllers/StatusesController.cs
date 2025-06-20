@@ -1,20 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Models;
 using StudentManagement.Services;
+using Microsoft.Extensions.Localization;
 
 namespace StudentManagement.Controllers
 {
-    [Route("api/student-statuses")]
+    [Route("api/[controller]")]
     [ApiController]
     public class StudentStatusController : ControllerBase
     {
         private readonly IStudentStatusService _studentStatusService;
         private readonly ILogger<StudentStatusController> _logger;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public StudentStatusController(IStudentStatusService studentStatusService, ILogger<StudentStatusController> logger)
+        public StudentStatusController(
+            IStudentStatusService studentStatusService,
+            ILogger<StudentStatusController> logger,
+            IStringLocalizer<SharedResource> localizer
+        )
         {
             _studentStatusService = studentStatusService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -23,12 +30,28 @@ namespace StudentManagement.Controllers
             try
             {
                 var statuses = await _studentStatusService.GetAllStudentStatusesAsync();
-                return Ok(statuses);
+                return Ok(
+                    new
+                    {
+                        data = statuses,
+                        message = _localizer["GetAllStudentStatusesSuccess"].Value,
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while fetching student statuses.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = _localizer["InternalServerError"].Value,
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -39,50 +62,168 @@ namespace StudentManagement.Controllers
             {
                 var status = await _studentStatusService.GetStudentStatusByIdAsync(id);
                 if (status == null)
-                    return NotFound(new { message = "Không tìm thấy tình trạng sinh viên!" });
+                    return NotFound(
+                        new
+                        {
+                            data = id,
+                            message = _localizer["StudentStatusNotFound"].Value,
+                            status = "NotFound",
+                        }
+                    );
 
-                return Ok(status);
+                return Ok(
+                    new
+                    {
+                        data = status,
+                        message = _localizer["GetStudentStatusSuccess"].Value,
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while fetching student status: {id}");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = _localizer["InternalServerError"].Value,
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateStudentStatus(StudentStatus studentStatus)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = studentStatus,
+                        message = _localizer["InvalidStudentStatusData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             try
             {
-                var createdStatus = await _studentStatusService.CreateStudentStatusAsync(studentStatus);
+                var createdStatus = await _studentStatusService.CreateStudentStatusAsync(
+                    studentStatus
+                );
                 if (createdStatus == null)
-                    return BadRequest(new { message = "Tình trạng sinh viên đã tồn tại!" });
+                    return BadRequest(
+                        new
+                        {
+                            data = studentStatus,
+                            message = _localizer["CreateStudentStatusExists"].Value,
+                            status = "Error",
+                        }
+                    );
 
-                return CreatedAtAction(nameof(GetStudentStatus), new { id = createdStatus.Id }, createdStatus);
+                return CreatedAtAction(
+                    nameof(GetStudentStatus),
+                    new { id = createdStatus.Id },
+                    new
+                    {
+                        data = createdStatus,
+                        message = _localizer["CreateStudentStatusSuccess"].Value,
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while creating student status.");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = _localizer["InternalServerError"].Value,
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStudentStatus(int id, StudentStatus studentStatus)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = studentStatus,
+                        message = _localizer["InvalidStudentStatusData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
             try
             {
-                var updated = await _studentStatusService.UpdateStudentStatusAsync(id, studentStatus);
+                var updated = await _studentStatusService.UpdateStudentStatusAsync(
+                    id,
+                    studentStatus
+                );
                 if (!updated)
-                    return BadRequest(new { message = "ID không khớp hoặc tình trạng sinh viên không tồn tại!" });
+                    return BadRequest(
+                        new
+                        {
+                            data = studentStatus,
+                            message = _localizer["StudentStatusNotFound"].Value,
+                            status = "Error",
+                        }
+                    );
 
-                return NoContent();
+                return Ok(
+                    new
+                    {
+                        data = studentStatus,
+                        message = _localizer["UpdateStudentStatusSuccess"].Value,
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while updating student status: {id}");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = _localizer["InternalServerError"].Value,
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
 
@@ -93,14 +234,37 @@ namespace StudentManagement.Controllers
             {
                 var deleted = await _studentStatusService.DeleteStudentStatusAsync(id);
                 if (!deleted)
-                    return BadRequest(new { message = "Tình trạng sinh viên không tồn tại hoặc có sinh viên đang sử dụng tình trạng này!" });
+                    return BadRequest(
+                        new
+                        {
+                            data = id,
+                            message = _localizer["DeleteStudentStatusError"].Value,
+                            status = "Error",
+                        }
+                    );
 
-                return NoContent();
+                return Ok(
+                    new
+                    {
+                        data = id,
+                        message = _localizer["DeleteStudentStatusSuccess"].Value,
+                        status = "Success",
+                    }
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while deleting student status: {id}");
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        data = new { },
+                        message = _localizer["InternalServerError"].Value,
+                        errors = ex.Message,
+                        status = "Error",
+                    }
+                );
             }
         }
     }

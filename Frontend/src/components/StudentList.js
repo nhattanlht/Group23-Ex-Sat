@@ -4,12 +4,14 @@ import axios from 'axios';
 import Pagination from './Pagination';
 import config from '../config';
 import DataTable from './DataTable';
-import { loadData, handleAddRow, handleEditRow, handleDeleteRow } from '../util/callCRUDApi';
+import { loadData, handleAddRow, handleEditRow, handleDeleteRow, loadDataId } from '../util/callCRUDApi';
 import DataForm from './DataForm';
-import { Search } from 'lucide-react';
+import { Search, Plus, FileInput } from 'lucide-react';
 import { formatDataSetForTable } from '../util/formatData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const StudentList = () => {
+  const { translate } = useLanguage();
   const [students, setStudents] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [statuses, setStatuses] = useState([]);
@@ -35,75 +37,91 @@ const StudentList = () => {
   };
 
   const fields = [
-    { display: 'MSSV', accessor: 'mssv', type: "text", required: true, disabled: true },
-    { display: 'Họ Tên', accessor: 'hoTen', type: "text", required: true },
-    { display: 'Ngày Sinh', accessor: 'ngaySinh', type: "date", required: true },
-    { display: 'Giới Tính', accessor: 'gioiTinh', type: "select", options: [{ id: "Nam", name: "Nam" }, { id: "Nữ", name: "Nữ" }, { id: "Khác", name: "Khác" }], required: true },
-    { display: 'Khoa', accessor: 'departmentId', type: "select", options: departments, required: true },
-    { display: 'Trạng Thái', accessor: 'statusId', type: "select", options: statuses, required: true },
-    { display: 'Khóa Học', accessor: 'schoolYearId', type: "select", options: schoolYears, required: true },
-    { display: 'Chương Trình', accessor: 'studyProgramId', type: "select", options: studyPrograms, required: true },
-    { display: 'Email', accessor: 'email', type: "email", required: true },
-    { display: 'Số Điện Thoại', accessor: 'soDienThoai', type: "text", required: true },
-    { display: 'Quốc Tịch', accessor: 'quocTich', type: "text", required: true },
+    { display: translate('student.fields.student_id'), accessor: 'studentId', type: "text", required: true, disabled: true },
+    { display: translate('student.fields.full_name'), accessor: 'fullName', type: "text", required: true },
+    { display: translate('student.fields.date_of_birth'), accessor: 'dateOfBirth', type: "date", required: true },
+    { display: translate('student.fields.gender'), accessor: 'gender', type: "select", 
+      options: [
+        { id: "Nam", name: translate('student.form.gender_options.male') }, 
+        { id: "Nữ", name: translate('student.form.gender_options.female') }, 
+        { id: "Khác", name: translate('student.form.gender_options.other') }
+      ], 
+      required: true 
+    },
+    { display: translate('student.fields.department'), accessor: 'departmentId', type: "select", options: departments, required: true },
+    { display: translate('student.fields.status'), accessor: 'statusId', type: "select", options: statuses, required: true },
+    { display: translate('student.fields.school_year'), accessor: 'schoolYearId', type: "select", options: schoolYears, required: true },
+    { display: translate('student.fields.study_program'), accessor: 'studyProgramId', type: "select", options: studyPrograms, required: true },
+    { display: translate('student.fields.email'), accessor: 'email', type: "email", required: true },
+    { display: translate('student.fields.phone'), accessor: 'phoneNumber', type: "text", required: true },
+    { display: translate('student.fields.nationality'), accessor: 'nationality', type: "text", required: true },
     {
-      display: 'Địa Chỉ Nhận Thư',
-      accessor: 'diaChiNhanThu',
+      display: translate('student.fields.permanent_address'),
+      accessor: 'permanentAddress',
       type: "group",
       fields: [
-        { display: 'Số Nhà', accessor: 'houseNumber', type: "text", required: true },
-        { display: 'Tên Đường', accessor: 'streetName', type: "text", required: true },
-        { display: 'Phường/Xã', accessor: 'ward', type: "text", required: true },
-        { display: 'Quận/Huyện', accessor: 'district', type: "text", required: true },
-        { display: 'Tỉnh/Thành Phố', accessor: 'province', type: "text", required: true },
-        { display: 'Quốc Gia', accessor: 'country', type: "text", required: true },
+        { display: translate('student.form.address.house_number'), accessor: 'houseNumber', type: "text", required: true },
+        { display: translate('student.form.address.street_name'), accessor: 'streetName', type: "text", required: true },
+        { display: translate('student.form.address.ward'), accessor: 'ward', type: "text", required: true },
+        { display: translate('student.form.address.district'), accessor: 'district', type: "text", required: true },
+        { display: translate('student.form.address.province'), accessor: 'province', type: "text", required: true },
+        { display: translate('student.form.address.country'), accessor: 'country', type: "text", required: true },
       ],
-      required: true,
     },
-    { display: 'Địa Chỉ Nhận Thư Id', accessor: 'diaChiNhanThuId', type: "text", required: true, hidden: true },
+    { display: translate('student.fields.permanent_address'), accessor: 'permanentAddressId', type: "text", hidden: true },
     {
-      display: 'Địa Chỉ Thường Trú',
-      accessor: 'diaChiThuongTru',
+      display: translate('student.fields.temporary_address'),
+      accessor: 'temporaryAddress',
       type: "group",
       fields: [
-        { display: 'Số Nhà', accessor: 'houseNumber', type: "text" },
-        { display: 'Tên Đường', accessor: 'streetName', type: "text" },
-        { display: 'Phường/Xã', accessor: 'ward', type: "text" },
-        { display: 'Quận/Huyện', accessor: 'district', type: "text" },
-        { display: 'Tỉnh/Thành Phố', accessor: 'province', type: "text" },
-        { display: 'Quốc Gia', accessor: 'country', type: "text" },
+        { display: translate('student.form.address.house_number'), accessor: 'houseNumber', type: "text" },
+        { display: translate('student.form.address.street_name'), accessor: 'streetName', type: "text" },
+        { display: translate('student.form.address.ward'), accessor: 'ward', type: "text" },
+        { display: translate('student.form.address.district'), accessor: 'district', type: "text" },
+        { display: translate('student.form.address.province'), accessor: 'province', type: "text" },
+        { display: translate('student.form.address.country'), accessor: 'country', type: "text" },
       ],
     },
-    { display: 'Địa Chỉ Thường Trú Id', accessor: 'diaChiThuongTruId', type: "text", hidden: true },
+    { display: translate('student.fields.temporary_address'), accessor: 'temporaryAddressId', type: "text", hidden: true },
     {
-      display: 'Địa Chỉ Tạm Trú',
-      accessor: 'diaChiTamTru',
+      display: translate('student.fields.registered_address'),
+      accessor: 'registeredAddress',
       type: "group",
       fields: [
-        { display: 'Số Nhà', accessor: 'houseNumber', type: "text" },
-        { display: 'Tên Đường', accessor: 'streetName', type: "text" },
-        { display: 'Phường/Xã', accessor: 'ward', type: "text" },
-        { display: 'Quận/Huyện', accessor: 'district', type: "text" },
-        { display: 'Tỉnh/Thành Phố', accessor: 'province', type: "text" },
-        { display: 'Quốc Gia', accessor: 'country', type: "text" },
+        { display: translate('student.form.address.house_number'), accessor: 'houseNumber', type: "text" },
+        { display: translate('student.form.address.street_name'), accessor: 'streetName', type: "text" },
+        { display: translate('student.form.address.ward'), accessor: 'ward', type: "text" },
+        { display: translate('student.form.address.district'), accessor: 'district', type: "text" },
+        { display: translate('student.form.address.province'), accessor: 'province', type: "text" },
+        { display: translate('student.form.address.country'), accessor: 'country', type: "text" },
       ],
     },
-    { display: 'Địa Chỉ Tạm Trú Id', accessor: 'diaChiTamTruId', type: "text", hidden: true },
+    { display: translate('student.fields.registered_address'), accessor: 'registeredAddressId', type: "text", hidden: true },
     { display: "Identification Id", accessor: "identificationId", type: "text", hidden: true },
-    { display: 'Loại Giấy Tờ', accessor: 'identificationType', type: "select", options: [{ id: "CMND", name: "CMND" }, { id: "CCCD", name: "CCCD" }, { id: "Hộ Chiếu", name: "Hộ Chiếu" }], required: true, customeType: "identificationType" },
-    {
-      display: 'Thông Tin Giấy Tờ',
+        {
+      display: translate('student.fields.identification'),
       accessor: 'identification',
       type: "group",
       fields: [
-        { display: 'Loại Giấy Tờ', accessor: 'identificationType', type: "text", required: true, hidden: true },
-        { display: 'Số Giấy Tờ', accessor: 'number', type: "text", required: true },
-        { display: 'Ngày Cấp', accessor: 'issueDate', type: "date", required: true },
-        { display: 'Ngày Hết Hạn', accessor: 'expiryDate', type: "date" },
-        { display: 'Nơi Cấp', accessor: 'issuedBy', type: "text", required: true },
-        { display: 'Có Gắn Chip', accessor: 'hasChip', type: "checkbox", condition: (formData) => formData.identificationType === "CCCD" },
-        { display: 'Quốc Gia Cấp', accessor: 'issuingCountry', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
-        { display: 'Ghi Chú', accessor: 'notes', type: "text", condition: (formData) => formData.identificationType === "Hộ Chiếu" },
+        { 
+          display: translate('student.form.identification.type'), 
+          accessor: 'identificationType', 
+          type: "select", 
+          options: [
+            { id: "CMND", name: translate('student.form.identification.types.cmnd') }, 
+            { id: "CCCD", name: translate('student.form.identification.types.cccd') }, 
+            { id: "Hộ Chiếu", name: translate('student.form.identification.types.passport') }
+          ], 
+          required: true, 
+          customeType: "identificationType" 
+        },
+        { display: translate('student.form.identification.number'), accessor: 'number', type: "text", required: true },
+        { display: translate('student.form.identification.issue_date'), accessor: 'issueDate', type: "date", required: true },
+        { display: translate('student.form.identification.expiry_date'), accessor: 'expiryDate', type: "date" },
+        { display: translate('student.form.identification.issued_by'), accessor: 'issuedBy', type: "text", required: true },
+        { display: translate('student.form.identification.has_chip'), accessor: 'hasChip', type: "checkbox", condition: (formData) => formData.identification?.identificationType === "CCCD" },
+        { display: translate('student.form.identification.issuing_country'), accessor: 'issuingCountry', type: "text", condition: (formData) => formData.identification?.identificationType === "Hộ Chiếu" },
+        { display: translate('student.form.identification.notes'), accessor: 'notes', type: "text", condition: (formData) => formData.identification?.identificationType === "Hộ Chiếu" },
       ],
       customeType: "identification"
     },
@@ -113,12 +131,14 @@ const StudentList = () => {
   const getViewAddress = async (id) => {
     if (!addresses[id]) { // Avoid duplicate API calls for the same ID
       try {
-        const response = await axios.get(`${config.backendUrl}/api/address/${id}`);
-        const formattedAddress = `${response.data.houseNumber} ${response.data.streetName}, ${response.data.ward}, ${response.data.district}, ${response.data.province}, ${response.data.country}`;
-        addresses[id] = formattedAddress;
+        
+        const response = await loadDataId('address', id);
+        
+        addresses[id] = response.data;
+        
       } catch (error) {
         console.error("Error fetching address:", error);
-        addresses[id] = "Chưa có"
+        addresses[id] = null;
       }
     }
   };
@@ -127,7 +147,7 @@ const StudentList = () => {
   const getIdentifications = async (id) => {
     if (!identifications[id]) { // Avoid duplicate API calls for the same ID
       try {
-        const response = await axios.get(`${config.backendUrl}/api/identification/${id}`);
+        const response = await loadDataId('identification', id);
         identifications[id] = response.data;
       } catch (error) {
         console.error("Error fetching address:", error);
@@ -141,35 +161,47 @@ const StudentList = () => {
   }, [currentPage]);
 
   // Gọi API lấy danh sách sinh viên
-  const loadStudents = async (page, filters) => {
+  const loadStudents = async (page, filters = {}) => {
     try {
-      const data = await loadData('students', page, filters);
+      const { data } = await loadData('students', page, filters);
       
-      for (const student of data.students) {
-        if (student.diaChiNhanThuId) {
-          await getViewAddress(student.diaChiNhanThuId);
+      // Tạo mảng promises để lấy tất cả địa chỉ và thông tin định danh
+      const promises = data.students.flatMap(student => {
+        const addressPromises = [];
+        
+        const permanentId = student.permanentAddressId;
+        const temporaryId = student.temporaryAddressId;
+        const registeredId = student.registeredAddressId;
+        
+        if (permanentId) {
+          addressPromises.push(getViewAddress(permanentId));
         }
-        if (student.diaChiThuongTruId) {
-          await getViewAddress(student.diaChiThuongTruId);
+        if (registeredId) {
+          addressPromises.push(getViewAddress(registeredId));
         }
-        if (student.diaChiTamTruId) {
-          await getViewAddress(student.diaChiTamTruId);
+        if (temporaryId) {
+          addressPromises.push(getViewAddress(temporaryId));
         }
         if (student.identificationId) {
-          await getIdentifications(student.identificationId);
+          addressPromises.push(getIdentifications(student.identificationId));
         }
-      }
+        return addressPromises;
+      });
+
+      // Đợi tất cả promises hoàn thành
+      await Promise.all(promises);
       
       const formattedData = formatDataSetForTable(data.students, fields, {
         addresses,
         identifications,
       });
+      
       setStudents(formattedData);
       setCurrentPage(data.currentPage || 1);
       setTotalPages(data.totalPages || 1);
     } catch (error) {
       console.error("Lỗi khi tải danh sách sinh viên:", error);
-      alert('Lỗi khi tải danh sách sinh viên!');
+      alert(error.message || translate('student.messages.load_error'));
     }
   };
 
@@ -178,255 +210,172 @@ const StudentList = () => {
     try {
       const [depRes, statusRes, programRes, yearRes] = await Promise.all([
         axios.get(`${config.backendUrl}/api/departments`),
-        axios.get(`${config.backendUrl}/api/student-statuses`),
+        axios.get(`${config.backendUrl}/api/studentstatus`),
         axios.get(`${config.backendUrl}/api/programs`),
         axios.get(`${config.backendUrl}/api/schoolyears`),
       ]);
-      fields[4].options = depRes.data || [];
-      fields[5].options = statusRes.data || [];
-      fields[6].options = yearRes.data || [];
-      fields[7].options = programRes.data || [];
-      setDepartments(depRes.data || []);
-      setStatuses(statusRes.data || []);
-      setStudyPrograms(programRes.data || []);
-      setSchoolYears(yearRes.data || []);
+      fields[4].options = depRes.data.data || [];
+      fields[5].options = statusRes.data.data || [];
+      fields[6].options = yearRes.data.data || [];
+      fields[7].options = programRes.data.data || [];
+      setDepartments(depRes.data.data || []);
+      setStatuses(statusRes.data.data || []);
+      setStudyPrograms(programRes.data.data || []);
+      setSchoolYears(yearRes.data.data || []);
     } catch (error) {
       console.error('Lỗi khi tải dữ liệu phụ trợ:', error);
     }
   };
 
-
-
   const handleAddStudent = async (studentForm) => {
-    console.log('add student', studentForm);
-    const student = structuredClone(studentForm);
     try {
-      student.identification["identificationType"] = student.identificationType;
-
-      const identification = await axios.post(`${config.backendUrl}/api/identification`, student.identification);
-      student.identificationId = identification.data.id;
-
-      delete student.identification;
-      delete student.identificationType;
-
-      const diaChiNhanThu = await axios.post(`${config.backendUrl}/api/address`, student.diaChiNhanThu);
-      student.diaChiNhanThuId = diaChiNhanThu.data.id;
-
-      delete student.diaChiNhanThu;
-
-
-      if (student.diaChiThuongTru) {
-        if (student.diaChiThuongTru?.houseNumber) {
-          const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, student.diaChiThuongTru);
-          student.diaChiThuongTruId = diaChiThuongTru.data.id;
-          }
-        else {
-          student.diaChiThuongTruId = null;
-        }
+      console.log('Starting add student with form data:', studentForm);
+      // Gọi API tạo sinh viên mới
+      const response = await handleAddRow("students", studentForm);
+      console.log('API response:', response);
+      
+      if (response) {
+        setShowModal(false);
+        await loadStudents(currentPage);
+        alert(translate('student.messages.add_success'));
+        return true;
       }
-      else {
-        student.diaChiThuongTruId = null;
-      }
-
-      delete student.diaChiThuongTru;
-
-      if (student.diaChiTamTru) {
-        if (student.diaChiTamTru?.houseNumber) {
-          const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, student.diaChiTamTru);
-          student.diaChiTamTruId = diaChiTamTru.data.id;
-          }
-        else {
-          student.diaChiTamTruId = null;
-        }
-      }
-      else {
-        student.diaChiTamTruId = null;
-      }
-
-      delete student.diaChiTamTru;
-
-      const response = await handleAddRow('students', student);
-
-      loadStudents(currentPage, filters);
-
-      return response;
+      return false;
     } catch (error) {
-      alert('Lỗi khi thêm sinh viên!', error);
+      console.error("Error adding student:", error);
+      console.error("Error details:", error.message); 
+      alert(error.message || translate('student.messages.add_error'));
       throw error;
     }
   };
 
-  const handleEditStudent = async (studentForm) => {
-    console.log('edit student', studentForm);
-    const student = structuredClone(studentForm);
+  const handleEditStudent = async (student) => {
     try {
-      student.identification["identificationType"] = student.identificationType;
+      console.log('Starting edit student with data:', student);
 
-      if (!student.identification["hasChip"]) {
-        student.identification["hasChip"] = null;
+      // Gọi API cập nhật thông tin sinh viên
+      const response = await handleEditRow("students", student.studentId, student);
+      console.log('Update response:', response);
+      
+      // Đóng modal và tải lại dữ liệu chỉ khi API trả về thành công
+      if (response && response.success) {
+        setShowModal(false);
+        await loadStudents(currentPage);
+        alert(translate('student.messages.edit_success'));
+        return true;
+      } else {
+        throw new Error(response?.message || translate('student.messages.edit_error'));
       }
-      if (!student.identification["issuingCountry"]) {
-        student.identification["issuingCountry"] = null;
-      }
-      if (!student.identification["notes"]) {
-        student.identification["notes"] = null;
-      }
-
-      delete student.identification["id"];
-
-      const identification = await axios.post(`${config.backendUrl}/api/identification`, student.identification);
-      student.identificationId = identification.data.id;
-
-      delete student.identification;
-      delete student.identificationType;
-      // Handle diaChiNhanThu
-      delete student.diaChiNhanThu["id"];
-
-      const diaChiNhanThu = await axios.post(`${config.backendUrl}/api/address`, student.diaChiNhanThu);
-      student.diaChiNhanThuId = diaChiNhanThu.data.id;
-
-      delete student.diaChiNhanThu;
-
-      // Handle diaChiThuongTru
-      if (student.diaChiThuongTru) {
-        delete student.diaChiThuongTru["id"];
-
-        const diaChiThuongTru = await axios.post(`${config.backendUrl}/api/address`, student.diaChiThuongTru);
-        student.diaChiThuongTruId = diaChiThuongTru.data.id;
-      }
-      else {
-        student.diaChiThuongTruId = null;
-      }
-      delete student.diaChiThuongTru;
-
-      // Handle diaChiTamTru
-      if (student.diaChiTamTru) {
-        delete student.diaChiTamTru["id"];
-
-        const diaChiTamTru = await axios.post(`${config.backendUrl}/api/address`, student.diaChiTamTru);
-        student.diaChiTamTruId = diaChiTamTru.data.id;
-      }
-      else {
-        student.diaChiTamTruId = null;
-      }
-      delete student.diaChiTamTru;
-
-      const response = await handleEditRow('students', student.mssv, student);
-      loadStudents(currentPage, filters);
-
-      return response;
     } catch (error) {
-      alert('Lỗi khi chỉnh sửa sinh viên!');
+      console.error("Error updating student:", error);
+      alert(error.message || translate('student.messages.edit_error'));
       throw error;
     }
   };
 
-  const handleDeleteStudent = async (mssv) => {
+  const handleDeleteStudent = async (StudentId) => {
     try {
-      await handleDeleteRow('students', mssv);
+      await handleDeleteRow('students', StudentId);
       loadStudents(currentPage, filters);
     } catch (error) {
-      alert('Lỗi khi xóa sinh viên!');
+      alert(error.message || translate('student.messages.delete_error'));
     }
   };
 
   const initializeFormData = async (fields, modalData) => {
-    const initialData = fields.reduce((acc, field) => {
-      if (field.type === "group") {
-        // Initialize nested group fields
-        acc[field.accessor] = field.fields.reduce((subAcc, subField) => {
-          subAcc[subField.accessor] = "";
-          return subAcc;
-        }, {});
-      } else {
-        // Initialize flat fields
-        acc[field.accessor] = "";
-      }
-      return acc;
-    }, {});
-
-    // Populate with existing data
-    if (modalData) {
-      Object.keys(modalData).forEach((key) => {
-        initialData[key] = modalData[key];
-      });
-
-      if (modalData.diaChiNhanThuId) {
-        try {
-          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.diaChiNhanThuId}`);
-          initialData.diaChiNhanThu = response.data; // Populate address fields
-        } catch (error) {
-          console.error("Error fetching address:", error);
-        }
-      }
-
-      if (modalData.diaChiThuongTruId) {
-        try {
-          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.diaChiThuongTruId}`);
-          initialData.diaChiThuongTru = response.data; // Populate address fields
-        } catch (error) {
-          console.error("Error fetching address:", error);
-        }
-      }
-
-      if (modalData.diaChiTamTruId) {
-        try {
-          const response = await axios.get(`${config.backendUrl}/api/address/${modalData.diaChiTamTruId}`);
-          initialData.diaChiTamTru = response.data; // Populate address fields
-        } catch (error) {
-          console.error("Error fetching address:", error);
-        }
-      }
-
-      try {
-        const response = await axios.get(`${config.backendUrl}/api/identification/${modalData.identificationId}`);
-        initialData.identification = response.data; // Populate identification fields
-        initialData.identification["issueDate"] = initialData.identification["issueDate"].split("T")[0];
-        initialData.identification["expiryDate"] = initialData.identification["expiryDate"].split("T")[0];
-      } catch (error) {
-        console.error("Error fetching identification:", error);
-      }
-
-      initialData.identificationType = initialData.identification["identificationType"];
-    }
-
-    return initialData;
+  
+    return modalData;
   };
 
   return (
     <div>
-      <div className="flex mb-3">
-        <button className="btn btn-success mb-2 mr-2" onClick={() => { setModalData(null); setShowModal(true); }}>
-          Thêm Sinh Viên
-        </button>
-        <Link to='/data'>
-          <button className='btn btn-primary mb-2'>
-            Import/Export
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+        {/* Left side - Action buttons */}
+        <div className="flex items-center gap-2">
+          <button 
+            className="btn bg-green-600 hover:bg-green-700 text-white flex items-center gap-2 px-4 py-2 rounded-md"
+            onClick={() => { setModalData(null); setShowModal(true); }}
+          >
+            <Plus size={20} />
+            {translate('student.add')}
           </button>
-        </Link>
-        <form id="searchForm" className='flex space-x-2' onSubmit={(e) => { e.preventDefault(); loadStudents(1, filters); }}>
-          <input type="text"
-            id="searchInput"
-            placeholder="Tìm kiếm theo tên, MSSV"
-            name="keyword"
-            value={filters.keyword}
-            onChange={handleChange}
-          />
+          <Link to='/data'>
+            <button className='btn bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 px-4 py-2 rounded-md'>
+              <FileInput size={20} />
+              {translate('student.import_export')}
+            </button>
+          </Link>
+        </div>
 
-          <select id="departmentId" onChange={handleChange} name="departmentId" value={filters.departmentId}>
-            <option value="">Chọn Khoa</option>
+        {/* Right side - Search form */}
+        <form 
+          id="searchForm" 
+          className='flex flex-wrap items-center gap-2 flex-grow justify-end max-w-2xl' 
+          onSubmit={(e) => { e.preventDefault(); loadStudents(1, filters); }}
+        >
+          <div className="flex-grow max-w-md">
+            <input 
+              type="text"
+              id="searchInput"
+              placeholder={translate('student.search.placeholder')}
+              name="keyword"
+              value={filters.keyword}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          
+          <select 
+            id="departmentId" 
+            onChange={handleChange} 
+            name="departmentId" 
+            value={filters.departmentId}
+            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">{translate('student.search.department_placeholder')}</option>
             {departments.map((department) => (
               <option key={department.id} value={department.id}>{department.name}</option>
             ))}
           </select>
 
-          <button type="submit" className='btn btn-primary'><Search size={16} /></button>
+          <button 
+            type="submit" 
+            className='btn bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 px-4 py-2 rounded-md min-w-[120px]'
+          >
+            <Search size={20} />
+            {translate('student.search.button')}
+          </button>
         </form>
-
       </div>
-      <DataTable fields={fields} dataSet={students} handleEdit={(student) => { setModalData(student.__original); setShowModal(true); }} handleDelete={(student) => { handleDeleteStudent(student.mssv) }}></DataTable>
+
+      <DataTable 
+        fields={[
+          { display: translate('student.fields.student_id'), accessor: 'studentId' },
+          { display: translate('student.fields.full_name'), accessor: 'fullName', type: "text" },
+          { display: translate('student.fields.date_of_birth'), accessor: 'dateOfBirth' },
+          { display: translate('student.fields.gender'), accessor: 'gender' },
+          { display: translate('student.fields.department'), accessor: 'departmentId' },
+          { display: translate('student.fields.status'), accessor: 'statusId' },
+          { display: translate('student.fields.school_year'), accessor: 'schoolYearId' },
+          { display: translate('student.fields.study_program'), accessor: 'studyProgramId' },
+          { display: translate('student.fields.email'), accessor: 'email' },
+          { display: translate('student.fields.phone'), accessor: 'phoneNumber' },
+          { display: translate('student.fields.nationality'), accessor: 'nationality' },
+          { display: translate('student.fields.permanent_address'), accessor: 'permanentAddress', type: "group" },
+          { display: translate('student.fields.temporary_address'), accessor: 'temporaryAddress', type: "group" },
+          { display: translate('student.fields.registered_address'), accessor: 'registeredAddress', type: "group" },
+          { display: translate('student.fields.identification'), accessor: 'identification', type: "group", customeType: "identification" }
+        ]} 
+        dataSet={students} 
+        handleEdit={(student) => { 
+          console.log('Student being edited:', student);
+          setModalData(student.__original); 
+          setShowModal(true); 
+        }} 
+        handleDelete={(student) => { handleDeleteStudent(student.studentId) }}
+      />
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-      {showModal && <DataForm fields={fields} data={modalData} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} label='Sinh Viên' initializeFormData={initializeFormData} />}
+      {showModal && <DataForm fields={fields} data={modalData} dataName={'student'} onSave={modalData ? handleEditStudent : handleAddStudent} onClose={() => setShowModal(false)} label={translate('student.title')} initializeFormData={initializeFormData} />}
     </div>
   );
 };

@@ -13,7 +13,7 @@ namespace StudentManagement.Services
         }
 
         public Task<List<Grade>> GetAllAsync() => _repository.GetAllAsync();
-        public Task<Grade?> GetByIdAsync(string MSSV, string classId) => _repository.GetByIdAsync(MSSV, classId);
+        public Task<Grade?> GetByIdAsync(string StudentId, string classId) => _repository.GetByIdAsync(StudentId, classId);
         public Task AddAsync(Grade grade) => _repository.AddAsync(grade);
         public Task UpdateAsync(Grade grade) => _repository.UpdateAsync(grade);
         public Task DeleteAsync(int gradeId) => _repository.DeleteAsync(gradeId);

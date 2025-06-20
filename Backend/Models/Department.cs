@@ -10,7 +10,7 @@ namespace StudentManagement.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "Tên khoa không được vượt quá 100 ký tự.")]
+        [StringLength(100, ErrorMessage = "Department_StringLength")]
         public string? Name { get; set; } // Make nullable
 
         // Khởi tạo danh sách để tránh lỗi NullReferenceException

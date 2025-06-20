@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 public class GradeUpdateDTO
 {
     [Required]
+    [Range(0, 10)]
     public double Score { get; set; }
 
     [MaxLength(5)]

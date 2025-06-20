@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Localization;
 using StudentManagement.Models;
 using StudentManagement.Services;
 
@@ -9,22 +11,46 @@ namespace StudentManagement.Controllers
     public class ClassController : ControllerBase
     {
         private readonly IClassService _service;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public ClassController(IClassService service)
+        public ClassController(IClassService service, IStringLocalizer<SharedResource> localizer)
         {
             _service = service;
+            _localizer = localizer;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll() =>
-            Ok(await _service.GetAllAsync());
+            Ok(
+                new
+                {
+                    data = await _service.GetAllAsync(),
+                    message = _localizer["GetAllClassesSuccess"].Value,
+                    status = "Success",
+                }
+            );
 
         [HttpGet("{classId}")]
         public async Task<IActionResult> GetById(string classId)
         {
             var result = await _service.GetByIdAsync(classId);
-            if (result == null) return NotFound();
-            return Ok(result);
+            if (result == null)
+                return NotFound(
+                    new
+                    {
+                        data = classId,
+                        message = _localizer["ClassNotFound"].Value,
+                        status = "NotFound",
+                    }
+                );
+            return Ok(
+                new
+                {
+                    data = result,
+                    message = _localizer["GetClassSuccess"].Value,
+                    status = "Success",
+                }
+            );
         }
 
         [HttpPost]
@@ -32,7 +58,24 @@ namespace StudentManagement.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);  // Nếu dữ liệu không hợp lệ, trả về lỗi 400
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = _localizer["InvalidClassData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                ); // Nếu dữ liệu không hợp lệ, trả về lỗi 400
             }
 
             var classEntity = new Class
@@ -45,17 +88,53 @@ namespace StudentManagement.Controllers
                 MaxStudents = dto.MaxStudents,
                 Schedule = dto.Schedule,
                 Classroom = dto.Classroom,
-                CancelDeadline = dto.CancelDeadline
+                CancelDeadline = dto.CancelDeadline,
             };
 
             await _service.AddAsync(classEntity);
-            return Ok("Class created successfully");
+            return Ok(
+                new
+                {
+                    data = classEntity,
+                    message = _localizer["CreateClassSuccess"].Value,
+                    status = "Success",
+                }
+            );
         }
 
         [HttpPut("{classId}")]
         public async Task<IActionResult> Update(string classId, [FromBody] ClassCreateDto dto)
         {
-            if (classId != dto.ClassId) return BadRequest("Class ID mismatch");
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp =>
+                            kvp.Value != null
+                                ? kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                : Array.Empty<string>()
+                    );
+                return BadRequest(
+                    new
+                    {
+                        data = dto,
+                        message = _localizer["InvalidClassData"].Value,
+                        status = "Error",
+                        errors,
+                    }
+                );
+            }
+            if (classId != dto.ClassId)
+                return BadRequest(
+                    new
+                    {
+                        data = classId,
+                        message = _localizer["ClassIdMismatch"].Value,
+                        status = "Error",
+                    }
+                );
 
             // Tạo đối tượng Class từ DTO
             var classEntity = new Class
@@ -68,21 +147,44 @@ namespace StudentManagement.Controllers
                 MaxStudents = dto.MaxStudents,
                 Schedule = dto.Schedule,
                 Classroom = dto.Classroom,
-                CancelDeadline = dto.CancelDeadline
+                CancelDeadline = dto.CancelDeadline,
             };
 
             // Gọi service để cập nhật
             await _service.UpdateAsync(classEntity);
-            return Ok("Class updated successfully");
+            return Ok(
+                new
+                {
+                    data = classEntity,
+                    message = _localizer["UpdateClassSuccess"].Value,
+                    status = "Success",
+                }
+            );
         }
+
         [HttpDelete("{classId}")]
         public async Task<IActionResult> Delete(string classId)
         {
             var existingClass = await _service.GetByIdAsync(classId);
-            if (existingClass == null) return NotFound();
+            if (existingClass == null)
+                return NotFound(
+                    new
+                    {
+                        data = classId,
+                        message = _localizer["ClassNotFound"].Value,
+                        status = "NotFound",
+                    }
+                );
 
             await _service.DeleteAsync(classId);
-            return Ok("Class deleted successfully");
+            return Ok(
+                new
+                {
+                    data = classId,
+                    message = _localizer["DeleteClassSuccess"].Value,
+                    status = "Success",
+                }
+            );
         }
     }
 }

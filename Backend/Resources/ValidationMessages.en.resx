@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, ...</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, ...</value>
+  </resheader>
+
+  <data name="PhoneNumber_Required" xml:space="preserve">
+    <value>Phone number is required</value>
+  </data>
+  <data name="PhoneNumber_ServiceNotFound" xml:space="preserve">
+    <value>Phone number validation service not found</value>
+  </data>
+  <data name="PhoneNumber_CountryNotFound" xml:space="preserve">
+    <value>No phone number rule found for country {0}</value>
+  </data>
+  <data name="PhoneNumber_InvalidFormat" xml:space="preserve">
+    <value>Invalid phone number format</value>
+  </data>
+  <data name="CreditCount_Range" xml:space="preserve">
+    <value>Credit count must be between 2 and 10</value>
+  </data>
+  <data name="StudentId_Required" xml:space="preserve">
+    <value>Student ID is required</value>
+  </data>
+  <data name="FullName_Required" xml:space="preserve">
+    <value>Full name is required</value>
+  </data>
+  <data name="FullName_StringLength" xml:space="preserve">
+    <value>Full name must not exceed 100 characters</value>
+  </data>
+  <data name="DateOfBirth_Required" xml:space="preserve">
+    <value>Date of birth is required</value>
+  </data>
+  <data name="Department_Required" xml:space="preserve">
+    <value>Department is required</value>
+  </data>
+  <data name="Department_StringLength" xml:space="preserve">
+    <value>Department name must not exceed 100 characters</value>
+  </data>
+  <data name="SchoolYear_Required" xml:space="preserve">
+    <value>School year is required</value>
+  </data>
+  <data name="StudyProgram_Required" xml:space="preserve">
+    <value>Study program is required</value>
+  </data>
+  <data name="StudyProgram_StringLength" xml:space="preserve">
+    <value>Study program name must not exceed 200 characters.</value>
+  </data>
+  <data name="Status_Required" xml:space="preserve">
+    <value>Status is required</value>
+  </data>
+  <data name="PermanentAddress_HouseNumber_Required" xml:space="preserve">
+    <value>House number of mailing address is required</value>
+  </data>
+  <data name="PermanentAddress_StreetName_Required" xml:space="preserve">
+    <value>Street name of mailing address is required</value>
+  </data>
+  <data name="PermanentAddress_Ward_Required" xml:space="preserve">
+    <value>Ward of mailing address is required</value>
+  </data>
+  <data name="PermanentAddress_District_Required" xml:space="preserve">
+    <value>District of mailing address is required</value>
+  </data>
+  <data name="PermanentAddress_Province_Required" xml:space="preserve">
+    <value>Province of mailing address is required</value>
+  </data>
+  <data name="PermanentAddress_Country_Required" xml:space="preserve">
+    <value>Country of mailing address is required</value>
+  </data>
+  <data name="Email_Required" xml:space="preserve">
+    <value>Email is required</value>
+  </data>
+  <data name="Email_Invalid" xml:space="preserve">
+    <value>Invalid email address</value>
+  </data>
+  <data name="Department_StringLength" xml:space="preserve">
+    <value>Department name must not exceed 100 characters</value>
+  </data>
+</root>

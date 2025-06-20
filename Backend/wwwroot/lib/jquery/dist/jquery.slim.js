@@ -1,5 +1,5 @@
 /*!
- * jQuery JavaScript Library v3.7.1 -ajax,-ajax/jsonp,-ajax/load,-ajax/script,-ajax/var/location,-ajax/var/nonce,-ajax/var/rquery,-ajax/xhr,-manipulation/_evalUrl,-deprecated/ajax-event-alias,-effects,-effects/animatedSelector,-effects/Tween
+ * jQuery JavaScript Library v3.7.1 -ajax,-ajax/jsonp,-ajax/load,-ajax/script,-ajax/var/Address,-ajax/var/nonce,-ajax/var/rquery,-ajax/xhr,-manipulation/_evalUrl,-deprecated/ajax-event-alias,-effects,-effects/animatedSelector,-effects/Tween
  * https://jquery.com/
  *
  * Copyright OpenJS Foundation and other contributors
@@ -147,7 +147,7 @@ function toType( obj ) {
 
 
 
-var version = "3.7.1 -ajax,-ajax/jsonp,-ajax/load,-ajax/script,-ajax/var/location,-ajax/var/nonce,-ajax/var/rquery,-ajax/xhr,-manipulation/_evalUrl,-deprecated/ajax-event-alias,-effects,-effects/animatedSelector,-effects/Tween",
+var version = "3.7.1 -ajax,-ajax/jsonp,-ajax/load,-ajax/script,-ajax/var/Address,-ajax/var/nonce,-ajax/var/rquery,-ajax/xhr,-manipulation/_evalUrl,-deprecated/ajax-event-alias,-effects,-effects/animatedSelector,-effects/Tween",
 
 	rhtmlSuffix = /HTML$/i,
 
@@ -1929,7 +1929,7 @@ Expr = jQuery.expr = {
 
 		// Miscellaneous
 		target: function( elem ) {
-			var hash = window.location && window.location.hash;
+			var hash = window.Address && window.Address.hash;
 			return hash && hash.slice( 1 ) === elem.id;
 		},
 
@@ -2852,7 +2852,7 @@ jQuery.fn.extend( {
 var rootjQuery,
 
 	// A simple way to check for HTML strings
-	// Prioritize #id over <tag> to avoid XSS via location.hash (trac-9521)
+	// Prioritize #id over <tag> to avoid XSS via Address.hash (trac-9521)
 	// Strict HTML recognition (trac-11290: must start with <)
 	// Shortcut simple #id case for speed
 	rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]+))$/,
@@ -8152,7 +8152,7 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 			// so any parsed elements with URLs
 			// are based on the document's URL (gh-2965)
 			base = context.createElement( "base" );
-			base.href = document.location.href;
+			base.href = document.Address.href;
 			context.head.appendChild( base );
 		} else {
 			context = document;

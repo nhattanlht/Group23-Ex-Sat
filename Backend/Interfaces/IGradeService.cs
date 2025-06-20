@@ -7,7 +7,7 @@ namespace StudentManagement.Services
     public interface IGradeService
     {
         public Task<List<Grade>> GetAllAsync();
-        public Task<Grade?> GetByIdAsync(string MSSV, string classId);
+        public Task<Grade?> GetByIdAsync(string StudentId, string classId);
         public Task AddAsync(Grade grade);
         public Task UpdateAsync(Grade grade);
         public Task DeleteAsync(int gradeId);

@@ -1,4 +1,5 @@
 import { ViewIdentificationBtn } from "../components/Buttons/ViewIdentificationBtn";
+import { ViewAddressBtn } from "../components/Buttons/ViewAddressBtn";
 
 /**
  * Formats a dataSet based on fields config and helper functions.
@@ -9,7 +10,8 @@ import { ViewIdentificationBtn } from "../components/Buttons/ViewIdentificationB
  * @returns {Array<Object>} Formatted data array, ready for display in table.
  */
 export const formatDataSetForTable = (dataSet, fields, helpers = {}) => {
-
+    console.log('formatDataSetForTable received helpers:', helpers);
+    console.log('formatDataSetForTable received dataSet:', dataSet);
     return dataSet.map((row) => {
         const formattedRow = {};
 
@@ -20,8 +22,34 @@ export const formatDataSetForTable = (dataSet, fields, helpers = {}) => {
             const value = row[key];
 
             switch (field.type) {
+                case "group":
+                    if (field.customeType === "identification") {
+                        formattedRow[key] = (
+                            <ViewIdentificationBtn identification={row.identification} />
+                        );
+                    } else if (key === 'permanentAddress') {
+                        const addressId = row.permanentAddressId || row.PermanentAddressId;
+                        
+                        const address = addressId ? helpers.addresses?.[addressId] : null;
+                        
+                        formattedRow[key] = <ViewAddressBtn address={address} />;
+                    } else if (key === 'temporaryAddress') {
+                        const addressId = row.temporaryAddressId || row.TemporaryAddressId;
+                        
+                        const address = addressId ? helpers.addresses?.[addressId] : null;
+                        
+                        formattedRow[key] = <ViewAddressBtn address={address} />;
+                    } else if (key === 'registeredAddress') {
+                        const addressId = row.registeredAddressId || row.RegisteredAddressId;
+                        
+                        const address = addressId ? helpers.addresses?.[addressId] : null;
+                        
+                        formattedRow[key] = <ViewAddressBtn address={address} />;
+                    }
+                    break;
+
                 case "select":
-                    formattedRow[key] = getNameById(value, field.options) ?? value;
+                    formattedRow[key] = getNameById(value, field.options, helpers.translate) ?? value;
                     break;
 
                 case "date":
@@ -32,35 +60,21 @@ export const formatDataSetForTable = (dataSet, fields, helpers = {}) => {
                     formattedRow[key] = value ? "Có" : "Không";
                     break;
 
-                case "group":
-                    const id = row[`${key}Id`]; // e.g., row.diaChiNhanThuId
-                    if (field.customeType === "identification") {
-                        formattedRow[key] = (
-                            <ViewIdentificationBtn identification={helpers.identifications?.[id]} />
-                        );
-                    } else {
-                        formattedRow[key] = helpers.addresses?.[id] ?? "Chưa có"
-                    }
-                    break;
-
                 default:
-                    formattedRow[key] = value;
+                    formattedRow[key] = value || 'N/A';
             }
         });
 
-        // Attach original row for action buttons
         formattedRow.__original = row;
-        
         return formattedRow;
     });
 };
 
-export const getNameById = (id, list) => {
-    if (!list || !Array.isArray(list)) return 'Chưa có';
-    const item = list.find((item) => String(item.id) === String(id));
-    return item ? item.name : 'Chưa có';
-  };
-
+export const getNameById = (id, list, translate) => {
+  if (!list || !Array.isArray(list)) return translate('student.address.not_available');
+  const item = list.find((item) => String(item.id) === String(id));
+  return item ? item.name : translate('student.address.not_available');
+};
 
 export const transformToNestedObject = (flatObject) => {
     console.log('before nested', flatObject);

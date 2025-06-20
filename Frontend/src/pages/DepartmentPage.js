@@ -1,13 +1,23 @@
 import DataList from '../components/DataList';
 import PageLayout from '../components/PageLayout';
+import { useLanguage } from '../contexts/LanguageContext';
+
 const DepartmentPage = () => {
+  const { translate } = useLanguage();
+  const dataName = 'departments';
+  
   const formFields = [
-    { display: 'Tên khoa', accessor: 'name', type: "text", required: true },
+    { display: translate(`${dataName}.fields.name`), accessor: 'name', type: "text", required: true },
   ];
   
   return (
-    <PageLayout title="Danh sách khoa">
-      <DataList formFields={formFields} dataName='departments' pk='id' label='Khoa' />
+    <PageLayout title={translate(`${dataName}.title`)}>
+      <DataList 
+        formFields={formFields} 
+        dataName={dataName}
+        pk='id' 
+        label={translate(`${dataName}.label`)} 
+      />
     </PageLayout>
   );
 };
